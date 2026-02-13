@@ -102,25 +102,13 @@ export function Dashboard() {
   const [deletingAirdrop, setDeletingAirdrop] = useState<Airdrop | null>(null);
 
 useEffect(() => {
-  const fetchData = async () => {
-    try {
-      setIsLoading(true);
-
-      if (!user) {
-        setAirdrops([]);
-        return;
-      }
-
-      const data = getAirdropsByUserId(user.id);
-      setAirdrops(data ?? []);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
+  const load = async () => {
+    if (!user) return;
+    const data = await getAirdropsByUserId(user.id);
+    setAirdrops(data);
   };
 
-  fetchData();
+  load();
 }, [user]);
 
   const filteredAirdrops = useMemo(() => {
