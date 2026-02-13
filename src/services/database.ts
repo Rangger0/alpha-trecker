@@ -44,23 +44,30 @@ export function getUserById(id: string): User | undefined {
 }
 
 // Airdrop Operations
-export function createAirdrop(airdrop: Omit<Airdrop, 'id' | 'createdAt' | 'updatedAt'>): Airdrop {
-  const newAirdrop: Airdrop = {
-    ...airdrop,
-    id: generateId(),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-  
-  const airdrops = getAirdrops();
-  airdrops.push(newAirdrop);
-  localStorage.setItem(DB_KEYS.AIRDROP, JSON.stringify(airdrops));
-  return newAirdrop;
-}
+import { supabase } from "@/lib/supabase";
 
-export function getAirdrops(): Airdrop[] {
-  const data = localStorage.getItem(DB_KEYS.AIRDROP);
-  return data ? JSON.parse(data) : [];
+export async function createAirdrop(data: any, userId: string) {
+  const { data: result, error } = await supabase
+    .from("airdrops")
+    .insert([
+      {
+        user_id: userId,
+        project_name: data.projectName,
+        type: data.type,
+        status: data.status,
+        platform_link: data.platformLink,
+        twitter_username: data.twitterUsername,
+        wallet_address: data.walletAddress,
+        notes: data.notes,
+        tasks: data.tasks || [],
+      },
+    ])
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  return result;
 }
 
 export function getAirdropsByUserId(userId: string): Airdrop[] {
