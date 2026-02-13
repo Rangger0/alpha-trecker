@@ -37,34 +37,50 @@ export function AuthPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { theme } = useTheme();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError('');
+  setIsLoading(true);
 
-try {
-  if (activeTab === 'login') {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: username,   // username kamu sekarang dipakai sebagai email
-      password,
-    });
+  try {
+    if (activeTab === 'login') {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username.trim(),
+        password,
+      });
 
-    if (error) throw error;
+      if (error) throw error;
 
-  } else {
-    const { error } = await supabase.auth.signUp({
-      email: username,
-      password,
-    });
+      if (!data.session) {
+        throw new Error("Login gagal. Session tidak dibuat.");
+      }
 
-    if (error) throw error;
+      // ✅ Redirect kalau sukses
+      window.location.href = "/dashboard";
+
+    } else {
+      const { data, error } = await supabase.auth.signUp({
+        email: username.trim(),
+        password,
+      });
+
+      if (error) throw error;
+
+      if (!data.user) {
+        throw new Error("Register gagal.");
+      }
+
+      // Kalau email confirmation mati → langsung login
+      window.location.href = "/dashboard";
+    }
+
+  } catch (err: any) {
+    console.log("AUTH ERROR:", err);
+    setError(err.message || "Authentication failed");
+  } finally {
+    setIsLoading(false);
   }
-
-} catch (err: any) {
-  setError(err.message || 'Authentication failed');
-} finally {
-  setIsLoading(false);
-}
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
@@ -297,4 +313,4 @@ try {
       </div>
     </div>
   );
-}
+};

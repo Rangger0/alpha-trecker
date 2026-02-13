@@ -64,7 +64,12 @@ export function getAirdrops(): Airdrop[] {
 }
 
 export function getAirdropsByUserId(userId: string): Airdrop[] {
-  return getAirdrops().filter(a => a.userId === userId);
+  const all = getAirdrops();
+
+  console.log("ALL AIRDROPS:", all);
+  console.log("FILTER USER:", userId);
+
+  return all.filter(a => a.userId === userId);
 }
 
 export function getAirdropById(id: string): Airdrop | undefined {

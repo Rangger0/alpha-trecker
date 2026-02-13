@@ -83,7 +83,8 @@ const STATUS_BADGE_MAP: Record<AirdropStatus, string> = {
 };
 
 export function Dashboard() {
-  const { user, logout } = useAuth();
+  const { session, logout } = useAuth();
+  const user = session?.user;
   const { theme, toggleTheme } = useTheme();
   const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -100,17 +101,27 @@ export function Dashboard() {
   const [editingAirdrop, setEditingAirdrop] = useState<Airdrop | null>(null);
   const [deletingAirdrop, setDeletingAirdrop] = useState<Airdrop | null>(null);
 
-  useEffect(() => {
-    loadAirdrops();
-  }, [user]);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
 
-  const loadAirdrops = () => {
-    if (user) {
+      if (!user) {
+        setAirdrops([]);
+        return;
+      }
+
       const data = getAirdropsByUserId(user.id);
-      setAirdrops(data);
+      setAirdrops(data ?? []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
+
+  fetchData();
+}, [user]);
 
   const filteredAirdrops = useMemo(() => {
     let result = [...airdrops];
@@ -159,7 +170,10 @@ export function Dashboard() {
       ...data,
       userId: user.id,
     });
-    
+  
+    console.log("NEW AIRDROP", newAirdrop);
+    console.log("SUBMIT CLICKED");
+
     setAirdrops(prev => [newAirdrop, ...prev]);
     setIsAddModalOpen(false);
   };
@@ -270,7 +284,7 @@ export function Dashboard() {
                 <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
                   <Target className="w-4 h-4 text-red-500" />
                 </div>
-                <span className="text-sm font-medium">{user?.username}</span>
+                <span className="text-sm font-medium">{user?.email}</span>
               </div>
               
               {/* Logout */}

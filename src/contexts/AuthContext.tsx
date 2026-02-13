@@ -1,102 +1,60 @@
-// ALPHA TRECKER - Auth Context
+import { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+import type { Session } from "@supabase/supabase-js";
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import type { AuthState } from '@/types';
-import { createUser, getUserByUsername, getCurrentUser, setCurrentUser } from '@/services/database';
-import { verifyPassword } from '@/services/crypto';
-
-interface AuthContextType extends AuthState {
-  login: (username: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  register: (username: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  logout: () => void;
+interface AuthContextType {
+  session: Session | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({
+  session: null,
+  isAuthenticated: false,
+  isLoading: true,
+  logout: async () => {},
+});
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AuthState>({
-    user: null,
-    isAuthenticated: false,
-    isLoading: true,
-  });
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const user = getCurrentUser();
-    setState({
-      user,
-      isAuthenticated: !!user,
-      isLoading: false,
+    // cek session saat app load
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setIsLoading(false);
     });
+
+    // listen perubahan auth
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
-  const login = async (username: string, password: string): Promise<{ success: boolean; error?: string }> => {
-    const user = getUserByUsername(username);
-    
-    if (!user) {
-      return { success: false, error: 'Invalid username or password' };
-    }
-    
-    const isValid = await verifyPassword(password, user.passwordHash);
-    
-    if (!isValid) {
-      return { success: false, error: 'Invalid username or password' };
-    }
-    
-    setCurrentUser(user);
-    setState({
-      user,
-      isAuthenticated: true,
-      isLoading: false,
-    });
-    
-    return { success: true };
-  };
-
-  const register = async (username: string, password: string): Promise<{ success: boolean; error?: string }> => {
-    if (username.length < 3) {
-      return { success: false, error: 'Username must be at least 3 characters' };
-    }
-    
-    if (password.length < 6) {
-      return { success: false, error: 'Password must be at least 6 characters' };
-    }
-    
-    const user = await createUser(username, password);
-    
-    if (!user) {
-      return { success: false, error: 'Username already exists' };
-    }
-    
-    setCurrentUser(user);
-    setState({
-      user,
-      isAuthenticated: true,
-      isLoading: false,
-    });
-    
-    return { success: true };
-  };
-
-  const logout = () => {
-    setCurrentUser(null);
-    setState({
-      user: null,
-      isAuthenticated: false,
-      isLoading: false,
-    });
+  const logout = async () => {
+    await supabase.auth.signOut();
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, login, register, logout }}>
+    <AuthContext.Provider
+      value={{
+        session,
+        isAuthenticated: !!session,
+        isLoading,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-}
+export const useAuth = () => useContext(AuthContext);
