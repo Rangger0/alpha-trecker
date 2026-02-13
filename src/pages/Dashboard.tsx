@@ -1,55 +1,60 @@
 // ALPHA TRECKER - Dashboard
+import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
+import { supabase } from "@/lib/supabase";
+import { Badge } from "@/components/ui/badge";
 
-import { useState, useEffect, useMemo } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { useTheme } from '@/contexts/ThemeContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { 
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { 
+} from "@/components/ui/select";
+
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  MoreVertical, 
-  Edit2, 
-  Trash2, 
-  CheckCircle2, 
+} from "@/components/ui/dropdown-menu";
+
+import {
+  Plus,
+  Search,
+  Filter,
+  MoreVertical,
+  Edit2,
+  Trash2,
+  CheckCircle2,
   Circle,
   ExternalLink,
-  Twitter,
+  Twitter,   // ← KAMU TADI LUPA KOMA DI ATASNYA
   Wallet,
   Sun,
   Moon,
   LogOut,
   Target,
   LayoutGrid,
-  List
-} from 'lucide-react';
-import { AirdropModal } from '@/components/modals/AirdropModal';
-import { DeleteConfirmModal } from '@/components/modals/DeleteConfirmModal';
-import { Footer } from '@/sections/Footer';
-import type { Airdrop, AirdropType, AirdropStatus } from '@/types';
-import { 
-  getAirdropsByUserId, 
-  createAirdrop, 
-  updateAirdrop, 
-  deleteAirdrop,
-  toggleTask 
-} from '@/services/database';
+  List,
+} from "lucide-react";
+
+import { AirdropModal } from "@/components/modals/AirdropModal";
+import { DeleteConfirmModal } from "@/components/modals/DeleteConfirmModal";
+import { Footer } from "@/sections/Footer";
+
+import type { Airdrop, AirdropType, AirdropStatus } from "@/types";
+
+import {
+  createAirdrop,
+  getAirdropsByUserId,
+} from "@/services/database";
+
 
 const AIRDROP_TYPES: AirdropType[] = [
   'Testnet', 'AI', 'Quest', 'Daily', 'Daily Quest', 
@@ -85,23 +90,48 @@ const STATUS_BADGE_MAP: Record<AirdropStatus, string> = {
 export function Dashboard() {
   const { session, logout } = useAuth();
   const user = session?.user;
-  const { theme, toggleTheme } = useTheme();
   const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  
-  // Filters
   const [searchQuery, setSearchQuery] = useState('');
   const [typeFilter, setTypeFilter] = useState<AirdropType | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<AirdropStatus | 'all'>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'progress'>('newest');
-  
-  // Modal states
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingAirdrop, setEditingAirdrop] = useState<Airdrop | null>(null);
   const [deletingAirdrop, setDeletingAirdrop] = useState<Airdrop | null>(null);
+  const { theme, toggleTheme } = useTheme();
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  // Filters
+const filteredAirdrops = useMemo(() => {
+  let result = [...airdrops];
 
-useEffect(() => {
+  if (searchQuery) {
+    const query = searchQuery.toLowerCase();
+    result = result.filter(a =>
+      a.projectName.toLowerCase().includes(query) ||
+      a.twitterUsername.toLowerCase().includes(query)
+    );
+  }
+
+  if (typeFilter !== "all") {
+    result = result.filter(a => a.type === typeFilter);
+  }
+
+  if (statusFilter !== "all") {
+    result = result.filter(a => a.status === statusFilter);
+  }
+
+  if (sortBy === "newest") {
+    result.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() -
+        new Date(a.createdAt).getTime()
+    );
+  }
+
+  return result;
+}, [airdrops, searchQuery, typeFilter, statusFilter, sortBy]);
+
+ useEffect(() => {
   const load = async () => {
     if (!user) return;
     const data = await getAirdropsByUserId(user.id);
@@ -111,111 +141,111 @@ useEffect(() => {
   load();
 }, [user]);
 
-  const filteredAirdrops = useMemo(() => {
-    let result = [...airdrops];
-    
-    // Search filter
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(a => 
-        a.projectName.toLowerCase().includes(query) ||
-        a.twitterUsername.toLowerCase().includes(query)
-      );
-    }
-    
-    // Type filter
-    if (typeFilter !== 'all') {
-      result = result.filter(a => a.type === typeFilter);
-    }
-    
-    // Status filter
-    if (statusFilter !== 'all') {
-      result = result.filter(a => a.status === statusFilter);
-    }
-    
-    // Sort
-    if (sortBy === 'newest') {
-      result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    } else if (sortBy === 'progress') {
-      result.sort((a, b) => {
-        const progressA = a.tasks.length > 0 
-          ? (a.tasks.filter(t => t.completed).length / a.tasks.length) 
-          : 0;
-        const progressB = b.tasks.length > 0 
-          ? (b.tasks.filter(t => t.completed).length / b.tasks.length) 
-          : 0;
-        return progressB - progressA;
-      });
-    }
-    
-    return result;
-  }, [airdrops, searchQuery, typeFilter, statusFilter, sortBy]);
-
-  const handleAddAirdrop = (data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
+// =====================
+// ADD
+// =====================
+  async function handleAddAirdrop(data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) {
     if (!user) return;
-    
-    const newAirdrop = createAirdrop({
-      ...data,
-      userId: user.id,
-    });
-  
-    console.log("NEW AIRDROP", newAirdrop);
-    console.log("SUBMIT CLICKED");
+
+    const newAirdrop = await createAirdrop(data, user.id);
 
     setAirdrops(prev => [newAirdrop, ...prev]);
     setIsAddModalOpen(false);
-  };
+  }
 
-  const handleEditAirdrop = (data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
-    if (!editingAirdrop) return;
-    
-    const updated = updateAirdrop(editingAirdrop.id, data);
-    if (updated) {
-      setAirdrops(prev => prev.map(a => a.id === updated.id ? updated : a));
-    }
-    setEditingAirdrop(null);
-  };
+// =====================
+// EDIT (Supabase version)
+// =====================
+const handleEditAirdrop = async (
+  data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>
+) => {
+  if (!editingAirdrop) return;
 
-  const handleDeleteAirdrop = () => {
-    if (!deletingAirdrop) return;
-    
-    const success = deleteAirdrop(deletingAirdrop.id);
-    if (success) {
-      setAirdrops(prev => prev.filter(a => a.id !== deletingAirdrop.id));
-    }
-    setDeletingAirdrop(null);
-  };
+  const { data: updated, error } = await supabase
+    .from("airdrops")
+    .update({
+      project_name: data.projectName,
+      type: data.type,
+      status: data.status,
+      platform_link: data.platformLink,
+      twitter_username: data.twitterUsername,
+      wallet_address: data.walletAddress,
+      notes: data.notes,
+      tasks: data.tasks || [],
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", editingAirdrop.id)
+    .select()
+    .single();
 
-  const handleToggleTask = (airdropId: string, taskId: string) => {
-    const updatedTask = toggleTask(airdropId, taskId);
-    if (updatedTask) {
-      setAirdrops(prev => prev.map(a => {
-        if (a.id === airdropId) {
-          return {
-            ...a,
-            tasks: a.tasks.map(t => t.id === taskId ? updatedTask : t)
-          };
-        }
-        return a;
-      }));
-    }
-  };
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setAirdrops(prev =>
+    prev.map(a => (a.id === updated.id ? updated : a))
+  );
+
+  setEditingAirdrop(null);
+};
+
+// =====================
+// DELETE (Supabase version)
+// =====================
+const handleDeleteAirdrop = async () => {
+  if (!deletingAirdrop) return;
+
+  const { error } = await supabase
+    .from("airdrops")
+    .delete()
+    .eq("id", deletingAirdrop.id);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setAirdrops(prev =>
+    prev.filter(a => a.id !== deletingAirdrop.id)
+  );
+
+  setDeletingAirdrop(null);
+};
+
+// =====================
+// TOGGLE TASK (Supabase version)
+// =====================
+const handleToggleTask = async (airdropId: string, taskId: string) => {
+  const airdrop = airdrops.find(a => a.id === airdropId);
+  if (!airdrop) return;
+
+  const updatedTasks = airdrop.tasks.map(t =>
+    t.id === taskId ? { ...t, completed: !t.completed } : t
+  );
+
+  const { error } = await supabase
+    .from("airdrops")
+    .update({ tasks: updatedTasks })
+    .eq("id", airdropId);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setAirdrops(prev =>
+    prev.map(a =>
+      a.id === airdropId ? { ...a, tasks: updatedTasks } : a
+    )
+  );
+};
+
 
   const getProgress = (airdrop: Airdrop) => {
     if (airdrop.tasks.length === 0) return 0;
     return Math.round((airdrop.tasks.filter(t => t.completed).length / airdrop.tasks.length) * 100);
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex flex-col relative">
@@ -447,7 +477,7 @@ useEffect(() => {
             ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" 
             : "flex flex-col gap-3"
           }>
-            {filteredAirdrops.map((airdrop) => (
+            {filteredAirdrops.map((airdrop: Airdrop) => (
               <AirdropCard
                 key={airdrop.id}
                 airdrop={airdrop}

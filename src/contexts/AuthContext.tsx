@@ -21,23 +21,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // cek session saat app load
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+  const checkSession = async () => {
+    const { data } = await supabase.auth.getSession();
+    console.log("SESSION RESULT:", data.session);
+    setSession(data.session);
+    setIsLoading(false);
+  };
+
+  checkSession();
+
+  const { data: listener } = supabase.auth.onAuthStateChange(
+    (_event, session) => {
+      console.log("AUTH CHANGE:", session);
+      setSession(session);
       setIsLoading(false);
-    });
+    }
+  );
 
-    // listen perubahan auth
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session);
-      }
-    );
+  return () => {
+    listener.subscription.unsubscribe();
+  };
+}, []);
 
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-  }, []);
 
   const logout = async () => {
     await supabase.auth.signOut();

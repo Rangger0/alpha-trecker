@@ -1,19 +1,13 @@
 // ALPHA TRECKER - Main App
-
-import { useEffect } from 'react';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { AuthPage } from '@/pages/AuthPage';
 import { Dashboard } from '@/pages/Dashboard';
-import { initializeDemoData } from '@/services/database';
 import { Toaster } from '@/components/ui/sonner';
 
 function AppContent() {
   const { isAuthenticated, isLoading } = useAuth();
-
-  useEffect(() => {
-    initializeDemoData();
-  }, []);
+console.log("APP STATE:", { isAuthenticated, isLoading });
 
   if (isLoading) {
     return (
