@@ -1,7 +1,6 @@
 // ALPHA TRECKER - Auth Page (Login & Register)
-
+import { supabase } from '@/lib/supabase';
 import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,7 +35,6 @@ export function AuthPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login, register } = useAuth();
   const { theme } = useTheme();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,20 +42,29 @@ export function AuthPage() {
     setError('');
     setIsLoading(true);
 
-    try {
-      const result = activeTab === 'login' 
-        ? await login(username, password)
-        : await register(username, password);
+try {
+  if (activeTab === 'login') {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: username,   // username kamu sekarang dipakai sebagai email
+      password,
+    });
 
-      if (!result.success) {
-        setError(result.error || 'An error occurred');
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    if (error) throw error;
+
+  } else {
+    const { error } = await supabase.auth.signUp({
+      email: username,
+      password,
+    });
+
+    if (error) throw error;
+  }
+
+} catch (err: any) {
+  setError(err.message || 'Authentication failed');
+} finally {
+  setIsLoading(false);
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
