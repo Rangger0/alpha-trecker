@@ -145,13 +145,16 @@ const filteredAirdrops = useMemo(() => {
 // ADD
 // =====================
   async function handleAddAirdrop(data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) {
-    if (!user) return;
+  if (!user) return;
 
-    const newAirdrop = await createAirdrop(data, user.id);
-
-    setAirdrops(prev => [newAirdrop, ...prev]);
-    setIsAddModalOpen(false);
-  }
+  await createAirdrop(data, user.id);
+  
+  // Re-fetch data dari database
+  const freshData = await getAirdropsByUserId(user.id);
+  setAirdrops(freshData);
+  
+  setIsAddModalOpen(false);
+}
 
 // =====================
 // EDIT (Supabase version)
@@ -159,12 +162,13 @@ const filteredAirdrops = useMemo(() => {
 const handleEditAirdrop = async (
   data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>
 ) => {
-  if (!editingAirdrop) return;
+  if (!editingAirdrop || !user) return;  // <-- TAMBAH !user di sini
 
-  const { data: updated, error } = await supabase
+  const { error } = await supabase
     .from("airdrops")
     .update({
       project_name: data.projectName,
+      project_logo: data.projectLogo,
       type: data.type,
       status: data.status,
       platform_link: data.platformLink,
@@ -174,25 +178,21 @@ const handleEditAirdrop = async (
       tasks: data.tasks || [],
       updated_at: new Date().toISOString(),
     })
-    .eq("id", editingAirdrop.id)
-    .select()
-    .single();
+    .eq("id", editingAirdrop.id);
 
   if (error) {
     console.error(error);
     return;
   }
 
-  setAirdrops(prev =>
-    prev.map(a => (a.id === updated.id ? updated : a))
-  );
+  // Re-fetch data dari database
+  const freshData = await getAirdropsByUserId(user.id);
+  setAirdrops(freshData);
 
   setEditingAirdrop(null);
 };
-
-// =====================
-// DELETE (Supabase version)
-// =====================
+//
+// 
 const handleDeleteAirdrop = async () => {
   if (!deletingAirdrop) return;
 
@@ -521,7 +521,7 @@ const handleToggleTask = async (airdropId: string, taskId: string) => {
   );
 }
 
-// Airdrop Card Component
+// Airdrop Card Component - PERBAIKAN LENGKAP
 interface AirdropCardProps {
   airdrop: Airdrop;
   viewMode: 'grid' | 'list';
@@ -535,22 +535,30 @@ function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getPro
   const progress = getProgress(airdrop);
   const completedTasks = airdrop.tasks.filter(t => t.completed).length;
   
-  if (viewMode === 'list') {
+  // ==================== LIST VIEW ====================
+  if (viewMode === "list") {
     return (
-      <Card className="glass-card hover:shadow-md transition-shadow duration-200">
+      <Card className="bg-card/90 backdrop-blur-md border border-border hover:shadow-md transition-shadow duration-200">
         <CardContent className="p-4">
           <div className="flex items-center gap-4">
             {/* Logo */}
-            <img 
-              src={airdrop.projectLogo || '/logo-flat.png'} 
-              alt={airdrop.projectName}
-              className="w-12 h-12 rounded-lg object-cover"
-            />
-            
+            <div className="w-12 h-12 rounded-lg bg-muted flex-shrink-0 overflow-hidden border border-border">
+              <img
+                src={airdrop.projectLogo || "/logo-flat.png"}
+                alt={airdrop.projectName}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/logo-flat.png';
+                }}
+              />
+            </div>
+
             {/* Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-semibold truncate">{airdrop.projectName}</h3>
+                <h3 className="font-semibold text-foreground text-base">
+                  {airdrop.projectName}
+                </h3>
                 <Badge variant="outline" className={TYPE_BADGE_MAP[airdrop.type]}>
                   {airdrop.type}
                 </Badge>
@@ -558,40 +566,46 @@ function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getPro
                   {airdrop.status}
                 </Badge>
               </div>
-              
-              <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
+
+              {/* Progress Bar untuk List View */}
+              <div className="mt-2">
+                <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                  <span>Progress</span>
+                  <span>{completedTasks}/{airdrop.tasks.length}</span>
+                </div>
+                <div className="h-1.5 bg-muted rounded-full overflow-hidden w-full max-w-[200px]">
+                  <div 
+                    className="h-full bg-gradient-to-r from-red-500 to-red-400"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
                 {airdrop.twitterUsername && (
-                  <a 
-                    href={`https://x.com/${airdrop.twitterUsername}`}
+                  <a
+                    href={`https://x.com/${airdrop.twitterUsername.replace('@', '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 hover:text-red-500 transition-colors"
                   >
-                    <Twitter className="h-3 w-3" />
-                    @{airdrop.twitterUsername}
+                    <Twitter className="h-3.5 w-3.5" />
+                    @{airdrop.twitterUsername.replace('@', '')}
                   </a>
                 )}
                 {airdrop.walletAddress && (
-                  <span className="flex items-center gap-1">
-                    <Wallet className="h-3 w-3" />
-                    {airdrop.walletAddress.slice(0, 6)}...{airdrop.walletAddress.slice(-4)}
+                  <span className="flex items-center gap-1 font-mono text-xs">
+                    <Wallet className="h-3.5 w-3.5" />
+                    {airdrop.walletAddress.slice(0, 6)}...
+                    {airdrop.walletAddress.slice(-4)}
                   </span>
                 )}
               </div>
             </div>
-            
-            {/* Progress */}
-            <div className="hidden sm:block text-right">
-              <p className="text-sm font-medium">{progress}%</p>
-              <p className="text-xs text-muted-foreground">
-                {completedTasks}/{airdrop.tasks.length} tasks
-              </p>
-            </div>
-            
-            {/* Actions */}
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="flex-shrink-0">
                   <MoreVertical className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -600,10 +614,7 @@ function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getPro
                   <Edit2 className="h-4 w-4 mr-2" />
                   Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={onDelete}
-                  className="text-red-500 focus:text-red-500"
-                >
+                <DropdownMenuItem onClick={onDelete} className="text-red-500 focus:text-red-500">
                   <Trash2 className="h-4 w-4 mr-2" />
                   Delete
                 </DropdownMenuItem>
@@ -615,22 +626,41 @@ function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getPro
     );
   }
   
+  // ==================== GRID VIEW ====================
   return (
-    <Card className="glass-card hover:shadow-md transition-shadow duration-200 overflow-hidden">
+    <Card className="bg-card/90 backdrop-blur-md border border-border hover:shadow-lg transition-all duration-300 overflow-hidden">
       <CardContent className="p-4">
-        {/* Header */}
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <img 
-              src={airdrop.projectLogo || '/logo-flat.png'} 
-              alt={airdrop.projectName}
-              className="w-12 h-12 rounded-lg object-cover"
+        {/* Header: Logo + Nama + Menu */}
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            {/* Logo */}
+            <div className="w-12 h-12 rounded-lg bg-muted flex-shrink-0 overflow-hidden border border-border relative">
+              <img 
+                src={airdrop.projectLogo || '/logo-flat.png'} 
+                alt={airdrop.projectName}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                console.log("Logo failed to load:", airdrop.projectLogo);
+               (e.target as HTMLImageElement).src = '/logo-flat.png';
+             }}
             />
-            <div>
-              <h3 className="font-semibold">{airdrop.projectName}</h3>
-              <div className="flex gap-1 mt-1">
+            {/* Debug text - hapus nanti */}
+           <div className="absolute inset-0 flex items-center justify-center text-[8px] text-center leading-none bg-black/50 text-white opacity-0 hover:opacity-100 transition-opacity">
+                {airdrop.projectLogo ? 'Has URL' : 'No URL'}
+            </div>
+            </div>
+            
+            {/* Project Info */}
+            <div className="flex-1 min-w-0 overflow-hidden">
+              <h3 className="font-semibold text-foreground text-base leading-tight mb-1 truncate">
+                {airdrop.projectName}
+              </h3>
+              <div className="flex items-center gap-2">
                 <Badge variant="outline" className={`text-xs ${TYPE_BADGE_MAP[airdrop.type]}`}>
                   {airdrop.type}
+                </Badge>
+                <Badge variant="outline" className={STATUS_BADGE_MAP[airdrop.status]}>
+                  {airdrop.status}
                 </Badge>
               </div>
             </div>
@@ -638,7 +668,7 @@ function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getPro
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="flex-shrink-0 h-8 w-8">
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -647,52 +677,42 @@ function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getPro
                 <Edit2 className="h-4 w-4 mr-2" />
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={onDelete}
-                className="text-red-500 focus:text-red-500"
-              >
+              <DropdownMenuItem onClick={onDelete} className="text-red-500 focus:text-red-500">
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        
-        {/* Status */}
-        <div className="mb-4">
-          <Badge variant="outline" className={STATUS_BADGE_MAP[airdrop.status]}>
-            {airdrop.status}
-          </Badge>
-        </div>
-        
-        {/* Links */}
-        <div className="flex flex-wrap gap-2 mb-4">
+
+        {/* Links: Platform & Twitter */}
+        <div className="flex flex-wrap gap-2 mb-3">
           {airdrop.platformLink && (
-            <a 
+            <a
               href={airdrop.platformLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-red-500 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-red-500 transition-colors bg-muted/50 hover:bg-muted px-2.5 py-1.5 rounded-md"
             >
-              <ExternalLink className="h-3 w-3" />
+              <ExternalLink className="h-3.5 w-3.5" />
               Platform
             </a>
           )}
           {airdrop.twitterUsername && (
-            <a 
-              href={`https://x.com/${airdrop.twitterUsername}`}
+            <a
+              href={`https://x.com/${airdrop.twitterUsername.replace('@', '')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-red-500 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-red-500 transition-colors bg-muted/50 hover:bg-muted px-2.5 py-1.5 rounded-md"
             >
-              <Twitter className="h-3 w-3" />
-              @{airdrop.twitterUsername}
+              <Twitter className="h-3.5 w-3.5" />
+              @{airdrop.twitterUsername.replace('@', '')}
             </a>
           )}
         </div>
-        
-        {/* Progress */}
-        <div className="border-t border-border pt-4">
+
+        {/* Progress Section */}
+        <div className="border-t border-border pt-3">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium">Progress</span>
             <span className="text-sm text-muted-foreground">
@@ -710,31 +730,31 @@ function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getPro
           
           {/* Tasks */}
           {airdrop.tasks.length > 0 && (
-            <div className="space-y-1 max-h-24 overflow-y-auto">
+            <div className="space-y-1.5 max-h-28 overflow-y-auto">
               {airdrop.tasks.slice(0, 3).map(task => (
                 <button
                   key={task.id}
                   onClick={() => onToggleTask(airdrop.id, task.id)}
-                  className="flex items-center gap-2 w-full text-left text-sm hover:bg-muted/50 rounded px-1 py-0.5 transition-colors"
+                  className="flex items-center gap-2 w-full text-left text-sm hover:bg-muted/50 rounded px-1.5 py-1 transition-colors group"
                 >
                   {task.completed ? (
                     <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
                   ) : (
-                    <Circle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                    <Circle className="h-4 w-4 text-muted-foreground flex-shrink-0 group-hover:text-foreground" />
                   )}
-                  <span className={task.completed ? 'line-through text-muted-foreground' : 'truncate'}>
+                  <span className={task.completed ? 'line-through text-muted-foreground truncate' : 'truncate'}>
                     {task.title}
                   </span>
                 </button>
               ))}
               {airdrop.tasks.length > 3 && (
-                <p className="text-xs text-muted-foreground pl-6">
+                <p className="text-xs text-muted-foreground pl-6 pt-1">
                   +{airdrop.tasks.length - 3} more tasks
                 </p>
               )}
             </div>
           )}
-        </div>
+        </div> 
       </CardContent>
     </Card>
   );

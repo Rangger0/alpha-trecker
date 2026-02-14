@@ -14,6 +14,7 @@ export async function createAirdrop(data: any, userId: string) {
       {
         user_id: userId,
         project_name: data.projectName,
+        project_logo: data.projectLogo,
         type: data.type,
         status: data.status,
         platform_link: data.platformLink,
@@ -40,7 +41,22 @@ export async function getAirdropsByUserId(userId: string): Promise<Airdrop[]> {
 
   if (error) throw error;
 
-  return data || [];
+  // Transformasi snake_case ke camelCase
+  return (data || []).map(item => ({
+    id: item.id,
+    userId: item.user_id,
+    projectName: item.project_name,        // snake → camel
+    projectLogo: item.project_logo,        // snake → camel  
+    type: item.type,
+    status: item.status,
+    platformLink: item.platform_link,      // snake → camel
+    twitterUsername: item.twitter_username, // snake → camel
+    walletAddress: item.wallet_address,    // snake → camel
+    notes: item.notes,
+    tasks: item.tasks || [],
+    createdAt: item.created_at,            // snake → camel
+    updatedAt: item.updated_at,            // snake → camel
+  }));
 }
 
 export async function deleteAirdrop(id: string) {

@@ -52,20 +52,20 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
   useEffect(() => {
-    if (mode === 'edit' && airdrop) {
-      setProjectName(airdrop.projectName);
-      setProjectLogo(airdrop.projectLogo);
-      setPlatformLink(airdrop.platformLink);
-      setTwitterUsername(airdrop.twitterUsername);
-      setWalletAddress(airdrop.walletAddress);
-      setType(airdrop.type);
-      setStatus(airdrop.status);
-      setNotes(airdrop.notes);
-      setTasks(airdrop.tasks);
-    } else {
-      resetForm();
-    }
-  }, [mode, airdrop, isOpen]);
+  if (mode === 'edit' && airdrop) {
+    setProjectName(airdrop.projectName ?? '');
+    setProjectLogo(airdrop.projectLogo ?? '');
+    setPlatformLink(airdrop.platformLink ?? '');
+    setTwitterUsername(airdrop.twitterUsername ?? '');
+    setWalletAddress(airdrop.walletAddress ?? '');
+    setType(airdrop.type ?? 'Testnet');
+    setStatus(airdrop.status ?? 'Planning');
+    setNotes(airdrop.notes ?? '');
+    setTasks(airdrop.tasks ?? []);
+  } else {
+    resetForm();
+  }
+}, [mode, airdrop]);
 
   const resetForm = () => {
     setProjectName('');
@@ -82,7 +82,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!projectName.trim()) return;
+   if (!projectName?.trim()) return;
 
     setIsLoading(true);
     
