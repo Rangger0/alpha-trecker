@@ -77,29 +77,34 @@
   }
   
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground font-sans antialiased;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-}
+  
+  /* Font Configuration - TAMBAHKAN INI */
+  h1, h2, h3 {
+  @apply font-display tracking-wider font-bold;
+ }
+ }
 
 @layer components {
   /* Glassmorphism Card - Optimized for performance */
   .glass-card {
     @apply border shadow-lg;
-    background: rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.249);
+    border-color: rgba(230, 226, 226, 0.868);
   }
   
   /* Dark Mode Card */
   .dark .glass-card {
-    background: rgba(0, 0, 0, 0.6);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.644);
+    border-color: rgb(255, 2, 2);
   }
   
   /* Light Mode Card */
   .light .glass-card {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.705);
+    border-color: rgb(255, 4, 4);
   }
   
   /* Simple Red Glow - Optimized */
@@ -118,7 +123,7 @@
   
   .hover-glow:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.978);
   }
   
   /* Simple Button Animation */

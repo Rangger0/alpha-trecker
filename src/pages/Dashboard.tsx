@@ -277,9 +277,9 @@ const handleToggleTask = async (airdropId: string, taskId: string) => {
                 alt="ALPHA TRECKER" 
                 className="w-10 h-10"
               />
-              <span className="font-bold text-xl tracking-wider hidden sm:block">
-                ALPHA TRECKER
-              </span>
+              <span className="font-display text-2xl tracking-widest hidden sm:block">
+                 ALPHA TRECKER
+               </span>
             </div>
             
             {/* Right Side */}
@@ -324,7 +324,7 @@ const handleToggleTask = async (airdropId: string, taskId: string) => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold">Dashboard</h1>
+            <h1 className="text-4xl font-display tracking-wider">Dashboard</h1>
             <p className="text-muted-foreground mt-1">
               Manage and track your airdrop campaigns
             </p>
@@ -420,13 +420,13 @@ const handleToggleTask = async (airdropId: string, taskId: string) => {
           <Card className="glass-card">
             <CardContent className="p-4">
               <p className="text-sm text-muted-foreground">Total</p>
-              <p className="text-2xl font-bold">{airdrops.length}</p>
+              <p className="text-3xl font-display tracking-wider">{airdrops.length}</p>
             </CardContent>
           </Card>
           <Card className="glass-card">
             <CardContent className="p-4">
               <p className="text-sm text-muted-foreground">Ongoing</p>
-              <p className="text-2xl font-bold text-blue-500">
+              <p className="text-3xl font-display tracking-wider">
                 {airdrops.filter(a => a.status === 'Ongoing').length}
               </p>
             </CardContent>
@@ -434,7 +434,7 @@ const handleToggleTask = async (airdropId: string, taskId: string) => {
           <Card className="glass-card">
             <CardContent className="p-4">
               <p className="text-sm text-muted-foreground">Done</p>
-              <p className="text-2xl font-bold text-green-500">
+              <p className="text-3xl font-display tracking-wider">
                 {airdrops.filter(a => a.status === 'Done').length}
               </p>
             </CardContent>
@@ -442,7 +442,7 @@ const handleToggleTask = async (airdropId: string, taskId: string) => {
           <Card className="glass-card">
             <CardContent className="p-4">
               <p className="text-sm text-muted-foreground">Dropped</p>
-              <p className="text-2xl font-bold text-red-500">
+              <p className="text-3xl font-display tracking-wider">
                 {airdrops.filter(a => a.status === 'Dropped').length}
               </p>
             </CardContent>
@@ -652,7 +652,7 @@ function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getPro
             
             {/* Project Info */}
             <div className="flex-1 min-w-0 overflow-hidden">
-              <h3 className="font-semibold text-foreground text-base leading-tight mb-1 truncate">
+              <h3 className="font-display text-lg tracking-wide leading-tight mb-1">
                 {airdrop.projectName}
               </h3>
               <div className="flex items-center gap-2">

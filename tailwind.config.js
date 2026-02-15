@@ -4,6 +4,18 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      // FONT FAMILY - TAMBAHKAN INI
+     fontFamily: {
+  display: ['Bebas Neue', 'Impact', 'sans-serif'],
+  sans: ['Rajdhani', 'system-ui', 'sans-serif'],
+},
+fontWeight: {
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+  extrabold: 800,
+},
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
