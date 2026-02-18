@@ -16,7 +16,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Music2,
   Plus,
   Search,
   Filter,
@@ -27,7 +26,6 @@ import {
   Circle,
   ExternalLink,
   Twitter,
-  Wallet,
   Sun,
   Moon,
   LogOut,
@@ -193,7 +191,7 @@ export function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [typeFilter, setTypeFilter] = useState<AirdropType | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<AirdropStatus | 'all'>('all');
-  const [sortBy, setSortBy] = useState<'newest' | 'progress'>('newest');
+  const [sortBy,] = useState<'newest' | 'progress'>('newest');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingAirdrop, setEditingAirdrop] = useState<Airdrop | null>(null);
   const [deletingAirdrop, setDeletingAirdrop] = useState<Airdrop | null>(null);
@@ -658,11 +656,11 @@ export function Dashboard() {
 {deletingAirdrop && (
   <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
     <div 
-      className={`absolute inset-0 ${isDark ? 'bg-[#0a0a0f]/70' : 'bg-gray-900/80'}`}
+      className={`absolute inset-0 ${isDark ? 'bg-[#0a0a0f]/0' : 'bg-gray-9'}`}
       onClick={() => setDeletingAirdrop(null)}
     />
     <div className={`relative z-10 w-full max-w-md max-h-[90vh] overflow-y-auto rounded-lg border-2 ${
-      isDark ? 'bg-[#0a0a0f] border-[#00ff00]' : 'bg-white border-gray-400'
+      isDark ? 'bg-[#09090d00] border-[#90909000]' : 'bg-white border-gray-400'
     }`}>
           <DeleteConfirmModal 
         isOpen={!!deletingAirdrop} 
