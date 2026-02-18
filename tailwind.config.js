@@ -4,18 +4,19 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      // FONT FAMILY - TAMBAHKAN INI
-     fontFamily: {
-  display: ['Bebas Neue', 'Impact', 'sans-serif'],
-  sans: ['Rajdhani', 'system-ui', 'sans-serif'],
-},
-fontWeight: {
-  normal: 400,
-  medium: 500,
-  semibold: 600,
-  bold: 700,
-  extrabold: 800,
-},
+      // FONT FAMILY
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      fontWeight: {
+        normal: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        extrabold: 800,
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -60,6 +61,13 @@ fontWeight: {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Custom colors
+        alpha: {
+          orange: "#ff6b35",
+          "orange-light": "#ff8555",
+          dark: "#0a0a0f",
+          card: "#111118",
+        },
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
@@ -70,6 +78,8 @@ fontWeight: {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        glow: "0 0 20px rgba(255, 107, 53, 0.3)",
+        "glow-lg": "0 0 40px rgba(255, 107, 53, 0.4)",
       },
       keyframes: {
         "accordion-down": {
@@ -84,11 +94,21 @@ fontWeight: {
           "0%,70%,100%": { opacity: "1" },
           "20%,50%": { opacity: "0" },
         },
+        "fade-in": {
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "slide-in": {
+          from: { opacity: "0", transform: "translateX(-10px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "caret-blink": "caret-blink 1.25s ease-out infinite",
+        "fade-in": "fade-in 0.3s ease-out",
+        "slide-in": "slide-in 0.3s ease-out",
       },
     },
   },

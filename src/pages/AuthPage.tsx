@@ -1,4 +1,4 @@
-// ALPHA TRECKER - Auth Page (Login & Register)
+// ALPHA TRECKER - Auth Page (Terminal Theme)
 import { supabase } from '@/lib/supabase';
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -7,10 +7,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AlertCircle, User, Lock, Loader2 } from 'lucide-react';
+import { AlertCircle, User, Lock, Loader2, Terminal } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
-// SVG Icons for social media
 const XIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -35,7 +34,8 @@ export function AuthPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -52,10 +52,9 @@ const handleSubmit = async (e: React.FormEvent) => {
       if (error) throw error;
 
       if (!data.session) {
-        throw new Error("Login gagal. Session tidak dibuat.");
+        throw new Error("Login failed. Session not created.");
       }
 
-      // ✅ Redirect kalau sukses
       window.location.href = "/dashboard";
 
     } else {
@@ -67,10 +66,9 @@ const handleSubmit = async (e: React.FormEvent) => {
       if (error) throw error;
 
       if (!data.user) {
-        throw new Error("Register gagal.");
+        throw new Error("Registration failed.");
       }
 
-      // Kalau email confirmation mati → langsung login
       window.location.href = "/dashboard";
     }
 
@@ -83,89 +81,112 @@ const handleSubmit = async (e: React.FormEvent) => {
 };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Image - Yakuza Oni Mask */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url(/bg-yakuza.jpg)' }}
-      />
+    <div className={`min-h-screen flex items-center justify-center p-4 relative overflow-hidden font-mono ${
+      isDark ? 'bg-[#0a0a0f]' : 'bg-gray-100'
+    }`}>
+      {/* Background Pattern */}
+      <div className={`absolute inset-0 opacity-5 ${
+        isDark ? 'bg-[radial-gradient(#00ff00_1px,transparent_1px)]' : 'bg-[radial-gradient(#000_1px,transparent_1px)]'
+      }`} style={{ backgroundSize: '20px 20px' }} />
       
-      {/* Simple Overlay - No blur for performance */}
-      <div className={`absolute inset-0 transition-colors duration-300 ${
-        theme === 'dark' 
-          ? 'bg-black/75' 
-          : 'bg-white/65'
-      }`} />
+      {/* Scanline Effect */}
+      {isDark && <div className="absolute inset-0 scanline pointer-events-none" />}
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-md">
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <div className="relative w-24 h-24 mb-4">
-            <img 
-              src="/logo-glow.png" 
-              alt="ALPHA TRECKER" 
-              className="w-full h-full object-contain"
-            />
+          <div className={`relative w-24 h-24 mb-4 rounded border-2 flex items-center justify-center ${
+            isDark ? 'bg-[#0f0f14] border-[#00ff00] shadow-[0_0_30px_rgba(0,255,0,0.3)]' : 'bg-white border-gray-800 shadow-lg'
+          }`}>
+            <Terminal className={`w-12 h-12 ${isDark ? 'text-[#00ff00]' : 'text-gray-800'}`} />
           </div>
-          <h1 className={`text-3xl font-bold tracking-wider ${
-            theme === 'dark' ? 'text-white' : 'text-black'
+          <h1 className={`text-3xl font-bold tracking-tighter font-mono ${
+            isDark ? 'text-white' : 'text-gray-900'
           }`}>
-            ALPHA TRECKER
+            <span className={isDark ? 'text-[#00ff00]' : 'text-gray-900'}>ALPHA</span>
+            <span className={isDark ? 'text-white' : 'text-gray-600'}>_TRACKER</span>
+            <span className={`animate-pulse ${isDark ? 'text-[#00ff00]' : 'text-gray-400'}`}>_</span>
           </h1>
-          <p className={`mt-2 text-sm ${
-            theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+          <p className={`mt-2 text-sm font-mono ${
+            isDark ? 'text-gray-500' : 'text-gray-600'
           }`}>
-            Crypto Airdrop Hunter Dashboard
+            {isDark ? '> INITIALIZING_SECURE_CONNECTION...' : 'Crypto Airdrop Hunter Dashboard'}
           </p>
         </div>
 
         {/* Card */}
-        <Card className={`border shadow-xl overflow-hidden ${
-          theme === 'dark'
-            ? 'bg-black/60 border-white/10'
-            : 'bg-white/80 border-black/10'
+        <Card className={`border-2 shadow-2xl overflow-hidden ${
+          isDark
+            ? 'bg-[#0f0f14]/90 border-[#00ff00]/30'
+            : 'bg-white/90 border-gray-300'
         }`}>
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center">
-              Welcome Back
+            <CardTitle className={`text-2xl text-center font-mono ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}>
+              {isDark ? '> AUTHENTICATION_REQUIRED' : 'Welcome Back'}
             </CardTitle>
-            <CardDescription className="text-center">
-              Enter your credentials to access your dashboard
+            <CardDescription className={`text-center font-mono text-xs ${
+              isDark ? 'text-gray-500' : 'text-gray-600'
+            }`}>
+              {isDark ? 'root@alpha-tracker:~$ login --secure' : 'Enter your credentials to access your dashboard'}
             </CardDescription>
           </CardHeader>
           
           <CardContent>
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'login' | 'register')}>
-              <TabsList className={`grid w-full grid-cols-2 mb-6 ${
-                theme === 'dark' ? 'bg-white/10' : 'bg-black/10'
+              <TabsList className={`grid w-full grid-cols-2 mb-6 border-2 font-mono ${
+                isDark ? 'bg-[#0a0a0f] border-[#00ff00]/30' : 'bg-gray-100 border-gray-300'
               }`}>
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
+                <TabsTrigger 
+                  value="login" 
+                  className={`font-mono data-[state=active]:bg-[#00ff00] data-[state=active]:text-black ${
+                    isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                  }`}
+                >
+                  LOGIN
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="register"
+                  className={`font-mono data-[state=active]:bg-[#00ff00] data-[state=active]:text-black ${
+                    isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                  }`}
+                >
+                  REGISTER
+                </TabsTrigger>
               </TabsList>
 
               {error && (
-                <Alert variant="destructive" className="mb-4">
+                <Alert variant="destructive" className={`mb-4 border-2 font-mono ${
+                  isDark ? 'bg-red-900/20 border-red-500/50 text-red-400' : 'bg-red-50 border-red-300'
+                }`}>
                   <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{error}</AlertDescription>
+                  <AlertDescription className="font-mono text-xs">ERROR: {error}</AlertDescription>
                 </Alert>
               )}
 
               <form onSubmit={handleSubmit}>
                 <TabsContent value="login" className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="login-username">Username</Label>
+                    <Label htmlFor="login-username" className={`font-mono text-xs ${
+                      isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                    }`}>
+                      {isDark ? '> USERNAME:' : 'Username'}
+                    </Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <User className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
+                        isDark ? 'text-[#00ff00]/50' : 'text-gray-400'
+                      }`} />
                       <Input
                         id="login-username"
-                        placeholder="Enter your username"
+                        placeholder={isDark ? "enter_credentials..." : "Enter your username"}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        className={`pl-10 ${
-                          theme === 'dark' 
-                            ? 'bg-white/10 border-white/20 text-white placeholder:text-gray-400' 
-                            : 'bg-black/5 border-black/20 text-black placeholder:text-gray-500'
+                        className={`pl-10 font-mono border-2 ${
+                          isDark 
+                            ? 'bg-[#0a0a0f] border-[#00ff00]/30 text-[#00ff00] placeholder:text-[#00ff00]/30 focus:border-[#00ff00]' 
+                            : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-gray-900'
                         }`}
                         disabled={isLoading}
                       />
@@ -173,19 +194,25 @@ const handleSubmit = async (e: React.FormEvent) => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="login-password">Password</Label>
+                    <Label htmlFor="login-password" className={`font-mono text-xs ${
+                      isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                    }`}>
+                      {isDark ? '> PASSWORD:' : 'Password'}
+                    </Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
+                        isDark ? 'text-[#00ff00]/50' : 'text-gray-400'
+                      }`} />
                       <Input
                         id="login-password"
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder={isDark ? "********" : "Enter your password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className={`pl-10 ${
-                          theme === 'dark' 
-                            ? 'bg-white/10 border-white/20 text-white placeholder:text-gray-400' 
-                            : 'bg-black/5 border-black/20 text-black placeholder:text-gray-500'
+                        className={`pl-10 font-mono border-2 ${
+                          isDark 
+                            ? 'bg-[#0a0a0f] border-[#00ff00]/30 text-[#00ff00] placeholder:text-[#00ff00]/30 focus:border-[#00ff00]' 
+                            : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-gray-900'
                         }`}
                         disabled={isLoading}
                       />
@@ -194,34 +221,44 @@ const handleSubmit = async (e: React.FormEvent) => {
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-red-600 hover:bg-red-700 text-white transition-colors"
+                    className={`w-full font-mono font-bold border-2 ${
+                      isDark 
+                        ? 'bg-[#00ff00] text-black border-[#00ff00] hover:bg-[#00ff00]/90 hover:shadow-[0_0_20px_rgba(0,255,0,0.4)]' 
+                        : 'bg-gray-800 text-white border-gray-800 hover:bg-gray-700'
+                    }`}
                     disabled={isLoading}
                   >
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Signing in...
+                        {isDark ? 'AUTHENTICATING...' : 'Signing in...'}
                       </>
                     ) : (
-                      'Sign In'
+                      isDark ? 'EXECUTE_LOGIN()' : 'Sign In'
                     )}
                   </Button>
                 </TabsContent>
 
                 <TabsContent value="register" className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="register-username">Username</Label>
+                    <Label htmlFor="register-username" className={`font-mono text-xs ${
+                      isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                    }`}>
+                      {isDark ? '> NEW_USERNAME:' : 'Username'}
+                    </Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <User className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
+                        isDark ? 'text-[#00ff00]/50' : 'text-gray-400'
+                      }`} />
                       <Input
                         id="register-username"
-                        placeholder="Choose a username"
+                        placeholder={isDark ? "create_new_user..." : "Choose a username"}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        className={`pl-10 ${
-                          theme === 'dark' 
-                            ? 'bg-white/10 border-white/20 text-white placeholder:text-gray-400' 
-                            : 'bg-black/5 border-black/20 text-black placeholder:text-gray-500'
+                        className={`pl-10 font-mono border-2 ${
+                          isDark 
+                            ? 'bg-[#0a0a0f] border-[#00ff00]/30 text-[#00ff00] placeholder:text-[#00ff00]/30 focus:border-[#00ff00]' 
+                            : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-gray-900'
                         }`}
                         disabled={isLoading}
                       />
@@ -229,19 +266,25 @@ const handleSubmit = async (e: React.FormEvent) => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="register-password">Password</Label>
+                    <Label htmlFor="register-password" className={`font-mono text-xs ${
+                      isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                    }`}>
+                      {isDark ? '> SET_PASSWORD:' : 'Password'}
+                    </Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
+                        isDark ? 'text-[#00ff00]/50' : 'text-gray-400'
+                      }`} />
                       <Input
                         id="register-password"
                         type="password"
-                        placeholder="Choose a password"
+                        placeholder={isDark ? "********" : "Choose a password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className={`pl-10 ${
-                          theme === 'dark' 
-                            ? 'bg-white/10 border-white/20 text-white placeholder:text-gray-400' 
-                            : 'bg-black/5 border-black/20 text-black placeholder:text-gray-500'
+                        className={`pl-10 font-mono border-2 ${
+                          isDark 
+                            ? 'bg-[#0a0a0f] border-[#00ff00]/30 text-[#00ff00] placeholder:text-[#00ff00]/30 focus:border-[#00ff00]' 
+                            : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-gray-900'
                         }`}
                         disabled={isLoading}
                       />
@@ -250,16 +293,20 @@ const handleSubmit = async (e: React.FormEvent) => {
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-red-600 hover:bg-red-700 text-white transition-colors"
+                    className={`w-full font-mono font-bold border-2 ${
+                      isDark 
+                        ? 'bg-[#00ff00] text-black border-[#00ff00] hover:bg-[#00ff00]/90 hover:shadow-[0_0_20px_rgba(0,255,0,0.4)]' 
+                        : 'bg-gray-800 text-white border-gray-800 hover:bg-gray-700'
+                    }`}
                     disabled={isLoading}
                   >
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Creating account...
+                        {isDark ? 'CREATING_ACCOUNT...' : 'Creating account...'}
                       </>
                     ) : (
-                      'Create Account'
+                      isDark ? 'INITIALIZE_USER()' : 'Create Account'
                     )}
                   </Button>
                 </TabsContent>
@@ -268,16 +315,16 @@ const handleSubmit = async (e: React.FormEvent) => {
           </CardContent>
         </Card>
 
-        {/* Social Icons Only - No Text */}
-        <div className="flex justify-center gap-6 mt-6">
+        {/* Social Icons */}
+        <div className="flex justify-center gap-4 mt-6">
           <a 
             href="https://x.com/rinzx_" 
             target="_blank" 
             rel="noopener noreferrer"
-            className={`p-3 rounded-full transition-all duration-200 hover:scale-110 ${
-              theme === 'dark' 
-                ? 'bg-white/10 text-white hover:bg-red-500/20 hover:text-red-400' 
-                : 'bg-black/10 text-black hover:bg-red-500/20 hover:text-red-600'
+            className={`p-3 rounded border-2 transition-all duration-200 hover:scale-110 ${
+              isDark 
+                ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] hover:bg-[#00ff00]/10 hover:border-[#00ff00]' 
+                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400'
             }`}
             aria-label="X (Twitter)"
           >
@@ -287,10 +334,10 @@ const handleSubmit = async (e: React.FormEvent) => {
             href="https://t.me/+MGzRobr9cp4yMTk1" 
             target="_blank" 
             rel="noopener noreferrer"
-            className={`p-3 rounded-full transition-all duration-200 hover:scale-110 ${
-              theme === 'dark' 
-                ? 'bg-white/10 text-white hover:bg-red-500/20 hover:text-red-400' 
-                : 'bg-black/10 text-black hover:bg-red-500/20 hover:text-red-600'
+            className={`p-3 rounded border-2 transition-all duration-200 hover:scale-110 ${
+              isDark 
+                ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] hover:bg-[#00ff00]/10 hover:border-[#00ff00]' 
+                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400'
             }`}
             aria-label="Telegram"
           >
@@ -300,17 +347,32 @@ const handleSubmit = async (e: React.FormEvent) => {
             href="https://github.com/Rangger0" 
             target="_blank" 
             rel="noopener noreferrer"
-            className={`p-3 rounded-full transition-all duration-200 hover:scale-110 ${
-              theme === 'dark' 
-                ? 'bg-white/10 text-white hover:bg-red-500/20 hover:text-red-400' 
-                : 'bg-black/10 text-black hover:bg-red-500/20 hover:text-red-600'
+            className={`p-3 rounded border-2 transition-all duration-200 hover:scale-110 ${
+              isDark 
+                ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] hover:bg-[#00ff00]/10 hover:border-[#00ff00]' 
+                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400'
             }`}
             aria-label="GitHub"
           >
             <GithubIcon />
           </a>
         </div>
+
+        {/* Theme Toggle */}
+        <div className="flex justify-center mt-4">
+          <Button
+            variant="ghost"
+            onClick={toggleTheme}
+            className={`font-mono text-xs border ${
+              isDark 
+                ? 'text-[#00ff00] border-[#00ff00]/30 hover:bg-[#00ff00]/10' 
+                : 'text-gray-600 border-gray-300 hover:bg-gray-100'
+            }`}
+          >
+            {isDark ? '[LIGHT_MODE]' : '[DARK_MODE]'}
+          </Button>
+        </div>
       </div>
     </div>
   );
-};
+}

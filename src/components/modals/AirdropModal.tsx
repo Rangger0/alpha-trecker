@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,  // <-- TAMBAH INI
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,9 +37,10 @@ interface AirdropModalProps {
   onSubmit: (data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => void;
   mode: 'add' | 'edit';
   airdrop?: Airdrop | null;
+  isDark?: boolean;  // <-- TAMBAH INI (optional)
 }
 
-export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: AirdropModalProps) {
+export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark = false }: AirdropModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [projectLogo, setProjectLogo] = useState('');
@@ -52,20 +54,20 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
   useEffect(() => {
-  if (mode === 'edit' && airdrop) {
-    setProjectName(airdrop.projectName ?? '');
-    setProjectLogo(airdrop.projectLogo ?? '');
-    setPlatformLink(airdrop.platformLink ?? '');
-    setTwitterUsername(airdrop.twitterUsername ?? '');
-    setWalletAddress(airdrop.walletAddress ?? '');
-    setType(airdrop.type ?? 'Testnet');
-    setStatus(airdrop.status ?? 'Planning');
-    setNotes(airdrop.notes ?? '');
-    setTasks(airdrop.tasks ?? []);
-  } else {
-    resetForm();
-  }
-}, [mode, airdrop]);
+    if (mode === 'edit' && airdrop) {
+      setProjectName(airdrop.projectName ?? '');
+      setProjectLogo(airdrop.projectLogo ?? '');
+      setPlatformLink(airdrop.platformLink ?? '');
+      setTwitterUsername(airdrop.twitterUsername ?? '');
+      setWalletAddress(airdrop.walletAddress ?? '');
+      setType(airdrop.type ?? 'Testnet');
+      setStatus(airdrop.status ?? 'Planning');
+      setNotes(airdrop.notes ?? '');
+      setTasks(airdrop.tasks ?? []);
+    } else {
+      resetForm();
+    }
+  }, [mode, airdrop]);
 
   const resetForm = () => {
     setProjectName('');
@@ -82,7 +84,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-   if (!projectName?.trim()) return;
+    if (!projectName?.trim()) return;
 
     setIsLoading(true);
     
@@ -130,67 +132,128 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="glass-card max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl">
-            {mode === 'add' ? 'Add New Airdrop' : 'Edit Airdrop'}
+      <DialogContent className={`max-w-2xl max-h-[90vh] overflow-y-auto border-2 ${
+        isDark 
+          ? 'bg-[#0a0a0f] border-[#00ff00] text-[#00ff00]' 
+          : 'bg-white border-gray-400 text-gray-900'
+      }`}>
+        <DialogHeader className="border-0 pb-0">
+          <DialogTitle className={`text-2xl font-mono ${
+            isDark ? 'text-[#00ff00]' : 'text-gray-900'
+          }`}>
+            {mode === 'add' ? '> ADD_NEW_AIRDROP.exe' : '> EDIT_AIRDROP.exe'}
           </DialogTitle>
+          <DialogDescription className={`font-mono ${
+            isDark ? 'text-gray-500' : 'text-gray-600'
+          }`}>
+            {mode === 'add' 
+              ? 'Initialize new airdrop tracking protocol...' 
+              : 'Modify existing project parameters...'}
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           {/* Basic Info */}
           <div className="space-y-4">
-            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            <h4 className={`text-sm font-mono uppercase tracking-wider ${
+              isDark ? 'text-gray-500' : 'text-gray-600'
+            }`}>
               Basic Information
             </h4>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="projectName">Project Name *</Label>
+                <Label htmlFor="projectName" className={`font-mono ${isDark ? 'text-[#00ff00]' : ''}`}>
+                  Project Name *
+                </Label>
                 <Input
                   id="projectName"
                   placeholder="e.g., LayerZero"
                   value={projectName}
                   onChange={(e) => setProjectName(e.target.value)}
                   required
+                  className={`font-mono border-2 ${
+                    isDark 
+                      ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] placeholder:text-gray-600' 
+                      : 'bg-gray-50 border-gray-300'
+                  }`}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="projectLogo">Project Logo URL</Label>
+                <Label htmlFor="projectLogo" className={`font-mono ${isDark ? 'text-[#00ff00]' : ''}`}>
+                  Project Logo URL
+                </Label>
                 <Input
                   id="projectLogo"
                   placeholder="https://..."
                   value={projectLogo}
                   onChange={(e) => setProjectLogo(e.target.value)}
+                  className={`font-mono border-2 ${
+                    isDark 
+                      ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] placeholder:text-gray-600' 
+                      : 'bg-gray-50 border-gray-300'
+                  }`}
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="type">Type *</Label>
+                <Label htmlFor="type" className={`font-mono ${isDark ? 'text-[#00ff00]' : ''}`}>
+                  Type *
+                </Label>
                 <Select value={type} onValueChange={(v) => setType(v as AirdropType)}>
-                  <SelectTrigger>
+                  <SelectTrigger className={`font-mono border-2 ${
+                    isDark 
+                      ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00]' 
+                      : 'bg-white border-gray-300'
+                  }`}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className={`font-mono border-2 ${
+                    isDark 
+                      ? 'bg-[#0f0f14] border-[#00ff00]/30' 
+                      : 'bg-white border-gray-300'
+                  }`}>
                     {AIRDROP_TYPES.map(t => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
+                      <SelectItem 
+                        key={t} 
+                        value={t}
+                        className={isDark ? 'text-[#00ff00] focus:bg-[#00ff00]/10' : ''}
+                      >
+                        {t}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="status">Status *</Label>
+                <Label htmlFor="status" className={`font-mono ${isDark ? 'text-[#00ff00]' : ''}`}>
+                  Status *
+                </Label>
                 <Select value={status} onValueChange={(v) => setStatus(v as AirdropStatus)}>
-                  <SelectTrigger>
+                  <SelectTrigger className={`font-mono border-2 ${
+                    isDark 
+                      ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00]' 
+                      : 'bg-white border-gray-300'
+                  }`}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className={`font-mono border-2 ${
+                    isDark 
+                      ? 'bg-[#0f0f14] border-[#00ff00]/30' 
+                      : 'bg-white border-gray-300'
+                  }`}>
                     {AIRDROP_STATUSES.map(s => (
-                      <SelectItem key={s} value={s}>{s}</SelectItem>
+                      <SelectItem 
+                        key={s} 
+                        value={s}
+                        className={isDark ? 'text-[#00ff00] focus:bg-[#00ff00]/10' : ''}
+                      >
+                        {s}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -200,38 +263,61 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
 
           {/* Links */}
           <div className="space-y-4">
-            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            <h4 className={`text-sm font-mono uppercase tracking-wider ${
+              isDark ? 'text-gray-500' : 'text-gray-600'
+            }`}>
               Links
             </h4>
             
             <div className="space-y-2">
-              <Label htmlFor="platformLink">Platform Link</Label>
+              <Label htmlFor="platformLink" className={`font-mono ${isDark ? 'text-[#00ff00]' : ''}`}>
+                Platform Link
+              </Label>
               <Input
                 id="platformLink"
                 placeholder="https://..."
                 value={platformLink}
                 onChange={(e) => setPlatformLink(e.target.value)}
+                className={`font-mono border-2 ${
+                  isDark 
+                    ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] placeholder:text-gray-600' 
+                    : 'bg-gray-50 border-gray-300'
+                }`}
               />
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="twitterUsername">X (Twitter) Username</Label>
+                <Label htmlFor="twitterUsername" className={`font-mono ${isDark ? 'text-[#00ff00]' : ''}`}>
+                  X (Twitter) Username
+                </Label>
                 <Input
                   id="twitterUsername"
                   placeholder="username (without @)"
                   value={twitterUsername}
                   onChange={(e) => setTwitterUsername(e.target.value)}
+                  className={`font-mono border-2 ${
+                    isDark 
+                      ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] placeholder:text-gray-600' 
+                      : 'bg-gray-50 border-gray-300'
+                  }`}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="walletAddress">Wallet Address</Label>
+                <Label htmlFor="walletAddress" className={`font-mono ${isDark ? 'text-[#00ff00]' : ''}`}>
+                  Wallet Address
+                </Label>
                 <Input
                   id="walletAddress"
                   placeholder="0x..."
                   value={walletAddress}
                   onChange={(e) => setWalletAddress(e.target.value)}
+                  className={`font-mono border-2 ${
+                    isDark 
+                      ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] placeholder:text-gray-600' 
+                      : 'bg-gray-50 border-gray-300'
+                  }`}
                 />
               </div>
             </div>
@@ -239,7 +325,9 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
 
           {/* Tasks */}
           <div className="space-y-4">
-            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            <h4 className={`text-sm font-mono uppercase tracking-wider ${
+              isDark ? 'text-gray-500' : 'text-gray-600'
+            }`}>
               Tasks
             </h4>
             
@@ -249,11 +337,21 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
                 value={newTaskTitle}
                 onChange={(e) => setNewTaskTitle(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTask())}
+                className={`font-mono border-2 ${
+                  isDark 
+                    ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] placeholder:text-gray-600' 
+                    : 'bg-gray-50 border-gray-300'
+                }`}
               />
               <Button 
                 type="button" 
                 onClick={handleAddTask}
                 variant="outline"
+                className={`border-2 ${
+                  isDark 
+                    ? 'border-[#00ff00] text-[#00ff00] hover:bg-[#00ff00] hover:text-black' 
+                    : 'border-gray-300 hover:bg-gray-100'
+                }`}
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -264,30 +362,42 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
                 {tasks.map(task => (
                   <div 
                     key={task.id} 
-                    className="flex items-center gap-2 p-2 bg-muted/50 rounded-lg"
+                    className={`flex items-center gap-2 p-2 rounded-lg border ${
+                      isDark 
+                        ? 'bg-[#0f0f14] border-[#00ff00]/20' 
+                        : 'bg-gray-50 border-gray-200'
+                    }`}
                   >
                     <button
                       type="button"
                       onClick={() => handleToggleTask(task.id)}
                       className={`w-4 h-4 rounded border ${
                         task.completed 
-                          ? 'bg-green-500 border-green-500' 
-                          : 'border-muted-foreground'
+                          ? (isDark ? 'bg-[#00ff00] border-[#00ff00]' : 'bg-green-500 border-green-500') 
+                          : (isDark ? 'border-[#00ff00]/50' : 'border-gray-400')
                       }`}
                     >
                       {task.completed && (
-                        <svg viewBox="0 0 24 24" fill="none" className="w-full h-full text-white">
+                        <svg viewBox="0 0 24 24" fill="none" className={`w-full h-full ${
+                          isDark ? 'text-black' : 'text-white'
+                        }`}>
                           <path d="M5 12l5 5L20 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       )}
                     </button>
-                    <span className={`flex-1 ${task.completed ? 'line-through text-muted-foreground' : ''}`}>
+                    <span className={`flex-1 font-mono ${
+                      task.completed 
+                        ? (isDark ? 'line-through text-gray-600' : 'line-through text-gray-500') 
+                        : (isDark ? 'text-[#00ff00]' : 'text-gray-900')
+                    }`}>
                       {task.title}
                     </span>
                     <button
                       type="button"
                       onClick={() => handleRemoveTask(task.id)}
-                      className="text-muted-foreground hover:text-red-500 transition-colors"
+                      className={`transition-colors ${
+                        isDark ? 'text-gray-500 hover:text-red-400' : 'text-gray-400 hover:text-red-500'
+                      }`}
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -299,30 +409,46 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
 
           {/* Notes */}
           <div className="space-y-2">
-            <Label htmlFor="notes">Notes</Label>
+            <Label htmlFor="notes" className={`font-mono ${isDark ? 'text-[#00ff00]' : ''}`}>
+              Notes
+            </Label>
             <Textarea
               id="notes"
               placeholder="Add any additional notes..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
+              className={`font-mono border-2 ${
+                isDark 
+                  ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] placeholder:text-gray-600' 
+                  : 'bg-gray-50 border-gray-300'
+              }`}
             />
           </div>
 
           {/* Actions */}
-          <div className="flex justify-end gap-3 pt-4 border-t">
+          <div className="flex justify-end gap-3 pt-4">
             <Button 
               type="button" 
               variant="outline" 
               onClick={onClose}
               disabled={isLoading}
+              className={`font-mono border-2 ${
+                isDark 
+                  ? 'border-[#00ff00]/50 text-[#00ff00] hover:bg-[#00ff00]/10' 
+                  : 'border-gray-300 hover:bg-gray-100'
+              }`}
             >
               Cancel
             </Button>
             <Button 
               type="submit"
-              className="btn-micro bg-red-500 hover:bg-red-600"
               disabled={isLoading || !projectName.trim()}
+              className={`font-mono border-2 ${
+                isDark 
+                  ? 'bg-[#00ff00] text-black border-[#00ff00] hover:bg-[#00ff00]/90' 
+                  : 'bg-gray-800 text-white border-gray-800 hover:bg-gray-700'
+              }`}
             >
               {isLoading ? (
                 <>
@@ -330,7 +456,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
                   Saving...
                 </>
               ) : (
-                mode === 'add' ? 'Add Airdrop' : 'Save Changes'
+                mode === 'add' ? 'ADD_AIRDROP' : 'SAVE_CHANGES'
               )}
             </Button>
           </div>
