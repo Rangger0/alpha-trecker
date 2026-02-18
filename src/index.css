@@ -24,48 +24,50 @@ input, textarea, [contenteditable] {
 
 @layer base {
   :root {
-    --background: 0 0% 96%;
-    --foreground: 0 0% 10%;
+    /* Light Tactical Mode */
+    --background: 220 14% 96%;
+    --foreground: 220 13% 9%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 220 13% 9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-    --primary: 0 0% 10%;
+    --popover-foreground: 220 13% 9%;
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 10%;
-    --muted: 0 0% 90%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 0 0% 10%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 13% 9%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 160 84% 39%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 80%;
-    --input: 0 0% 80%;
-    --ring: 0 0% 10%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221 83% 53%;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 240 20% 4%;
-    --foreground: 120 100% 50%;
-    --card: 240 15% 8%;
-    --card-foreground: 120 100% 50%;
-    --popover: 240 15% 8%;
-    --popover-foreground: 120 100% 50%;
-    --primary: 120 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 240 15% 12%;
-    --secondary-foreground: 120 100% 50%;
-    --muted: 240 15% 15%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 120 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    /* Dark Web3 Mode */
+    --background: 220 20% 7%;
+    --foreground: 151 100% 50%;
+    --card: 220 17% 11%;
+    --card-foreground: 220 13% 91%;
+    --popover: 220 17% 11%;
+    --popover-foreground: 220 13% 91%;
+    --primary: 151 100% 50%;
+    --primary-foreground: 220 20% 7%;
+    --secondary: 220 17% 15%;
+    --secondary-foreground: 151 100% 50%;
+    --muted: 220 17% 15%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 120 100% 50% / 0.2;
-    --input: 120 100% 50% / 0.2;
-    --ring: 120 100% 50%;
+    --border: 220 17% 20%;
+    --input: 220 17% 20%;
+    --ring: 151 100% 50%;
   }
 }
 
@@ -83,13 +85,13 @@ input, textarea, [contenteditable] {
 @layer components {
   /* Terminal Card */
   .terminal-card {
-    @apply border-2 rounded bg-[#0f0f14] border-[#00ff00]/20;
+    @apply border rounded bg-[#161B22] border-[#1F2937];
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   }
   
   .terminal-card:hover {
-    @apply border-[#00ff00]/50;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+    @apply border-[#00FF88]/50;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
   }
 
   /* Scrollbar - Terminal Style */
@@ -104,20 +106,20 @@ input, textarea, [contenteditable] {
   
   ::-webkit-scrollbar-thumb {
     @apply rounded;
-    background: rgba(0, 255, 0, 0);
+    background: rgba(0, 255, 136, 0.2);
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 255, 0, 0.002);
+    background: rgba(0, 255, 136, 0.4);
   }
   
   /* Light mode scrollbar */
   html:not(.dark) ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0);
+    background: rgba(37, 99, 235, 0.2);
   }
   
   html:not(.dark) ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0);
+    background: rgba(37, 99, 235, 0.4);
   }
 }
 
@@ -127,7 +129,7 @@ input, textarea, [contenteditable] {
   }
   
   .border-glow {
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
   }
 }
 
@@ -142,7 +144,7 @@ input, textarea, [contenteditable] {
 }
 
 /* Scanline effect for dark mode */
-.scanlines {
+.scanline {
   background: linear-gradient(
     to bottom,
     rgba(255,255,255,0),
@@ -169,19 +171,19 @@ input, textarea, [contenteditable] {
     transition-duration: 0.01ms !important;
   }
 }
-/* Hilangin garis background */
-/* Force hapus semua background image */
-* {
-  background-image: none !important;
+
+/* Force clean backgrounds */
+body {
+  background-color: #0B0F14 !important;
 }
 
-body {
-  background-color: #0a0a0f !important;
+html:not(.dark) body {
+  background-color: #F3F4F6 !important;
 }
-/* Hapus garis hijau di modal */
+
+/* Clean modal backgrounds */
 [data-radix-dialog-content] {
   background-image: none !important;
-  box-shadow: none !important;
 }
 
 [data-radix-dialog-content]::before,
@@ -190,12 +192,10 @@ body {
   content: none !important;
 }
 
-/* Hapus semua border di input dan label dalam modal */
+/* Remove decorative lines */
 [data-radix-dialog-content] input,
 [data-radix-dialog-content] label,
 [data-radix-dialog-content] div {
   border-bottom: none !important;
   border-top: none !important;
-  box-shadow: none !important;
 }
-

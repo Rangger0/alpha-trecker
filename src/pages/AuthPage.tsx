@@ -28,6 +28,13 @@ const GithubIcon = () => (
   </svg>
 );
 
+// TikTok Icon
+const TikTokIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+  </svg>
+);
+
 export function AuthPage() {
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
   const [username, setUsername] = useState('');
@@ -37,56 +44,56 @@ export function AuthPage() {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError('');
-  setIsLoading(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
 
-  try {
-    if (activeTab === 'login') {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: username.trim(),
-        password,
-      });
+    try {
+      if (activeTab === 'login') {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: username.trim(),
+          password,
+        });
 
-      if (error) throw error;
+        if (error) throw error;
 
-      if (!data.session) {
-        throw new Error("Login failed. Session not created.");
+        if (!data.session) {
+          throw new Error("Login failed. Session not created.");
+        }
+
+        window.location.href = "/dashboard";
+
+      } else {
+        const { data, error } = await supabase.auth.signUp({
+          email: username.trim(),
+          password,
+        });
+
+        if (error) throw error;
+
+        if (!data.user) {
+          throw new Error("Registration failed.");
+        }
+
+        window.location.href = "/dashboard";
       }
 
-      window.location.href = "/dashboard";
-
-    } else {
-      const { data, error } = await supabase.auth.signUp({
-        email: username.trim(),
-        password,
-      });
-
-      if (error) throw error;
-
-      if (!data.user) {
-        throw new Error("Registration failed.");
-      }
-
-      window.location.href = "/dashboard";
+    } catch (err: any) {
+      console.log("AUTH ERROR:", err);
+      setError(err.message || "Authentication failed");
+    } finally {
+      setIsLoading(false);
     }
-
-  } catch (err: any) {
-    console.log("AUTH ERROR:", err);
-    setError(err.message || "Authentication failed");
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   return (
     <div className={`min-h-screen flex items-center justify-center p-4 relative overflow-hidden font-mono ${
-      isDark ? 'bg-[#0a0a0f]' : 'bg-gray-100'
+      isDark ? 'bg-[#0B0F14]' : 'bg-[#F3F4F6]'
     }`}>
       {/* Background Pattern */}
       <div className={`absolute inset-0 opacity-5 ${
-        isDark ? 'bg-[radial-gradient(#00ff00_1px,transparent_1px)]' : 'bg-[radial-gradient(#000_1px,transparent_1px)]'
+        isDark ? 'bg-[radial-gradient(#00FF88_1px,transparent_1px)]' : 'bg-[radial-gradient(#2563EB_1px,transparent_1px)]'
       }`} style={{ backgroundSize: '20px 20px' }} />
       
       {/* Scanline Effect */}
@@ -97,38 +104,38 @@ const handleSubmit = async (e: React.FormEvent) => {
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <div className={`relative w-24 h-24 mb-4 rounded border-2 flex items-center justify-center ${
-            isDark ? 'bg-[#0f0f14] border-[#00ff00] shadow-[0_0_30px_rgba(0,255,0,0.3)]' : 'bg-white border-gray-800 shadow-lg'
+            isDark ? 'bg-[#161B22] border-[#00FF88] shadow-[0_0_30px_rgba(0,255,136,0.3)]' : 'bg-white border-[#2563EB] shadow-lg'
           }`}>
-            <Terminal className={`w-12 h-12 ${isDark ? 'text-[#00ff00]' : 'text-gray-800'}`} />
+            <Terminal className={`w-12 h-12 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
           </div>
           <h1 className={`text-3xl font-bold tracking-tighter font-mono ${
-            isDark ? 'text-white' : 'text-gray-900'
+            isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
           }`}>
-            <span className={isDark ? 'text-[#00ff00]' : 'text-gray-900'}>ALPHA</span>
-            <span className={isDark ? 'text-white' : 'text-gray-600'}>_TRACKER</span>
-            <span className={`animate-pulse ${isDark ? 'text-[#00ff00]' : 'text-gray-400'}`}>_</span>
+            <span className={isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}>ALPHA</span>
+            <span className={isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'}>_TRACKER</span>
+            <span className={`animate-pulse ${isDark ? 'text-[#00FF88]' : 'text-[#10B981]'}`}>_</span>
           </h1>
           <p className={`mt-2 text-sm font-mono ${
-            isDark ? 'text-gray-500' : 'text-gray-600'
+            isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
           }`}>
             {isDark ? '> INITIALIZING_SECURE_CONNECTION...' : 'Crypto Airdrop Hunter Dashboard'}
           </p>
         </div>
 
         {/* Card */}
-        <Card className={`border-2 shadow-2xl overflow-hidden ${
+        <Card className={`border shadow-2xl overflow-hidden ${
           isDark
-            ? 'bg-[#0f0f14]/90 border-[#00ff00]/30'
-            : 'bg-white/90 border-gray-300'
+            ? 'bg-[#161B22]/90 border-[#1F2937]'
+            : 'bg-white/90 border-[#E5E7EB]'
         }`}>
           <CardHeader className="space-y-1">
             <CardTitle className={`text-2xl text-center font-mono ${
-              isDark ? 'text-white' : 'text-gray-900'
+              isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
             }`}>
               {isDark ? '> AUTHENTICATION_REQUIRED' : 'Welcome Back'}
             </CardTitle>
             <CardDescription className={`text-center font-mono text-xs ${
-              isDark ? 'text-gray-500' : 'text-gray-600'
+              isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
             }`}>
               {isDark ? 'root@alpha-tracker:~$ login --secure' : 'Enter your credentials to access your dashboard'}
             </CardDescription>
@@ -136,21 +143,21 @@ const handleSubmit = async (e: React.FormEvent) => {
           
           <CardContent>
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'login' | 'register')}>
-              <TabsList className={`grid w-full grid-cols-2 mb-6 border-2 font-mono ${
-                isDark ? 'bg-[#0a0a0f] border-[#00ff00]/30' : 'bg-gray-100 border-gray-300'
+              <TabsList className={`grid w-full grid-cols-2 mb-6 border font-mono ${
+                isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'
               }`}>
                 <TabsTrigger 
                   value="login" 
-                  className={`font-mono data-[state=active]:bg-[#00ff00] data-[state=active]:text-black ${
-                    isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                  className={`font-mono data-[state=active]:bg-[#00FF88] data-[state=active]:text-[#0B0F14] ${
+                    isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
                   }`}
                 >
                   LOGIN
                 </TabsTrigger>
                 <TabsTrigger 
                   value="register"
-                  className={`font-mono data-[state=active]:bg-[#00ff00] data-[state=active]:text-black ${
-                    isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                  className={`font-mono data-[state=active]:bg-[#00FF88] data-[state=active]:text-[#0B0F14] ${
+                    isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
                   }`}
                 >
                   REGISTER
@@ -158,8 +165,8 @@ const handleSubmit = async (e: React.FormEvent) => {
               </TabsList>
 
               {error && (
-                <Alert variant="destructive" className={`mb-4 border-2 font-mono ${
-                  isDark ? 'bg-red-900/20 border-red-500/50 text-red-400' : 'bg-red-50 border-red-300'
+                <Alert variant="destructive" className={`mb-4 border font-mono ${
+                  isDark ? 'bg-[#EF4444]/10 border-[#EF4444]/30 text-[#EF4444]' : 'bg-[#DC2626]/10 border-[#DC2626]/30 text-[#DC2626]'
                 }`}>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription className="font-mono text-xs">ERROR: {error}</AlertDescription>
@@ -170,23 +177,23 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <TabsContent value="login" className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="login-username" className={`font-mono text-xs ${
-                      isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                      isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'
                     }`}>
                       {isDark ? '> USERNAME:' : 'Username'}
                     </Label>
                     <div className="relative">
                       <User className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
-                        isDark ? 'text-[#00ff00]/50' : 'text-gray-400'
+                        isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
                       }`} />
                       <Input
                         id="login-username"
                         placeholder={isDark ? "enter_credentials..." : "Enter your username"}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        className={`pl-10 font-mono border-2 ${
+                        className={`pl-10 font-mono border ${
                           isDark 
-                            ? 'bg-[#0a0a0f] border-[#00ff00]/30 text-[#00ff00] placeholder:text-[#00ff00]/30 focus:border-[#00ff00]' 
-                            : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-gray-900'
+                            ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#6B7280] focus:border-[#00FF88]' 
+                            : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
                         }`}
                         disabled={isLoading}
                       />
@@ -195,13 +202,13 @@ const handleSubmit = async (e: React.FormEvent) => {
                   
                   <div className="space-y-2">
                     <Label htmlFor="login-password" className={`font-mono text-xs ${
-                      isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                      isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'
                     }`}>
                       {isDark ? '> PASSWORD:' : 'Password'}
                     </Label>
                     <div className="relative">
                       <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
-                        isDark ? 'text-[#00ff00]/50' : 'text-gray-400'
+                        isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
                       }`} />
                       <Input
                         id="login-password"
@@ -209,10 +216,10 @@ const handleSubmit = async (e: React.FormEvent) => {
                         placeholder={isDark ? "********" : "Enter your password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className={`pl-10 font-mono border-2 ${
+                        className={`pl-10 font-mono border ${
                           isDark 
-                            ? 'bg-[#0a0a0f] border-[#00ff00]/30 text-[#00ff00] placeholder:text-[#00ff00]/30 focus:border-[#00ff00]' 
-                            : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-gray-900'
+                            ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#6B7280] focus:border-[#00FF88]' 
+                            : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
                         }`}
                         disabled={isLoading}
                       />
@@ -223,8 +230,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                     type="submit" 
                     className={`w-full font-mono font-bold border-2 ${
                       isDark 
-                        ? 'bg-[#00ff00] text-black border-[#00ff00] hover:bg-[#00ff00]/90 hover:shadow-[0_0_20px_rgba(0,255,0,0.4)]' 
-                        : 'bg-gray-800 text-white border-gray-800 hover:bg-gray-700'
+                        ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88] hover:bg-[#00FF88]/90 hover:shadow-[0_0_20px_rgba(0,255,136,0.4)]' 
+                        : 'bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#2563EB]/90'
                     }`}
                     disabled={isLoading}
                   >
@@ -242,23 +249,23 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <TabsContent value="register" className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="register-username" className={`font-mono text-xs ${
-                      isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                      isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'
                     }`}>
                       {isDark ? '> NEW_USERNAME:' : 'Username'}
                     </Label>
                     <div className="relative">
                       <User className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
-                        isDark ? 'text-[#00ff00]/50' : 'text-gray-400'
+                        isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
                       }`} />
                       <Input
                         id="register-username"
                         placeholder={isDark ? "create_new_user..." : "Choose a username"}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        className={`pl-10 font-mono border-2 ${
+                        className={`pl-10 font-mono border ${
                           isDark 
-                            ? 'bg-[#0a0a0f] border-[#00ff00]/30 text-[#00ff00] placeholder:text-[#00ff00]/30 focus:border-[#00ff00]' 
-                            : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-gray-900'
+                            ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#6B7280] focus:border-[#00FF88]' 
+                            : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
                         }`}
                         disabled={isLoading}
                       />
@@ -267,13 +274,13 @@ const handleSubmit = async (e: React.FormEvent) => {
                   
                   <div className="space-y-2">
                     <Label htmlFor="register-password" className={`font-mono text-xs ${
-                      isDark ? 'text-[#00ff00]' : 'text-gray-700'
+                      isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'
                     }`}>
                       {isDark ? '> SET_PASSWORD:' : 'Password'}
                     </Label>
                     <div className="relative">
                       <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
-                        isDark ? 'text-[#00ff00]/50' : 'text-gray-400'
+                        isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
                       }`} />
                       <Input
                         id="register-password"
@@ -281,10 +288,10 @@ const handleSubmit = async (e: React.FormEvent) => {
                         placeholder={isDark ? "********" : "Choose a password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className={`pl-10 font-mono border-2 ${
+                        className={`pl-10 font-mono border ${
                           isDark 
-                            ? 'bg-[#0a0a0f] border-[#00ff00]/30 text-[#00ff00] placeholder:text-[#00ff00]/30 focus:border-[#00ff00]' 
-                            : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-gray-900'
+                            ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#6B7280] focus:border-[#00FF88]' 
+                            : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
                         }`}
                         disabled={isLoading}
                       />
@@ -295,8 +302,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                     type="submit" 
                     className={`w-full font-mono font-bold border-2 ${
                       isDark 
-                        ? 'bg-[#00ff00] text-black border-[#00ff00] hover:bg-[#00ff00]/90 hover:shadow-[0_0_20px_rgba(0,255,0,0.4)]' 
-                        : 'bg-gray-800 text-white border-gray-800 hover:bg-gray-700'
+                        ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88] hover:bg-[#00FF88]/90 hover:shadow-[0_0_20px_rgba(0,255,136,0.4)]' 
+                        : 'bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#2563EB]/90'
                     }`}
                     disabled={isLoading}
                   >
@@ -315,16 +322,16 @@ const handleSubmit = async (e: React.FormEvent) => {
           </CardContent>
         </Card>
 
-        {/* Social Icons */}
+        {/* Social Icons - TAMBAH TIKTOK */}
         <div className="flex justify-center gap-4 mt-6">
           <a 
             href="https://x.com/rinzx_" 
             target="_blank" 
             rel="noopener noreferrer"
-            className={`p-3 rounded border-2 transition-all duration-200 hover:scale-110 ${
+            className={`p-3 rounded border transition-all duration-200 hover:scale-110 ${
               isDark 
-                ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] hover:bg-[#00ff00]/10 hover:border-[#00ff00]' 
-                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400'
+                ? 'bg-[#161B22] border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' 
+                : 'bg-white border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'
             }`}
             aria-label="X (Twitter)"
           >
@@ -334,10 +341,10 @@ const handleSubmit = async (e: React.FormEvent) => {
             href="https://t.me/+MGzRobr9cp4yMTk1" 
             target="_blank" 
             rel="noopener noreferrer"
-            className={`p-3 rounded border-2 transition-all duration-200 hover:scale-110 ${
+            className={`p-3 rounded border transition-all duration-200 hover:scale-110 ${
               isDark 
-                ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] hover:bg-[#00ff00]/10 hover:border-[#00ff00]' 
-                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400'
+                ? 'bg-[#161B22] border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' 
+                : 'bg-white border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'
             }`}
             aria-label="Telegram"
           >
@@ -347,14 +354,28 @@ const handleSubmit = async (e: React.FormEvent) => {
             href="https://github.com/Rangger0" 
             target="_blank" 
             rel="noopener noreferrer"
-            className={`p-3 rounded border-2 transition-all duration-200 hover:scale-110 ${
+            className={`p-3 rounded border transition-all duration-200 hover:scale-110 ${
               isDark 
-                ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] hover:bg-[#00ff00]/10 hover:border-[#00ff00]' 
-                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400'
+                ? 'bg-[#161B22] border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' 
+                : 'bg-white border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'
             }`}
             aria-label="GitHub"
           >
             <GithubIcon />
+          </a>
+          {/* TIKTOK ICON */}
+          <a 
+            href="https://www.tiktok.com/@rinzzx0" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className={`p-3 rounded border transition-all duration-200 hover:scale-110 ${
+              isDark 
+                ? 'bg-[#161B22] border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' 
+                : 'bg-white border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'
+            }`}
+            aria-label="TikTok"
+          >
+            <TikTokIcon />
           </a>
         </div>
 
@@ -365,8 +386,8 @@ const handleSubmit = async (e: React.FormEvent) => {
             onClick={toggleTheme}
             className={`font-mono text-xs border ${
               isDark 
-                ? 'text-[#00ff00] border-[#00ff00]/30 hover:bg-[#00ff00]/10' 
-                : 'text-gray-600 border-gray-300 hover:bg-gray-100'
+                ? 'text-[#6B7280] border-[#1F2937] hover:bg-[#00FF88]/10 hover:text-[#00FF88]' 
+                : 'text-[#6B7280] border-[#E5E7EB] hover:bg-[#2563EB]/10 hover:text-[#2563EB]'
             }`}
           >
             {isDark ? '[LIGHT_MODE]' : '[DARK_MODE]'}
