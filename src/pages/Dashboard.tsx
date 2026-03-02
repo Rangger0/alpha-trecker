@@ -1,7 +1,8 @@
-// ALPHA TRECKER - Dashboard (FIXED)
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useWalletContext } from "@/contexts/WalletContext";
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { supabase } from "@/lib/supabase";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,10 +26,6 @@ import {
   Circle,
   ExternalLink,
   Twitter,
-  Sun,
-  Moon,
-  LogOut,
-  Terminal,
   LayoutGrid,
   List,
   Layers,
@@ -37,9 +34,15 @@ import {
   XCircle,
   Clock,
   Wallet,
+  Search as SearchIcon,
+  TrendingUp as TrendingUpIcon,
+  DollarSign,
 } from "lucide-react";
 import { AirdropModal } from "@/components/modals/AirdropModal";
 import { DeleteConfirmModal } from "@/components/modals/DeleteConfirmModal";
+import { WalletConnectModal } from "@/components/modals/WalletConnectModal";
+import { EligibilityModal } from "@/components/modals/EligibilityModal";
+import { usePrices } from "@/hooks/use-prices";
 import type { Airdrop, AirdropType, AirdropStatus } from "@/types";
 import {
   createAirdrop,
@@ -54,7 +57,6 @@ const AIRDROP_TYPES: AirdropType[] = [
 
 const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
 
-// UPDATED COLORS - Dark Web3 & Light Tactical
 const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
   'Testnet': { 
     dark: 'bg-[#8B5CF6]/10 text-[#8B5CF6] border-[#8B5CF6]/20',
@@ -157,154 +159,388 @@ function DigitalClock({ isDark }: { isDark: boolean }) {
   };
 
   return (
-    <div className={`flex flex-col items-end font-mono ${
-      isDark ? 'text-[#00FF88]' : 'text-[#111827]'
-    }`}>
+    <div className={`flex flex-col items-center font-mono ${isDark ? 'text-[#00FF88]' : 'text-[#111827]'}`}>
       <div className="flex items-center gap-2">
         <Clock className="w-4 h-4 animate-pulse" />
         <span className="text-lg font-bold tracking-wider">
           {formatTime(time)}
         </span>
       </div>
-      <span className={`text-xs ${
-        isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
-      }`}>
+      <span className={`text-xs ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
         {formatDate(time)}
       </span>
     </div>
   );
 }
 
-// Placeholder SVG untuk logo yang hilang
-const PlaceholderLogo = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="48" height="48" rx="8" fill="currentColor" fillOpacity="0.1"/>
-    <path d="M24 14L32 34H16L24 14Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-    <circle cx="24" cy="28" r="3" fill="currentColor"/>
-  </svg>
-);
-
-// TikTok Icon Component
-const TikTokIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-  </svg>
-);
-
-// Format wallet address untuk tampilan singkat
 const formatWallet = (address: string) => {
   if (!address) return '';
   if (address.length <= 12) return address;
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
-// Footer Component dengan TikTok dan Logo Fix
-function Footer({ isDark }: { isDark: boolean }) {
+// PRICE TRACKER COMPONENT
+function PriceTracker({ isDark }: { isDark: boolean }) {
+  const [showPrices, setShowPrices] = useState(false);
+  const { prices, loading } = usePrices(['bitcoin', 'ethereum', 'solana', 'cardano', 'polkadot']);
+  
+  const coins = [
+    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
+    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
+    { id: 'solana', symbol: 'SOL', name: 'Solana' },
+    { id: 'cardano', symbol: 'ADA', name: 'Cardano' },
+    { id: 'polkadot', symbol: 'DOT', name: 'Polkadot' }
+  ];
+
+  if (!showPrices) {
+    return (
+      <Button
+        onClick={() => setShowPrices(true)}
+        className={`font-mono text-xs border transition-all duration-300 hover:scale-105 ${
+          isDark 
+            ? 'bg-[#161B22] border-[#1F2937] text-[#00FF88] hover:bg-[#00FF88]/10 hover:border-[#00FF88]/50' 
+            : 'bg-white border-[#E5E7EB] text-[#2563EB] hover:bg-[#2563EB]/10 hover:border-[#2563EB]/50'
+        }`}
+      >
+        <DollarSign className="w-4 h-4 mr-2" />
+        SHOW_PRICES
+      </Button>
+    );
+  }
+
   return (
-    <footer className={`border-t py-8 mt-auto ${
-      isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 flex flex-col items-center gap-6">
-        {/* Logo Alpha Tracker - FIX: Menggunakan Terminal icon */}
-        <div className="flex items-center gap-3">
-          <div className={`w-10 h-10 rounded flex items-center justify-center border-2 ${
-            isDark ? 'bg-[#00FF88]/10 border-[#00FF88] text-[#00FF88]' : 'bg-[#2563EB]/10 border-[#2563EB] text-[#2563EB]'
-          }`}>
-            <Terminal className="w-6 h-6" />
+    <Card className={`border transition-all duration-300 ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className={`font-mono text-sm font-bold flex items-center gap-2 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+            <TrendingUpIcon className="w-4 h-4 text-[#00FF88]" />
+            LIVE_PRICES
+          </h3>
+          <button 
+            onClick={() => setShowPrices(false)} 
+            className={`text-xs font-mono transition-colors ${isDark ? 'text-[#6B7280] hover:text-[#E5E7EB]' : 'text-[#6B7280] hover:text-[#111827]'}`}
+          >
+            [HIDE]
+          </button>
+        </div>
+        
+        {loading ? (
+          <div className={`text-center py-4 font-mono text-xs ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>LOADING...</div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {coins.map((coin) => {
+              const price = prices[coin.id];
+              return (
+                <div 
+                  key={coin.id} 
+                  className={`p-2 rounded border text-center transition-all duration-300 hover:scale-105 ${
+                    isDark 
+                      ? 'bg-[#0B0F14] border-[#1F2937] hover:border-[#00FF88]/30' 
+                      : 'bg-[#F3F4F6] border-[#E5E7EB] hover:border-[#2563EB]/30'
+                  }`}
+                >
+                  <p className={`font-mono text-xs font-bold ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>{coin.symbol}</p>
+                  <p className={`font-mono text-sm ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
+                    ${price?.usd ? price.usd.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '-'}
+                  </p>
+                  {price?.usd_24h_change && (
+                    <p className={`font-mono text-xs ${price.usd_24h_change >= 0 ? (isDark ? 'text-[#00FF88]' : 'text-[#10B981]') : (isDark ? 'text-[#EF4444]' : 'text-[#DC2626]')}`}>
+                      {price.usd_24h_change >= 0 ? '+' : ''}{price.usd_24h_change.toFixed(2)}%
+                    </p>
+                  )}
+                </div>
+              );
+            })}
           </div>
-          <span className={`text-xl font-bold tracking-tighter font-mono ${
-            isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
-          }`}>
-            <span className={isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}>ALPHA</span>
-            <span className={isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'}>_TRACKER</span>
-          </span>
-        </div>
-
-        {/* Social Icons - X, Telegram, GitHub, TikTok (SEMUA DI BAWAH) */}
-        <div className="flex items-center gap-4">
-          <a 
-            href="https://x.com/rinzx_" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className={`p-3 rounded border transition-all duration-200 hover:scale-110 ${
-              isDark 
-                ? 'bg-[#0B0F14] border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' 
-                : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'
-            }`}
-            aria-label="X (Twitter)"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </a>
-          <a 
-            href="https://t.me/+MGzRobr9cp4yMTk1" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className={`p-3 rounded border transition-all duration-200 hover:scale-110 ${
-              isDark 
-                ? 'bg-[#0B0F14] border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' 
-                : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'
-            }`}
-            aria-label="Telegram"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-            </svg>
-          </a>
-          <a 
-            href="https://github.com/Rangger0" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className={`p-3 rounded border transition-all duration-200 hover:scale-110 ${
-              isDark 
-                ? 'bg-[#0B0F14] border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' 
-                : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'
-            }`}
-            aria-label="GitHub"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
-          {/* TIKTOK DI BAWAH BERSAMA ICON LAINNYA */}
-          <a 
-            href="https://www.tiktok.com/@rinzzx0" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className={`p-3 rounded border transition-all duration-200 hover:scale-110 ${
-              isDark 
-                ? 'bg-[#0B0F14] border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' 
-                : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'
-            }`}
-            aria-label="TikTok"
-            title="TikTok @rinzzx0"
-          >
-            <TikTokIcon className="w-5 h-5" />
-          </a>
-        </div>
-
-        {/* Credit */}
-        <div className={`text-center font-mono text-sm ${
-          isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
-        }`}>
-          <p>Created with <span className="text-red-500">♥</span> by</p>
-          <p className={isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}>Rose Alpha</p>
-        </div>
-
-        {/* Copyright */}
-        <p className={`text-xs font-mono ${
-          isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'
-        }`}>
-          © 2026 ALPHA TRACKER. All rights reserved.
-        </p>
-      </div>
-    </footer>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
-export function Dashboard() {
-  const { session, logout } = useAuth();
+// MODAL WRAPPER COMPONENT
+interface ModalWrapperProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  maxWidth?: string;
+  isDark: boolean;
+}
+
+let openModalCount = 0;
+
+function ModalWrapper({ isOpen, onClose, children, maxWidth = 'max-w-2xl', isDark }: ModalWrapperProps) {
+  const [isClosing, setIsClosing] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    openModalCount++;
+    if (openModalCount === 1) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      openModalCount--;
+      if (openModalCount <= 0) {
+        openModalCount = 0;
+        document.body.style.overflow = '';
+      }
+    };
+  }, [isOpen, onClose]);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+    }, 200);
+  };
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      className={`fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto transition-opacity duration-200 ${
+        isClosing ? 'opacity-0' : 'opacity-100'
+      }`}
+      onClick={handleBackdropClick}
+    >
+      <div className={`absolute inset-0 ${isDark ? 'bg-black/60' : 'bg-black/40'}`} />
+      <div 
+        className={`relative w-full ${maxWidth} my-auto transform transition-transform duration-200 ${
+          isClosing ? 'scale-95' : 'scale-100'
+        }`}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// TABLE ROW COMPONENT - With Logo
+interface TableRowProps {
+  airdrop: Airdrop;
+  index: number;
+  isDark: boolean;
+  onEdit: () => void;
+  onDelete: () => void;
+  onAddPriority: () => void;
+  logoError: Record<string, boolean>;
+  setLogoError: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+}
+
+function TableRow({ airdrop, index, isDark, onEdit, onDelete, onAddPriority, logoError, setLogoError }: TableRowProps) {
+  const [showMenu, setShowMenu] = useState(false);
+  
+  const getTypeColor = (type: string) => isDark 
+    ? TYPE_COLORS[type]?.dark || TYPE_COLORS['Quest'].dark 
+    : TYPE_COLORS[type]?.light || TYPE_COLORS['Quest'].light;
+    
+  const getStatusColor = (status: string) => isDark 
+    ? STATUS_COLORS[status]?.dark || STATUS_COLORS['Planning'].dark 
+    : STATUS_COLORS[status]?.light || STATUS_COLORS['Planning'].light;
+
+  const handleLogoError = () => setLogoError(prev => ({ ...prev, [airdrop.id]: true }));
+  const hasLogoError = logoError[airdrop.id] || !airdrop.projectLogo;
+
+  return (
+    <tr className={`border-b transition-all duration-200 group ${
+      isDark 
+        ? 'border-[#1F2937] hover:bg-[#161B22]' 
+        : 'border-[#E5E7EB] hover:bg-[#F9FAFB]'
+    }`}>
+      {/* No */}
+      <td className="px-4 py-4">
+        <span className={`font-mono text-sm ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+          {index + 1}
+        </span>
+      </td>
+      
+      {/* Name with Logo */}
+      <td className="px-4 py-4">
+        <div className="flex items-center gap-3">
+          {/* Logo Container */}
+          <div className={`w-10 h-10 rounded-lg flex-shrink-0 overflow-hidden border flex items-center justify-center transition-transform duration-300 group-hover:scale-105 ${
+            isDark 
+              ? 'bg-[#0B0F14] border-[#1F2937]' 
+              : 'bg-[#F3F4F6] border-[#E5E7EB]'
+          }`}>
+            {hasLogoError ? (
+              <span className={`text-lg font-bold ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
+                {airdrop.projectName[0].toUpperCase()}
+              </span>
+            ) : (
+              <img 
+                src={airdrop.projectLogo} 
+                alt={airdrop.projectName} 
+                className="w-full h-full object-cover"
+                onError={handleLogoError}
+              />
+            )}
+          </div>
+          <div>
+            <p className={`font-mono font-medium ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+              {airdrop.projectName}
+            </p>
+            {airdrop.twitterUsername && (
+              <p className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
+                @{airdrop.twitterUsername}
+              </p>
+            )}
+          </div>
+        </div>
+      </td>
+      
+      {/* Type */}
+      <td className="px-4 py-4">
+        <Badge 
+          variant="outline" 
+          className={`font-mono text-xs transition-all duration-200 ${getTypeColor(airdrop.type)}`}
+        >
+          {airdrop.type}
+        </Badge>
+      </td>
+      
+      {/* Wallet Address */}
+      <td className="px-4 py-4">
+        {airdrop.walletAddress ? (
+          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border w-fit transition-all duration-200 group-hover:border-opacity-50 ${
+            isDark 
+              ? 'bg-[#00FF88]/5 border-[#00FF88]/20 text-[#00FF88]' 
+              : 'bg-[#2563EB]/5 border-[#2563EB]/20 text-[#2563EB]'
+          }`}>
+            <Wallet className="w-3.5 h-3.5" />
+            <span className="font-mono text-xs">{formatWallet(airdrop.walletAddress)}</span>
+          </div>
+        ) : (
+          <span className={`font-mono text-xs px-3 py-1.5 rounded-lg border ${
+            isDark 
+              ? 'bg-[#1F2937]/30 border-[#1F2937] text-[#6B7280]' 
+              : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#9CA3AF]'
+          }`}>
+            No address
+          </span>
+        )}
+      </td>
+      
+      {/* Official Link */}
+      <td className="px-4 py-4">
+        {airdrop.platformLink ? (
+          <a 
+            href={airdrop.platformLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex items-center gap-1.5 font-mono text-xs transition-all duration-200 hover:underline ${
+              isDark 
+                ? 'text-[#3B82F6] hover:text-[#00FF88]' 
+                : 'text-[#2563EB] hover:text-[#10B981]'
+            }`}
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            {airdrop.platformLink.slice(0, 25)}...
+          </a>
+        ) : (
+          <span className={`font-mono text-xs ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
+            -
+          </span>
+        )}
+      </td>
+      
+      {/* Status */}
+      <td className="px-4 py-4">
+        <Badge 
+          variant="outline" 
+          className={`font-mono text-xs ${getStatusColor(airdrop.status)}`}
+        >
+          {airdrop.status}
+        </Badge>
+      </td>
+      
+      {/* Actions */}
+      <td className="px-4 py-4">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onAddPriority}
+            className={`font-mono text-xs border transition-all duration-200 hover:scale-105 ${
+              isDark 
+                ? 'border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:text-[#00FF88] hover:border-[#00FF88]/50' 
+                : 'border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:text-[#2563EB] hover:border-[#2563EB]/50'
+            }`}
+          >
+            Add Priority
+          </Button>
+          
+          <div className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowMenu(!showMenu)}
+              className={`w-8 h-8 transition-all duration-200 ${
+                isDark 
+                  ? 'text-[#6B7280] hover:text-[#00FF88] hover:bg-[#00FF88]/10' 
+                  : 'text-[#6B7280] hover:text-[#2563EB] hover:bg-[#2563EB]/10'
+              }`}
+            >
+              <MoreVertical className="w-4 h-4" />
+            </Button>
+            
+            {showMenu && (
+              <div 
+                className={`absolute right-0 top-full mt-1 w-32 rounded-lg border shadow-lg z-50 overflow-hidden ${
+                  isDark 
+                    ? 'bg-[#161B22] border-[#1F2937]' 
+                    : 'bg-white border-[#E5E7EB]'
+                }`}
+              >
+                <button
+                  onClick={() => { onEdit(); setShowMenu(false); }}
+                  className={`w-full flex items-center gap-2 px-3 py-2 text-sm font-mono text-left transition-colors ${
+                    isDark 
+                      ? 'text-[#00FF88] hover:bg-[#00FF88]/10' 
+                      : 'text-[#2563EB] hover:bg-[#2563EB]/10'
+                  }`}
+                >
+                  <Edit2 className="h-4 w-4" />
+                  EDIT
+                </button>
+                <button
+                  onClick={() => { onDelete(); setShowMenu(false); }}
+                  className={`w-full flex items-center gap-2 px-3 py-2 text-sm font-mono text-left transition-colors ${
+                    isDark 
+                      ? 'text-[#EF4444] hover:bg-[#EF4444]/10' 
+                      : 'text-[#DC2626] hover:bg-[#DC2626]/10'
+                  }`}
+                >
+                  <Trash2 className="h-4 w-4" />
+                  DELETE
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </td>
+    </tr>
+  );
+}
+
+function DashboardContent() {
+  const { session } = useAuth();
+  const { wallets } = useWalletContext();
   const user = session?.user;
   const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -314,11 +550,15 @@ export function Dashboard() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingAirdrop, setEditingAirdrop] = useState<Airdrop | null>(null);
   const [deletingAirdrop, setDeletingAirdrop] = useState<Airdrop | null>(null);
-  const { theme, toggleTheme } = useTheme();
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const { theme } = useTheme();
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+  const [isEligibilityModalOpen, setIsEligibilityModalOpen] = useState(false);
   
+  const isDark = theme === 'dark';
+
   const filteredAirdrops = useMemo(() => {
     let result = [...airdrops];
     if (searchQuery) {
@@ -337,7 +577,6 @@ export function Dashboard() {
     return result;
   }, [airdrops, searchQuery, typeFilter, statusFilter, sortBy]);
 
-  // Click outside handler untuk nutup menu
   useEffect(() => {
     const handleClickOutside = () => setOpenMenuId(null);
     if (openMenuId) {
@@ -365,6 +604,7 @@ export function Dashboard() {
 
   const handleEditAirdrop = async (data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
     if (!editingAirdrop || !user) return;
+    
     const { error } = await supabase.from("airdrops").update({
       project_name: data.projectName,
       project_logo: data.projectLogo,
@@ -375,9 +615,17 @@ export function Dashboard() {
       wallet_address: data.walletAddress,
       notes: data.notes,
       tasks: data.tasks || [],
+      priority: data.priority,
+      deadline: data.deadline,
+      is_priority: data.isPriority,
       updated_at: new Date().toISOString(),
     }).eq("id", editingAirdrop.id);
-    if (error) return console.error(error);
+    
+    if (error) {
+      console.error('Update error:', error);
+      return;
+    }
+    
     const freshData = await getAirdropsByUserId(user.id);
     setAirdrops(freshData);
     setEditingAirdrop(null);
@@ -405,256 +653,104 @@ export function Dashboard() {
     return Math.round((airdrop.tasks.filter(t => t.completed).length / airdrop.tasks.length) * 100);
   };
 
-  const isDark = theme === 'dark';
+  const cardBaseClasses = `relative p-6 rounded-xl border transition-all duration-300 ease-out overflow-hidden group`;
+  const cardThemeClasses = isDark 
+    ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.1)]' 
+    : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/50 hover:shadow-[0_0_20px_rgba(37,99,235,0.1)]';
 
   return (
-    <div className={`min-h-screen flex flex-col font-mono transition-colors duration-300 ${
-      isDark ? 'bg-[#0B0F14] text-[#E5E7EB]' : 'bg-[#F3F4F6] text-[#111827]'
-    }`}>
-      {/* Navbar */}
-      <nav className={`sticky top-0 z-50 border-b backdrop-blur-md ${
-        isDark 
-          ? 'bg-[#0B0F14]/95 border-[#1F2937]' 
-          : 'bg-[#FFFFFF]/95 border-[#E5E7EB]'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Left: Logo + Add Button */}
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded flex items-center justify-center border-2 ${
-                  isDark ? 'bg-[#00FF88]/10 border-[#00FF88] text-[#00FF88]' : 'bg-[#2563EB]/10 border-[#2563EB] text-[#2563EB]'
-                }`}>
-                  <Terminal className="w-6 h-6" />
-                </div>
-                <span className={`text-xl font-bold tracking-tighter hidden sm:block ${
-                  isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
-                }`}>
-                  <span className={isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}>ALPHA</span>
-                  <span className={isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'}>_TRACKER</span>
-                  <span className={isDark ? 'text-[#00FF88] animate-pulse' : 'text-[#10B981] animate-pulse'}>_</span>
-                </span>
-              </div>
+    <div className={`min-h-screen flex flex-col font-mono transition-colors duration-300 ${isDark ? 'bg-[#0B0F14] text-[#E5E7EB]' : 'bg-[#F3F4F6] text-[#111827]'}`}>
+      {/* HAPUS NAVBAR - sekarang di TopBar */}
 
-              <div className={`h-8 w-px hidden md:block ${
-                isDark ? 'bg-[#1F2937]' : 'bg-[#E5E7EB]'
-              }`} />
-
-              <Button 
-                onClick={() => setIsAddModalOpen(true)} 
-                className={`font-mono text-sm border-2 transition-all duration-200 ${
-                  isDark 
-                    ? 'bg-transparent border-[#00FF88] text-[#00FF88] hover:bg-[#00FF88] hover:text-[#0B0F14] hover:shadow-[0_0_20px_rgba(0,255,136,0.4)]' 
-                    : 'bg-transparent border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white'
-                }`}
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">[NEW_PROJECT]</span>
-                <span className="sm:hidden">[NEW]</span>
-              </Button>
+      {/* Main Content */}
+      <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Section - Tanpa background putih */}
+        <div className="mb-8">
+          <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6">
+            <div>
+              <h1 className={`text-3xl font-bold tracking-tighter ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+                {isDark ? '> DASHBOARD.exe' : 'DASHBOARD'}
+              </h1>
+              <p className={`mt-1 font-mono text-sm ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+                {isDark ? `root@alpha-tracker:~$ track --airdrops --all [${airdrops.length}]` : `Track and manage your airdrop portfolio • ${airdrops.length} projects`}
+              </p>
             </div>
-            
-            {/* Right: Clock + Theme + User + Logout */}
-            <div className="flex items-center gap-4">
-              <DigitalClock isDark={isDark} />
-
-              <div className={`h-8 w-px hidden md:block ${
-                isDark ? 'bg-[#1F2937]' : 'bg-[#E5E7EB]'
-              }`} />
-
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={toggleTheme} 
-                className={`border transition-colors ${
-                  isDark 
-                    ? 'text-[#00FF88] border-[#1F2937] hover:bg-[#00FF88]/10' 
-                    : 'text-[#2563EB] border-[#E5E7EB] hover:bg-[#2563EB]/10'
-                }`}
-              >
-                {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              </Button>
-
-              <div className={`hidden md:flex items-center gap-3 px-4 py-2 rounded border ${
-                isDark 
-                  ? 'bg-[#161B22] border-[#1F2937] text-[#E5E7EB]' 
-                  : 'bg-white border-[#E5E7EB] text-[#374151]'
-              }`}>
-                <div className={`w-8 h-8 rounded flex items-center justify-center text-sm font-bold ${
-                  isDark ? 'bg-[#00FF88]/20 text-[#00FF88]' : 'bg-[#2563EB]/10 text-[#2563EB]'
-                }`}>
-                  {user?.email?.[0].toUpperCase()}
-                </div>
-                <span className="text-sm truncate max-w-[150px]">{user?.email}</span>
-              </div>
-
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={logout} 
-                className={`border transition-colors ${
-                  isDark 
-                    ? 'text-[#EF4444] border-[#1F2937] hover:bg-[#EF4444]/10' 
-                    : 'text-[#DC2626] border-[#E5E7EB] hover:bg-[#DC2626]/10'
-                }`}
-              >
-                <LogOut className="h-5 w-5" />
-              </Button>
+            <div className="xl:w-auto w-full">
+              <PriceTracker isDark={isDark} />
             </div>
           </div>
         </div>
-      </nav>
-
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className={`text-3xl font-bold tracking-tighter ${
-            isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
-          }`}>
-            {isDark ? '> DASHBOARD.exe' : 'DASHBOARD'}
-          </h1>
-          <p className={`mt-1 font-mono text-sm ${
-            isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
-          }`}>
-            {isDark ? `root@alpha-tracker:~$ track --airdrops --all [${airdrops.length}]` : `Track and manage your airdrop portfolio • ${airdrops.length} projects`}
-          </p>
-        </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
             { label: 'TOTAL_PROJECTS', value: airdrops.length, icon: Layers, color: isDark ? 'text-[#00FF88]' : 'text-[#2563EB]' },
             { label: 'ACTIVE_NODES', value: airdrops.filter(a => a.status === 'Ongoing').length, icon: TrendingUp, color: isDark ? 'text-[#3B82F6]' : 'text-[#2563EB]' },
             { label: 'COMPLETED', value: airdrops.filter(a => a.status === 'Done').length, icon: CheckCircle, color: isDark ? 'text-[#00FF88]' : 'text-[#10B981]' },
             { label: 'DROPPED', value: airdrops.filter(a => a.status === 'Dropped').length, icon: XCircle, color: isDark ? 'text-[#EF4444]' : 'text-[#DC2626]' },
           ].map((stat, idx) => (
-            <Card key={idx} className={`border transition-all duration-300 ${
-              isDark 
-                ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50' 
-                : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/50'
-            }`}>
-              <CardContent className="p-5">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className={`text-xs font-mono mb-1 ${
-                      isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
-                    }`}>{stat.label}</p>
-                    <p className={`text-3xl font-bold font-mono ${stat.color}`}>
-                      {String(stat.value).padStart(2, '0')}
-                    </p>
-                  </div>
-                  <div className={`w-12 h-12 rounded flex items-center justify-center ${
-                    isDark ? 'bg-[#00FF88]/5 border border-[#00FF88]/20' : 'bg-[#2563EB]/5 border border-[#2563EB]/20'
-                  }`}>
-                    <stat.icon className={`w-6 h-6 ${stat.color}`} />
-                  </div>
+            <div key={idx} className={`${cardBaseClasses} ${cardThemeClasses}`}>
+              <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
+              <div className="relative flex items-center justify-between">
+                <div>
+                  <p className={`text-xs font-mono mb-1 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>{stat.label}</p>
+                  <p className={`text-3xl font-bold font-mono ${stat.color}`}>{String(stat.value).padStart(2, '0')}</p>
                 </div>
-              </CardContent>
-            </Card>
+                <div className={`w-12 h-12 rounded flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ${isDark ? 'bg-[#00FF88]/5 border border-[#00FF88]/20' : 'bg-[#2563EB]/5 border border-[#2563EB]/20'}`}>
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
+              </div>
+            </div>
           ))}
         </div>
 
-        {/* Filters - RAPI & SIMETRIS */}
-        <Card className={`border mb-6 ${
-          isDark 
-            ? 'bg-[#161B22] border-[#1F2937]' 
-            : 'bg-white border-[#E5E7EB]'
-        }`}>
+        {/* Filters */}
+        <Card className={`border mb-6 ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
           <CardContent className="p-4">
             <div className="flex flex-col lg:flex-row gap-4 items-stretch">
-              {/* Search - Full width on mobile, flex-1 on desktop */}
               <div className="relative flex-1">
-                <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
-                }`} />
-                <Input
-                  placeholder={isDark ? "> search --projects..." : "Search projects..."}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`pl-10 font-mono border ${
-                    isDark 
-                      ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#6B7280] focus:border-[#00FF88]' 
-                      : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
-                  }`}
+                <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`} />
+                <Input 
+                  placeholder={isDark ? "> search --projects..." : "Search projects..."} 
+                  value={searchQuery} 
+                  onChange={(e) => setSearchQuery(e.target.value)} 
+                  className={`pl-10 font-mono border transition-all duration-200 ${isDark ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#6B7280] focus:border-[#00FF88]' : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'}`} 
                 />
               </div>
-              
-              {/* Filter Container - Simetris */}
               <div className="flex flex-wrap gap-2 items-center">
-                {/* Type Filter */}
                 <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as AirdropType | 'all')}>
-                  <SelectTrigger className={`w-[130px] font-mono border ${
-                    isDark 
-                      ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB]' 
-                      : 'bg-white border-[#E5E7EB] text-[#374151]'
-                  }`}>
+                  <SelectTrigger className={`w-[130px] font-mono border transition-all duration-200 ${isDark ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB]' : 'bg-white border-[#E5E7EB] text-[#374151]'}`}>
                     <Filter className={`h-4 w-4 mr-2 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`} />
                     <SelectValue placeholder="ALL_TYPES" />
                   </SelectTrigger>
-                  <SelectContent className={`font-mono border ${
-                    isDark 
-                      ? 'bg-[#161B22] border-[#1F2937]' 
-                      : 'bg-white border-[#E5E7EB]'
-                  }`}>
+                  <SelectContent className={`font-mono border ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
                     <SelectItem value="all" className={isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'}>ALL_TYPES</SelectItem>
-                    {AIRDROP_TYPES.map(type => (
-                      <SelectItem key={type} value={type} className={isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'}>
-                        {type.toUpperCase()}
-                      </SelectItem>
-                    ))}
+                    {AIRDROP_TYPES.map(type => <SelectItem key={type} value={type} className={isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'}>{type.toUpperCase()}</SelectItem>)}
                   </SelectContent>
                 </Select>
-                
-                {/* Status Filter - Sama ukurannya */}
                 <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as AirdropStatus | 'all')}>
-                  <SelectTrigger className={`w-[130px] font-mono border ${
-                    isDark 
-                      ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB]' 
-                      : 'bg-white border-[#E5E7EB] text-[#374151]'
-                  }`}>
+                  <SelectTrigger className={`w-[130px] font-mono border transition-all duration-200 ${isDark ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB]' : 'bg-white border-[#E5E7EB] text-[#374151]'}`}>
                     <SelectValue placeholder="ALL_STATUS" />
                   </SelectTrigger>
-                  <SelectContent className={`font-mono border ${
-                    isDark 
-                      ? 'bg-[#161B22] border-[#1F2937]' 
-                      : 'bg-white border-[#E5E7EB]'
-                  }`}>
+                  <SelectContent className={`font-mono border ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
                     <SelectItem value="all" className={isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'}>ALL_STATUS</SelectItem>
-                    {AIRDROP_STATUSES.map(status => (
-                      <SelectItem key={status} value={status} className={isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'}>
-                        {status.toUpperCase()}
-                      </SelectItem>
-                    ))}
+                    {AIRDROP_STATUSES.map(status => <SelectItem key={status} value={status} className={isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'}>{status.toUpperCase()}</SelectItem>)}
                   </SelectContent>
                 </Select>
-
-                {/* View Mode Toggle */}
-                <div className={`flex rounded border p-1 ${
-                  isDark 
-                    ? 'bg-[#0B0F14] border-[#1F2937]' 
-                    : 'bg-[#F3F4F6] border-[#E5E7EB]'
-                }`}>
-                  <Button
-                    variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                    size="icon"
-                    onClick={() => setViewMode('grid')}
-                    className={`rounded font-mono ${
-                      viewMode === 'grid' 
-                        ? (isDark ? 'bg-[#00FF88] text-[#0B0F14] hover:bg-[#00FF88]/90' : 'bg-[#2563EB] text-white hover:bg-[#2563EB]/90')
-                        : (isDark ? 'text-[#6B7280] hover:bg-[#00FF88]/10' : 'text-[#6B7280] hover:bg-[#2563EB]/10')
-                    }`}
+                <div className={`flex rounded border p-1 ${isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'}`}>
+                  <Button 
+                    variant={viewMode === 'grid' ? 'default' : 'ghost'} 
+                    size="icon" 
+                    onClick={() => setViewMode('grid')} 
+                    className={`rounded font-mono transition-all duration-200 ${viewMode === 'grid' ? (isDark ? 'bg-[#00FF88] text-[#0B0F14] hover:bg-[#00FF88]/90' : 'bg-[#2563EB] text-white hover:bg-[#2563EB]/90') : (isDark ? 'text-[#6B7280] hover:bg-[#00FF88]/10' : 'text-[#6B7280] hover:bg-[#2563EB]/10')}`}
                   >
                     <LayoutGrid className="h-4 w-4" />
                   </Button>
-                  <Button
-                    variant={viewMode === 'list' ? 'default' : 'ghost'}
-                    size="icon"
-                    onClick={() => setViewMode('list')}
-                    className={`rounded font-mono ${
-                      viewMode === 'list' 
-                        ? (isDark ? 'bg-[#00FF88] text-[#0B0F14] hover:bg-[#00FF88]/90' : 'bg-[#2563EB] text-white hover:bg-[#2563EB]/90')
-                        : (isDark ? 'text-[#6B7280] hover:bg-[#00FF88]/10' : 'text-[#6B7280] hover:bg-[#2563EB]/10')
-                    }`}
+                  <Button 
+                    variant={viewMode === 'list' ? 'default' : 'ghost'} 
+                    size="icon" 
+                    onClick={() => setViewMode('list')} 
+                    className={`rounded font-mono transition-all duration-200 ${viewMode === 'list' ? (isDark ? 'bg-[#00FF88] text-[#0B0F14] hover:bg-[#00FF88]/90' : 'bg-[#2563EB] text-white hover:bg-[#2563EB]/90') : (isDark ? 'text-[#6B7280] hover:bg-[#00FF88]/10' : 'text-[#6B7280] hover:bg-[#2563EB]/10')}`}
                   >
                     <List className="h-4 w-4" />
                   </Button>
@@ -664,144 +760,101 @@ export function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Airdrops Grid/List */}
+        {/* Airdrops List/Grid */}
         {filteredAirdrops.length === 0 ? (
-          <Card className={`border ${
-            isDark 
-              ? 'bg-[#161B22] border-[#1F2937]' 
-              : 'bg-white border-[#E5E7EB]'
-          }`}>
-            <CardContent className="p-12 text-center">
-              <Terminal className={`h-16 w-16 mx-auto mb-4 ${
-                isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'
-              }`} />
-              <h3 className={`text-xl font-mono font-bold mb-2 ${
-                isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
-              }`}>
-                {isDark ? '> NO_DATA_FOUND' : 'No airdrops found'}
-              </h3>
-              <p className={`font-mono text-sm mb-4 ${
-                isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
-              }`}>
-                {isDark ? 'Initialize new project tracking...' : 'Start tracking your first airdrop campaign'}
-              </p>
+          <div className={`${cardBaseClasses} ${cardThemeClasses} p-12 text-center`}>
+            <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
+            <div className="relative">
+              <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-transform duration-300 hover:scale-105 ${isDark ? 'bg-[#161B22] border border-[#1F2937]' : 'bg-white border border-[#E5E7EB]'}`}>
+                <Search className={`h-10 w-10 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />
+              </div>
+              <h3 className={`text-xl font-mono font-bold mb-2 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>{isDark ? '> NO_DATA_FOUND' : 'No airdrops found'}</h3>
+              <p className={`font-mono text-sm mb-4 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>{isDark ? 'Initialize new project tracking...' : 'Start tracking your first airdrop campaign'}</p>
               <Button 
                 onClick={() => setIsAddModalOpen(true)} 
-                className={`font-mono border-2 ${
-                  isDark 
-                    ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88] hover:bg-[#00FF88]/90' 
-                    : 'bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#2563EB]/90'
-                }`}
+                className={`font-mono border-2 transition-all duration-300 hover:scale-105 ${isDark ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88] hover:bg-[#00FF88]/90' : 'bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#2563EB]/90'}`}
               >
-                <Plus className="h-4 w-4 mr-2" />
-                {isDark ? 'INIT_PROJECT()' : 'Add Your First Airdrop'}
+                <Plus className="h-4 w-4 mr-2" />{isDark ? 'INIT_PROJECT()' : 'Add Your First Airdrop'}
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
+        ) : viewMode === 'list' ? (
+          // TABLE VIEW - Like TheDropsData with Logo
+          <div className={`border rounded-xl overflow-hidden ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className={`border-b ${isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F9FAFB] border-[#E5E7EB]'}`}>
+                    <th className={`px-4 py-3 text-left text-xs font-mono font-medium ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>NO</th>
+                    <th className={`px-4 py-3 text-left text-xs font-mono font-medium ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>NAME</th>
+                    <th className={`px-4 py-3 text-left text-xs font-mono font-medium ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>TYPE</th>
+                    <th className={`px-4 py-3 text-left text-xs font-mono font-medium ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>WALLET ADDRESS</th>
+                    <th className={`px-4 py-3 text-left text-xs font-mono font-medium ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>OFFICIAL LINK</th>
+                    <th className={`px-4 py-3 text-left text-xs font-mono font-medium ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>STATUS</th>
+                    <th className={`px-4 py-3 text-left text-xs font-mono font-medium ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredAirdrops.map((airdrop, index) => (
+                    <TableRow 
+                      key={airdrop.id} 
+                      airdrop={airdrop} 
+                      index={index} 
+                      isDark={isDark}
+                      logoError={logoError}
+                      setLogoError={setLogoError}
+                      onEdit={() => setEditingAirdrop(airdrop)}
+                      onDelete={() => setDeletingAirdrop(airdrop)}
+                      onAddPriority={() => {/* TODO: Implement add priority */}}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         ) : (
-          <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : "flex flex-col gap-3"}>
+          // GRID VIEW
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
             {filteredAirdrops.map((airdrop: Airdrop) => (
-              <AirdropCard
-                key={airdrop.id}
-                airdrop={airdrop}
-                viewMode={viewMode}
-                onEdit={() => {
-                  setEditingAirdrop(airdrop);
-                  setOpenMenuId(null);
-                }}
-                onDelete={() => {
-                  setDeletingAirdrop(airdrop);
-                  setOpenMenuId(null);
-                }}
-                onToggleTask={handleToggleTask}
-                getProgress={getProgress}
-                isDark={isDark}
-                logoError={logoError}
-                setLogoError={setLogoError}
-                isMenuOpen={openMenuId === airdrop.id}
-                onMenuToggle={(e) => {
-                  e.stopPropagation();
-                  setOpenMenuId(openMenuId === airdrop.id ? null : airdrop.id);
-                }}
+              <AirdropCard 
+                key={airdrop.id} 
+                airdrop={airdrop} 
+                viewMode={viewMode} 
+                onEdit={() => { setEditingAirdrop(airdrop); setOpenMenuId(null); }} 
+                onDelete={() => { setDeletingAirdrop(airdrop); setOpenMenuId(null); }} 
+                onToggleTask={handleToggleTask} 
+                getProgress={getProgress} 
+                isDark={isDark} 
+                logoError={logoError} 
+                setLogoError={setLogoError} 
+                isMenuOpen={openMenuId === airdrop.id} 
+                onMenuToggle={(e) => { e.stopPropagation(); setOpenMenuId(openMenuId === airdrop.id ? null : airdrop.id); }} 
               />
             ))}
           </div>
         )}
       </main>
 
-      <Footer isDark={isDark} />
+      {/* MODALS */}
+      <ModalWrapper isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} isDark={isDark}>
+        <AirdropModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSubmit={handleAddAirdrop} mode="add" isDark={isDark} />
+      </ModalWrapper>
 
-      {isAddModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div 
-            className="absolute inset-0 bg-black/5"
-            onClick={() => setIsAddModalOpen(false)}
-          />
-          <div 
-            className={`relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg ${
-              isDark ? 'bg-[#161b2208]' : 'bg-white'
-            }`}
-          >
-            <AirdropModal 
-              isOpen={isAddModalOpen} 
-              onClose={() => setIsAddModalOpen(false)} 
-              onSubmit={handleAddAirdrop} 
-              mode="add"
-              isDark={isDark}
-            />
-          </div>
-        </div>
-      )}
+      <ModalWrapper isOpen={!!editingAirdrop} onClose={() => setEditingAirdrop(null)} isDark={isDark}>
+        <AirdropModal isOpen={!!editingAirdrop} onClose={() => setEditingAirdrop(null)} onSubmit={handleEditAirdrop} mode="edit" airdrop={editingAirdrop} isDark={isDark} />
+      </ModalWrapper>
 
-      {/* MODAL EDIT */}
-      {editingAirdrop && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div 
-            className="absolute inset-0 bg-black/5"
-            onClick={() => setEditingAirdrop(null)}
-          />
-          <div 
-            className={`relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg ${
-              isDark ? 'bg-[#161b2200]' : 'bg-white'
-            }`}
-          >
-            <AirdropModal 
-              isOpen={!!editingAirdrop} 
-              onClose={() => setEditingAirdrop(null)} 
-              onSubmit={handleEditAirdrop} 
-              mode="edit" 
-              airdrop={editingAirdrop}
-              isDark={isDark}
-            />
-          </div>
-        </div>
-      )}
+      <ModalWrapper isOpen={!!deletingAirdrop} onClose={() => setDeletingAirdrop(null)} maxWidth="max-w-md" isDark={isDark}>
+        <DeleteConfirmModal isOpen={!!deletingAirdrop} onClose={() => setDeletingAirdrop(null)} onConfirm={handleDeleteAirdrop} projectName={deletingAirdrop?.projectName} isDark={isDark} />
+      </ModalWrapper>
 
-      {/* MODAL DELETE */}
-      {deletingAirdrop && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div 
-            className={`absolute inset-0 ${isDark ? 'bg-black/5' : 'bg-black/5'}`}
-            onClick={() => setDeletingAirdrop(null)}
-          />
-          <div className={`relative z-10 w-full max-w-md max-h-[90vh] overflow-y-auto rounded-lg border ${
-            isDark ? 'bg-[#272d340d] border-[#9f9f9f0f]' : 'bg-white border-[#e5e7eb00]'
-          }`}>
-            <DeleteConfirmModal 
-              isOpen={!!deletingAirdrop} 
-              onClose={() => setDeletingAirdrop(null)} 
-              onConfirm={handleDeleteAirdrop} 
-              projectName={deletingAirdrop?.projectName}
-              isDark={isDark}
-            />
-          </div>
-        </div>
-      )}
-    </div> 
+      <WalletConnectModal isOpen={isWalletModalOpen} onClose={() => setIsWalletModalOpen(false)} />
+      <EligibilityModal isOpen={isEligibilityModalOpen} onClose={() => setIsEligibilityModalOpen(false)} />
+    </div>
   );
 }
 
-// AIRDROP CARD COMPONENT
+// AIRDROP CARD COMPONENT - For Grid View
 interface AirdropCardProps {
   airdrop: Airdrop;
   viewMode: 'grid' | 'list';
@@ -816,345 +869,118 @@ interface AirdropCardProps {
   onMenuToggle: (e: React.MouseEvent) => void;
 }
 
-function AirdropCard({ 
-  airdrop, 
-  viewMode, 
-  onEdit, 
-  onDelete, 
-  onToggleTask, 
-  getProgress, 
-  isDark,
-  logoError,
-  setLogoError,
-  isMenuOpen,
-  onMenuToggle
-}: AirdropCardProps) {
+function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getProgress, isDark, logoError, setLogoError, isMenuOpen, onMenuToggle }: AirdropCardProps) {
   const progress = getProgress(airdrop);
   const completedTasks = airdrop.tasks.filter(t => t.completed).length;
-  
-  const getTypeColor = (type: string) => {
-    return isDark ? TYPE_COLORS[type]?.dark || TYPE_COLORS['Quest'].dark : TYPE_COLORS[type]?.light || TYPE_COLORS['Quest'].light;
-  };
-
-  const getStatusColor = (status: string) => {
-    return isDark ? STATUS_COLORS[status]?.dark || STATUS_COLORS['Planning'].dark : STATUS_COLORS[status]?.light || STATUS_COLORS['Planning'].light;
-  };
-
-  const handleLogoError = () => {
-    setLogoError(prev => ({ ...prev, [airdrop.id]: true }));
-  };
-
+  const getTypeColor = (type: string) => isDark ? TYPE_COLORS[type]?.dark || TYPE_COLORS['Quest'].dark : TYPE_COLORS[type]?.light || TYPE_COLORS['Quest'].light;
+  const getStatusColor = (status: string) => isDark ? STATUS_COLORS[status]?.dark || STATUS_COLORS['Planning'].dark : STATUS_COLORS[status]?.light || STATUS_COLORS['Planning'].light;
+  const handleLogoError = () => setLogoError(prev => ({ ...prev, [airdrop.id]: true }));
   const hasLogoError = logoError[airdrop.id] || !airdrop.projectLogo;
-  
-  // CUSTOM MENU COMPONENT
-  const ActionMenu = () => (
-    <div className="relative">
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        onClick={onMenuToggle}
-        className={`flex-shrink-0 border ${
-          isDark 
-            ? 'text-[#6B7280] border-[#1F2937] hover:bg-[#00FF88]/10 hover:text-[#00FF88]' 
-            : 'text-[#6B7280] border-[#E5E7EB] hover:bg-[#2563EB]/10 hover:text-[#2563EB]'
-        }`}
-      >
-        <MoreVertical className="h-4 w-4" />
-      </Button>
-      
-      {isMenuOpen && (
-        <div 
-          className={`absolute right-0 top-full mt-1 w-32 rounded-md border shadow-lg z-50 ${
-            isDark 
-              ? 'bg-[#161B22] border-[#1F2937]' 
-              : 'bg-white border-[#E5E7EB]'
-          }`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit();
-            }}
-            className={`w-full flex items-center gap-2 px-3 py-2 text-sm font-mono text-left transition-colors ${
-              isDark 
-                ? 'text-[#00FF88] hover:bg-[#00FF88]/10' 
-                : 'text-[#2563EB] hover:bg-[#2563EB]/10'
-            }`}
-          >
-            <Edit2 className="h-4 w-4" />
-            EDIT
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete();
-            }}
-            className={`w-full flex items-center gap-2 px-3 py-2 text-sm font-mono text-left transition-colors ${
-              isDark 
-                ? 'text-[#EF4444] hover:bg-[#EF4444]/10' 
-                : 'text-[#DC2626] hover:bg-[#DC2626]/10'
-            }`}
-          >
-            <Trash2 className="h-4 w-4" />
-            DELETE
-          </button>
-        </div>
-      )}
-    </div>
-  );
-  
-  if (viewMode === "list") {
-    return (
-      <Card className={`border transition-all duration-300 ${
-        isDark 
-          ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50' 
-          : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/50'
-      }`}>
-        <CardContent className="p-4">
-          <div className="flex items-center gap-4">
-            {/* Logo */}
-            <div className={`w-12 h-12 rounded flex-shrink-0 overflow-hidden border flex items-center justify-center ${
-              isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'
-            }`}>
-              {hasLogoError ? (
-                <PlaceholderLogo className={`w-8 h-8 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />
-              ) : (
-                <img
-                  src={airdrop.projectLogo}
-                  alt={airdrop.projectName}
-                  className="w-full h-full object-cover"
-                  onError={handleLogoError}
-                />
-              )}
-            </div>
 
-            {/* Info */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className={`font-mono font-bold text-base ${
-                  isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
-                }`}>
-                  {airdrop.projectName}
-                </h3>
-                <Badge variant="outline" className={`font-mono text-xs ${getTypeColor(airdrop.type)}`}>
-                  {airdrop.type}
-                </Badge>
-                <Badge variant="outline" className={`font-mono text-xs ${getStatusColor(airdrop.status)}`}>
-                  {airdrop.status}
-                </Badge>
-              </div>
+  const cardBaseClasses = `relative p-6 rounded-xl border transition-all duration-300 ease-out overflow-hidden group`;
+  const cardThemeClasses = isDark 
+    ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.1)]' 
+    : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/50 hover:shadow-[0_0_20px_rgba(37,99,235,0.1)]';
 
-              {/* Wallet Address - NEW */}
-              {airdrop.walletAddress && (
-                <div className={`flex items-center gap-1 mt-1 text-xs font-mono ${
-                  isDark ? 'text-[#8B5CF6]' : 'text-[#4F46E5]'
-                }`}>
-                  <Wallet className="h-3 w-3" />
-                  <span>{formatWallet(airdrop.walletAddress)}</span>
-                </div>
-              )}
-
-              {/* Progress */}
-              <div className="mt-2">
-                <div className={`flex items-center justify-between text-xs font-mono mb-1 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
-                }`}>
-                  <span>PROGRESS</span>
-                  <span className={isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}>
-                    {completedTasks}/{airdrop.tasks.length}
-                  </span>
-                </div>
-                <div className={`h-2 rounded-full overflow-hidden w-full max-w-[200px] border ${
-                  isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'
-                }`}>
-                  <div 
-                    className={`h-full transition-all duration-500 ${
-                      isDark ? 'bg-[#00FF88]' : 'bg-[#2563EB]'
-                    }`}
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className={`flex items-center gap-4 mt-2 text-sm font-mono ${
-                isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
-              }`}>
-                {airdrop.twitterUsername && (
-                  <a
-                    href={`https://x.com/${airdrop.twitterUsername.replace('@', '')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`flex items-center gap-1 hover:underline ${
-                      isDark ? 'hover:text-[#00FF88]' : 'hover:text-[#2563EB]'
-                    }`}
-                  >
-                    <Twitter className="h-3.5 w-3.5" />
-                    @{airdrop.twitterUsername.replace('@', '')}
-                  </a>
-                )}
-              </div>
-            </div>
-
-            {/* ACTIONS MENU */}
-            <ActionMenu />
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-  
-  // GRID VIEW
   return (
-    <Card className={`border transition-all duration-300 overflow-hidden ${
-      isDark 
-        ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50' 
-        : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/50'
-    }`}>
-      <CardContent className="p-4">
+    <div className={`${cardBaseClasses} ${cardThemeClasses}`}>
+      <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
+      
+      <div className="relative flex flex-col h-full">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className={`w-12 h-12 rounded flex-shrink-0 overflow-hidden border flex items-center justify-center ${
-              isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'
-            }`}>
+            <div className={`w-12 h-12 rounded-lg flex-shrink-0 overflow-hidden border flex items-center justify-center transition-transform duration-300 group-hover:scale-105 ${isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'}`}>
               {hasLogoError ? (
-                <PlaceholderLogo className={`w-8 h-8 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />
+                <span className={`text-xl font-bold ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
+                  {airdrop.projectName[0].toUpperCase()}
+                </span>
               ) : (
-                <img 
-                  src={airdrop.projectLogo} 
-                  alt={airdrop.projectName}
-                  className="w-full h-full object-cover"
-                  onError={handleLogoError}
-                />
+                <img src={airdrop.projectLogo} alt={airdrop.projectName} className="w-full h-full object-cover" onError={handleLogoError} />
               )}
             </div>
-            
-            <div className="flex-1 min-w-0 overflow-hidden">
-              <h3 className={`font-mono text-lg font-bold truncate ${
-                isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
-              }`}>
-                {airdrop.projectName}
-              </h3>
-              <div className="flex items-center gap-2 mt-1">
-                <Badge variant="outline" className={`font-mono text-xs ${getTypeColor(airdrop.type)}`}>
-                  {airdrop.type}
-                </Badge>
-                <Badge variant="outline" className={`font-mono text-xs ${getStatusColor(airdrop.status)}`}>
-                  {airdrop.status}
-                </Badge>
+            <div className="flex-1 min-w-0">
+              <h3 className={`font-mono font-bold text-base truncate ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>{airdrop.projectName}</h3>
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                <Badge variant="outline" className={`font-mono text-xs ${getTypeColor(airdrop.type)}`}>{airdrop.type}</Badge>
+                <Badge variant="outline" className={`font-mono text-xs ${getStatusColor(airdrop.status)}`}>{airdrop.status}</Badge>
               </div>
             </div>
           </div>
-          
-          {/* ACTIONS MENU */}
-          <ActionMenu />
+          <div className="relative">
+            <Button variant="ghost" size="icon" onClick={onMenuToggle} className={`flex-shrink-0 border transition-all duration-200 ${isDark ? 'text-[#6B7280] border-[#1F2937] hover:bg-[#00FF88]/10 hover:text-[#00FF88]' : 'text-[#6B7280] border-[#E5E7EB] hover:bg-[#2563EB]/10 hover:text-[#2563EB]'}`}>
+              <MoreVertical className="h-4 w-4" />
+            </Button>
+            {isMenuOpen && (
+              <div className={`absolute right-0 top-full mt-1 w-32 rounded-lg border shadow-lg z-50 overflow-hidden ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`} onClick={(e) => e.stopPropagation()}>
+                <button onClick={(e) => { e.stopPropagation(); onEdit(); }} className={`w-full flex items-center gap-2 px-3 py-2 text-sm font-mono text-left transition-colors ${isDark ? 'text-[#00FF88] hover:bg-[#00FF88]/10' : 'text-[#2563EB] hover:bg-[#2563EB]/10'}`}><Edit2 className="h-4 w-4" />EDIT</button>
+                <button onClick={(e) => { e.stopPropagation(); onDelete(); }} className={`w-full flex items-center gap-2 px-3 py-2 text-sm font-mono text-left transition-colors ${isDark ? 'text-[#EF4444] hover:bg-[#EF4444]/10' : 'text-[#DC2626] hover:bg-[#DC2626]/10'}`}><Trash2 className="h-4 w-4" />DELETE</button>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Wallet Address - NEW */}
+        <div className="mb-4">
+          <div className={`flex items-center justify-between text-xs font-mono mb-2 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+            <span>PROGRESS_{progress}%</span>
+            <span className={isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}>[{completedTasks}/{airdrop.tasks.length}]</span>
+          </div>
+          <div className={`h-2 rounded-full overflow-hidden border ${isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'}`}>
+            <div className={`h-full transition-all duration-500 ${isDark ? 'bg-[#00FF88]' : 'bg-[#2563EB]'}`} style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+
         {airdrop.walletAddress && (
-          <div className={`flex items-center gap-2 mb-3 px-2 py-1.5 rounded border ${
-            isDark ? 'bg-[#8B5CF6]/5 border-[#8B5CF6]/20' : 'bg-[#4F46E5]/5 border-[#4F46E5]/20'
-          }`}>
-            <Wallet className={`h-3.5 w-3.5 ${isDark ? 'text-[#8B5CF6]' : 'text-[#4F46E5]'}`} />
-            <span className={`font-mono text-xs truncate ${isDark ? 'text-[#8B5CF6]' : 'text-[#4F46E5]'}`}>
-              {formatWallet(airdrop.walletAddress)}
-            </span>
+          <div className={`flex items-center gap-2 p-2 rounded-lg border mb-3 transition-all duration-200 ${isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'}`}>
+            <Wallet className={`h-4 w-4 flex-shrink-0 ${isDark ? 'text-[#8B5CF6]' : 'text-[#4F46E5]'}`} />
+            <span className={`text-xs font-mono truncate ${isDark ? 'text-[#8B5CF6]' : 'text-[#4F46E5]'}`}>{formatWallet(airdrop.walletAddress)}</span>
           </div>
         )}
 
-        <div className="flex flex-wrap gap-2 mb-3">
+        {airdrop.tasks.length > 0 && (
+          <div className="flex-1 space-y-2 mb-4">
+            {airdrop.tasks.slice(0, 3).map((task) => (
+              <div key={task.id} className="flex items-center gap-2 group cursor-pointer" onClick={() => onToggleTask(airdrop.id, task.id)}>
+                {task.completed ? (
+                  <CheckCircle2 className={`h-4 w-4 flex-shrink-0 ${isDark ? 'text-[#00FF88]' : 'text-[#10B981]'}`} />
+                ) : (
+                  <Circle className={`h-4 w-4 flex-shrink-0 ${isDark ? 'text-[#6B7280] group-hover:text-[#00FF88]' : 'text-[#9CA3AF] group-hover:text-[#2563EB]'}`} />
+                )}
+                <span className={`text-xs font-mono truncate ${task.completed ? (isDark ? 'text-[#6B7280] line-through' : 'text-[#9CA3AF] line-through') : (isDark ? 'text-[#E5E7EB]' : 'text-[#374151]')}`}>
+                  {task.title}
+                </span>
+              </div>
+            ))}
+            {airdrop.tasks.length > 3 && (
+              <p className={`text-xs font-mono pl-6 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>+{airdrop.tasks.length - 3} more tasks...</p>
+            )}
+          </div>
+        )}
+
+        <div className={`flex items-center gap-2 mt-auto pt-3 border-t border-dashed ${isDark ? 'border-[#1F2937]' : 'border-[#E5E7EB]'}`}>
           {airdrop.platformLink && (
-            <a
-              href={airdrop.platformLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-1.5 rounded border transition-colors ${
-                isDark 
-                  ? 'text-[#3B82F6] bg-[#3B82F6]/10 border-[#3B82F6]/20 hover:bg-[#3B82F6]/20' 
-                  : 'text-[#2563EB] bg-[#2563EB]/10 border-[#2563EB]/20 hover:bg-[#2563EB]/20'
-              }`}
-            >
-              <ExternalLink className="h-3.5 w-3.5" />
-              PLATFORM
+            <a href={airdrop.platformLink} target="_blank" rel="noopener noreferrer" className={`p-2 rounded border transition-all duration-200 hover:scale-110 ${isDark ? 'bg-[#0B0F14] border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'}`}>
+              <ExternalLink className="h-4 w-4" />
             </a>
           )}
           {airdrop.twitterUsername && (
-            <a
-              href={`https://x.com/${airdrop.twitterUsername.replace('@', '')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-1.5 rounded border transition-colors ${
-                isDark 
-                  ? 'text-[#00FF88] bg-[#00FF88]/10 border-[#00FF88]/20 hover:bg-[#00FF88]/20' 
-                  : 'text-[#10B981] bg-[#10B981]/10 border-[#10B981]/20 hover:bg-[#10B981]/20'
-              }`}
-            >
-              <Twitter className="h-3.5 w-3.5" />
-              @{airdrop.twitterUsername.replace('@', '')}
+            <a href={`https://twitter.com/${airdrop.twitterUsername.replace('@', '')}`} target="_blank" rel="noopener noreferrer" className={`p-2 rounded border transition-all duration-200 hover:scale-110 ${isDark ? 'bg-[#0B0F14] border-[#1F2937] text-[#6B7280] hover:bg-[#3B82F6]/10 hover:border-[#3B82F6] hover:text-[#3B82F6]' : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#6B7280] hover:bg-[#3B82F6]/10 hover:border-[#3B82F6] hover:text-[#3B82F6]'}`}>
+              <Twitter className="h-4 w-4" />
             </a>
           )}
+          <div className="flex-1"></div>
+          <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
+            {new Date(airdrop.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+          </span>
         </div>
+      </div>
+    </div>
+  );
+}
 
-        <div className={`border-t pt-3 ${
-          isDark ? 'border-[#1F2937]' : 'border-[#E5E7EB]'
-        }`}>
-          <div className={`flex items-center justify-between mb-2 font-mono text-sm ${
-            isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'
-          }`}>
-            <span>PROGRESS</span>
-            <span className={isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}>{completedTasks}/{airdrop.tasks.length}</span>
-          </div>
-          
-          <div className={`h-2 rounded-full overflow-hidden mb-3 border ${
-            isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'
-          }`}>
-            <div 
-              className={`h-full transition-all duration-500 ${
-                isDark ? 'bg-[#00FF88]' : 'bg-[#2563EB]'
-              }`}
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          
-          {airdrop.tasks.length > 0 && (
-            <div className="space-y-1.5 max-h-28 overflow-y-auto">
-              {airdrop.tasks.slice(0, 3).map(task => (
-                <button
-                  key={task.id}
-                  onClick={() => onToggleTask(airdrop.id, task.id)}
-                  className={`flex items-center gap-2 w-full text-left text-sm font-mono rounded px-1.5 py-1 transition-colors ${
-                    isDark ? 'hover:bg-[#00FF88]/10' : 'hover:bg-[#2563EB]/10'
-                  }`}
-                >
-                  {task.completed ? (
-                    <CheckCircle2 className={`h-4 w-4 flex-shrink-0 ${
-                      isDark ? 'text-[#00FF88]' : 'text-[#10B981]'
-                    }`} />
-                  ) : (
-                    <Circle className={`h-4 w-4 flex-shrink-0 ${
-                      isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'
-                    }`} />
-                  )}
-                  <span className={`truncate ${
-                    task.completed 
-                      ? (isDark ? 'line-through text-[#6B7280]' : 'line-through text-[#9CA3AF]') 
-                      : (isDark ? 'text-[#E5E7EB]' : 'text-[#374151]')
-                  }`}>
-                    {task.title}
-                  </span>
-                </button>
-              ))}
-              {airdrop.tasks.length > 3 && (
-                <p className={`text-xs font-mono pl-6 pt-1 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'
-                }`}>
-                  +{airdrop.tasks.length - 3} MORE_TASKS
-                </p>
-              )}
-            </div>
-          )}
-        </div> 
-      </CardContent>
-    </Card>
+export default function DashboardPage() {
+  return (
+    <DashboardLayout>
+      <DashboardContent />
+    </DashboardLayout>
   );
 }

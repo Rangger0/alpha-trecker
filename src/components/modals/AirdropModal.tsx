@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,  // <-- TAMBAH INI
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,8 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, X, Loader2 } from 'lucide-react';
-import type { Airdrop, AirdropType, AirdropStatus, Task } from '@/types';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Plus, X, Loader2, Calendar, Flag } from 'lucide-react';
+import type { Airdrop, AirdropType, AirdropStatus, Task, PriorityLevel } from '@/types';
 import { generateId } from '@/services/crypto';
 
 const AIRDROP_TYPES: AirdropType[] = [
@@ -30,6 +31,7 @@ const AIRDROP_TYPES: AirdropType[] = [
 ];
 
 const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
+const PRIORITY_LEVELS: PriorityLevel[] = ['Low', 'Medium', 'High'];
 
 interface AirdropModalProps {
   isOpen: boolean;
@@ -37,7 +39,7 @@ interface AirdropModalProps {
   onSubmit: (data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => void;
   mode: 'add' | 'edit';
   airdrop?: Airdrop | null;
-  isDark?: boolean;  // <-- TAMBAH INI (optional)
+  isDark?: boolean;
 }
 
 export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark = false }: AirdropModalProps) {
@@ -52,6 +54,11 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
   const [notes, setNotes] = useState('');
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
+  
+  // NEW: Priority and Deadline fields
+  const [priority, setPriority] = useState<PriorityLevel>('Low');
+  const [deadline, setDeadline] = useState<string>('');
+  const [isPriority, setIsPriority] = useState(false);
 
   useEffect(() => {
     if (mode === 'edit' && airdrop) {
@@ -64,6 +71,10 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
       setStatus(airdrop.status ?? 'Planning');
       setNotes(airdrop.notes ?? '');
       setTasks(airdrop.tasks ?? []);
+      // NEW: Set priority and deadline
+      setPriority(airdrop.priority ?? 'Low');
+      setDeadline(airdrop.deadline ?? '');
+      setIsPriority(airdrop.isPriority ?? false);
     } else {
       resetForm();
     }
@@ -80,29 +91,43 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
     setNotes('');
     setTasks([]);
     setNewTaskTitle('');
+    // NEW: Reset priority fields
+    setPriority('Low');
+    setDeadline('');
+    setIsPriority(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!projectName?.trim()) return;
+  e.preventDefault();
+  if (!projectName?.trim()) return;
 
-    setIsLoading(true);
-    
-    onSubmit({
-      projectName: projectName.trim(),
-      projectLogo: projectLogo.trim(),
-      platformLink: platformLink.trim(),
-      twitterUsername: twitterUsername.trim(),
-      walletAddress: walletAddress.trim(),
-      type,
-      status,
-      notes: notes.trim(),
-      tasks,
-    });
-    
-    setIsLoading(false);
-    resetForm();
+  const submitData = {
+    projectName: projectName.trim(),
+    projectLogo: projectLogo.trim(),
+    platformLink: platformLink.trim(),
+    twitterUsername: twitterUsername.trim(),
+    walletAddress: walletAddress.trim(),
+    type,
+    status,
+    notes: notes.trim(),
+    tasks,
+    priority,
+    deadline: deadline || undefined,
+    isPriority,
   };
+  
+  // DEBUG: Log data yang akan dikirim
+  console.log('=== SUBMIT DATA ===');
+  console.log('priority:', priority);
+  console.log('deadline:', deadline);
+  console.log('isPriority:', isPriority);
+  console.log('Full data:', submitData);
+  
+  setIsLoading(true);
+  onSubmit(submitData);
+  setIsLoading(false);
+  resetForm();
+};
 
   const handleAddTask = () => {
     if (!newTaskTitle.trim()) return;
@@ -130,13 +155,21 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
     ));
   };
 
+  const getPriorityColor = (p: PriorityLevel) => {
+    switch(p) {
+      case 'High': return isDark ? 'text-red-400 border-red-400/30 bg-red-400/10' : 'text-red-600 border-red-300 bg-red-50';
+      case 'Medium': return isDark ? 'text-yellow-400 border-yellow-400/30 bg-yellow-400/10' : 'text-yellow-600 border-yellow-300 bg-yellow-50';
+      case 'Low': return isDark ? 'text-[#00ff00] border-[#00ff00]/30 bg-[#00ff00]/10' : 'text-green-600 border-green-300 bg-green-50';
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className={`max-w-2xl max-h-[90vh] overflow-y-auto border-2 ${
-        isDark 
-          ? 'bg-[#0a0a0f] border-[#00ff00] text-[#00ff00]' 
-          : 'bg-white border-gray-400 text-gray-900'
-      }`}>
+  isDark 
+    ? 'bg-[#161B22] border-[#00ff00] text-[#00ff00]'  // ✅ Background lebih terang
+    : 'bg-white border-gray-400 text-gray-900'
+}`}>
         <DialogHeader className="border-0 pb-0">
           <DialogTitle className={`text-2xl font-mono ${
             isDark ? 'text-[#00ff00]' : 'text-gray-900'
@@ -258,6 +291,67 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                   </SelectContent>
                 </Select>
               </div>
+            </div>
+
+            {/* NEW: Priority & Deadline Section */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div className="space-y-2">
+                <Label className={`font-mono flex items-center gap-2 ${isDark ? 'text-[#00ff00]' : ''}`}>
+                  <Flag className="w-4 h-4" />
+                  Priority Level
+                </Label>
+                <Select value={priority} onValueChange={(v) => setPriority(v as PriorityLevel)}>
+                  <SelectTrigger className={`font-mono border-2 ${getPriorityColor(priority)}`}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className={`font-mono border-2 ${
+                    isDark ? 'bg-[#0f0f14] border-[#00ff00]/30' : 'bg-white border-gray-300'
+                  }`}>
+                    {PRIORITY_LEVELS.map(p => (
+                      <SelectItem 
+                        key={p} 
+                        value={p}
+                        className={isDark ? 'text-[#00ff00] focus:bg-[#00ff00]/10' : ''}
+                      >
+                        {p}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="deadline" className={`font-mono flex items-center gap-2 ${isDark ? 'text-[#00ff00]' : ''}`}>
+                  <Calendar className="w-4 h-4" />
+                  Deadline
+                </Label>
+                <Input
+                  id="deadline"
+                  type="date"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                  className={`font-mono border-2 ${
+                    isDark 
+                      ? 'bg-[#0f0f14] border-[#00ff00]/30 text-[#00ff00] [color-scheme:dark]' 
+                      : 'bg-gray-50 border-gray-300'
+                  }`}
+                />
+              </div>
+            </div>
+
+                {/* NEW: Priority Toggle */}
+                   <div className={`flex items-center gap-3 p-3 rounded-lg border-2 border-dashed transition-colors ${
+                   isDark ? 'border-[#00ff00]/20 hover:border-[#00ff00]/40' : 'border-gray-300 hover:border-gray-400'
+                    }`}>
+              <Checkbox
+                id="isPriority"
+                checked={isPriority}
+                onCheckedChange={(checked) => setIsPriority(checked as boolean)}
+                className={isDark ? 'border-[#00ff00] data-[state=checked]:bg-[#00ff00] data-[state=checked]:text-black' : ''}
+              />
+              <Label htmlFor="isPriority" className={`font-mono cursor-pointer ${isDark ? 'text-[#00ff00]' : ''}`}>
+                Mark as Priority Project (will appear in Priority tab)
+              </Label>
             </div>
           </div>
 
