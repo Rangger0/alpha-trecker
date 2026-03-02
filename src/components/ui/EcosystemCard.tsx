@@ -1,7 +1,7 @@
 // src/components/ui/EcosystemCard.tsx
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Bell } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 interface EcosystemCardProps {
   ecosystem: {

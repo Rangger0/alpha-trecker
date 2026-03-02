@@ -31,7 +31,7 @@ export function EcosystemDetailPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [, setHoveredCard] = useState<string | null>(null);
 
   if (!ecosystem) {
     return (

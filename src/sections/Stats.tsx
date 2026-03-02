@@ -3,9 +3,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
   TrendingUp, 
-  TrendingDown, 
   DollarSign, 
-  Activity,
   Wallet,
   Target
 } from 'lucide-react';

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { getWalletBalance, getTokenBalances } from '@/services/wallet';
+import { getWalletBalance } from '@/services/wallet';
 import { useAuth } from '@/contexts/AuthContext';
 
 export interface Wallet {

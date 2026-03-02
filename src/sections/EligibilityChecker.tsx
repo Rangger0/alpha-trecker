@@ -14,7 +14,6 @@ import {
   Search, 
   Plus, 
   Activity,
-  TrendingUp,
   Shield
 } from 'lucide-react';
 

@@ -33,7 +33,7 @@ const DEFAULT_LIMITS: UsageLimits = {
 
 export function useUsageLimits() {
   const { session } = useAuth();
-  const [limits, setLimits] = useState<UsageLimits>(DEFAULT_LIMITS);
+  const [limits] = useState<UsageLimits>(DEFAULT_LIMITS);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

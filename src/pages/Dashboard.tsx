@@ -32,9 +32,8 @@ import {
   TrendingUp,
   CheckCircle,
   XCircle,
-  Clock,
   Wallet,
-  Search as SearchIcon,
+  
   TrendingUp as TrendingUpIcon,
   DollarSign,
 } from "lucide-react";
@@ -132,46 +131,6 @@ const STATUS_COLORS: Record<string, { dark: string; light: string }> = {
 };
 
 // Digital Clock Component
-function DigitalClock({ isDark }: { isDark: boolean }) {
-  const [time, setTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', {
-      hour12: false,
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    });
-  };
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: '2-digit'
-    }).toUpperCase();
-  };
-
-  return (
-    <div className={`flex flex-col items-center font-mono ${isDark ? 'text-[#00FF88]' : 'text-[#111827]'}`}>
-      <div className="flex items-center gap-2">
-        <Clock className="w-4 h-4 animate-pulse" />
-        <span className="text-lg font-bold tracking-wider">
-          {formatTime(time)}
-        </span>
-      </div>
-      <span className={`text-xs ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
-        {formatDate(time)}
-      </span>
-    </div>
-  );
-}
 
 const formatWallet = (address: string) => {
   if (!address) return '';
@@ -540,7 +499,7 @@ function TableRow({ airdrop, index, isDark, onEdit, onDelete, onAddPriority, log
 
 function DashboardContent() {
   const { session } = useAuth();
-  const { wallets } = useWalletContext();
+  const { wallets: _wallets } = useWalletContext();
   const user = session?.user;
   const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -817,9 +776,10 @@ function DashboardContent() {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
             {filteredAirdrops.map((airdrop: Airdrop) => (
               <AirdropCard 
+              viewMode={viewMode}
                 key={airdrop.id} 
                 airdrop={airdrop} 
-                viewMode={viewMode} 
+                 
                 onEdit={() => { setEditingAirdrop(airdrop); setOpenMenuId(null); }} 
                 onDelete={() => { setDeletingAirdrop(airdrop); setOpenMenuId(null); }} 
                 onToggleTask={handleToggleTask} 
@@ -869,7 +829,7 @@ interface AirdropCardProps {
   onMenuToggle: (e: React.MouseEvent) => void;
 }
 
-function AirdropCard({ airdrop, viewMode, onEdit, onDelete, onToggleTask, getProgress, isDark, logoError, setLogoError, isMenuOpen, onMenuToggle }: AirdropCardProps) {
+function AirdropCard({ airdrop, onEdit, onDelete, onToggleTask, getProgress, isDark, logoError, setLogoError, isMenuOpen, onMenuToggle }: AirdropCardProps) {
   const progress = getProgress(airdrop);
   const completedTasks = airdrop.tasks.filter(t => t.completed).length;
   const getTypeColor = (type: string) => isDark ? TYPE_COLORS[type]?.dark || TYPE_COLORS['Quest'].dark : TYPE_COLORS[type]?.light || TYPE_COLORS['Quest'].light;

@@ -21,7 +21,7 @@ export function TopBar({ sidebarCollapsed }: TopBarProps) {
   const [userPhoto, setUserPhoto] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
+  const [_airdrops, setAirdrops] = useState<Airdrop[]>([]);
   
   const userMenuRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);

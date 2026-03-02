@@ -2,7 +2,7 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MoreVertical, ExternalLink, Wallet } from 'lucide-react';
+import { ExternalLink, Wallet } from 'lucide-react';
 import { useState } from 'react';
 
 interface ProjectRowProps {

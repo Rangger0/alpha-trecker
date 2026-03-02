@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+
   "dependencies": {
     "@fontsource/bebas-neue": "^5.2.7",
     "@fontsource/rajdhani": "^5.2.7",

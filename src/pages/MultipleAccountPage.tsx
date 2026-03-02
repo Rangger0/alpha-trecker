@@ -259,7 +259,7 @@ export function MultipleAccountPage() {
     }
   };
 
-  const getTypeColor = (type: string) => {
+  const getTypeColor = (_type: string) => {
     return isDark ? 'bg-[#8B5CF6]/10 text-[#8B5CF6] border-[#8B5CF6]/20' : 'bg-[#4F46E5]/10 text-[#4F46E5] border-[#4F46E5]/20';
   };
 
