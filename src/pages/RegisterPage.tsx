@@ -210,7 +210,7 @@ export function RegisterPage() {
                 Creating Account...
               </>
             ) : (
-              'INITIALIZE_USER()'
+              'REGISTER'
             )}
           </Button>
         </form>

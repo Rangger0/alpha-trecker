@@ -12,23 +12,16 @@ import {
 import { useAirdrops } from '@/hooks/use-airdrops';
 import { PREDEFINED_ECOSYSTEMS } from '@/lib/ecosystems';
 import { useNavigate } from 'react-router-dom';
-const getLogoFilename = (id: string): string => {
-  const mapping: Record<string, string> = {
-    'eth': 'ethereum',
-    'sol': 'solana',
-    'bnb': 'bnbchain',
-    'arb': 'arbitrum',
-    'avax': 'avalanche',
-    'matic': 'polygon',
-    'ftm': 'fantom',
-    'tia': 'celestia',
-    'zero': 'zerologo',
-    'base': 'base',
-    'sui': 'sui',
-  };
-  return mapping[id] || id;
+const logoMap: Record<string, string> = {
+  eth: "ethereum",
+  sol: "solana",
+  arb: "arbitrum",
+  avax: "avalanche",
+  matic: "polygon",
+  ftm: "fantom",
+  tia: "celestia",
+  bnb: "bnbchain",
 };
-
 export function EcosystemPage() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -57,6 +50,7 @@ export function EcosystemPage() {
   return (
     <DashboardLayout>
       <div className="max-w-7xl mx-auto">
+        
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
@@ -93,13 +87,14 @@ export function EcosystemPage() {
                 onMouseLeave={() => setHoveredId(null)}
                 className={`relative group cursor-pointer rounded-2xl border overflow-hidden transition-all duration-500 ${
                   isDark 
-                    ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50' 
-                    : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/50'
+                    ? 'bg-[#161b220e] border-[#1f293714] hover:border-[#00FF88]/50' 
+                    : 'bg-white border-[#e5e7eb12] hover:border-[#2563EB]/50'
                 } ${isHovered ? 'transform -translate-y-2 shadow-2xl' : ''}`}
               >
-                {/* Animated Background Gradient */}
+                
+                {/* Animated Background */}
                 <div 
-                  className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out`}
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out"
                   style={{ 
                     background: `radial-gradient(circle at 50% 0%, ${ecosystem.color}20 0%, transparent 70%)`
                   }}
@@ -107,7 +102,7 @@ export function EcosystemPage() {
 
                 {/* Shine Effect */}
                 <div 
-                  className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                   style={{
                     background: `linear-gradient(105deg, transparent 40%, ${ecosystem.color}10 50%, transparent 60%)`,
                     transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
@@ -115,57 +110,49 @@ export function EcosystemPage() {
                   }}
                 />
 
-                {/* Content */}
                 <div className="relative p-6">
-                  {/* Top Section */}
+
+                  {/* Top */}
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center gap-4">
-                      {/* Logo Container with Glow */}
+
+                      {/* Logo */}
                       <div 
-                        className={`relative w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-2xl border transition-all duration-500 ${
+                        className={`relative w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 ${
                           isHovered ? 'scale-110 shadow-lg' : ''
                         }`}
                         style={{ 
-                          backgroundColor: isDark ? '#0B0F14' : '#F3F4F6',
-                          borderColor: isDark ? '#1F2937' : '#E5E7EB',
+                          backgroundColor: isDark ? '#0b0f1414' : '#f3f4f616',
+                          borderColor: isDark ? '#1f29371e' : '#e5e7eb11',
                           boxShadow: isHovered ? `0 0 30px ${ecosystem.color}40` : 'none'
                         }}
                       >
-                        {/* Logo Image - SUDAH DIGANTI */}
-                        <img 
-                          src={`/logos/${getLogoFilename(ecosystem.id)}.png`}
-                          alt={ecosystem.name}
-                          className="w-10 h-10 object-contain"
-                          onError={(e) => {
-                            // Fallback to icon if image fails
-                            const target = e.target as HTMLImageElement;
-                            target.style.display = 'none';
-                            const parent = target.parentElement;
-                            if (parent) {
-                              parent.innerHTML = `<span style="color: ${ecosystem.color}">${ecosystem.icon}</span>`;
-                            }
-                          }}
-                        />
+                        <img
+  src={`/logos/${(logoMap[ecosystem.id] || ecosystem.id).toLowerCase()}.png`}
+  alt={ecosystem.name}
+  className="w-10 h-10 object-contain"
+  onError={(e) => {
+    e.currentTarget.style.display = "none";
+  }}
+/>
                       </div>
-                      
-                      <div>
-                        <h3 className={`font-mono font-bold text-lg mb-1 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
-                          {ecosystem.name}
-                        </h3>
-                        <a 
-                          href={`https://twitter.com/ ${ecosystem.twitterHandle}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className={`text-sm font-mono flex items-center gap-1 transition-all duration-300 hover:gap-2 ${isDark ? 'text-[#6B7280] hover:text-[#00FF88]' : 'text-[#6B7280] hover:text-[#2563EB]'}`}
-                        >
-                          <Twitter className="w-3 h-3" />
-                          @{ecosystem.twitterHandle}
-                        </a>
-                      </div>
+
+                      {/* Twitter */}
+                      <a 
+                        href={`https://twitter.com/${ecosystem.twitterHandle}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className={`text-sm font-mono flex items-center gap-1 transition-all duration-300 hover:gap-2 ${
+                          isDark ? 'text-[#6B7280] hover:text-[#00FF88]' : 'text-[#6B7280] hover:text-[#2563EB]'
+                        }`}
+                      >
+                        <Twitter className="w-3 h-3" />
+                        @{ecosystem.twitterHandle}
+                      </a>
                     </div>
 
-                    {/* Arrow Icon */}
+                    {/* Arrow */}
                     <div 
                       className={`p-2 rounded-lg transition-all duration-300 ${
                         isHovered 
@@ -177,72 +164,53 @@ export function EcosystemPage() {
                     </div>
                   </div>
 
-                  {/* Stats Grid */}
+                  {/* Stats */}
                   <div className="grid grid-cols-2 gap-3 mb-4">
-                    <div 
-                      className={`px-4 py-3 rounded-xl border transition-all duration-300 ${
-                        isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F9FAFB] border-[#E5E7EB]'
-                      } ${isHovered ? 'transform scale-105' : ''}`}
-                    >
-                      <p className={`text-xs font-mono mb-1 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>Projects</p>
-                      <p 
-                        className="text-2xl font-bold font-mono transition-all duration-300"
-                        style={{ color: ecosystem.color }}
-                      >
+                    <div className={`px-4 py-3 rounded-xl border ${isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F9FAFB] border-[#E5E7EB]'}`}>
+                      <p className="text-xs font-mono mb-1 text-[#6B7280]">Projects</p>
+                      <p className="text-2xl font-bold font-mono" style={{ color: ecosystem.color }}>
                         {stats.count}
                       </p>
                     </div>
-                    <div 
-                      className={`px-4 py-3 rounded-xl border transition-all duration-300 ${
-                        isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F9FAFB] border-[#E5E7EB]'
-                      } ${isHovered ? 'transform scale-105' : ''}`}
-                    >
-                      <p className={`text-xs font-mono mb-1 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>Progress</p>
-                      <p 
-                        className="text-2xl font-bold font-mono transition-all duration-300"
-                        style={{ color: ecosystem.color }}
-                      >
+
+                    <div className={`px-4 py-3 rounded-xl border ${isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F9FAFB] border-[#E5E7EB]'}`}>
+                      <p className="text-xs font-mono mb-1 text-[#6B7280]">Progress</p>
+                      <p className="text-2xl font-bold font-mono" style={{ color: ecosystem.color }}>
                         {stats.progress}%
                       </p>
                     </div>
                   </div>
 
-                  {/* Progress Bar */}
+                  {/* Progress */}
                   <div className={`h-2.5 rounded-full overflow-hidden ${isDark ? 'bg-[#0B0F14]' : 'bg-[#F3F4F6]'}`}>
                     <div 
-                      className="h-full rounded-full transition-all duration-1000 ease-out relative"
+                      className="h-full rounded-full transition-all duration-1000 ease-out"
                       style={{ 
                         width: `${stats.progress}%`, 
-                        backgroundColor: ecosystem.color,
-                        boxShadow: isHovered ? `0 0 10px ${ecosystem.color}` : 'none'
+                        backgroundColor: ecosystem.color
                       }}
-                    >
-                      {/* Shimmer Effect on Progress Bar */}
-                      <div 
-                        className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-1000 ${
-                          isHovered ? 'translate-x-full' : '-translate-x-full'
-                        }`} 
-                      />
-                    </div>
+                    />
                   </div>
+
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Empty State */}
+        {/* Empty */}
         {filteredEcosystems.length === 0 && (
           <Card className={`border-2 ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
             <CardContent className="p-12 text-center">
               <LayoutGrid className={`w-16 h-16 mx-auto mb-4 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />
               <h3 className={`font-mono font-bold mb-2 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>No Ecosystems Found</h3>
-              <p className={`font-mono text-sm ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+              <p className="font-mono text-sm text-[#6B7280]">
                 Try adjusting your search query.
               </p>
             </CardContent>
           </Card>
         )}
+
       </div>
     </DashboardLayout>
   );

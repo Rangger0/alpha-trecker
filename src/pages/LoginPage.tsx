@@ -161,7 +161,7 @@ export function LoginPage() {
                 Authenticating...
               </>
             ) : (
-              'EXECUTE_LOGIN()'
+              'LOGIN'
             )}
           </Button>
         </form>

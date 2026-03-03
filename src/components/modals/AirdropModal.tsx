@@ -26,7 +26,7 @@ import { generateId } from '@/services/crypto';
 
 const AIRDROP_TYPES: AirdropType[] = [
   'Testnet', 'AI', 'Quest', 'Daily', 'Daily Quest', 
-  'Retro', 'Waitlist', 'Depin', 'NFT', 'Domain Name', 
+  'Retroactive', 'Waitlist', 'Depin', 'NFT', 'Domain Name', 
   'Deploy SC', 'DeFi', 'Deploy NFT'
 ];
 

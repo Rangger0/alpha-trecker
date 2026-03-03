@@ -50,7 +50,7 @@ import {
 
 const AIRDROP_TYPES: AirdropType[] = [
   'Testnet', 'AI', 'Quest', 'Daily', 'Daily Quest', 
-  'Retro', 'Waitlist', 'Depin', 'NFT', 'Domain Name', 
+  'Retroactive', 'Waitlist', 'Depin', 'NFT', 'Domain Name', 
   'Deploy SC', 'DeFi', 'Deploy NFT'
 ];
 
@@ -77,7 +77,7 @@ const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
     dark: 'bg-[#EC4899]/10 text-[#EC4899] border-[#EC4899]/20',
     light: 'bg-[#DB2777]/10 text-[#DB2777] border-[#DB2777]/30'
   },
-  'Retro': { 
+  'Retroactive': { 
     dark: 'bg-[#8B5CF6]/10 text-[#8B5CF6] border-[#8B5CF6]/20',
     light: 'bg-[#4F46E5]/10 text-[#4F46E5] border-[#4F46E5]/30'
   },

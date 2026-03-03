@@ -334,3 +334,11 @@ html:not(.dark) body {
 .hover\:scale-110:hover {
   transform: scale(1.1);
 }
+
+html {
+  font-size: 15px;
+}
+
+body {
+  line-height: 1.1;
+}

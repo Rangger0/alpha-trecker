@@ -1,6 +1,6 @@
 // src/hooks/use-usage-limits.ts
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useMemo } from "react";
+import { useAirdrops } from "@/hooks/use-airdrops";
 
 interface UsageLimit {
   used: number;
@@ -19,28 +19,28 @@ interface UsageLimits {
   retroactive: UsageLimit;
 }
 
-const DEFAULT_LIMITS: UsageLimits = {
-  documents: { used: 27, limit: 200 },
-  ecosystem: { used: 10, limit: 20 },
-  priorities: { used: 3, limit: 15 },
-  reminderDaily: { used: 0, limit: 4 },
-  reminderOnce: { used: 0, limit: 3 },
-  notesPerDoc: { used: 0, limit: 4 },
-  tasksPerDoc: { used: 0, limit: 5 },
-  multipleAccounts: { used: 0, limit: 5 },
-  retroactive: { used: 0, limit: 2 },
-};
-
 export function useUsageLimits() {
-  const { session } = useAuth();
-  const [limits] = useState<UsageLimits>(DEFAULT_LIMITS);
-  const [loading, setLoading] = useState(true);
+  const { airdrops } = useAirdrops();
 
-  useEffect(() => {
-    // In real app, fetch from API
-    // For now, use mock data
-    setLoading(false);
-  }, [session]);
+  const limits: UsageLimits = useMemo(() => {
+    const totalProjects = airdrops.length;
 
-  return { limits, loading };
+    const prioritiesUsed = airdrops.filter(
+      (a) => a.isPriority === true
+    ).length;
+
+    return {
+      documents: { used: totalProjects, limit: 200 },
+      ecosystem: { used: totalProjects, limit: 20 },
+      priorities: { used: prioritiesUsed, limit: 15 },
+      reminderDaily: { used: 0, limit: 4 },
+      reminderOnce: { used: 0, limit: 3 },
+      notesPerDoc: { used: 0, limit: 4 },
+      tasksPerDoc: { used: 0, limit: 5 },
+      multipleAccounts: { used: 0, limit: 5 },
+      retroactive: { used: 0, limit: 2 },
+    };
+  }, [airdrops]);
+
+  return { limits, loading: false };
 }

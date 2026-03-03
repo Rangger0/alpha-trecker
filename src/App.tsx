@@ -11,12 +11,11 @@ import { EcosystemPage } from '@/pages/EcosystemPage';
 import { EcosystemDetailPage } from '@/pages/EcosystemDetailPage';  // <-- TAMBAH INI
 import { PriorityProjectsPage } from '@/pages/PriorityProjectsPage';
 import { FaucetPage } from '@/pages/FaucetPage';
-import { ClaimAirdropPage } from '@/pages/ClaimAirdropPage';
 import { MultipleAccountPage } from '@/pages/MultipleAccountPage';
 import { AboutPage } from '@/pages/AboutPage';
 import { Toaster } from '@/components/ui/sonner';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-
+import {ScreeningAddressPage} from "@/pages/ScreeningAddressPage";
 function AppContent() {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -43,7 +42,8 @@ function AppContent() {
         element={isAuthenticated ? <Navigate to="/overview" /> : <RegisterPage />} 
       />
       
-      {/* Protected Routes */}
+     <Route path="/screening" element={<ScreeningAddressPage />} 
+     />
       <Route 
         path="/overview" 
         element={isAuthenticated ? <OverviewPage /> : <Navigate to="/login" />} 
@@ -67,10 +67,6 @@ function AppContent() {
       <Route 
         path="/faucet" 
         element={isAuthenticated ? <FaucetPage /> : <Navigate to="/login" />} 
-      />
-      <Route 
-        path="/claim-airdrop" 
-        element={isAuthenticated ? <ClaimAirdropPage /> : <Navigate to="/login" />} 
       />
       <Route 
         path="/multiple-account" 

@@ -4,7 +4,7 @@ export type AirdropType =
   | 'Quest' 
   | 'Daily' 
   | 'Daily Quest' 
-  | 'Retro' 
+  | 'Retroactive' 
   | 'Waitlist' 
   | 'Depin' 
   | 'NFT' 
