@@ -12,7 +12,6 @@ import {
   Wallet,
   Search,
   LogOut,
-  Menu,
   Camera,
   User,
   X
