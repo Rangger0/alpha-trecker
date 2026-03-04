@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/Rangger0/alpha-trecker/main/public/alpha-banner.png" width="100%">
+<img src="./public/alpha-banner.png" width="250">
 </p>
 
 <h1 align="center">🚀 Alpha Tracker</h1>
