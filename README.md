@@ -1,73 +1,249 @@
-# React + TypeScript + Vite
+<p align="center">
+<img src="https://raw.githubusercontent.com/Rangger0/alpha-trecker/main/public/alpha-banner.png" width="100%">
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h1 align="center">🚀 Alpha Tracker</h1>
 
-Currently, two official plugins are available:
+<p align="center">
+A productivity dashboard for <b>crypto hunters, airdrop farmers, and Web3 researchers</b>.
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="center">
 
-## React Compiler
+<img src="https://img.shields.io/badge/React-18-blue">
+<img src="https://img.shields.io/badge/TypeScript-5-blue">
+<img src="https://img.shields.io/badge/Vite-fast-purple">
+<img src="https://img.shields.io/badge/Supabase-backend-green">
+<img src="https://img.shields.io/badge/Vercel-deployment-black">
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+</p>
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# 🌐 Live Demo
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+https://alpha-trecker.vercel.app
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+# 🖼 Preview
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Dashboard
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+![dashboard](./preview/dashboard.png)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## AI Tools
+
+![ai-tools](./preview/ai-tools.png)
+
+## Swap & Bridge
+
+![swap](./preview/swap.png)
+
+## Screening Tools
+
+![screening](./preview/screening.png)
+
+---
+
+# 📊 Feature Overview
+
+
+            Alpha Tracker
+                  │
+ ┌────────────────┼────────────────┐
+ │                │                │
+ Dashboard Research Tools Management
+│ │ │
+Projects AI Tools Hub Multi Wallet
+Progress Swap & Bridge Faucet Manager
+Analytics Screening Tools Ecosystem Tracker
+
+
+---
+
+# ✨ Features
+
+## 📊 Dashboard
+
+Track your overall airdrop and crypto activity.
+
+- Project progress tracking
+- Success rate monitoring
+- Ecosystem participation
+- Task management
+
+---
+
+## 🌍 Ecosystem Manager
+
+Manage blockchain ecosystems and projects.
+
+- Track ecosystem participation
+- Monitor projects
+- Organize opportunities
+
+---
+
+## 💧 Faucet Manager
+
+Store and manage testnet faucets.
+
+- Add faucet links
+- Track faucet sources
+- Organize testnet resources
+
+---
+
+## 🤖 AI Tools Hub
+
+Quick access to powerful AI tools.
+
+Included:
+
+- ChatGPT
+- Claude
+- DeepSeek
+- Perplexity
+- Phind
+- GitHub Copilot
+- Codeium
+- Tabnine
+
+---
+
+## 🔄 Swap & Bridge Tools
+
+Access top DEXs and bridges.
+
+DEX
+
+- Uniswap
+- SushiSwap
+- PancakeSwap
+- Curve
+- Balancer
+
+Aggregators
+
+- Matcha
+- ParaSwap
+- OpenOcean
+- LI.FI
+
+Bridges
+
+- Stargate
+- Across
+- Orbiter
+- Hop
+- LayerZero
+
+---
+
+## 🔍 Wallet Screening
+
+Multi-chain wallet activity tools.
+
+Supported chains:
+
+- Ethereum
+- Base
+- Arbitrum
+- Polygon
+- BNB Chain
+- Solana
+- Sui
+
+---
+
+## 👥 Multi Account Management
+
+Designed for **airdrop farmers managing multiple wallets**.
+
+- Organize wallet activity
+- Track participation
+- Manage strategies
+
+---
+
+# 🛠 Tech Stack
+
+Frontend
+
+- React
+- TypeScript
+- Vite
+
+UI
+
+- TailwindCSS
+- Shadcn UI
+
+Backend
+
+- Supabase
+
+Deployment
+
+- Vercel
+
+---
+
+# ⚡ Installation
+
+Clone repository
+
+```bash
+git clone https://github.com/Rangger0/alpha-trecker.git
+
+Enter folder
+
+cd alpha-trecker
+
+Install dependencies
+
+npm install
+
+Run development server
+
+npm run dev
+
+Open browser
+
+http://localhost:5173
+📦 Build
+
+Build production
+
+npm run build
+
+Preview
+
+npm run preview
+🚀 Roadmap
+
+Planned future features
+
+Airdrop eligibility checker
+
+Wallet analytics
+
+On-chain tracking
+
+AI research assistant
+
+Portfolio analytics
+
+Auto airdrop discovery
+
+👨‍💻 Author
+
+Rangger
+
+GitHub
+https://github.com/Rangger0
+
+📜 License
+
+MIT License
