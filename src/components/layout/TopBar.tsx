@@ -1,64 +1,89 @@
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Sun, Moon, Plus, Menu } from 'lucide-react';
 import { AirdropModal } from '@/components/modals/AirdropModal';
+import { createAirdrop } from '@/services/database';
 
 interface TopBarProps {
-  onToggleSidebar: () => void;
+onToggleSidebar: () => void;
 }
 
 export function TopBar({ onToggleSidebar }: TopBarProps) {
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === 'dark';
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+const { theme, toggleTheme } = useTheme();
+const { session } = useAuth();
+const isDark = theme === 'dark';
 
-  return (
-    <>
-      <header className="fixed top-0 left-0 right-0 h-12 z-30 border-b bg-inherit">
-        <div className="h-full px-4 flex items-center">
+const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-          {/* Hamburger */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onToggleSidebar}
-            className="mr-3"
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
+const handleAddProject = async (data: any) => {
+if (!session?.user) return;
 
-          {/* Add */}
-          <Button
-            onClick={() => setIsAddModalOpen(true)}
-            className="text-sm font-mono"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            NEW PROJECT
-          </Button>
 
-          {/* Clock */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 text-sm font-mono">
-            {new Date().toLocaleTimeString()}
-          </div>
+try {
+  await createAirdrop(data, session.user.id);
 
-          {/* Theme */}
-          <div className="ml-auto">
-            <Button variant="ghost" size="icon" onClick={toggleTheme}>
-              {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-          </div>
+  // Tutup modal setelah berhasil
+  setIsAddModalOpen(false);
 
-        </div>
-      </header>
+  // Refresh dashboard supaya project langsung muncul
+  window.location.reload();
 
-      <AirdropModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onSubmit={async () => {}}
-        mode="add"
-        isDark={isDark}
-      />
-    </>
-  );
+} catch (error) {
+  console.error('Failed to create project:', error);
+}
+
+};
+
+return (
+<> <header className="fixed top-0 left-0 right-0 h-12 z-30 border-b bg-inherit"> <div className="h-full px-4 flex items-center">
+      {/* Hamburger */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={onToggleSidebar}
+        className="mr-3"
+      >
+        <Menu className="h-5 w-5" />
+      </Button>
+
+      {/* Add */}
+      <Button
+        onClick={() => setIsAddModalOpen(true)}
+        className="text-sm font-mono"
+      >
+        <Plus className="h-4 w-4 mr-2" />
+        NEW PROJECT
+      </Button>
+
+      {/* Clock */}
+      <div className="absolute left-1/2 transform -translate-x-1/2 text-sm font-mono">
+        {new Date().toLocaleTimeString()}
+      </div>
+
+      {/* Theme */}
+      <div className="ml-auto">
+        <Button variant="ghost" size="icon" onClick={toggleTheme}>
+          {isDark ? (
+            <Sun className="h-5 w-5" />
+          ) : (
+            <Moon className="h-5 w-5" />
+          )}
+        </Button>
+      </div>
+
+    </div>
+  </header>
+
+  <AirdropModal
+    isOpen={isAddModalOpen}
+    onClose={() => setIsAddModalOpen(false)}
+    onSubmit={handleAddProject}
+    mode="add"
+    isDark={isDark}
+  />
+</>
+
+);
 }
