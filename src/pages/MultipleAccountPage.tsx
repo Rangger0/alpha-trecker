@@ -2,10 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { 
   Search, 
   Users, 
@@ -13,27 +11,13 @@ import {
   Trash2, 
   X,
   ChevronDown,
-  Wallet,
+  
   Loader2
 } from 'lucide-react';
 import { useAirdrops } from '@/hooks/use-airdrops';
 import { supabase } from '@/lib/supabase';
 import type { Airdrop } from '@/types';
-
-// Placeholder logo component
-const PlaceholderLogo = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="48" height="48" rx="8" fill="currentColor" fillOpacity="0.1"/>
-    <path d="M24 14L32 34H16L24 14Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-    <circle cx="24" cy="28" r="3" fill="currentColor"/>
-  </svg>
-);
-
-const formatWallet = (address: string) => {
-  if (!address) return '';
-  if (address.length <= 12) return address;
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-};
+import { motion } from 'framer-motion';
 
 interface WalletEntry {
   id: string;
@@ -52,46 +36,42 @@ interface AccountEntry {
   createdAt: string;
 }
 
+const formatWallet = (address: string) => {
+  if (!address) return '';
+  if (address.length <= 12) return address;
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
+
+const getAccentColor = (index: number) => {
+  const colors = ['#00D4AA', '#3B82F6', '#8B5CF6', '#F59E0B', '#EF4444', '#10B981', '#EC4899', '#6366F1'];
+  return colors[index % colors.length];
+};
+
 export function MultipleAccountPage() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const { airdrops } = useAirdrops();
   const [searchQuery, setSearchQuery] = useState('');
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-  
-  // Accounts state from Supabase
   const [accounts, setAccounts] = useState<AccountEntry[]>([]);
-
-  // Modal states
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Airdrop | null>(null);
   const [showProjectDropdown, setShowProjectDropdown] = useState(false);
-  
-  // Multiple wallets in one form
-  const [walletEntries, setWalletEntries] = useState<{ address: string; label: string }[]>([
-    { address: '', label: '' }
-  ]);
-
+  const [walletEntries, setWalletEntries] = useState<{ address: string; label: string }[]>([{ address: '', label: '' }]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Get current user and fetch accounts
   useEffect(() => {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setCurrentUserId(user.id);
-      }
+      if (user) setCurrentUserId(user.id);
     };
     getUser();
   }, []);
 
   useEffect(() => {
-    if (currentUserId) {
-      fetchAccounts();
-    }
+    if (currentUserId) fetchAccounts();
   }, [currentUserId]);
 
   const fetchAccounts = async () => {
@@ -105,7 +85,6 @@ export function MultipleAccountPage() {
 
       if (error) throw error;
 
-      // Group by project_id
       const grouped = (data || []).reduce((acc: Record<string, AccountEntry>, item: any) => {
         if (!acc[item.project_id]) {
           acc[item.project_id] = {
@@ -116,14 +95,12 @@ export function MultipleAccountPage() {
             type: item.type,
             status: item.status,
             wallets: [],
-            createdAt: item.created_at,
-          };
+            createdAt: item.created_at };
         }
         acc[item.project_id].wallets.push({
           id: item.id,
           address: item.wallet_address,
-          label: item.wallet_label,
-        });
+          label: item.wallet_label });
         return acc;
       }, {});
 
@@ -139,10 +116,6 @@ export function MultipleAccountPage() {
     setLogoError(prev => ({ ...prev, [id]: true }));
   };
 
-  // Get available projects
-  const availableProjects = airdrops;
-
-  // Filter accounts based on search
   const filteredAccounts = accounts.filter((account) =>
     account.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
     account.wallets.some(w => 
@@ -151,14 +124,10 @@ export function MultipleAccountPage() {
     )
   );
 
-  const addWalletField = () => {
-    setWalletEntries([...walletEntries, { address: '', label: '' }]);
-  };
-
+  const addWalletField = () => setWalletEntries([...walletEntries, { address: '', label: '' }]);
+  
   const removeWalletField = (index: number) => {
-    if (walletEntries.length > 1) {
-      setWalletEntries(walletEntries.filter((_, i) => i !== index));
-    }
+    if (walletEntries.length > 1) setWalletEntries(walletEntries.filter((_, i) => i !== index));
   };
 
   const updateWalletField = (index: number, field: 'address' | 'label', value: string) => {
@@ -169,15 +138,11 @@ export function MultipleAccountPage() {
 
   const handleAdd = async () => {
     if (!selectedProject || !currentUserId) return;
-    
-    // Filter out empty addresses
     const validWallets = walletEntries.filter(w => w.address.trim() !== '');
     if (validWallets.length === 0) return;
 
     setIsSubmitting(true);
-
     try {
-      // Insert all wallets for this project
       const inserts = validWallets.map(wallet => ({
         user_id: currentUserId,
         project_id: selectedProject.id,
@@ -186,19 +151,12 @@ export function MultipleAccountPage() {
         type: selectedProject.type,
         status: selectedProject.status,
         wallet_address: wallet.address.trim(),
-        wallet_label: wallet.label.trim() || null,
-      }));
+        wallet_label: wallet.label.trim() || null }));
 
-      const { error } = await supabase
-        .from('multi_accounts')
-        .insert(inserts);
-
+      const { error } = await supabase.from('multi_accounts').insert(inserts);
       if (error) throw error;
 
-      // Refresh accounts
       await fetchAccounts();
-      
-      // Reset form
       setIsAddModalOpen(false);
       setSelectedProject(null);
       setWalletEntries([{ address: '', label: '' }]);
@@ -211,17 +169,13 @@ export function MultipleAccountPage() {
 
   const handleDelete = async (walletId: string) => {
     if (!confirm('Delete this wallet?')) return;
-
     try {
       const { error } = await supabase
         .from('multi_accounts')
         .delete()
         .eq('id', walletId)
         .eq('user_id', currentUserId);
-
       if (error) throw error;
-
-      // Refresh accounts
       await fetchAccounts();
     } catch (error) {
       console.error('Error deleting wallet:', error);
@@ -230,45 +184,18 @@ export function MultipleAccountPage() {
 
   const handleDeleteProject = async (projectId: string) => {
     if (!confirm('Delete all wallets for this project?')) return;
-
     try {
       const { error } = await supabase
         .from('multi_accounts')
         .delete()
         .eq('project_id', projectId)
         .eq('user_id', currentUserId);
-
       if (error) throw error;
-
       await fetchAccounts();
     } catch (error) {
       console.error('Error deleting project:', error);
     }
   };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Done':
-        return isDark ? 'bg-[#00FF88]/10 text-[#00FF88] border-[#00FF88]/20' : 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20';
-      case 'Ongoing':
-        return isDark ? 'bg-[#3B82F6]/10 text-[#3B82F6] border-[#3B82F6]/20' : 'bg-[#2563EB]/10 text-[#2563EB] border-[#2563EB]/20';
-      case 'Dropped':
-        return isDark ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/20' : 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/20';
-      default:
-        return isDark ? 'bg-[#6B7280]/10 text-[#6B7280] border-[#6B7280]/20' : 'bg-[#374151]/10 text-[#374151] border-[#374151]/20';
-    }
-  };
-
-  const getTypeColor = (_type: string) => {
-    return isDark ? 'bg-[#8B5CF6]/10 text-[#8B5CF6] border-[#8B5CF6]/20' : 'bg-[#4F46E5]/10 text-[#4F46E5] border-[#4F46E5]/20';
-  };
-
-  // Card styling seperti AboutPage
-  const cardBaseClasses = `relative p-6 rounded-xl border transition-all duration-300 ease-out overflow-hidden group`;
-  
-  const cardThemeClasses = isDark 
-    ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.1)]' 
-    : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/50 hover:shadow-[0_0_20px_rgba(37,99,235,0.1)]';
 
   if (isLoading) {
     return (
@@ -282,30 +209,46 @@ export function MultipleAccountPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        
+      <div className="w-full px-6 py-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <div>
-            <div className="flex items-center gap-3 mb-1">
-              <div className={`p-2 rounded-lg ${isDark ? 'bg-[#00FF88]/10' : 'bg-[#2563EB]/10'}`}>
-                <Users className={`w-5 h-5 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
-              </div>
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className={`p-2 rounded-lg ${isDark ? 'bg-[#00FF88]/10' : 'bg-[#2563EB]/10'}`}>
+              <Users className={`w-6 h-6 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
+            </div>
+            <div>
               <h1 className={`text-2xl font-bold font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
                 Multiple Account Management
               </h1>
+              <p className={`font-mono text-sm ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+                {accounts.reduce((acc, a) => acc + a.wallets.length, 0)} wallets across {accounts.length} projects
+              </p>
             </div>
-            <p className={`font-mono text-sm ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
-              {accounts.reduce((acc, a) => acc + a.wallets.length, 0)} wallets across {accounts.length} projects
-            </p>
+          </div>
+        </div>
+
+        {/* Search and Add */}
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="relative max-w-md group flex-1">
+            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${isDark ? 'text-[#6B7280] group-focus-within:text-[#00FF88]' : 'text-[#6B7280] group-focus-within:text-[#2563EB]'}`} />
+            <Input 
+              placeholder="Search projects or wallets..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={`pl-10 font-mono border-2 transition-all duration-200 ${
+                isDark 
+                  ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] focus:border-[#00FF88]' 
+                  : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+              }`}
+            />
           </div>
           
           <Button
             onClick={() => setIsAddModalOpen(true)}
             className={`font-mono border-2 transition-all duration-200 ${
               isDark 
-                ? 'bg-transparent border-[#00FF88] text-[#00FF88] hover:bg-[#00FF88] hover:text-[#0B0F14]' 
-                : 'bg-transparent border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white'
+                ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88] hover:bg-[#00FF88]/90' 
+                : 'bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#2563EB]/90'
             }`}
           >
             <Plus className="h-4 w-4 mr-2" />
@@ -313,158 +256,163 @@ export function MultipleAccountPage() {
           </Button>
         </div>
 
-        {/* Search */}
-        <div className="mb-6">
-          <div className="relative max-w-md group">
-            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${isDark ? 'text-[#6B7280] group-focus-within:text-[#00FF88]' : 'text-[#6B7280] group-focus-within:text-[#2563EB]'}`} />
-            <Input 
-              placeholder="Search projects or accounts..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className={`pl-10 font-mono border transition-all duration-200 ${
-                isDark 
-                  ? 'bg-[#161B22] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#6B7280] focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20' 
-                  : 'bg-white border-[#E5E7EB] text-[#111827] focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB]/20'
-              }`}
-            />
-          </div>
-        </div>
-
-        {/* Accounts Grid - Grouped by Project */}
+        {/* Accounts Grid */}
         {filteredAccounts.length === 0 ? (
-          <Card className={`${cardBaseClasses} ${cardThemeClasses}`}>
-            <CardContent className="p-12 text-center relative">
-              <div className={`w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 ${isDark ? 'bg-[#0B0F14]' : 'bg-[#F3F4F6]'}`}>
-                <Users className={`w-8 h-8 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />
-              </div>
-              <h3 className={`font-mono font-bold mb-2 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
-                No accounts found
-              </h3>
-              <p className={`font-mono text-sm mb-4 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
-                {searchQuery ? 'No accounts match your search.' : 'Add your first account to track multiple entries.'}
-              </p>
-              <Button
-                onClick={() => setIsAddModalOpen(true)}
-                className={`font-mono border-2 ${
-                  isDark 
-                    ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88] hover:bg-[#00FF88]/90' 
-                    : 'bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#2563EB]/90'
-                }`}
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Account
-              </Button>
-            </CardContent>
-          </Card>
+          <div className="py-16 text-center border-2 border-dashed rounded-xl border-[#1F2937]">
+            <Users className={`w-16 h-16 mx-auto mb-4 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />
+            <h3 className={`font-mono font-bold mb-2 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+              No accounts found
+            </h3>
+            <p className={`font-mono text-sm mb-4 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+              Add your first account to track multiple entries.
+            </p>
+            <Button
+              onClick={() => setIsAddModalOpen(true)}
+              className={`font-mono border-2 ${
+                isDark 
+                  ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88]' 
+                  : 'bg-[#2563EB] text-white border-[#2563EB]'
+              }`}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Account
+            </Button>
+          </div>
         ) : (
-          <div className="space-y-6">
-            {filteredAccounts.map((account) => {
-              const isHovered = hoveredCard === account.projectId;
+          <div className="space-y-4">
+            {filteredAccounts.map((account, index) => {
+              const accent = getAccentColor(index);
               
               return (
-                <div 
-                  key={account.projectId} 
-                  className={`${cardBaseClasses} ${cardThemeClasses}`}
-                  onMouseEnter={() => setHoveredCard(account.projectId)}
-                  onMouseLeave={() => setHoveredCard(null)}
+                <motion.div
+                  key={account.projectId}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className={`
+                    relative p-5 rounded-xl border overflow-hidden group
+                    transition-all duration-300 ease-out
+                    ${isDark 
+                      ? 'bg-[#161B22] border-[#1F2937] hover:border-[#1F2937]' 
+                      : 'bg-white border-[#E5E7EB] hover:border-[#E5E7EB]'}
+                  `}
+                  style={{ borderLeft: `3px solid ${accent}` }}
                 >
-                  {/* Animated gradient seperti AboutPage */}
-                  <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
-                  
-                  {/* Project Header */}
-                  <div className="flex items-start gap-4 mb-6 relative">
-                    <div className={`w-14 h-14 rounded-xl overflow-hidden border flex-shrink-0 transition-transform duration-300 ${isHovered ? 'scale-110' : ''} ${isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F3F4F6] border-[#E5E7EB]'}`}>
-                      {account.projectLogo && !logoError[account.projectId] ? (
-                        <img 
-                          src={account.projectLogo} 
-                          alt={account.projectName}
-                          className="w-full h-full object-cover"
-                          onError={() => handleLogoError(account.projectId)}
-                        />
-                      ) : (
-                        <PlaceholderLogo className={`w-full h-full p-3 ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`} />
-                      )}
-                    </div>
-                    
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 flex-wrap">
-                        <h3 className={`font-mono font-bold text-lg transition-colors ${isDark ? 'text-[#E5E7EB] group-hover:text-[#00FF88]' : 'text-[#111827] group-hover:text-[#2563EB]'}`}>
-                          {account.projectName}
-                        </h3>
-                        <Badge variant="outline" className={`text-xs font-mono ${getTypeColor(account.type)}`}>
-                          {account.type}
-                        </Badge>
-                        <Badge variant="outline" className={`text-xs font-mono ${getStatusColor(account.status)}`}>
-                          {account.status}
-                        </Badge>
-                        <span className={`text-xs font-mono px-2 py-1 rounded-full ${isDark ? 'bg-[#00FF88]/10 text-[#00FF88]' : 'bg-[#2563EB]/10 text-[#2563EB]'}`}>
-                          {account.wallets.length} wallets
-                        </span>
-                      </div>
-                    </div>
+                  {/* Glow effect */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl"
+                    style={{
+                      background: `linear-gradient(135deg, ${accent}08 0%, transparent 50%)`
+                    }}
+                  />
 
-                    {/* Delete Project Button */}
-                    <button
-                      onClick={() => handleDeleteProject(account.projectId)}
-                      className={`p-2 rounded-lg transition-colors ${
-                        isDark 
-                          ? 'text-[#6B7280] hover:text-[#EF4444] hover:bg-[#EF4444]/10' 
-                          : 'text-[#9CA3AF] hover:text-[#DC2626] hover:bg-[#DC2626]/10'
-                      }`}
-                      title="Delete all wallets"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  {/* Wallets List */}
-                  <div className="space-y-3 relative">
-                    {account.wallets.map((wallet, idx) => (
+                  <div className="relative">
+                    {/* Project Header */}
+                    <div className="flex items-start gap-4 mb-4">
                       <div 
-                        key={wallet.id}
-                        className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-200 ${
-                          isDark 
-                            ? 'bg-[#0B0F14] border-[#1F2937] hover:border-[#00FF88]/30' 
-                            : 'bg-[#F9FAFB] border-[#E5E7EB] hover:border-[#2563EB]/30'
-                        }`}
+                        className="w-14 h-14 rounded-xl overflow-hidden border flex-shrink-0 transition-transform duration-300 group-hover:scale-110 flex items-center justify-center"
+                        style={{ background: isDark ? '#0B0F14' : '#F3F4F6', borderColor: isDark ? '#1F2937' : '#E5E7EB' }}
                       >
-                        <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded flex items-center justify-center text-xs font-mono font-bold ${isDark ? 'bg-[#161B22] text-[#00FF88]' : 'bg-white text-[#2563EB]'}`}>
-                            #{idx + 1}
+                        {account.projectLogo && !logoError[account.projectId] ? (
+                          <img 
+                            src={account.projectLogo} 
+                            alt={account.projectName}
+                            className="w-full h-full object-cover"
+                            onError={() => handleLogoError(account.projectId)}
+                          />
+                        ) : (
+                          <div 
+                            className="w-full h-full flex items-center justify-center font-bold text-xl"
+                            style={{ color: accent }}
+                          >
+                            {account.projectName[0].toUpperCase()}
                           </div>
-                          <div>
-                            {wallet.label && (
-                              <p className={`font-mono text-xs mb-1 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
-                                {wallet.label}
-                              </p>
-                            )}
-                            <div className="flex items-center gap-2">
-                              <Wallet className={`w-4 h-4 ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`} />
-                              <p className={`font-mono text-sm ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+                        )}
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 flex-wrap">
+                          <h3 className={`font-mono font-bold text-lg transition-colors ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+                            {account.projectName}
+                          </h3>
+                          <span 
+                            className="text-xs font-mono px-2 py-0.5 rounded-full border"
+                            style={{ color: accent, borderColor: `${accent}40`, background: `${accent}10` }}
+                          >
+                            {account.type}
+                          </span>
+                          <span className={`text-xs font-mono px-2 py-0.5 rounded-full ${isDark ? 'bg-[#00FF88]/10 text-[#00FF88]' : 'bg-[#2563EB]/10 text-[#2563EB]'}`}>
+                            {account.wallets.length} wallets
+                          </span>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => handleDeleteProject(account.projectId)}
+                        className={`p-2 rounded-lg transition-colors opacity-0 group-hover:opacity-100 ${
+                          isDark 
+                            ? 'text-[#6B7280] hover:text-[#EF4444] hover:bg-[#EF4444]/10' 
+                            : 'text-[#9CA3AF] hover:text-[#DC2626] hover:bg-[#DC2626]/10'
+                        }`}
+                        title="Delete all wallets"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Wallets List - Compact Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                      {account.wallets.map((wallet, idx) => (
+                        <div 
+                          key={wallet.id}
+                          className={`
+                            flex items-center justify-between p-3 rounded-lg border transition-all duration-200 group/wallet
+                            ${isDark 
+                              ? 'bg-[#0B0F14] border-[#1F2937] hover:border-[#1F2937]' 
+                              : 'bg-[#F9FAFB] border-[#E5E7EB] hover:border-[#E5E7EB]'}
+                          `}
+                        >
+                          <div className="flex items-center gap-2 min-w-0">
+                            <div 
+                              className="w-6 h-6 rounded flex items-center justify-center text-xs font-mono font-bold flex-shrink-0"
+                              style={{ background: `${accent}20`, color: accent }}
+                            >
+                              #{idx + 1}
+                            </div>
+                            <div className="min-w-0">
+                              {wallet.label && (
+                                <p className={`font-mono text-xs truncate ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
+                                  {wallet.label}
+                                </p>
+                              )}
+                              <p className={`font-mono text-sm truncate ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
                                 {formatWallet(wallet.address)}
                               </p>
-                              <span className={`font-mono text-xs ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
-                                {wallet.address}
-                              </span>
                             </div>
                           </div>
+                          
+                          <button
+                            onClick={() => handleDelete(wallet.id)}
+                            className={`p-1.5 rounded-lg transition-colors opacity-0 group-hover/wallet:opacity-100 ${
+                              isDark 
+                                ? 'text-[#6B7280] hover:text-[#EF4444] hover:bg-[#EF4444]/10' 
+                                : 'text-[#9CA3AF] hover:text-[#DC2626] hover:bg-[#DC2626]/10'
+                            }`}
+                            title="Delete wallet"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
                         </div>
-                        
-                        <button
-                          onClick={() => handleDelete(wallet.id)}
-                          className={`p-2 rounded-lg transition-colors ${
-                            isDark 
-                              ? 'text-[#6B7280] hover:text-[#EF4444] hover:bg-[#EF4444]/10' 
-                              : 'text-[#9CA3AF] hover:text-[#DC2626] hover:bg-[#DC2626]/10'
-                          }`}
-                          title="Delete wallet"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+
+                  {/* Bottom accent line */}
+                  <div 
+                    className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500"
+                    style={{ background: accent }}
+                  />
+                </motion.div>
               );
             })}
           </div>
@@ -508,7 +456,7 @@ export function MultipleAccountPage() {
                           {selectedProject.projectLogo ? (
                             <img src={selectedProject.projectLogo} alt="" className="w-6 h-6 rounded object-cover" />
                           ) : (
-                            <PlaceholderLogo className={`w-6 h-6 ${isDark ? 'text-[#6B7280]' : 'text-gray-400'}`} />
+                            <div className={`w-6 h-6 rounded ${isDark ? 'bg-[#6B7280]' : 'bg-gray-400'}`} />
                           )}
                           <span>{selectedProject.projectName}</span>
                         </>
@@ -523,12 +471,12 @@ export function MultipleAccountPage() {
                     <div className={`absolute top-full left-0 right-0 mt-1 max-h-60 overflow-y-auto rounded border-2 z-50 ${
                       isDark ? 'bg-[#0f0f14] border-[#00FF88]/30' : 'bg-white border-gray-300'
                     }`}>
-                      {availableProjects.length === 0 ? (
+                      {airdrops.length === 0 ? (
                         <div className={`p-3 text-center font-mono text-sm ${isDark ? 'text-[#6B7280]' : 'text-gray-500'}`}>
                           No projects available
                         </div>
                       ) : (
-                        availableProjects.map(project => (
+                        airdrops.map(project => (
                           <button
                             key={project.id}
                             onClick={() => {
@@ -544,7 +492,7 @@ export function MultipleAccountPage() {
                             {project.projectLogo ? (
                               <img src={project.projectLogo} alt="" className="w-8 h-8 rounded object-cover" />
                             ) : (
-                              <PlaceholderLogo className={`w-8 h-8 ${isDark ? 'text-[#6B7280]' : 'text-gray-400'}`} />
+                              <div className={`w-8 h-8 rounded ${isDark ? 'bg-[#6B7280]' : 'bg-gray-400'}`} />
                             )}
                             <div>
                               <p className="font-mono font-bold text-sm">{project.projectName}</p>
@@ -558,11 +506,11 @@ export function MultipleAccountPage() {
                 </div>
               </div>
 
-              {/* Multiple Wallet Entries */}
+              {/* Multiple  Entries */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <label className={`font-mono text-sm ${isDark ? 'text-[#00FF88]' : 'text-gray-700'}`}>
-                    Wallet Addresses *
+                     Addresses *
                   </label>
                   <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-gray-500'}`}>
                     {walletEntries.length} wallet(s)
@@ -579,10 +527,9 @@ export function MultipleAccountPage() {
                           : 'bg-gray-50 border-gray-200'
                       }`}
                     >
-                      {/* Wallet Number Badge */}
                       <div className="flex items-center justify-between">
                         <span className={`text-xs font-mono font-bold ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
-                          Wallet #{index + 1}
+                           #{index + 1}
                         </span>
                         {walletEntries.length > 1 && (
                           <button
@@ -598,7 +545,6 @@ export function MultipleAccountPage() {
                         )}
                       </div>
 
-                      {/* Label Input */}
                       <div>
                         <label className={`block text-xs font-mono mb-1 ${isDark ? 'text-[#6B7280]' : 'text-gray-500'}`}>
                           Label (Optional)
@@ -615,7 +561,6 @@ export function MultipleAccountPage() {
                         />
                       </div>
 
-                      {/* Address Input */}
                       <div>
                         <label className={`block text-xs font-mono mb-1 ${isDark ? 'text-[#6B7280]' : 'text-gray-500'}`}>
                           Address *
@@ -635,7 +580,6 @@ export function MultipleAccountPage() {
                   ))}
                 </div>
 
-                {/* Add More Wallet Button */}
                 <Button
                   type="button"
                   onClick={addWalletField}
@@ -647,11 +591,10 @@ export function MultipleAccountPage() {
                   }`}
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Another Wallet
+                  Add Another 
                 </Button>
               </div>
 
-              {/* Actions */}
               <div className="flex justify-end gap-3 pt-4 border-t border-dashed mt-6">
                 <Button 
                   variant="outline" 

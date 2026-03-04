@@ -28,8 +28,18 @@ const dashboardImages = [
   },
     {
     src: '/5.png',
-    alt: 'Multi Account',
-    label: 'Multi Account'
+    alt: 'Tool',
+    label: 'Tools'
+  },
+    {
+    src: '/6.png',
+    alt: 'AI Tools',
+    label: 'AI Tools'
+  },
+    {
+    src: '/7.png',
+    alt: 'Swap&Bridge',
+    label: 'Swap&Bridge'
   },
 ];
 
