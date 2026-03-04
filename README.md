@@ -1,8 +1,8 @@
 <p align="center">
-<img src="./public/alpha-banner.png" width="250">
+<img src="./public/alpha-banner.png" width="200">
 </p>
 
-<h1 align="center">🚀 Alpha Tracker</h1>
+<h1 align="center">Alpha-Tracker</h1>
 
 <p align="center">
 A productivity dashboard for <b>crypto hunters, airdrop farmers, and Web3 researchers</b>.
