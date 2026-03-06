@@ -1,5 +1,11 @@
 import { useTheme } from "@/contexts/ThemeContext";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
+<div className="flex-shrink-0 h-16 flex items-center gap-3 px-4 border-b" style={{ borderColor: 'var(--alpha-border)' }}>
+  <img src="/logo.png" alt="Alpha Tracker" className="h-8 w-8" />
+  <span className="font-bold font-mono text-lg alpha-text tracking-tighter">
+    ALPHA<span className="alpha-text-muted">_TRACKER</span>
+  </span>
+</div>
 import { ArrowUpRight, ArrowLeftRight, Layers, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 
