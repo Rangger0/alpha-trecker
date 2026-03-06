@@ -44,13 +44,14 @@ export function AboutPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="macos-root macos-page-shell max-w-5xl mx-auto px-2 py-8 sm:px-4">
         
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-transform duration-300 hover:scale-105 ${isDark ? 'bg-[#161B22] border border-[#1F2937]' : 'bg-white border border-[#E5E7EB]'}`}>
+        <div className="macos-page-header macos-animate-up items-center text-center mb-10">
+          <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-2 transition-transform duration-300 hover:scale-105 ${isDark ? 'bg-[#161B22] border border-[#1F2937]' : 'bg-white border border-[#E5E7EB]'}`}>
             <img src="/logo.png" alt="Alpha Tracker" className="w-12 h-12 object-contain" />
           </div>
+          <div className="macos-page-kicker">Creator Notes</div>
           <h1 className={`text-3xl font-bold font-mono mb-3 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
             ALPHA_TRACKER
           </h1>
@@ -63,7 +64,7 @@ export function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           
           {/* Left - Portfolio */}
-          <div className={`${cardBaseClasses} ${cardThemeClasses}`}>
+          <div className={`macos-premium-card ${cardBaseClasses} ${cardThemeClasses}`}>
             {/* Animated gradient border */}
             <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
             
@@ -94,7 +95,7 @@ export function AboutPage() {
           </div>
 
           {/* Right - Rose Alpha */}
-          <div className={`${cardBaseClasses} ${cardThemeClasses}`}>
+          <div className={`macos-premium-card ${cardBaseClasses} ${cardThemeClasses}`}>
             <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
             
             <h2 className={`font-mono text-xs mb-4 flex items-center gap-2 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
@@ -119,7 +120,7 @@ export function AboutPage() {
         </div>
 
         {/* Media - Horizontal Layout */}
-        <div className={`${cardBaseClasses} ${cardThemeClasses}`}>
+        <div className={`macos-premium-card ${cardBaseClasses} ${cardThemeClasses}`}>
           <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
           
           <h2 className={`font-mono text-xs mb-6 flex items-center gap-2 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>

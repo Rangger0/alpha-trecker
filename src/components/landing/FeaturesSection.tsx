@@ -1,81 +1,84 @@
-// src/components/landing/FeaturesSection.tsx
-import { useTheme } from '@/contexts/ThemeContext';
 import { LayoutDashboard, Zap, Users, Shield } from 'lucide-react';
 
 const features = [
   {
     icon: LayoutDashboard,
     title: 'Multi-Account Dashboard',
-    description: 'Manage multiple wallets & projects in one place.',
-    color: 'from-blue-500 to-blue-600',
+    description: 'Manage multiple wallets and projects in one place.',
   },
   {
     icon: Zap,
     title: 'Realtime Airdrop Checker',
-    description: 'Check airdrop & task status instantly.',
-    color: 'from-purple-500 to-purple-600',
+    description: 'Check airdrop tasks, status, and follow-up actions in seconds.',
   },
   {
     icon: Users,
     title: 'Team Collaboration',
-    description: 'Invite your team, track progress, and assign tasks together.',
-    color: 'from-green-500 to-green-600',
+    description: 'Invite your team, track progress, and keep execution aligned.',
   },
   {
     icon: Shield,
     title: 'Data Privacy & Security',
-    description: 'Encrypted data, your privacy & security are protected.',
-    color: 'from-orange-500 to-orange-600',
+    description: 'Protected storage, cleaner permissions, and safer daily workflow.',
   },
 ];
 
 export function FeaturesSection() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-
   return (
-    <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className={`inline-block px-4 py-1 rounded-full text-sm font-medium mb-4 ${
-            isDark ? 'bg-[#00FF88]/10 text-[#00FF88]' : 'bg-blue-100 text-blue-600'
-          }`}>
+    <section id="features" className="px-4 py-24 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-16 text-center">
+          <span
+            className="mb-4 inline-flex rounded-full px-4 py-2 text-sm font-medium"
+            style={{
+              background: 'color-mix(in srgb, var(--alpha-surface) 86%, transparent)',
+              border: '1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent)',
+              color: 'var(--alpha-text-muted)',
+            }}
+          >
             Features
           </span>
-          <h2 className={`text-3xl sm:text-4xl font-bold font-mono mb-4 ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
+          <h2
+            className="mb-4 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
+            style={{ color: 'var(--alpha-text)' }}
+          >
             Why Use Alpha Tracker?
           </h2>
-          <p className={`text-lg max-w-2xl mx-auto ${
-            isDark ? 'text-gray-400' : 'text-gray-600'
-          }`}>
+          <p className="mx-auto max-w-2xl text-lg" style={{ color: 'var(--alpha-text-muted)' }}>
             Everything you need for efficient airdrop hunting and project management.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className={`p-6 rounded-xl border transition-all duration-300 hover:scale-105 ${
-                isDark 
-                  ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50' 
-                  : 'bg-white border-gray-200 hover:border-blue-300 shadow-sm'
-              }`}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature) => (
+            <article
+              key={feature.title}
+              className="macos-landing-card rounded-[2rem] p-6 transition-all duration-200 hover:-translate-y-1"
+              style={{
+                borderColor: 'color-mix(in srgb, var(--alpha-border) 86%, transparent)',
+                background:
+                  'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 95%, transparent), color-mix(in srgb, var(--alpha-panel) 88%, transparent))',
+              }}
             >
-              <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4`}>
-                <feature.icon className="w-6 h-6 text-white" />
+              <div
+                className="mb-4 flex h-12 w-12 items-center justify-center rounded-[14px]"
+                style={{
+                  background:
+                    'linear-gradient(135deg, color-mix(in srgb, var(--alpha-accent) 24%, transparent), color-mix(in srgb, var(--alpha-border) 58%, var(--alpha-surface) 42%))',
+                  color: 'var(--alpha-text)',
+                  border: '1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent)',
+                }}
+              >
+                <feature.icon className="h-5 w-5" />
               </div>
-              <h3 className={`text-lg font-bold font-mono mb-2 ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>
+
+              <h3 className="mb-2 text-lg font-semibold tracking-[-0.02em]" style={{ color: 'var(--alpha-text)' }}>
                 {feature.title}
               </h3>
-              <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className="text-sm leading-6" style={{ color: 'var(--alpha-text-muted)' }}>
                 {feature.description}
               </p>
-            </div>
+            </article>
           ))}
         </div>
       </div>

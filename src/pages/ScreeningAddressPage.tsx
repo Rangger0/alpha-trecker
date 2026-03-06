@@ -85,7 +85,7 @@ export function ScreeningAddressPage() {
       style={{
         borderLeft: `3px solid ${network.accent}` }}
       className={`
-        relative p-4 rounded-lg border overflow-hidden group
+        macos-premium-card relative p-4 overflow-hidden group
         transition-all duration-300 ease-out cursor-pointer
         transform hover:-translate-y-0.5
         ${isDark
@@ -156,16 +156,16 @@ export function ScreeningAddressPage() {
 
   return (
     <DashboardLayout>
-      <div className="w-full px-6 py-6">
+      <div className="macos-root macos-page-shell">
         {/* Header - Compact */}
-        <div className="mb-6">
-          <h1 className={`text-2xl font-bold mb-1 font-mono ${
-            isDark ? "text-[#E5E7EB]" : "text-[#111827]"
-          }`}>
-            Screening & Tools
-          </h1>
-          <p className={`text-sm font-mono ${isDark ? "text-[#6B7280]" : "text-[#6B7280]"}`}>
-            Multi-chain wallet inspection & trading analysis tools.
+        <div className="macos-page-header macos-animate-up">
+          <div className="macos-page-kicker">
+            <ArrowUpRight className="h-3.5 w-3.5" />
+            On-chain Scanner
+          </div>
+          <h1 className="macos-page-title">Screening & Tools</h1>
+          <p className="macos-page-subtitle">
+            Explorer dan alat screening dalam tampilan panel macOS yang lebih padat, lembut, dan responsif.
           </p>
         </div>
 
@@ -194,19 +194,13 @@ export function ScreeningAddressPage() {
             {toolsNetworks.map((network, index) => renderCard(network, index + screeningNetworks.length))}
             
             {/* Placeholder cards to fill grid */}
-            <div className={`
-              p-4 rounded-lg border border-dashed flex items-center justify-center min-h-[80px]
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state flex min-h-[80px] items-center justify-center p-4">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>
             </div>
             
-            <div className={`
-              p-4 rounded-lg border border-dashed flex items-center justify-center min-h-[80px]
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state flex min-h-[80px] items-center justify-center p-4">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>

@@ -1,0 +1,259 @@
+/* Canonical palette for Alpha Tracker.
+   Light mode follows the first reference image.
+   Dark mode follows the second reference image. */
+
+:root,
+html.light,
+.alpha-theme,
+.alpha-theme.light {
+  --background: 42 37% 94%;
+  --foreground: 96 9% 31%;
+
+  --card: 35 42% 90%;
+  --card-foreground: 96 9% 31%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 96 9% 31%;
+
+  --primary: 87 24% 63%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 35 42% 90%;
+  --secondary-foreground: 96 9% 31%;
+
+  --muted: 34 30% 88%;
+  --muted-foreground: 86 6% 47%;
+
+  --accent: 87 24% 63%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 75% 58%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 36 29% 80%;
+  --input: 36 29% 80%;
+  --ring: 87 24% 63%;
+
+  --theme-dark-bg: 78 85 71;
+  --theme-dark-secondary: 122 128 113;
+  --theme-dark-hover: 232 226 216;
+
+  --theme-light: 255 255 255;
+  --theme-light-muted: 216 207 191;
+
+  --theme-accent: 165 182 141;
+  --theme-accent-hover: 143 157 120;
+  --theme-accent-soft: 239 231 219;
+
+  --alpha-bg: #f5f1e8;
+  --alpha-panel: #efe7db;
+  --alpha-surface: #ffffff;
+  --alpha-accent: #a5b68d;
+  --alpha-accent-hover: #8f9d78;
+  --alpha-accent-from: #8f9d78;
+  --alpha-accent-to: #a5b68d;
+  --alpha-accent-contrast: #ffffff;
+  --alpha-text: #4e5547;
+  --alpha-text-muted: #7a8071;
+  --alpha-muted: #7a8071;
+  --alpha-border: #d8cfbf;
+  --alpha-row-selected: #dfe6d1;
+  --alpha-row-selected-text: #4e5547;
+  --alpha-row-odd: rgba(165, 182, 141, 0.08);
+  --alpha-row-even: rgba(216, 207, 191, 0.14);
+  --alpha-hover-soft: rgba(143, 157, 120, 0.12);
+  --alpha-shadow: 0 18px 40px rgba(78, 85, 71, 0.12);
+  --alpha-transition: 220ms ease;
+}
+
+html.dark,
+.alpha-theme.dark {
+  --background: 237 16% 24%;
+  --foreground: 180 13% 93%;
+
+  --card: 230 18% 31%;
+  --card-foreground: 180 13% 93%;
+
+  --popover: 230 18% 31%;
+  --popover-foreground: 180 13% 93%;
+
+  --primary: 177 22% 77%;
+  --primary-foreground: 237 16% 24%;
+
+  --secondary: 229 21% 39%;
+  --secondary-foreground: 180 13% 93%;
+
+  --muted: 231 17% 30%;
+  --muted-foreground: 177 22% 77%;
+
+  --accent: 226 25% 58%;
+  --accent-foreground: 180 13% 93%;
+
+  --destructive: 0 80% 62%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 226 21% 58%;
+  --input: 226 21% 58%;
+  --ring: 177 22% 77%;
+
+  --theme-dark-bg: 51 52 70;
+  --theme-dark-secondary: 75 83 115;
+  --theme-dark-hover: 95 106 145;
+
+  --theme-light: 234 239 239;
+  --theme-light-muted: 184 207 206;
+
+  --theme-accent: 184 207 206;
+  --theme-accent-hover: 218 227 226;
+  --theme-accent-soft: 127 140 170;
+
+  --alpha-bg: #333446;
+  --alpha-panel: #3f435c;
+  --alpha-surface: #4b5373;
+  --alpha-accent: #b8cfce;
+  --alpha-accent-hover: #dae3e2;
+  --alpha-accent-from: #5b6584;
+  --alpha-accent-to: #7f8caa;
+  --alpha-accent-contrast: #333446;
+  --alpha-text: #eaefef;
+  --alpha-text-muted: #b8cfce;
+  --alpha-muted: #b8cfce;
+  --alpha-border: #7f8caa;
+  --alpha-row-selected: #5b6584;
+  --alpha-row-selected-text: #eaefef;
+  --alpha-row-odd: rgba(184, 207, 206, 0.06);
+  --alpha-row-even: rgba(127, 140, 170, 0.09);
+  --alpha-hover-soft: rgba(184, 207, 206, 0.08);
+  --alpha-shadow: 0 18px 44px rgba(20, 22, 33, 0.38);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--alpha-bg);
+  color: var(--alpha-text);
+}
+
+html,
+body,
+#root,
+main,
+.app-root,
+.app-container,
+.alpha-theme {
+  background: var(--alpha-bg);
+  color: var(--alpha-text);
+  transition:
+    background-color var(--alpha-transition),
+    color var(--alpha-transition);
+}
+
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+.sidebar,
+.side-nav,
+.navbar,
+.topbar,
+.header,
+.app-header,
+.app-sidebar,
+.panel,
+.card,
+.stats-card,
+.controls,
+.toolbar,
+.search-bar,
+.filter-bar {
+  background: var(--alpha-panel);
+  color: var(--alpha-text);
+  border: 1px solid var(--alpha-border);
+}
+
+.sidebar,
+.app-sidebar {
+  min-width: 260px;
+  max-width: 320px;
+  padding: 20px 16px;
+  border-radius: 12px;
+}
+
+.table,
+.table-wrapper,
+.table-container {
+  background: transparent;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table thead th,
+.table-header {
+  background: var(--alpha-surface);
+  color: var(--alpha-muted);
+  border-bottom: 1px solid var(--alpha-border);
+  font-weight: 600;
+}
+
+.table tbody tr {
+  background: var(--alpha-panel);
+  border-bottom: 1px solid var(--alpha-border);
+}
+
+.table tbody tr:nth-child(odd) {
+  background: color-mix(in srgb, var(--alpha-panel) 86%, var(--alpha-row-odd) 14%);
+}
+
+.table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--alpha-panel) 93%, var(--alpha-row-even) 7%);
+}
+
+.table tbody tr:hover,
+.table tbody tr.active,
+.table tbody tr.selected {
+  background: var(--alpha-row-selected);
+  color: var(--alpha-row-selected-text);
+}
+
+.card,
+.stats-card {
+  padding: 18px;
+  border-radius: 12px;
+  background: var(--alpha-panel);
+  border: 1px solid var(--alpha-border);
+  box-shadow: var(--alpha-shadow);
+}
+
+.badge,
+.tag,
+.pill,
+.status {
+  background: var(--alpha-accent);
+  color: var(--alpha-accent-contrast);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+input,
+textarea,
+select,
+.search-input {
+  background: var(--alpha-surface);
+  color: var(--alpha-text);
+  border: 1px solid var(--alpha-border);
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.alpha-muted {
+  color: var(--alpha-muted);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--alpha-accent) 65%, transparent);
+  color: var(--alpha-row-selected-text);
+}

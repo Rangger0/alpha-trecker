@@ -151,7 +151,7 @@ export function AIToolsPage() {
       style={{
         borderLeft: `3px solid ${tool.accent}` }}
       className={`
-        relative p-4 rounded-lg border overflow-hidden group
+        macos-premium-card relative p-4 overflow-hidden group
         transition-all duration-300 ease-out cursor-pointer
         transform hover:-translate-y-0.5 hover:shadow-lg
         ${isDark
@@ -218,16 +218,16 @@ export function AIToolsPage() {
 
   return (
     <DashboardLayout>
-      <div className="w-full px-6 py-6">
+      <div className="macos-root macos-page-shell">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className={`text-2xl font-bold mb-1 font-mono ${
-            isDark ? "text-[#E5E7EB]" : "text-[#111827]"
-          }`}>
-            AI Tools
-          </h1>
-          <p className={`text-sm font-mono ${isDark ? "text-[#6B7280]" : "text-[#6B7280]"}`}>
-            AI assistants for coding, research, and crypto analysis.
+        <div className="macos-page-header macos-animate-up">
+          <div className="macos-page-kicker">
+            <Brain className="h-3.5 w-3.5" />
+            AI Stack
+          </div>
+          <h1 className="macos-page-title">AI Tools</h1>
+          <p className="macos-page-subtitle">
+            AI assistants untuk coding, research, dan eksplorasi Web3 dengan bahasa visual macOS yang lebih premium.
           </p>
         </div>
 
@@ -266,19 +266,13 @@ export function AIToolsPage() {
             {researchAI.map((tool, index) => renderToolCard(tool, index + codingAI.length))}
             
             {/* Fill empty slots */}
-            <div className={`
-              p-4 rounded-lg border border-dashed min-h-[80px] flex items-center justify-center
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>
             </div>
             
-            <div className={`
-              p-4 rounded-lg border border-dashed min-h-[80px] flex items-center justify-center
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>
@@ -303,37 +297,25 @@ export function AIToolsPage() {
             {agentAI.map((tool, index) => renderToolCard(tool, index + codingAI.length + researchAI.length))}
             
             {/* Fill empty slots */}
-            <div className={`
-              p-4 rounded-lg border border-dashed min-h-[80px] flex items-center justify-center
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>
             </div>
             
-            <div className={`
-              p-4 rounded-lg border border-dashed min-h-[80px] flex items-center justify-center
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>
             </div>
             
-            <div className={`
-              p-4 rounded-lg border border-dashed min-h-[80px] flex items-center justify-center
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>
             </div>
             
-            <div className={`
-              p-4 rounded-lg border border-dashed min-h-[80px] flex items-center justify-center
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>

@@ -148,7 +148,7 @@ export function ToolsPage() {
       style={{
         borderLeft: `3px solid ${tool.accent}` }}
       className={`
-        relative p-4 rounded-lg border overflow-hidden group
+        macos-premium-card relative p-4 overflow-hidden group
         transition-all duration-300 ease-out cursor-pointer
         transform hover:-translate-y-0.5 hover:shadow-lg
         ${isDark
@@ -215,16 +215,16 @@ export function ToolsPage() {
 
   return (
     <DashboardLayout>
-      <div className="w-full px-6 py-6">
+      <div className="macos-root macos-page-shell">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className={`text-2xl font-bold mb-1 font-mono ${
-            isDark ? "text-[#E5E7EB]" : "text-[#111827]"
-          }`}>
-            Research Tools
-          </h1>
-          <p className={`text-sm font-mono ${isDark ? "text-[#6B7280]" : "text-[#6B7280]"}`}>
-            Complete toolkit for crypto research, token analysis & market insights.
+        <div className="macos-page-header macos-animate-up">
+          <div className="macos-page-kicker">
+            <Search className="h-3.5 w-3.5" />
+            Research Deck
+          </div>
+          <h1 className="macos-page-title">Research Tools</h1>
+          <p className="macos-page-subtitle">
+            Semua alat riset crypto dan airdrop dalam card macOS style yang lebih bersih, premium, dan konsisten.
           </p>
         </div>
 
@@ -263,19 +263,13 @@ export function ToolsPage() {
             {airdropTools.map((tool, index) => renderToolCard(tool, index + researchTools.length))}
             
             {/* Fill empty slots */}
-            <div className={`
-              p-4 rounded-lg border border-dashed min-h-[80px] flex items-center justify-center
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state min-h-[80px] p-4 flex items-center justify-center">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>
             </div>
             
-            <div className={`
-              p-4 rounded-lg border border-dashed min-h-[80px] flex items-center justify-center
-              ${isDark ? 'border-[#1F2937] bg-[#161B22]/30' : 'border-[#E5E7EB] bg-gray-50/50'}
-            `}>
+            <div className="macos-empty-state min-h-[80px] p-4 flex items-center justify-center">
               <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
                 More tools coming soon
               </span>

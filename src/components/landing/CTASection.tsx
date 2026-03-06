@@ -1,45 +1,55 @@
-// src/components/landing/CTASection.tsx
 import { Button } from '@/components/ui/button';
-import { useTheme } from '@/contexts/ThemeContext';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 export function CTASection() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className={`text-3xl sm:text-4xl font-bold font-mono mb-4 ${
-          isDark ? 'text-white' : 'text-gray-900'
-        }`}>
+    <section className="px-4 py-24 sm:px-6 lg:px-8">
+      <div
+        className="macos-landing-card mx-auto max-w-4xl rounded-[2rem] px-8 py-12 text-center sm:px-12"
+        style={{
+          borderColor: 'color-mix(in srgb, var(--alpha-border) 86%, transparent)',
+          background:
+            'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent))',
+        }}
+      >
+        <h2
+          className="mb-4 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
+          style={{ color: 'var(--alpha-text)' }}
+        >
           Ready to Supercharge Your Web3 Journey?
         </h2>
-        <p className={`text-lg mb-8 ${
-          isDark ? 'text-gray-400' : 'text-gray-600'
-        }`}>
+        <p className="mb-8 text-lg leading-8" style={{ color: 'var(--alpha-text-muted)' }}>
           Join thousands of enthusiasts who are already using Alpha Tracker to manage their projects and maximize opportunities.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link to="/register">
-            <Button className={`h-12 px-8 text-base font-mono ${
-              isDark 
-                ? 'bg-[#00FF88] text-[#0B0F14] hover:bg-[#00FF88]/90' 
-                : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:opacity-90'
-            }`}>
+            <Button
+              className="macos-btn h-12 rounded-full px-8 text-base font-semibold transition-opacity duration-150 hover:opacity-92"
+              style={{
+                background:
+                  'linear-gradient(135deg, var(--alpha-accent-from), color-mix(in srgb, var(--alpha-accent-to) 78%, var(--alpha-accent) 22%))',
+                color: 'var(--alpha-accent-contrast)',
+              }}
+            >
               Get Started Free
             </Button>
           </Link>
-          <Link to="/login">
-            <Button variant="outline" className={`h-12 px-8 text-base font-mono border-2 ${
-              isDark 
-                ? 'border-[#1F2937] text-gray-300 hover:bg-[#1F2937]' 
-                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-            }`}>
-              Learn More <ArrowRight className="ml-2 w-4 h-4" />
+
+          <a href="#features">
+            <Button
+              variant="outline"
+              className="macos-btn h-12 rounded-full px-8 text-base font-semibold transition-opacity duration-150 hover:opacity-85"
+              style={{
+                borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
+                background: 'color-mix(in srgb, var(--alpha-surface) 86%, transparent)',
+                color: 'var(--alpha-text)',
+              }}
+            >
+              Learn More <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-          </Link>
+          </a>
         </div>
       </div>
     </section>

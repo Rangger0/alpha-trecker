@@ -61,12 +61,26 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Custom colors
+        // Custom colors - Premium Dark + Gold
+        dark: {
+          bg: 'rgb(var(--theme-dark-bg) / <alpha-value>)',
+          secondary: 'rgb(var(--theme-dark-secondary) / <alpha-value>)',
+          hover: 'rgb(var(--theme-dark-hover) / <alpha-value>)',
+        },
+        gold: {
+          DEFAULT: 'rgb(var(--theme-accent) / <alpha-value>)',
+          hover: 'rgb(var(--theme-accent-hover) / <alpha-value>)',
+          light: 'rgb(var(--theme-accent-soft) / <alpha-value>)',
+        },
+        light: {
+          DEFAULT: 'rgb(var(--theme-light) / <alpha-value>)',
+          muted: 'rgb(var(--theme-light-muted) / <alpha-value>)',
+        },
         alpha: {
-          orange: "#ff6b35",
-          "orange-light": "#ff8555",
-          dark: "#0a0a0f",
-          card: "#111118",
+          orange: "rgb(var(--theme-accent) / <alpha-value>)",
+          "orange-light": "rgb(var(--theme-accent-soft) / <alpha-value>)",
+          dark: "rgb(var(--theme-dark-bg) / <alpha-value>)",
+          card: "rgb(var(--theme-dark-secondary) / <alpha-value>)",
         },
       },
       borderRadius: {
@@ -78,8 +92,9 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        glow: "0 0 20px rgba(255, 107, 53, 0.3)",
-        "glow-lg": "0 0 40px rgba(255, 107, 53, 0.4)",
+        glow: "0 0 20px rgb(var(--theme-accent) / 0.28)",
+        "glow-lg": "0 0 40px rgb(var(--theme-accent) / 0.38)",
+        gold: "0 0 30px rgb(var(--theme-accent) / 0.18)",
       },
       keyframes: {
         "accordion-down": {
@@ -102,6 +117,10 @@ module.exports = {
           from: { opacity: "0", transform: "translateX(-10px)" },
           to: { opacity: "1", transform: "translateX(0)" },
         },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -109,6 +128,11 @@ module.exports = {
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "fade-in": "fade-in 0.3s ease-out",
         "slide-in": "slide-in 0.3s ease-out",
+        shimmer: "shimmer 2s linear infinite",
+      },
+      backgroundImage: {
+        'gradient-dark': 'linear-gradient(135deg, rgb(var(--theme-dark-bg)) 0%, rgb(var(--theme-dark-secondary)) 100%)',
+        'gradient-gold': 'linear-gradient(135deg, rgb(var(--theme-accent)) 0%, rgb(var(--theme-accent-hover)) 100%)',
       },
     },
   },

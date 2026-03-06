@@ -18,10 +18,6 @@ export function PipesBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  
-  const colors = isDark 
-    ? ['#00FF88', '#00CC6A', '#00994F', '#00FFAA', '#66FFB3']
-    : ['#2564eb', '#3B82F6', '#60A5FA', '#1d4fd8', '#93C5FD'];
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -32,15 +28,24 @@ export function PipesBackground() {
 
     let animationId: number;
     let pipes: Pipe[] = [];
-    let mouseX = 0;
-    let mouseY = 0;
     let frameCount = 0;
+    let lastFrameTime = 0;
+    const frameInterval = 1000 / 30;
+    const colors = isDark
+      ? ['#decc73', '#eede2e', '#f6da74', '#f1e986', '#f8eb94']
+      : ['#2564eb', '#3B82F6', '#60A5FA', '#1d4fd8', '#93C5FD'];
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const maxPipes = prefersReducedMotion ? 0 : 10;
+    const spawnInterval = prefersReducedMotion ? Number.MAX_SAFE_INTEGER : 30;
 
     const resize = () => {
       const parent = canvas.parentElement;
       if (parent) {
-        canvas.width = parent.clientWidth;
-        canvas.height = parent.clientHeight;
+        const width = Math.floor(parent.clientWidth);
+        const height = Math.floor(parent.clientHeight);
+
+        canvas.width = width;
+        canvas.height = height;
       }
     };
 
@@ -53,12 +58,12 @@ export function PipesBackground() {
         x,
         y,
         direction: directions[Math.floor(Math.random() * directions.length)],
-        length: 100 + Math.random() * 200,
+        length: 80 + Math.random() * 120,
         progress: 0,
-        speed: 1 + Math.random() * 2,
+        speed: 0.8 + Math.random() * 1.2,
         color: colors[Math.floor(Math.random() * colors.length)],
-        width: 2 + Math.random() * 3,
-        opacity: 0.6 + Math.random() * 0.4,
+        width: 1.5 + Math.random() * 1.5,
+        opacity: 0.35 + Math.random() * 0.25,
       };
     };
 
@@ -66,7 +71,7 @@ export function PipesBackground() {
       ctx.strokeStyle = pipe.color;
       ctx.lineWidth = pipe.width;
       ctx.lineCap = 'round';
-      ctx.shadowBlur = 15;
+      ctx.shadowBlur = 8;
       ctx.shadowColor = pipe.color;
       ctx.globalAlpha = pipe.opacity;
 
@@ -96,9 +101,9 @@ export function PipesBackground() {
 
       // Data packet
       if (pipe.progress > 20) {
-        const packetPos = pipe.progress * 0.8;
+        const packetPos = pipe.progress * 0.72;
         ctx.fillStyle = '#ffffff';
-        ctx.shadowBlur = 25;
+        ctx.shadowBlur = 12;
         ctx.shadowColor = pipe.color;
         ctx.globalAlpha = 1;
 
@@ -121,7 +126,7 @@ export function PipesBackground() {
         }
 
         ctx.beginPath();
-        ctx.arc(packetX, packetY, 4, 0, Math.PI * 2);
+        ctx.arc(packetX, packetY, 2.2, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -131,29 +136,22 @@ export function PipesBackground() {
 
     const updatePipe = (pipe: Pipe) => {
       pipe.progress += pipe.speed;
-      
-      const dx = mouseX - pipe.x;
-      const dy = mouseY - pipe.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      
-      if (distance < 200) {
-        pipe.progress += 1;
-      }
 
       return pipe.progress < pipe.length;
     };
 
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      frameCount++;
-
-      if (frameCount % 20 === 0 && pipes.length < 25) {
-        pipes.push(createPipe());
+    const animate = (timestamp: number) => {
+      if (timestamp - lastFrameTime < frameInterval) {
+        animationId = requestAnimationFrame(animate);
+        return;
       }
 
-      if (frameCount % 40 === 0) {
-        pipes.push(createPipe(mouseX, mouseY));
+      lastFrameTime = timestamp;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      frameCount++;
+
+      if (frameCount % spawnInterval === 0 && pipes.length < maxPipes) {
+        pipes.push(createPipe());
       }
 
       pipes = pipes.filter((pipe) => {
@@ -162,57 +160,29 @@ export function PipesBackground() {
         return alive;
       });
 
-      // Connection nodes
-      pipes.forEach((pipe, i) => {
-        pipes.slice(i + 1).forEach((otherPipe) => {
-          const dx = Math.abs(pipe.x - otherPipe.x);
-          const dy = Math.abs(pipe.y - otherPipe.y);
-          
-          if (dx < 15 && dy < 15) {
-            ctx.fillStyle = isDark ? '#00ff88' : '#0051ff';
-            ctx.shadowBlur = 30;
-            ctx.shadowColor = ctx.fillStyle;
-            ctx.globalAlpha = 0.8;
-            ctx.beginPath();
-            ctx.arc(pipe.x, pipe.y, 5, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.globalAlpha = 1;
-            ctx.shadowBlur = 0;
-          }
-        });
-      });
-
       animationId = requestAnimationFrame(animate);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
     };
 
     resize();
     window.addEventListener('resize', resize);
-    canvas.addEventListener('mousemove', handleMouseMove);
-    
-    for (let i = 0; i < 8; i++) {
+
+    for (let i = 0; i < Math.min(4, maxPipes); i++) {
       pipes.push(createPipe());
     }
 
-    animate();
+    animationId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('resize', resize);
-      canvas.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationId);
     };
-  }, [isDark, colors]);
+  }, [isDark]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-auto"
-      style={{ opacity: 0.6 }}
+      className="absolute inset-0 pointer-events-none"
+      style={{ opacity: 0.38 }}
     />
   );
 }

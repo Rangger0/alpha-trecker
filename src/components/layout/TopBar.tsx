@@ -5,85 +5,82 @@ import { Button } from '@/components/ui/button';
 import { Sun, Moon, Plus, Menu } from 'lucide-react';
 import { AirdropModal } from '@/components/modals/AirdropModal';
 import { createAirdrop } from '@/services/database';
+import type { Airdrop } from '@/types';
 
 interface TopBarProps {
-onToggleSidebar: () => void;
+  onToggleSidebar: () => void;
 }
 
 export function TopBar({ onToggleSidebar }: TopBarProps) {
-const { theme, toggleTheme } = useTheme();
-const { session } = useAuth();
-const isDark = theme === 'dark';
+  const { theme, toggleTheme } = useTheme();
+  const { session } = useAuth();
+  const isDark = theme === 'dark';
 
-const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-const handleAddProject = async (data: any) => {
-if (!session?.user) return;
+  const handleAddProject = async (data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
+    if (!session?.user) return;
 
+    try {
+      await createAirdrop(data, session.user.id);
+      setIsAddModalOpen(false);
+      window.location.reload();
+    } catch (error) {
+      console.error('Failed to create project:', error);
+    }
+  };
 
-try {
-  await createAirdrop(data, session.user.id);
-
-  // Tutup modal setelah berhasil
-  setIsAddModalOpen(false);
-
-  // Refresh dashboard supaya project langsung muncul
-  window.location.reload();
-
-} catch (error) {
-  console.error('Failed to create project:', error);
-}
-
-};
-
-return (
-<> <header className="fixed top-0 left-0 right-0 h-12 z-30 border-b bg-inherit"> <div className="h-full px-4 flex items-center">
-      {/* Hamburger */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={onToggleSidebar}
-        className="mr-3"
+  return (
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-40 alpha-surface macos-panel`}
+        style={{
+          borderBottom: `1px solid var(--alpha-border)`
+        }}
       >
-        <Menu className="h-5 w-5" />
-      </Button>
+        <div className="h-12 flex items-center px-3 lg:pr-6">
+          {/* Hamburger kiri */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onToggleSidebar}
+              aria-label="Open sidebar"
+              className="macos-icon macos-focus transition-transform duration-150 ease-out active:scale-95"
+              type="button"
+            >
+              <Menu className="h-4 w-4" />
+            </button>
+          </div>
 
-      {/* Add */}
-      <Button
-        onClick={() => setIsAddModalOpen(true)}
-        className="text-sm font-mono"
-      >
-        <Plus className="h-4 w-4 mr-2" />
-        NEW PROJECT
-      </Button>
+          {/* center clock */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 text-xs font-mono alpha-muted">
+            {new Date().toLocaleTimeString()}
+          </div>
 
-      {/* Clock */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 text-sm font-mono">
-        {new Date().toLocaleTimeString()}
-      </div>
+          {/* right */}
+          <div className="ml-auto flex items-center gap-3">
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="macos-btn macos-btn--primary hidden md:inline-flex"
+              title="New project"
+            >
+              <Plus className="h-4 w-4" />
+              <span className="text-xs font-mono">NEW PROJECT</span>
+            </button>
 
-      {/* Theme */}
-      <div className="ml-auto">
-        <Button variant="ghost" size="icon" onClick={toggleTheme}>
-          {isDark ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
-        </Button>
-      </div>
+            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+              {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+          </div>
+        </div>
+      </header>
 
-    </div>
-  </header>
-
-  <AirdropModal
-    isOpen={isAddModalOpen}
-    onClose={() => setIsAddModalOpen(false)}
-    onSubmit={handleAddProject}
-    mode="add"
-    isDark={isDark}
-  />
-</>
-
-);
+      <AirdropModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSubmit={handleAddProject}
+        mode="add"
+        isDark={isDark}
+      />
+    </>
+  );
 }

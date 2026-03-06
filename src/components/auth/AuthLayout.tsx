@@ -1,134 +1,305 @@
-// src/components/auth/AuthLayout.tsx
-import { type ReactNode, useState } from 'react';
+import { type ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Check, MoonStar, Sparkles } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Check } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { PipesBackground } from './PipesBackground';
 
 interface AuthLayoutProps {
   children: ReactNode;
   title: string;
   subtitle: string;
   features: string[];
-  gradient: 'blue' | 'green';
 }
 
-export function AuthLayout({ children, title, subtitle, features, gradient }: AuthLayoutProps) {
+export function AuthLayout({ children, title, subtitle, features }: AuthLayoutProps) {
   const { theme, toggleTheme } = useTheme();
+  const location = useLocation();
   const isDark = theme === 'dark';
-  const [logoError, setLogoError] = useState(false);
+  const isLoginRoute = location.pathname === '/login';
 
-  const gradientClass = gradient === 'blue' 
-    ? 'from-blue-600 via-blue-700 to-indigo-800'
-    : 'from-emerald-600 via-teal-700 to-green-800';
+  const shellBorder = 'color-mix(in srgb, var(--alpha-border) 86%, rgba(255, 255, 255, 0.35))';
+  const shellGlow = isDark ? '0 34px 90px rgba(16, 18, 28, 0.34)' : '0 28px 80px rgba(108, 96, 79, 0.15)';
+  const glassPanel = 'linear-gradient(145deg, color-mix(in srgb, var(--alpha-panel) 92%, var(--alpha-bg) 8%), color-mix(in srgb, var(--alpha-bg) 76%, var(--alpha-panel) 24%))';
+  const featurePanel = 'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 92%, transparent), color-mix(in srgb, var(--alpha-panel) 74%, transparent))';
+  const softAccent = 'color-mix(in srgb, var(--alpha-accent) 18%, transparent)';
+  const softAccentStrong = 'color-mix(in srgb, var(--alpha-accent) 28%, transparent)';
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Panel - Info (Tanpa Pipes) */}
-      <div className={`hidden lg:flex lg:w-1/2 xl:w-5/12 flex-col justify-between p-12 bg-gradient-to-br ${gradientClass} text-white relative overflow-hidden`}>
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-            backgroundSize: '40px 40px'
-          }} />
-        </div>
-
-        {/* Logo PNG */}
-        <div className="relative z-10">
-          <Link to="/" className="flex items-center gap-3">
-            {!logoError ? (
-              <img 
-                src="/logo.png" 
-                alt="Alpha Tracker"
-                className="w-12 h-12 object-contain drop-shadow-lg"
-                onError={() => setLogoError(true)}
-              />
-            ) : (
-              <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur flex items-center justify-center border border-white/20">
-                <span className="font-mono font-bold text-xl">{'>'}_</span>
-              </div>
-            )}
-            <span className="font-bold text-xl font-mono">
-              ALPHA_TRACKER
-            </span>
-          </Link>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 my-auto">
-          <h1 className="text-4xl xl:text-5xl font-bold font-mono mb-6 leading-tight">
-            {title}
-          </h1>
-          <p className="text-lg text-white/80 mb-8 leading-relaxed">
-            {subtitle}
-          </p>
-          
-          <ul className="space-y-4">
-            {features.map((feature, index) => (
-              <li key={index} className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-white/90">{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Theme Toggle */}
-        <div className="relative z-10">
-          <button
-            onClick={toggleTheme}
-            className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/20 text-sm font-mono hover:bg-white/20 transition-colors"
-          >
-            {isDark ? '☀ LIGHT_MODE' : '🌙 DARK_MODE'}
-          </button>
-        </div>
+    <div className="macos-root min-h-screen overflow-hidden" style={{ background: 'var(--alpha-bg)' }}>
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute left-[4%] top-[6%] h-44 w-44 rounded-full blur-3xl"
+          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 22%, transparent), transparent 68%)' }}
+        />
+        <div
+          className="absolute right-[8%] top-[12%] h-52 w-52 rounded-full blur-3xl"
+          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-border) 26%, transparent), transparent 72%)' }}
+        />
+        <div
+          className="absolute bottom-[10%] left-[14%] h-44 w-44 rounded-full blur-3xl"
+          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 16%, transparent), transparent 70%)' }}
+        />
       </div>
 
-      {/* Right Panel - Form (Dengan Pipes Background) */}
-      <div className={`flex-1 flex flex-col relative overflow-hidden ${
-        isDark ? 'bg-[#0B0F14]' : 'bg-gray-50'
-      }`}>
-        {/* Pipes Background - Hanya di kanan */}
-        <div className="absolute inset-0 z-0">
-          <PipesBackground />
-        </div>
-
-        {/* Mobile Header dengan Logo PNG */}
-        <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-200 dark:border-[#1F2937] relative z-10">
-          <Link to="/" className="flex items-center gap-2">
-            {!logoError ? (
-              <img 
-                src="/logo.png" 
-                alt="Alpha Tracker"
-                className="w-8 h-8 object-contain"
-                onError={() => setLogoError(true)}
-              />
-            ) : (
-              <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">
-                <span className={`font-mono font-bold ${isDark ? 'text-[#00FF88]' : 'text-blue-600'}`}>{'>'}_</span>
-              </div>
-            )}
-            <span className={`font-bold font-mono ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              ALPHA_TRACKER
-            </span>
-          </Link>
-          <button
-            onClick={toggleTheme}
-            className={`p-2 rounded-lg border ${
-              isDark ? 'border-[#1F2937] text-gray-400' : 'border-gray-200 text-gray-600'
-            }`}
+      <div className="relative mx-auto flex min-h-screen max-w-[1380px] items-center px-4 py-4 sm:px-6 sm:py-6 lg:px-10">
+        <div
+          className="w-full rounded-[2.2rem] p-[10px] sm:p-3"
+          style={{
+            border: `1px solid ${shellBorder}`,
+            background: 'color-mix(in srgb, var(--alpha-surface) 74%, var(--alpha-bg) 26%)',
+            boxShadow: shellGlow,
+          }}
+        >
+          <div
+            className="relative overflow-hidden rounded-[1.9rem] px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8"
+            style={{ background: glassPanel }}
           >
-            {isDark ? '☀' : '🌙'}
-          </button>
-        </div>
+            <div className="pointer-events-none absolute inset-0">
+              <div
+                className="absolute inset-x-0 top-0 h-36"
+                style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.12), transparent)' }}
+              />
+              <div
+                className="absolute -left-16 top-20 hidden h-72 w-72 rounded-full border sm:block"
+                style={{ borderColor: 'color-mix(in srgb, var(--alpha-border) 52%, transparent)' }}
+              />
+              <div
+                className="absolute left-16 top-20 hidden h-52 w-44 rounded-[2rem] sm:block"
+                style={{
+                  border: `1px solid ${shellBorder}`,
+                  background: 'linear-gradient(145deg, rgba(255,255,255,0.06), transparent)',
+                  transform: 'rotate(-9deg)',
+                }}
+              />
+              <div
+                className="absolute left-[28%] top-[18%] hidden h-48 w-48 rounded-full lg:block"
+                style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 66%)' }}
+              />
+            </div>
 
-        {/* Form Container */}
-        <div className="flex-1 flex items-center justify-center p-4 sm:p-8 relative z-10">
-          <div className="w-full max-w-md">
-            {children}
+            <div className="relative z-10 flex flex-wrap items-center justify-between gap-4">
+              <Link to="/" className="min-w-0">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[1rem]"
+                    style={{
+                      border: `1px solid ${shellBorder}`,
+                      background: 'color-mix(in srgb, var(--alpha-surface) 86%, transparent)',
+                      boxShadow: '0 14px 30px rgba(18, 20, 31, 0.14)',
+                    }}
+                  >
+                    <img src="/logo.png" alt="Alpha Tracker" className="h-7 w-7 object-contain" />
+                  </div>
+                  <div className="min-w-0">
+                    <p
+                      className="truncate text-[10px] uppercase tracking-[0.3em]"
+                      style={{ color: 'color-mix(in srgb, var(--alpha-text-muted) 88%, transparent)' }}
+                    >
+                      Mission Control
+                    </p>
+                    <p
+                      className="truncate text-sm font-semibold tracking-[0.2em] sm:text-base"
+                      style={{ color: 'var(--alpha-text)' }}
+                    >
+                      ALPHA_TRACKER
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              <div className="flex w-full flex-wrap items-center justify-end gap-2 sm:gap-3 lg:w-auto">
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-opacity duration-150 hover:opacity-90 sm:px-4"
+                  style={{
+                    border: `1px solid ${shellBorder}`,
+                    background: 'color-mix(in srgb, var(--alpha-surface) 78%, transparent)',
+                    color: 'var(--alpha-text)',
+                  }}
+                >
+                  <MoonStar className="h-4 w-4" />
+                  {isDark ? 'Light Mode' : 'Dark Mode'}
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/login"
+                    className="rounded-full px-4 py-2 text-sm font-semibold transition-opacity duration-150 hover:opacity-90"
+                    style={{
+                      border: isLoginRoute ? '1px solid transparent' : `1px solid ${shellBorder}`,
+                      background: isLoginRoute ? 'var(--alpha-accent)' : 'color-mix(in srgb, var(--alpha-surface) 78%, transparent)',
+                      color: isLoginRoute ? 'var(--alpha-accent-contrast)' : 'var(--alpha-text)',
+                    }}
+                  >
+                    Log In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="rounded-full px-4 py-2 text-sm font-semibold transition-opacity duration-150 hover:opacity-90"
+                    style={{
+                      border: !isLoginRoute ? '1px solid transparent' : `1px solid ${shellBorder}`,
+                      background: !isLoginRoute ? 'var(--alpha-accent)' : 'color-mix(in srgb, var(--alpha-surface) 78%, transparent)',
+                      color: !isLoginRoute ? 'var(--alpha-accent-contrast)' : 'var(--alpha-text)',
+                    }}
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative z-10 mt-6 grid gap-5 lg:mt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,430px)] lg:gap-8">
+              <div
+                className="relative overflow-hidden rounded-[1.8rem] px-5 py-6 sm:px-7 sm:py-7"
+                style={{
+                  border: `1px solid ${shellBorder}`,
+                  background: featurePanel,
+                }}
+              >
+                <div className="pointer-events-none absolute inset-0">
+                  <div
+                    className="absolute inset-x-[10%] top-[16%] hidden h-44 rounded-[2rem] sm:block"
+                    style={{
+                      border: `1px solid ${shellBorder}`,
+                      background: 'linear-gradient(145deg, rgba(255,255,255,0.06), transparent)',
+                      transform: 'rotate(-7deg)',
+                    }}
+                  />
+                  <div
+                    className="absolute right-[6%] top-[18%] hidden h-56 w-56 rounded-full sm:block"
+                    style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 64%)' }}
+                  />
+                  <div
+                    className="absolute right-[8%] top-[20%] hidden h-48 w-48 rounded-full lg:block"
+                    style={{ border: `1px dashed ${shellBorder}` }}
+                  />
+                  <img
+                    src="/logo.png"
+                    alt=""
+                    className="absolute right-[8%] top-[18%] hidden h-56 w-56 object-contain opacity-[0.08] lg:block"
+                  />
+                </div>
+
+                <div className="relative z-10 max-w-[34rem]">
+                  <div
+                    className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.28em]"
+                    style={{
+                      border: `1px solid ${shellBorder}`,
+                      background: 'color-mix(in srgb, var(--alpha-surface) 66%, transparent)',
+                      color: 'var(--alpha-text-muted)',
+                    }}
+                  >
+                    <Sparkles className="h-3.5 w-3.5" style={{ color: 'var(--alpha-accent)' }} />
+                    Secure Access
+                  </div>
+
+                  <h1
+                    className="max-w-[28rem] text-4xl font-semibold leading-[0.96] tracking-[-0.05em] sm:text-5xl"
+                    style={{ color: 'var(--alpha-text)' }}
+                  >
+                    {title}
+                  </h1>
+                  <p
+                    className="mt-4 max-w-[29rem] text-sm leading-7 sm:text-base"
+                    style={{ color: 'var(--alpha-text-muted)' }}
+                  >
+                    {subtitle}
+                  </p>
+                </div>
+
+                <div className="relative z-10 mt-7 grid gap-3 xl:max-w-[38rem] xl:grid-cols-2">
+                  {features.map((feature) => (
+                    <div
+                      key={feature}
+                      className="flex items-center gap-3 rounded-[1.2rem] px-4 py-3 text-sm"
+                      style={{
+                        border: `1px solid ${shellBorder}`,
+                        background: 'color-mix(in srgb, var(--alpha-surface) 62%, transparent)',
+                        color: 'var(--alpha-text)',
+                        boxShadow: `0 16px 30px ${softAccent}`,
+                      }}
+                    >
+                      <div
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
+                        style={{
+                          background: softAccentStrong,
+                          color: 'var(--alpha-accent)',
+                          border: `1px solid ${shellBorder}`,
+                        }}
+                      >
+                        <Check className="h-4 w-4" />
+                      </div>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-start justify-center lg:justify-end">
+                <div className="macos-auth-stage w-full max-w-[430px] lg:min-h-[548px]">
+                  <AnimatePresence initial={false} mode="wait">
+                    <motion.div
+                      key={isLoginRoute ? 'login' : 'register'}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                      style={{ willChange: 'opacity' }}
+                    >
+                      {children}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative z-10 mt-5 flex flex-col gap-4 lg:mt-6 lg:flex-row lg:items-end lg:justify-between">
+              <Link to="/" className="w-full max-w-[360px]">
+                <div
+                  className="rounded-[1.6rem] px-4 py-4"
+                  style={{
+                    border: `1px solid ${shellBorder}`,
+                    background: 'color-mix(in srgb, var(--alpha-surface) 88%, transparent)',
+                    boxShadow: '0 18px 36px rgba(24, 27, 39, 0.12)',
+                  }}
+                >
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="flex h-14 w-14 items-center justify-center rounded-[1rem]"
+                      style={{
+                        background: 'color-mix(in srgb, var(--alpha-bg) 56%, var(--alpha-surface) 44%)',
+                        border: `1px solid ${shellBorder}`,
+                      }}
+                    >
+                      <img src="/logo.png" alt="Alpha Tracker" className="h-9 w-9 object-contain" />
+                    </div>
+                    <div>
+                      <p
+                        className="font-[ui-serif,Georgia,serif] text-2xl font-semibold leading-none"
+                        style={{ color: 'var(--alpha-text)' }}
+                      >
+                        Alpha Tracker
+                      </p>
+                      <p className="mt-1 text-sm" style={{ color: 'var(--alpha-text-muted)' }}>
+                        Private workspace for wallets, drops, and ecosystem tracking.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              <div
+                className="flex flex-wrap items-center gap-3 text-xs"
+                style={{ color: 'var(--alpha-text-muted)' }}
+              >
+                <span>Dashboard palette</span>
+                <span className="h-1 w-1 rounded-full" style={{ background: 'var(--alpha-border)' }} />
+                <span>Smooth transition</span>
+                <span className="h-1 w-1 rounded-full" style={{ background: 'var(--alpha-border)' }} />
+                <span>Mobile ready</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

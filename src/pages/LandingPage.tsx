@@ -9,7 +9,7 @@ import { Footer } from '@/components/landing/Footer';
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0B0F14]">
+    <div className="macos-root macos-landing-shell min-h-screen alpha-bg">
       <Navbar />
       <main>
         <HeroSection />

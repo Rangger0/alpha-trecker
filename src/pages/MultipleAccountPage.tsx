@@ -209,11 +209,15 @@ export function MultipleAccountPage() {
 
   return (
     <DashboardLayout>
-      <div className="w-full px-6 py-6">
+      <div className="macos-root macos-page-shell">
         {/* Header */}
-        <div className="mb-6">
+        <div className="macos-page-header macos-animate-up">
+          <div className="macos-page-kicker">
+            <Users className="h-3.5 w-3.5" />
+            Wallet Matrix
+          </div>
           <div className="flex items-center gap-3 mb-2">
-            <div className={`p-2 rounded-lg ${isDark ? 'bg-[#00FF88]/10' : 'bg-[#2563EB]/10'}`}>
+            <div className={`p-2 rounded-2xl ${isDark ? 'bg-[#00FF88]/10' : 'bg-[#2563EB]/10'}`}>
               <Users className={`w-6 h-6 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
             </div>
             <div>
@@ -256,9 +260,9 @@ export function MultipleAccountPage() {
           </Button>
         </div>
 
-        {/* Accounts Grid */}
+        {/* Accounts Grid (responsive: 1 / 2 / 3 / 4 columns) */}
         {filteredAccounts.length === 0 ? (
-          <div className="py-16 text-center border-2 border-dashed rounded-xl border-[#1F2937]">
+          <div className="macos-empty-state py-16 text-center">
             <Users className={`w-16 h-16 mx-auto mb-4 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />
             <h3 className={`font-mono font-bold mb-2 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
               No accounts found
@@ -279,7 +283,7 @@ export function MultipleAccountPage() {
             </Button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredAccounts.map((account, index) => {
               const accent = getAccentColor(index);
               
@@ -288,10 +292,10 @@ export function MultipleAccountPage() {
                   key={account.projectId}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: index * 0.03 }}
                   className={`
-                    relative p-5 rounded-xl border overflow-hidden group
-                    transition-all duration-300 ease-out
+                    macos-premium-card relative p-5 overflow-hidden group
+                    transition-all duration-300 ease-out macos-card macos-panel
                     ${isDark 
                       ? 'bg-[#161B22] border-[#1F2937] hover:border-[#1F2937]' 
                       : 'bg-white border-[#E5E7EB] hover:border-[#E5E7EB]'}
@@ -306,7 +310,7 @@ export function MultipleAccountPage() {
                     }}
                   />
 
-                  <div className="relative">
+                  <div className="relative z-10">
                     {/* Project Header */}
                     <div className="flex items-start gap-4 mb-4">
                       <div 
@@ -360,8 +364,8 @@ export function MultipleAccountPage() {
                       </button>
                     </div>
 
-                    {/* Wallets List - Compact Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    {/* Wallets Grid inside card */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {account.wallets.map((wallet, idx) => (
                         <div 
                           key={wallet.id}
@@ -423,7 +427,7 @@ export function MultipleAccountPage() {
       {isAddModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setIsAddModalOpen(false)}>
           <div 
-            className={`w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl border-2 p-6 ${isDark ? 'bg-[#0a0a0f] border-[#00FF88]' : 'bg-white border-gray-400'}`}
+            className={`w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-[2rem] border p-6 shadow-2xl ${isDark ? 'bg-[#0a0a0f]/95 border-[#00FF88]/30' : 'bg-white/95 border-gray-300'}`}
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">

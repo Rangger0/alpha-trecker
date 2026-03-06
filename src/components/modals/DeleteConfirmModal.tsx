@@ -61,16 +61,12 @@ export function DeleteConfirmModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`max-w-md border !bg-[#fdfdfd] ${
-        isDark 
-          ? 'border-[#ffffff46]' 
-          : 'bg-white border-[#e5e7eb]'
-      }`}>
+      <DialogContent className={`max-w-md macos-modal alpha-surface alpha-border`}>
         <DialogHeader className="text-center">
           <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
             isDeleteVariant 
-              ? (isDark ? 'bg-[#EF4444]/10' : 'bg-[#DC2626]/10')
-              : (isDark ? 'bg-[#F59E0B]/10' : 'bg-[#D97706]/10')
+              ? (isDark ? 'bg-[rgba(239,68,68,0.08)]' : 'bg-[rgba(220,38,38,0.08)]')
+              : (isDark ? 'bg-[rgba(245,158,11,0.08)]' : 'bg-[rgba(217,119,6,0.08)]')
           }`}>
             {isDeleteVariant ? (
               <AlertTriangle className={`h-8 w-8 ${isDark ? 'text-[#EF4444]' : 'text-[#DC2626]'}`} />
@@ -78,10 +74,10 @@ export function DeleteConfirmModal({
               <X className={`h-8 w-8 ${isDark ? 'text-[#F59E0B]' : 'text-[#D97706]'}`} />
             )}
           </div>
-          <DialogTitle className={`text-xl font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+          <DialogTitle className={`text-xl font-mono alpha-text`}>
             {displayTitle}
           </DialogTitle>
-          <DialogDescription className={`font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+          <DialogDescription className={`font-mono alpha-muted`}>
             {isDark ? (
               <span dangerouslySetInnerHTML={{ 
                 __html: displayDescription.replace(
@@ -100,26 +96,14 @@ export function DeleteConfirmModal({
             variant="outline" 
             onClick={onClose}
             disabled={isLoading}
-            className={`font-mono border-2 ${
-              isDark 
-                ? 'border-[#1F2937] text-[#6B7280] hover:bg-[#1F2937]' 
-                : 'border-[#E5E7EB] text-[#6B7280] hover:bg-[#F3F4F6]'
-            }`}
+            className={`macos-btn macos-btn--ghost`}
           >
             CANCEL
           </Button>
           <Button 
             onClick={handleConfirm}
             disabled={isLoading}
-            className={`font-mono border-2 ${
-              isDeleteVariant
-                ? (isDark 
-                    ? 'bg-[#EF4444] text-white border-[#EF4444] hover:bg-[#EF4444]/90' 
-                    : 'bg-[#DC2626] text-white border-[#DC2626] hover:bg-[#DC2626]/90')
-                : (isDark 
-                    ? 'bg-[#F59E0B] text-black border-[#F59E0B] hover:bg-[#F59E0B]/90' 
-                    : 'bg-[#D97706] text-white border-[#D97706] hover:bg-[#D97706]/90')
-            }`}
+            className={`macos-btn ${isDeleteVariant ? 'macos-btn--primary' : 'macos-btn--primary'}`}
           >
             {isLoading ? (
               <>

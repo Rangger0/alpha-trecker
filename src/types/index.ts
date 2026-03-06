@@ -15,6 +15,7 @@ export type AirdropType =
 
 export type AirdropStatus = 'Planning' | 'Ongoing' | 'Done' | 'Dropped';
 export type PriorityLevel = 'Low' | 'Medium' | 'High';
+export type RewardClaimStatus = 'Pending TGE' | 'Claimed' | 'Missed';
 export interface Task {
   id: string;
   airdropId: string;
@@ -43,6 +44,32 @@ export interface Airdrop {
   is_priority?: boolean;        
   isPriority?: boolean;          
   ecosystemId?: string;
+}
+
+export interface AirdropReward {
+  id: string;
+  userId: string;
+  airdropId: string;
+  claimStatus: RewardClaimStatus;
+  amountUsd: number;
+  tokenAmount?: number | null;
+  tokenSymbol?: string | null;
+  tgeDate?: string | null;
+  claimedAt?: string | null;
+  notes?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AirdropRewardInput {
+  airdropId: string;
+  claimStatus: RewardClaimStatus;
+  amountUsd: number;
+  tokenAmount?: number | null;
+  tokenSymbol?: string | null;
+  tgeDate?: string | null;
+  claimedAt?: string | null;
+  notes?: string | null;
 }
 
 export interface User {

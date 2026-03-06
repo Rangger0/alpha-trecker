@@ -23,7 +23,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
   const checkSession = async () => {
     const { data } = await supabase.auth.getSession();
-    console.log("SESSION RESULT:", data.session);
     setSession(data.session);
     setIsLoading(false);
   };
@@ -32,7 +31,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const { data: listener } = supabase.auth.onAuthStateChange(
     (_event, session) => {
-      console.log("AUTH CHANGE:", session);
       setSession(session);
       setIsLoading(false);
     }
@@ -62,4 +60,5 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);

@@ -63,16 +63,23 @@ export function PriorityProjectsPage() {
     refetch();
   }, [refetch]);
 
+  // build map of projectId -> walletCount
   const walletCountMap: Record<string, number> = useMemo(() => {
     const map: Record<string, number> = {};
     if (!Array.isArray(wallets)) return map;
     wallets.forEach((wallet: any) => {
-      if (wallet.projectId) {
-        map[wallet.projectId] = (map[wallet.projectId] || 0) + 1;
-      }
+      // support multiple naming conventions (projectId or project_id) to avoid mismatch
+      const pid = wallet.projectId ?? wallet.project_id ?? wallet.project_id?.toString() ?? wallet.project?.id;
+      if (!pid) return;
+      map[pid] = (map[pid] || 0) + 1;
     });
     return map;
   }, [wallets]);
+
+  // total wallets derived from walletCountMap (keeps numbers in sync with per-project counts)
+  const totalWallets = useMemo(() => {
+    return Object.values(walletCountMap).reduce((sum, n) => sum + (n || 0), 0);
+  }, [walletCountMap]);
 
   const priorityProjects: PriorityProject[] = useMemo(() => {
     const filtered = airdrops.filter((a: Airdrop) => a.isPriority === true);
@@ -159,11 +166,15 @@ export function PriorityProjectsPage() {
 
   return (
     <DashboardLayout>
-      <div className="w-full px-6 py-6">
+      <div className="macos-root macos-page-shell">
         {/* Header */}
-        <div className="mb-6">
+        <div className="macos-page-header macos-animate-up">
+          <div className="macos-page-kicker">
+            <Star className="h-3.5 w-3.5" />
+            Priority Queue
+          </div>
           <div className="flex items-center gap-3 mb-2">
-            <div className={`p-2 rounded-lg ${isDark ? 'bg-[#00FF88]/10' : 'bg-[#2563EB]/10'}`}>
+            <div className={`p-2 rounded-2xl ${isDark ? 'bg-[#00FF88]/10' : 'bg-[#2563EB]/10'}`}>
               <Star className={`w-6 h-6 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
             </div>
             <div>
@@ -179,18 +190,18 @@ export function PriorityProjectsPage() {
 
         {/* Stats */}
         <div className="mb-6 flex flex-wrap gap-4">
-          <div className={`px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
+          <div className={`macos-premium-card px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
             <Star className={`w-5 h-5 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
             <div>
               <p className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>Priority Projects</p>
               <p className={`text-xl font-bold font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>{priorityProjects.length}</p>
             </div>
           </div>
-          <div className={`px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
+          <div className={`macos-premium-card px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
             <Wallet className={`w-5 h-5 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
             <div>
               <p className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>Total Wallets</p>
-              <p className={`text-xl font-bold font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>{wallets.length}</p>
+              <p className={`text-xl font-bold font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>{totalWallets}</p>
             </div>
           </div>
         </div>
@@ -224,7 +235,7 @@ export function PriorityProjectsPage() {
         </div>
 
         {filteredProjects.length === 0 ? (
-          <div className="py-16 text-center border-2 border-dashed rounded-xl border-[#1F2937]">
+          <div className="macos-empty-state py-16 text-center">
             <Star className={`w-16 h-16 mx-auto mb-4 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />
             <h3 className={`font-mono font-bold mb-2 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
               No Priority Projects
@@ -256,7 +267,7 @@ export function PriorityProjectsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                   className={`
-                    relative p-4 rounded-xl border overflow-hidden group cursor-pointer
+                    macos-premium-card relative p-4 overflow-hidden group cursor-pointer
                     transition-all duration-300 ease-out
                     transform hover:-translate-y-1 hover:shadow-xl
                     ${isDark

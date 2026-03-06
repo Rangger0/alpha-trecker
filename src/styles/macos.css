@@ -1,0 +1,487 @@
+:root{
+  /* macOS UI tokens — tweak nilai bila perlu */
+  --mac-radius-sm: 10px;
+  --mac-radius-md: 18px;
+  --mac-radius-lg: 26px;
+  --mac-radius-xl: 34px;
+
+  --mac-shadow-1: 0 8px 20px rgba(10,11,13,0.06);
+  --mac-shadow-2: 0 14px 36px rgba(10,11,13,0.1);
+  --mac-shadow-3: 0 18px 44px rgba(10,11,13,0.12);
+
+  --mac-backdrop: rgba(255,255,255,0.6);
+  --mac-blur: 10px;
+
+  --mac-font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* sizes */
+  --mac-gap: 12px;
+}
+
+/* Root to enable mac style on selected pages */
+.macos-root {
+  font-family: var(--mac-font-stack);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--alpha-text);
+}
+
+.macos-app-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.macos-app-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-accent) 12%, transparent) 0, transparent 30%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 88%, transparent), transparent 42%);
+  opacity: 0.45;
+}
+
+/* Card surface in mac style (rounded, subtle shadow) */
+.macos-card {
+  position: relative;
+  border-radius: var(--mac-radius-md);
+  box-shadow: var(--mac-shadow-1);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, #fff 4%), color-mix(in srgb, var(--alpha-panel) 92%, transparent));
+  border: 1px solid var(--alpha-border);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+  overflow: hidden;
+}
+
+/* elevated card */
+.macos-card-hover:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: var(--mac-shadow-2);
+}
+
+.macos-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 42%),
+    linear-gradient(180deg, rgba(255,255,255,0.14), transparent 30%);
+  opacity: 0.7;
+}
+
+/* Soft frosted panel for top bars, side panels */
+.macos-panel {
+  border-radius: var(--mac-radius-lg);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 92%, #fff 8%), color-mix(in srgb, var(--alpha-panel) 96%, transparent));
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 78%, transparent);
+  box-shadow: var(--mac-shadow-1);
+}
+
+/* Modal wrapper (centered, mac style) */
+.macos-modal {
+  border-radius: var(--mac-radius-md);
+  background: var(--alpha-surface);
+  border: 1px solid var(--alpha-border);
+  box-shadow: var(--mac-shadow-2);
+  overflow: hidden;
+}
+
+/* Buttons (primary/ghost) */
+.macos-btn {
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  transition:
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.macos-btn:active { transform: translateY(1px) scale(0.99); }
+
+/* Primary (accent) button — uses alpha gradient */
+.macos-btn--primary {
+  background-image: linear-gradient(90deg, var(--alpha-accent-from), var(--alpha-accent-to));
+  color: var(--alpha-accent-contrast);
+  border: 1px solid color-mix(in srgb, var(--alpha-accent) 48%, transparent);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--alpha-accent) 26%, transparent);
+}
+
+/* Ghost button (subtle) */
+.macos-btn--ghost {
+  background: transparent;
+  border: 1px solid var(--alpha-border);
+  color: var(--alpha-text);
+}
+
+/* Small tweaks for forms / inputs (rounded) */
+.macos-input {
+  border-radius: 14px;
+  border: 1px solid var(--alpha-border);
+  background: color-mix(in srgb, var(--alpha-surface) 92%, transparent);
+  padding: 10px 14px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+/* Small helper for rounded icon wrappers */
+.macos-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background: var(--alpha-panel);
+  border: 1px solid var(--alpha-border);
+}
+
+/* Make dropdowns / popovers look mac-like */
+.macos-popover {
+  border-radius: 10px;
+  background: var(--alpha-surface);
+  border: 1px solid var(--alpha-border);
+  box-shadow: var(--mac-shadow-2);
+  overflow: hidden;
+}
+
+/* Table tweaks: larger cell padding & subtle row hover */
+.macos-table td, .macos-table th {
+  padding: 14px 16px;
+}
+.macos-table tr:hover td {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.02));
+}
+
+/* Nice focus outlines for accessibility */
+.macos-focus:focus {
+  outline: 3px solid rgba(0,173,181,0.12);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.macos-page-shell {
+  position: relative;
+  padding: 0;
+}
+
+.macos-page-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 26px 28px;
+  border-radius: var(--mac-radius-xl);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-accent) 16%, transparent), transparent 32%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 95%, #fff 5%), color-mix(in srgb, var(--alpha-panel) 88%, transparent));
+  box-shadow: var(--mac-shadow-1);
+  overflow: hidden;
+}
+
+.macos-page-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 28px 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--alpha-border) 85%, transparent), transparent);
+}
+
+.macos-page-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 90%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 88%, transparent);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  color: var(--alpha-text-muted);
+}
+
+.macos-page-title {
+  margin: 0;
+  font-size: clamp(2rem, 2.8vw, 3.25rem);
+  line-height: 0.98;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--alpha-text);
+}
+
+.macos-page-subtitle {
+  max-width: 58rem;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--alpha-text-muted);
+}
+
+.macos-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 88%, transparent);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--alpha-text-muted);
+}
+
+.macos-premium-card {
+  position: relative;
+  border-radius: 24px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-accent) 14%, transparent), transparent 36%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 95%, #fff 5%), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
+  box-shadow: var(--mac-shadow-1);
+  overflow: hidden;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.macos-premium-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--mac-shadow-2);
+  border-color: color-mix(in srgb, var(--alpha-accent) 28%, var(--alpha-border));
+}
+
+.macos-premium-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), transparent 28%);
+}
+
+.macos-empty-state {
+  border-radius: 28px;
+  border: 1px dashed color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 84%, transparent);
+  box-shadow: var(--mac-shadow-1);
+}
+
+.macos-auth-stage {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+}
+
+.macos-auth-stage::before {
+  content: "";
+  position: absolute;
+  inset: -20px -12px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-accent) 18%, transparent), transparent 34%),
+    radial-gradient(circle at bottom right, color-mix(in srgb, var(--alpha-border) 26%, transparent), transparent 30%);
+  opacity: 0.82;
+}
+
+.macos-auth-card {
+  position: relative;
+  padding: clamp(24px, 4vw, 32px);
+  border-radius: 30px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 34%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--alpha-surface) 96%, #fff 4%),
+      color-mix(in srgb, var(--alpha-panel) 14%, var(--alpha-surface) 86%)
+    );
+  box-shadow: var(--alpha-shadow);
+  overflow: hidden;
+}
+
+.macos-auth-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), transparent 28%);
+}
+
+.macos-auth-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.macos-auth-field {
+  border-radius: 18px;
+  min-height: 52px;
+  box-shadow: none;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.macos-auth-field:focus-visible {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .macos-auth-stage::before {
+    inset: -12px -2px;
+    opacity: 0.74;
+  }
+
+  .macos-auth-card {
+    border-radius: 26px;
+  }
+}
+
+.macos-landing-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.macos-landing-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-accent) 14%, transparent), transparent 32%),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-border) 24%, transparent), transparent 36%);
+}
+
+.macos-nav-shell {
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 90%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 94%, transparent);
+  box-shadow: var(--mac-shadow-1);
+}
+
+.macos-landing-card {
+  position: relative;
+  border-radius: 28px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-accent) 12%, transparent), transparent 36%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, #fff 4%), color-mix(in srgb, var(--alpha-panel) 88%, transparent));
+  box-shadow: var(--mac-shadow-2);
+}
+
+.macos-landing-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.16), transparent 22%);
+}
+
+.projects-marquee {
+  position: relative;
+  overflow: hidden;
+}
+
+.projects-marquee__track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 1.25rem;
+  will-change: transform;
+  animation: projects-marquee-right 36s linear infinite;
+}
+
+.projects-marquee__group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.projects-marquee:hover .projects-marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes projects-marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes macos-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes macos-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes macos-sheen {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.macos-animate-up {
+  animation: macos-rise 360ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.macos-animate-float {
+  animation: macos-float 7s ease-in-out infinite;
+}
+
+.macos-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.macos-sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -35%;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-18deg) translateX(-160%);
+  transition: transform 560ms ease;
+  pointer-events: none;
+}
+
+.macos-sheen:hover::after {
+  transform: skewX(-18deg) translateX(320%);
+}

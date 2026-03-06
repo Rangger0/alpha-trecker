@@ -1,6 +1,6 @@
 // ALPHA TRECKER - Theme Context
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, useCallback, type ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -13,51 +13,56 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const THEME_KEY = 'alpha_trecker_theme';
+const THEME_SWITCH_GUARD_CLASS = 'theme-switching';
+
+const applyThemeToDocument = (theme: Theme) => {
+  document.documentElement.classList.toggle('dark', theme === 'dark');
+  document.documentElement.classList.toggle('light', theme === 'light');
+  document.documentElement.style.colorScheme = theme;
+};
+
+const guardThemeSwitch = () => {
+  document.documentElement.classList.add(THEME_SWITCH_GUARD_CLASS);
+  window.setTimeout(() => {
+    document.documentElement.classList.remove(THEME_SWITCH_GUARD_CLASS);
+  }, 140);
+};
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
-  const [mounted, setMounted] = useState(false);
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return 'dark';
+    return (localStorage.getItem(THEME_KEY) as Theme | null) ?? 'dark';
+  });
 
   useEffect(() => {
-    setMounted(true);
-    const savedTheme = localStorage.getItem(THEME_KEY) as Theme | null;
-    if (savedTheme) {
-      setThemeState(savedTheme);
-      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-      document.documentElement.classList.toggle('light', savedTheme === 'light');
-    } else {
-      // Default to dark
-      document.documentElement.classList.add('dark');
-    }
+    applyThemeToDocument(theme);
+    localStorage.setItem(THEME_KEY, theme);
+  }, [theme]);
+
+  const setTheme = useCallback((newTheme: Theme) => {
+    guardThemeSwitch();
+    setThemeState(newTheme);
   }, []);
 
-  useEffect(() => {
-    if (mounted) {
-      document.documentElement.classList.toggle('dark', theme === 'dark');
-      document.documentElement.classList.toggle('light', theme === 'light');
-      localStorage.setItem(THEME_KEY, theme);
-    }
-  }, [theme, mounted]);
+  const toggleTheme = useCallback(() => {
+    guardThemeSwitch();
+    setThemeState((prev) => prev === 'dark' ? 'light' : 'dark');
+  }, []);
 
-  const toggleTheme = () => {
-    setThemeState(prev => prev === 'dark' ? 'light' : 'dark');
-  };
-
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-  };
-
-  if (!mounted) {
-    return <>{children}</>;
-  }
+  const value = useMemo(() => ({
+    theme,
+    toggleTheme,
+    setTheme,
+  }), [setTheme, theme, toggleTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {

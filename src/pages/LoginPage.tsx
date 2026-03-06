@@ -1,15 +1,11 @@
-// src/pages/LoginPage.tsx
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AlertCircle, ArrowRight, Eye, EyeOff, Loader2, Lock, Mail } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { AuthLayout } from '@/components/auth/AuthLayout';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useTheme } from '@/contexts/ThemeContext';
-import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Loader2, Mail, Lock } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
@@ -17,9 +13,17 @@ export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const navigate = useNavigate();
+
+  const fieldStyle = {
+    borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
+    background: 'color-mix(in srgb, var(--alpha-surface) 90%, var(--alpha-panel) 10%)',
+    color: 'var(--alpha-text)',
+  } as const;
+
+  const iconStyle = { color: 'var(--alpha-text-muted)' } as const;
+  const labelStyle = { color: 'var(--alpha-text-muted)' } as const;
+  const actionLinkStyle = { color: 'var(--alpha-accent)' } as const;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,153 +39,141 @@ export function LoginPage() {
       if (error) throw error;
 
       if (!data.session) {
-        throw new Error("Login failed. Session not created.");
+        throw new Error('Login failed. Session not created.');
       }
 
-      navigate('/dashboard');
-    } catch (err: any) {
-      console.log("AUTH ERROR:", err);
-      setError(err.message || "Authentication failed");
+      navigate('/overview');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Authentication failed';
+      setError(message);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <AuthLayout
-      title="Welcome Back!"
-      subtitle="Sign in to your Alpha Tracker account and continue managing your airdrop projects with our powerful tools."
-      features={[
-        'Track multiple airdrop projects',
-        'Real-time market data',
-        'Priority project management',
-      ]}
-      gradient="blue"
-    >
-    
-<div className={`p-8 rounded-2xl border shadow-2xl backdrop-blur-md ${
-  isDark 
-    ? 'bg-[#161B22]/90 border-[#1F2937]/50' 
-    : 'bg-white/90 border-gray-200/50'
-}`}>
-        <div className="text-center mb-6">
-          <h2 className={`text-2xl font-bold font-mono mb-2 ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
-            Sign in to your account
-          </h2>
-          <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-            Welcome back! Please enter your details.
-          </p>
+    <div className="macos-auth-card lg:min-h-[548px]">
+      <div className="mb-6">
+        <h2
+          className="font-[ui-serif,Georgia,serif] text-[2.15rem] font-semibold leading-none sm:text-[2.35rem]"
+          style={{ color: 'var(--alpha-text)' }}
+        >
+          Welcome Back...
+        </h2>
+        <p className="mt-2 text-sm leading-6" style={{ color: 'var(--alpha-text-muted)' }}>
+          Please enter your email and password.
+        </p>
+      </div>
+
+      {error && (
+        <Alert
+          variant="destructive"
+          className="mb-4 border-[#ef4444]/30 bg-[#ef4444]/10 text-[#b42318]"
+        >
+          <AlertCircle className="h-4 w-4 text-[#ef4444]" />
+          <AlertDescription className="text-[#b42318]">{error}</AlertDescription>
+        </Alert>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="email" className="font-mono text-[11px] uppercase tracking-[0.18em]" style={labelStyle}>
+            Email
+          </Label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" style={iconStyle} />
+            <Input
+              id="email"
+              type="email"
+              placeholder="user@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="macos-auth-field h-[52px] pl-10 font-mono placeholder:opacity-60"
+              style={fieldStyle}
+              disabled={isLoading}
+              required
+            />
+          </div>
         </div>
 
-        {error && (
-          <Alert variant="destructive" className="mb-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email" className={`font-mono text-sm ${
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            }`}>
-              Email
-            </Label>
-            <div className="relative">
-              <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
-                isDark ? 'text-gray-500' : 'text-gray-400'
-              }`} />
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={`pl-10 h-12 font-mono ${
-                  isDark 
-                    ? 'bg-[#0B0F14] border-[#1F2937] text-white placeholder:text-gray-600' 
-                    : 'bg-gray-50 border-gray-200 text-gray-900'
-                }`}
-                disabled={isLoading}
-                required
-              />
-            </div>
+        <div className="space-y-2">
+          <Label htmlFor="password" className="font-mono text-[11px] uppercase tracking-[0.18em]" style={labelStyle}>
+            Password
+          </Label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" style={iconStyle} />
+            <Input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="macos-auth-field h-[52px] pl-10 pr-10 font-mono placeholder:opacity-60"
+              style={fieldStyle}
+              disabled={isLoading}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 transition-opacity hover:opacity-80"
+              style={iconStyle}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
           </div>
+        </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password" className={`font-mono text-sm ${
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            }`}>
-              Password
-            </Label>
-            <div className="relative">
-              <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
-                isDark ? 'text-gray-500' : 'text-gray-400'
-              }`} />
-              <Input
-                id="password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={`pl-10 pr-10 h-12 font-mono ${
-                  isDark 
-                    ? 'bg-[#0B0F14] border-[#1F2937] text-white placeholder:text-gray-600' 
-                    : 'bg-gray-50 border-gray-200 text-gray-900'
-                }`}
-                disabled={isLoading}
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className={`absolute right-3 top-1/2 -translate-y-1/2 ${
-                  isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'
-                }`}
-              >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
-          </div>
+        <p className="text-xs leading-6" style={{ color: 'var(--alpha-text-muted)' }}>
+          By login, you agree to our{' '}
+          <a href="#" className="font-medium hover:underline" style={actionLinkStyle}>
+            Terms & Conditions
+          </a>
+        </p>
 
-          <Button 
-            type="submit" 
-            className={`w-full h-12 font-mono font-bold text-base ${
-              isDark 
-                ? 'bg-[#00FF88] text-[#0B0F14] hover:bg-[#00FF88]/90' 
-                : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:opacity-90'
-            }`}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Button
+            type="submit"
+            className="h-12 flex-1 rounded-xl border-0 font-mono text-base font-semibold transition-opacity duration-150 hover:opacity-90"
+            style={{
+              background: 'linear-gradient(135deg, var(--alpha-accent), color-mix(in srgb, var(--alpha-accent) 78%, var(--alpha-border) 22%))',
+              color: 'var(--alpha-accent-contrast)',
+              boxShadow: '0 18px 34px color-mix(in srgb, var(--alpha-accent) 26%, transparent)',
+            }}
             disabled={isLoading}
           >
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Authenticating...
+                Login...
               </>
             ) : (
-              'LOGIN'
+              <span className="flex w-full items-center justify-between">
+                <span>login...</span>
+                <ArrowRight className="h-4 w-4" />
+              </span>
             )}
           </Button>
-        </form>
 
-        <div className="mt-6 text-center space-y-3">
-          <a href="#" className={`block text-sm hover:underline ${
-            isDark ? 'text-[#00FF88]' : 'text-blue-600'
-          }`}>
-            Forgot Password?
+          <a
+            href="#"
+            className="shrink-0 text-xs font-medium transition-opacity hover:opacity-80"
+            style={{ color: 'var(--alpha-text-muted)' }}
+          >
+            Forgot Password
           </a>
-          <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-            Not a member?{' '}
-            <Link to="/register" className={`font-medium hover:underline ${
-              isDark ? 'text-[#00FF88]' : 'text-blue-600'
-            }`}>
-              Create account
-            </Link>
-          </p>
         </div>
+      </form>
+
+      <div className="mt-8 text-center">
+        <p className="text-sm" style={{ color: 'var(--alpha-text-muted)' }}>
+          Don&apos;t have an account yet?{' '}
+          <Link to="/register" className="font-semibold hover:underline" style={actionLinkStyle}>
+            Create Account
+          </Link>
+        </p>
       </div>
-    </AuthLayout>
+    </div>
   );
 }
