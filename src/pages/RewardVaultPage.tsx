@@ -13,7 +13,6 @@ import {
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { RewardPerformancePanel } from "@/components/rewards/RewardPerformancePanel";
 import { AirdropRewardModal } from "@/components/modals/AirdropRewardModal";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -46,12 +45,6 @@ const formatDisplayDate = (value?: string | null) => {
     month: "short",
     year: "numeric",
   });
-};
-
-const statusStyles: Record<RewardClaimStatus, string> = {
-  Claimed: "border-gold/30 bg-gold/10 text-gold",
-  "Pending TGE": "border-[#3B82F6]/30 bg-[#3B82F6]/10 text-[#3B82F6]",
-  Missed: "border-[#EF4444]/30 bg-[#EF4444]/10 text-[#EF4444]",
 };
 
 type RewardRow = {

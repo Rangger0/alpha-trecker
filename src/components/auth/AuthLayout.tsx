@@ -8,7 +8,7 @@ interface AuthLayoutProps {
   children: ReactNode;
   title: string;
   subtitle: string;
-  features: string[];
+  features: readonly string[];
 }
 
 export function AuthLayout({ children, title, subtitle, features }: AuthLayoutProps) {
