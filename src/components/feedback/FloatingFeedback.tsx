@@ -71,6 +71,11 @@ export function FloatingFeedback() {
     const trimmedMessage = message.trim();
     const trimmedContact = contact.trim();
 
+    if (!session?.user) {
+      toast.error("Harap login dulu untuk kirim feedback.");
+      return;
+    }
+
     if (trimmedMessage.length < MIN_FEEDBACK_MESSAGE_LENGTH) {
       toast.error(
         `Feedback minimal ${MIN_FEEDBACK_MESSAGE_LENGTH} karakter. Sekarang baru ${trimmedMessage.length}.`,
