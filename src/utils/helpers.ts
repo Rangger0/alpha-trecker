@@ -90,7 +90,7 @@ export const getStatusColor = (status: string, isDark: boolean = true): string =
   const colors: Record<string, { dark: string; light: string }> = {
     'Planning': { dark: 'text-gray-400', light: 'text-gray-600' },
     'Ongoing': { dark: 'text-blue-400', light: 'text-blue-600' },
-    'Done': { dark: 'text-[#00FF88]', light: 'text-green-600' },
+    'Done': { dark: 'text-[var(--alpha-signal)]', light: 'text-green-600' },
     'Dropped': { dark: 'text-red-400', light: 'text-red-600' }
   };
   return colors[status]?.[isDark ? 'dark' : 'light'] || colors['Planning'][isDark ? 'dark' : 'light'];

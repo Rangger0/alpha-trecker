@@ -1,6 +1,6 @@
 // ALPHA TRECKER - Theme Context
 
-import { createContext, useContext, useState, useEffect, useMemo, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useLayoutEffect, useMemo, useCallback, type ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -12,13 +12,19 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const THEME_KEY = 'alpha_trecker_theme';
+const THEME_KEY = 'alpha_tracker_theme';
+const LEGACY_THEME_KEY = 'alpha_trecker_theme';
 const THEME_SWITCH_GUARD_CLASS = 'theme-switching';
 
 const applyThemeToDocument = (theme: Theme) => {
   document.documentElement.classList.toggle('dark', theme === 'dark');
   document.documentElement.classList.toggle('light', theme === 'light');
   document.documentElement.style.colorScheme = theme;
+};
+
+const persistTheme = (theme: Theme) => {
+  localStorage.setItem(THEME_KEY, theme);
+  localStorage.removeItem(LEGACY_THEME_KEY);
 };
 
 const guardThemeSwitch = () => {
@@ -30,23 +36,34 @@ const guardThemeSwitch = () => {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'dark';
-    return (localStorage.getItem(THEME_KEY) as Theme | null) ?? 'dark';
+    if (typeof window === 'undefined') return 'light';
+    const storedTheme =
+      (localStorage.getItem(THEME_KEY) as Theme | null) ??
+      (localStorage.getItem(LEGACY_THEME_KEY) as Theme | null);
+
+    return storedTheme ?? 'light';
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     applyThemeToDocument(theme);
-    localStorage.setItem(THEME_KEY, theme);
+    persistTheme(theme);
   }, [theme]);
 
   const setTheme = useCallback((newTheme: Theme) => {
     guardThemeSwitch();
+    applyThemeToDocument(newTheme);
+    persistTheme(newTheme);
     setThemeState(newTheme);
   }, []);
 
   const toggleTheme = useCallback(() => {
     guardThemeSwitch();
-    setThemeState((prev) => prev === 'dark' ? 'light' : 'dark');
+    setThemeState((prev) => {
+      const nextTheme = prev === 'dark' ? 'light' : 'dark';
+      applyThemeToDocument(nextTheme);
+      persistTheme(nextTheme);
+      return nextTheme;
+    });
   }, []);
 
   const value = useMemo(() => ({

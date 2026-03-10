@@ -1,5 +1,3 @@
-import { useTheme } from '@/contexts/ThemeContext';
-
 interface ProgressCardProps {
   title: string;
   used: number;
@@ -9,41 +7,31 @@ interface ProgressCardProps {
 }
 
 export function ProgressCard({ title, used, limit, unit = '', compact = false }: ProgressCardProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const percentage = Math.min((used / limit) * 100, 100);
   const remaining = limit - used;
 
   // Compact version for grid layouts
   if (compact) {
     return (
-      <div className={`p-3 rounded-lg border transition-all duration-300 ${
-        isDark 
-          ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/30' 
-          : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/30'
-      }`}>
+      <div className="rounded-lg border border-[var(--alpha-border)] bg-[var(--alpha-panel)] p-3 transition-all duration-300 hover:border-[var(--alpha-signal-border)]">
         <div className="flex items-center justify-between mb-2">
-          <span className={`text-xs font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+          <span className="text-xs font-mono text-[var(--alpha-text)]">
             {title}
           </span>
-          <span className={`text-[10px] font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+          <span className="text-[10px] font-mono text-[var(--alpha-text-muted)]">
             {remaining} left
           </span>
         </div>
         
         <div className="flex items-center justify-between mb-1.5">
-          <span className={`text-[10px] font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+          <span className="text-[10px] font-mono text-[var(--alpha-text-muted)]">
             {used} / {limit} {unit}
           </span>
         </div>
         
-        <div className={`h-1.5 rounded-full overflow-hidden ${
-          isDark ? 'bg-[#0B0F14]' : 'bg-[#F3F4F6]'
-        }`}>
+        <div className="h-1.5 overflow-hidden rounded-full bg-[var(--alpha-surface-strong)]">
           <div 
-            className={`h-full transition-all duration-500 rounded-full ${
-              isDark ? 'bg-[#00FF88]' : 'bg-[#2563EB]'
-            }`}
+            className="h-full rounded-full bg-[var(--alpha-signal)] transition-all duration-500"
             style={{ width: `${percentage}%` }}
           />
         </div>
@@ -53,35 +41,27 @@ export function ProgressCard({ title, used, limit, unit = '', compact = false }:
 
   // Original full version
   return (
-    <div className={`p-4 rounded-lg border transition-all duration-300 ${
-      isDark 
-        ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/30' 
-        : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/30'
-    }`}>
+    <div className="rounded-lg border border-[var(--alpha-border)] bg-[var(--alpha-panel)] p-4 transition-all duration-300 hover:border-[var(--alpha-signal-border)]">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className={`text-sm font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+          <span className="text-sm font-mono text-[var(--alpha-text)]">
             {title}
           </span>
         </div>
-        <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+        <span className="text-xs font-mono text-[var(--alpha-text-muted)]">
           {remaining} left
         </span>
       </div>
       
       <div className="flex items-center justify-between mb-2">
-        <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+        <span className="text-xs font-mono text-[var(--alpha-text-muted)]">
           {used} used / {limit} {unit} limit
         </span>
       </div>
       
-      <div className={`h-2 rounded-full overflow-hidden ${
-        isDark ? 'bg-[#0B0F14]' : 'bg-[#F3F4F6]'
-      }`}>
+      <div className="h-2 overflow-hidden rounded-full bg-[var(--alpha-surface-strong)]">
         <div 
-          className={`h-full transition-all duration-500 rounded-full ${
-            isDark ? 'bg-[#00FF88]' : 'bg-[#2563EB]'
-          }`}
+          className="h-full rounded-full bg-[var(--alpha-signal)] transition-all duration-500"
           style={{ width: `${percentage}%` }}
         />
       </div>

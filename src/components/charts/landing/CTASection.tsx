@@ -25,7 +25,7 @@ export function CTASection() {
           <Link to="/register">
             <Button className={`h-12 px-8 text-base font-mono ${
               isDark 
-                ? 'bg-[#00FF88] text-[#0B0F14] hover:bg-[#00FF88]/90' 
+                ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] hover:bg-[var(--alpha-signal-press)]' 
                 : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:opacity-90'
             }`}>
               Get Started Free
@@ -34,7 +34,7 @@ export function CTASection() {
           <Link to="/login">
             <Button variant="outline" className={`h-12 px-8 text-base font-mono border-2 ${
               isDark 
-                ? 'border-[#1F2937] text-gray-300 hover:bg-[#1F2937]' 
+                ? 'border-[var(--alpha-border)] text-gray-300 hover:bg-[var(--alpha-hover-soft)]' 
                 : 'border-gray-300 text-gray-700 hover:bg-gray-50'
             }`}>
               Learn More <ArrowRight className="ml-2 w-4 h-4" />

@@ -22,35 +22,23 @@ export function EmptyState({
   const isDark = theme === 'dark';
 
   return (
-    <div className={`flex flex-col items-center justify-center py-16 px-4 rounded-xl border ${
-      isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'
-    }`}>
-      <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${
-        isDark ? 'bg-[#0B0F14]' : 'bg-[#F3F4F6]'
-      }`}>
-        {icon || <Terminal className={`w-10 h-10 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />}
+    <div className="flex flex-col items-center justify-center rounded-xl border border-[var(--alpha-border)] bg-[var(--alpha-panel)] px-4 py-16">
+      <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--alpha-surface-strong)]">
+        {icon || <Terminal className="h-10 w-10 text-[var(--alpha-text)]" />}
       </div>
       
-      <h3 className={`text-xl font-mono font-bold mb-2 ${
-        isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
-      }`}>
+      <h3 className="mb-2 text-xl font-mono font-bold text-[var(--alpha-text)]">
         {isDark ? `> ${title.toUpperCase()}` : title}
       </h3>
       
-      <p className={`text-center font-mono text-sm mb-6 max-w-md ${
-        isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
-      }`}>
+      <p className="mb-6 max-w-md text-center font-mono text-sm text-[var(--alpha-text-muted)]">
         {description}
       </p>
       
       {actionLabel && onAction && (
         <Button
           onClick={onAction}
-          className={`font-mono border-2 ${
-            isDark 
-              ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88] hover:bg-[#00FF88]/90' 
-              : 'bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#2563EB]/90'
-          }`}
+          className="border-2 border-[var(--alpha-signal)] bg-[var(--alpha-signal)] font-mono text-[var(--alpha-accent-contrast)] hover:bg-[var(--alpha-signal-press)]"
         >
           <Plus className="h-4 w-4 mr-2" />
           {actionLabel}

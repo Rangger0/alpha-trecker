@@ -52,6 +52,8 @@ export interface AirdropReward {
   airdropId: string;
   claimStatus: RewardClaimStatus;
   amountUsd: number;
+  capitalUsd: number;
+  feeUsd: number;
   tokenAmount?: number | null;
   tokenSymbol?: string | null;
   tgeDate?: string | null;
@@ -59,12 +61,15 @@ export interface AirdropReward {
   notes?: string | null;
   createdAt: string;
   updatedAt: string;
+  storageMode?: 'modern' | 'legacy_notes';
 }
 
 export interface AirdropRewardInput {
   airdropId: string;
   claimStatus: RewardClaimStatus;
   amountUsd: number;
+  capitalUsd: number;
+  feeUsd: number;
   tokenAmount?: number | null;
   tokenSymbol?: string | null;
   tgeDate?: string | null;

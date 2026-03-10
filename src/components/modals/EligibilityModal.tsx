@@ -50,35 +50,35 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div 
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/45"
         onClick={onClose}
       />
       <div className={`relative z-10 w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-lg border shadow-2xl flex flex-col ${
         isDark 
-          ? 'bg-[#161B22] border-[#1F2937] shadow-[0_0_50px_rgba(0,255,136,0.1)]' 
-          : 'bg-white border-[#E5E7EB] shadow-2xl'
+          ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] shadow-[0_0_50px_var(--alpha-signal-glow)]' 
+          : 'bg-[var(--alpha-panel)] border-[var(--alpha-border)] shadow-[var(--alpha-shadow-strong)]'
       }`}>
         
         {/* Header */}
         <div className={`flex items-center justify-between p-4 border-b shrink-0 ${
-          isDark ? 'border-[#1F2937]' : 'border-[#E5E7EB]'
+          isDark ? 'border-[var(--alpha-border)]' : 'border-[var(--alpha-border)]'
         }`}>
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded flex items-center justify-center border ${
               isDark 
-                ? 'bg-[#00FF88]/10 border-[#00FF88] text-[#00FF88]' 
-                : 'bg-[#2563EB]/10 border-[#2563EB] text-[#2563EB]'
+                ? 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal)] text-[var(--alpha-signal)]' 
+                : 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal)] text-[var(--alpha-signal)]'
             }`}>
               <Search className="w-5 h-5" />
             </div>
             <div>
               <h2 className={`font-mono font-bold ${
-                isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
               }`}>
                 {isDark ? 'CHECK_ELIGIBILITY.exe' : 'Check Eligibility'}
               </h2>
               <p className={`font-mono text-xs ${
-                isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
               }`}>
                 {isDark 
                   ? `Scanning ${wallets.length} wallet(s) for airdrop criteria...`
@@ -90,8 +90,8 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
             onClick={onClose}
             className={`p-2 rounded transition-colors ${
               isDark 
-                ? 'text-[#6B7280] hover:bg-[#1F2937] hover:text-[#E5E7EB]' 
-                : 'text-[#6B7280] hover:bg-[#F3F4F6] hover:text-[#111827]'
+                ? 'text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)] hover:text-[var(--alpha-text)]' 
+                : 'text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)] hover:text-[var(--alpha-text)]'
             }`}
           >
             <X className="w-5 h-5" />
@@ -100,18 +100,18 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
 
         {/* Tabs */}
         <div className={`flex border-b shrink-0 ${
-          isDark ? 'border-[#1F2937]' : 'border-[#E5E7EB]'
+          isDark ? 'border-[var(--alpha-border)]' : 'border-[var(--alpha-border)]'
         }`}>
           <button
             onClick={() => setActiveTab('criteria')}
             className={`flex-1 py-3 font-mono text-sm border-b-2 transition-colors ${
               activeTab === 'criteria'
                 ? (isDark 
-                    ? 'border-[#00FF88] text-[#00FF88]' 
-                    : 'border-[#2563EB] text-[#2563EB]')
+                    ? 'border-[var(--alpha-signal)] text-[var(--alpha-signal)]' 
+                    : 'border-[var(--alpha-signal)] text-[var(--alpha-signal)]')
                 : (isDark 
-                    ? 'border-transparent text-[#6B7280] hover:text-[#E5E7EB]' 
-                    : 'border-transparent text-[#6B7280] hover:text-[#111827]')
+                    ? 'border-transparent text-[var(--alpha-text-muted)] hover:text-[var(--alpha-text)]' 
+                    : 'border-transparent text-[var(--alpha-text-muted)] hover:text-[var(--alpha-text)]')
             }`}
           >
             {isDark ? 'SET_CRITERIA' : 'Set Criteria'}
@@ -121,11 +121,11 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
             className={`flex-1 py-3 font-mono text-sm border-b-2 transition-colors ${
               activeTab === 'results'
                 ? (isDark 
-                    ? 'border-[#00FF88] text-[#00FF88]' 
-                    : 'border-[#2563EB] text-[#2563EB]')
+                    ? 'border-[var(--alpha-signal)] text-[var(--alpha-signal)]' 
+                    : 'border-[var(--alpha-signal)] text-[var(--alpha-signal)]')
                 : (isDark 
-                    ? 'border-transparent text-[#6B7280] hover:text-[#E5E7EB]' 
-                    : 'border-transparent text-[#6B7280] hover:text-[#111827]')
+                    ? 'border-transparent text-[var(--alpha-text-muted)] hover:text-[var(--alpha-text)]' 
+                    : 'border-transparent text-[var(--alpha-text-muted)] hover:text-[var(--alpha-text)]')
             }`}
           >
             {isDark ? `RESULTS[${results.length}]` : `Results (${results.length})`}
@@ -139,20 +139,20 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
               {/* Token Criteria */}
               <div className={`p-4 rounded-lg border ${
                 isDark 
-                  ? 'bg-[#0B0F14] border-[#1F2937]' 
-                  : 'bg-[#F3F4F6] border-[#E5E7EB]'
+                  ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)]' 
+                  : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)]'
               }`}>
                 <h3 className={`font-mono text-sm font-bold mb-3 flex items-center gap-2 ${
-                  isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                  isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                 }`}>
-                  <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#00FF88]' : 'bg-[#2563EB]'}`} />
+                  <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[var(--alpha-signal)]' : 'bg-[var(--alpha-signal)]'}`} />
                   TOKEN REQUIREMENTS
                 </h3>
                 
                 <div className="space-y-3">
                   <div>
                     <label className={`block font-mono text-xs mb-1.5 ${
-                      isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                      isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                     }`}>
                       TOKEN CONTRACT ADDRESS
                     </label>
@@ -163,15 +163,15 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                       onChange={(e) => setCriteria({...criteria, tokenContract: e.target.value})}
                       className={`font-mono text-sm border ${
                         isDark 
-                          ? 'bg-[#161B22] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#374151] focus:border-[#00FF88]' 
-                          : 'bg-white border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+                          ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]' 
+                          : 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]'
                       }`}
                     />
                   </div>
                   
                   <div>
                     <label className={`block font-mono text-xs mb-1.5 ${
-                      isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                      isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                     }`}>
                       MINIMUM BALANCE REQUIRED
                     </label>
@@ -182,8 +182,8 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                       onChange={(e) => setCriteria({...criteria, minTokenBalance: parseFloat(e.target.value) || 0})}
                       className={`font-mono text-sm border ${
                         isDark 
-                          ? 'bg-[#161B22] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#374151] focus:border-[#00FF88]' 
-                          : 'bg-white border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+                          ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]' 
+                          : 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]'
                       }`}
                     />
                   </div>
@@ -193,19 +193,19 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
               {/* NFT Criteria */}
               <div className={`p-4 rounded-lg border ${
                 isDark 
-                  ? 'bg-[#0B0F14] border-[#1F2937]' 
-                  : 'bg-[#F3F4F6] border-[#E5E7EB]'
+                  ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)]' 
+                  : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)]'
               }`}>
                 <h3 className={`font-mono text-sm font-bold mb-3 flex items-center gap-2 ${
-                  isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                  isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                 }`}>
-                  <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#8B5CF6]' : 'bg-[#4F46E5]'}`} />
+                  <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[var(--alpha-violet)]' : 'bg-[var(--alpha-violet)]'}`} />
                   NFT REQUIREMENTS
                 </h3>
                 
                 <div>
                   <label className={`block font-mono text-xs mb-1.5 ${
-                    isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                    isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                   }`}>
                     REQUIRED NFT CONTRACT (OPTIONAL)
                   </label>
@@ -215,9 +215,9 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                     value={criteria.requiredNFT}
                     onChange={(e) => setCriteria({...criteria, requiredNFT: e.target.value})}
                     className={`font-mono text-sm border ${
-                      isDark 
-                        ? 'bg-[#161B22] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#374151] focus:border-[#00FF88]' 
-                        : 'bg-white border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+                        isDark 
+                          ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]' 
+                        : 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]'
                     }`}
                   />
                 </div>
@@ -226,20 +226,20 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
               {/* Activity Criteria */}
               <div className={`p-4 rounded-lg border ${
                 isDark 
-                  ? 'bg-[#0B0F14] border-[#1F2937]' 
-                  : 'bg-[#F3F4F6] border-[#E5E7EB]'
+                  ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)]' 
+                  : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)]'
               }`}>
                 <h3 className={`font-mono text-sm font-bold mb-3 flex items-center gap-2 ${
-                  isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                  isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                 }`}>
-                  <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#F59E0B]' : 'bg-[#EA580C]'}`} />
+                  <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[var(--alpha-warning)]' : 'bg-[var(--alpha-warning)]'}`} />
                   ACTIVITY REQUIREMENTS
                 </h3>
                 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className={`block font-mono text-xs mb-1.5 ${
-                      isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                      isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                     }`}>
                       MIN TRANSACTIONS
                     </label>
@@ -250,15 +250,15 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                       onChange={(e) => setCriteria({...criteria, minTransactions: parseInt(e.target.value) || 0})}
                       className={`font-mono text-sm border ${
                         isDark 
-                          ? 'bg-[#161B22] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#374151] focus:border-[#00FF88]' 
-                          : 'bg-white border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+                          ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]' 
+                          : 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]'
                       }`}
                     />
                   </div>
                   
                   <div>
                     <label className={`block font-mono text-xs mb-1.5 ${
-                      isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                      isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                     }`}>
                       SNAPSHOT BLOCK (OPTIONAL)
                     </label>
@@ -269,8 +269,8 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                       onChange={(e) => setCriteria({...criteria, snapshotBlock: parseInt(e.target.value) || undefined})}
                       className={`font-mono text-sm border ${
                         isDark 
-                          ? 'bg-[#161B22] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#374151] focus:border-[#00FF88]' 
-                          : 'bg-white border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+                          ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]' 
+                          : 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]'
                       }`}
                     />
                   </div>
@@ -280,19 +280,19 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
               {/* Connected Wallets Summary */}
               <div className={`p-4 rounded-lg border ${
                 isDark 
-                  ? 'bg-[#00FF88]/5 border-[#00FF88]/20' 
-                  : 'bg-[#2563EB]/5 border-[#2563EB]/20'
+                  ? 'bg-[var(--alpha-signal-softest)] border-[var(--alpha-signal-border)]' 
+                  : 'bg-[var(--alpha-signal-softest)] border-[var(--alpha-signal-border)]'
               }`}>
                 <div className="flex items-center justify-between mb-2">
                   <h3 className={`font-mono text-sm font-bold ${
-                    isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'
+                    isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'
                   }`}>
                     CONNECTED WALLETS
                   </h3>
                   <Badge className={`font-mono text-xs ${
                     isDark 
-                      ? 'bg-[#00FF88] text-[#0B0F14]' 
-                      : 'bg-[#2563EB] text-white'
+                      ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)]' 
+                      : 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)]'
                   }`}>
                     {wallets.length}
                   </Badge>
@@ -300,7 +300,7 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                 
                 {wallets.length === 0 ? (
                   <p className={`font-mono text-xs ${
-                    isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                    isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                   }`}>
                     {isDark 
                       ? '> WARNING: No wallets connected. Connect wallet first.'
@@ -312,7 +312,7 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                       <div 
                         key={idx}
                         className={`flex items-center gap-2 font-mono text-xs ${
-                          isDark ? 'text-[#E5E7EB]' : 'text-[#374151]'
+                          isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text-muted)]'
                         }`}
                       >
                         <Wallet className="w-3 h-3" />
@@ -321,8 +321,8 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                         </span>
                         <span className={`px-1.5 py-0.5 rounded text-[10px] ${
                           isDark 
-                            ? 'bg-[#1F2937] text-[#6B7280]' 
-                            : 'bg-white text-[#6B7280]'
+                            ? 'bg-[var(--alpha-surface-strong)] text-[var(--alpha-text-muted)]' 
+                            : 'bg-[var(--alpha-surface-soft)] text-[var(--alpha-text-muted)]'
                         }`}>
                           {wallet.chain.toUpperCase()}
                         </span>
@@ -336,10 +336,10 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
             <div className="space-y-4">
               {results.length === 0 ? (
                 <div className={`text-center py-12 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                  isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                 }`}>
                   <Activity className={`w-12 h-12 mx-auto mb-4 ${
-                    isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'
+                    isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                   }`} />
                   <p className="font-mono text-sm">
                     {isDark 
@@ -353,44 +353,44 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                   <div className={`grid grid-cols-3 gap-3 mb-4`}>
                     <div className={`p-3 rounded-lg border text-center ${
                       isDark 
-                        ? 'bg-[#00FF88]/10 border-[#00FF88]/20' 
-                        : 'bg-[#10B981]/10 border-[#10B981]/20'
+                        ? 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal-border)]' 
+                        : 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal-border)]'
                     }`}>
                       <p className={`text-2xl font-bold font-mono ${
-                        isDark ? 'text-[#00FF88]' : 'text-[#10B981]'
+                        isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'
                       }`}>
                         {results.filter(r => r.isEligible).length}
                       </p>
                       <p className={`font-mono text-xs ${
-                        isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                        isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                       }`}>ELIGIBLE</p>
                     </div>
                     <div className={`p-3 rounded-lg border text-center ${
                       isDark 
-                        ? 'bg-[#EF4444]/10 border-[#EF4444]/20' 
-                        : 'bg-[#DC2626]/10 border-[#DC2626]/20'
+                        ? 'bg-[var(--alpha-danger-soft)] border-[var(--alpha-danger-border)]' 
+                        : 'bg-[var(--alpha-danger-soft)] border-[var(--alpha-danger-border)]'
                     }`}>
                       <p className={`text-2xl font-bold font-mono ${
-                        isDark ? 'text-[#EF4444]' : 'text-[#DC2626]'
+                        isDark ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-danger)]'
                       }`}>
                         {results.filter(r => !r.isEligible).length}
                       </p>
                       <p className={`font-mono text-xs ${
-                        isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                        isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                       }`}>NOT ELIGIBLE</p>
                     </div>
                     <div className={`p-3 rounded-lg border text-center ${
                       isDark 
-                        ? 'bg-[#3B82F6]/10 border-[#3B82F6]/20' 
-                        : 'bg-[#2563EB]/10 border-[#2563EB]/20'
+                        ? 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal-border)]' 
+                        : 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal-border)]'
                     }`}>
                       <p className={`text-2xl font-bold font-mono ${
-                        isDark ? 'text-[#3B82F6]' : 'text-[#2563EB]'
+                        isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'
                       }`}>
                         {results.length}
                       </p>
                       <p className={`font-mono text-xs ${
-                        isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                        isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                       }`}>TOTAL CHECKED</p>
                     </div>
                   </div>
@@ -403,11 +403,11 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                         className={`p-4 rounded-lg border ${
                           result.isEligible
                             ? (isDark 
-                                ? 'bg-[#00FF88]/5 border-[#00FF88]/30' 
-                                : 'bg-[#10B981]/5 border-[#10B981]/30')
+                                ? 'bg-[var(--alpha-signal-softest)] border-[var(--alpha-signal-border)]' 
+                                : 'bg-[var(--alpha-signal-softest)] border-[var(--alpha-signal-border)]')
                             : (isDark 
-                                ? 'bg-[#EF4444]/5 border-[#EF4444]/30' 
-                                : 'bg-[#DC2626]/5 border-[#DC2626]/30')
+                                ? 'bg-[var(--alpha-danger-softest)] border-[var(--alpha-danger-border)]' 
+                                : 'bg-[var(--alpha-danger-softest)] border-[var(--alpha-danger-border)]')
                         }`}
                       >
                         <div className="flex items-start justify-between mb-3">
@@ -415,24 +415,24 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                             <div className={`w-10 h-10 rounded flex items-center justify-center ${
                               result.isEligible
                                 ? (isDark 
-                                    ? 'bg-[#00FF88]/20 text-[#00FF88]' 
-                                    : 'bg-[#10B981]/20 text-[#10B981]')
+                                    ? 'bg-[var(--alpha-signal-strong)] text-[var(--alpha-signal)]' 
+                                    : 'bg-[var(--alpha-signal-strong)] text-[var(--alpha-signal)]')
                                 : (isDark 
-                                    ? 'bg-[#EF4444]/20 text-[#EF4444]' 
-                                    : 'bg-[#DC2626]/20 text-[#DC2626]')
+                                    ? 'bg-[var(--alpha-danger-strong)] text-[var(--alpha-danger)]' 
+                                    : 'bg-[var(--alpha-danger-strong)] text-[var(--alpha-danger)]')
                             }`}>
                               {result.isEligible ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
                             </div>
                             <div>
                               <p className={`font-mono text-sm font-bold ${
-                                isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                                isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                               }`}>
                                 {result.wallet.slice(0, 6)}...{result.wallet.slice(-4)}
                               </p>
                               <Badge className={`mt-1 font-mono text-xs ${
                                 result.isEligible
-                                  ? (isDark ? 'bg-[#00FF88] text-[#0B0F14]' : 'bg-[#10B981] text-white')
-                                  : (isDark ? 'bg-[#EF4444] text-white' : 'bg-[#DC2626] text-white')
+                                  ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)]'
+                                  : 'bg-[var(--alpha-danger)] text-[var(--alpha-accent-contrast)]'
                               }`}>
                                 {result.isEligible ? 'ELIGIBLE' : 'NOT ELIGIBLE'}
                               </Badge>
@@ -442,25 +442,25 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
 
                         {/* Check Details */}
                         <div className={`grid grid-cols-2 gap-2 text-xs font-mono ${
-                          isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                          isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                         }`}>
                           <div className="flex items-center gap-2">
-                            <span className={result.checks.tokenBalance ? (isDark ? 'text-[#00FF88]' : 'text-[#10B981]') : ''}>
+                            <span className={result.checks.tokenBalance ? (isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]') : ''}>
                               {result.checks.tokenBalance ? '✓' : '✗'} Token Balance
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className={result.checks.nftHoldings ? (isDark ? 'text-[#00FF88]' : 'text-[#10B981]') : ''}>
+                            <span className={result.checks.nftHoldings ? (isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]') : ''}>
                               {result.checks.nftHoldings ? '✓' : '✗'} NFT Holdings
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className={result.checks.transactionCount ? (isDark ? 'text-[#00FF88]' : 'text-[#10B981]') : ''}>
+                            <span className={result.checks.transactionCount ? (isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]') : ''}>
                               {result.checks.transactionCount ? '✓' : '✗'} Transactions
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className={result.checks.protocolInteractions ? (isDark ? 'text-[#00FF88]' : 'text-[#10B981]') : ''}>
+                            <span className={result.checks.protocolInteractions ? (isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]') : ''}>
                               {result.checks.protocolInteractions ? '✓' : '✗'} Protocol Activity
                             </span>
                           </div>
@@ -468,34 +468,34 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
 
                         {/* Stats */}
                         <div className={`mt-3 pt-3 border-t grid grid-cols-3 gap-2 text-center ${
-                          isDark ? 'border-[#1F2937]' : 'border-[#E5E7EB]'
+                          isDark ? 'border-[var(--alpha-border)]' : 'border-[var(--alpha-border)]'
                         }`}>
                           <div>
                             <p className={`font-mono text-xs ${
-                              isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                              isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                             }`}>BALANCE</p>
                             <p className={`font-mono text-sm font-bold ${
-                              isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                              isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                             }`}>
                               {parseFloat(result.details.balance).toFixed(4)}
                             </p>
                           </div>
                           <div>
                             <p className={`font-mono text-xs ${
-                              isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                              isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                             }`}>NFTs</p>
                             <p className={`font-mono text-sm font-bold ${
-                              isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                              isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                             }`}>
                               {result.details.nftCount}
                             </p>
                           </div>
                           <div>
                             <p className={`font-mono text-xs ${
-                              isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                              isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                             }`}>TX COUNT</p>
                             <p className={`font-mono text-sm font-bold ${
-                              isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                              isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                             }`}>
                               {result.details.txCount}
                             </p>
@@ -512,7 +512,7 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
 
         {/* Footer Actions */}
         <div className={`p-4 border-t shrink-0 ${
-          isDark ? 'border-[#1F2937]' : 'border-[#E5E7EB]'
+          isDark ? 'border-[var(--alpha-border)]' : 'border-[var(--alpha-border)]'
         }`}>
           {activeTab === 'criteria' ? (
             <div className="flex gap-3">
@@ -521,8 +521,8 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                 onClick={resetCriteria}
                 className={`flex-1 font-mono border-2 ${
                   isDark 
-                    ? 'border-[#1F2937] text-[#6B7280] hover:bg-[#1F2937] hover:text-[#E5E7EB]' 
-                    : 'border-[#E5E7EB] text-[#6B7280] hover:bg-[#F3F4F6] hover:text-[#111827]'
+                    ? 'border-[var(--alpha-border)] text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)] hover:text-[var(--alpha-text)]' 
+                    : 'border-[var(--alpha-border)] text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)] hover:text-[var(--alpha-text)]'
                 }`}
               >
                 RESET
@@ -534,8 +534,8 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
                   wallets.length === 0 || isChecking
                     ? 'opacity-50 cursor-not-allowed'
                     : (isDark 
-                        ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88] hover:bg-[#00FF88]/90 hover:shadow-[0_0_20px_rgba(0,255,136,0.4)]' 
-                        : 'bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#2563EB]/90')
+                        ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)] hover:shadow-[0_0_20px_var(--alpha-signal-glow)]' 
+                        : 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]')
                 }`}
               >
                 {isChecking ? (
@@ -557,8 +557,8 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
               variant="outline"
               className={`w-full font-mono border-2 ${
                 isDark 
-                  ? 'border-[#00FF88] text-[#00FF88] hover:bg-[#00FF88]/10' 
-                  : 'border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB]/10'
+                  ? 'border-[var(--alpha-signal)] text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-soft)]' 
+                  : 'border-[var(--alpha-signal)] text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-soft)]'
               }`}
             >
               ← BACK TO CRITERIA

@@ -20,7 +20,6 @@ import type { Airdrop, PriorityLevel } from '@/types';
 import { AirdropModal } from '@/components/modals/AirdropModal';
 import { DeleteConfirmModal } from '@/components/modals/DeleteConfirmModal';
 import { supabase } from '@/lib/supabase';
-import { motion } from 'framer-motion';
 
 interface PriorityProject {
   id: string;
@@ -39,10 +38,10 @@ interface PriorityProject {
 
 const getAccentColor = (priority: PriorityLevel) => {
   switch(priority) {
-    case 'High': return '#EF4444';
-    case 'Medium': return '#F59E0B';
-    case 'Low': return '#10B981';
-    default: return '#00D4AA';
+    case 'High': return 'var(--alpha-danger)';
+    case 'Medium': return 'var(--alpha-warning)';
+    case 'Low': return 'var(--alpha-signal)';
+    default: return 'var(--alpha-signal)';
   }
 };
 
@@ -165,7 +164,7 @@ export function PriorityProjectsPage() {
   const removingProject = priorityProjects.find(p => p.id === removingId);
 
   return (
-    <DashboardLayout>
+    <DashboardLayout disableMonochrome>
       <div className="macos-root macos-page-shell">
         {/* Header */}
         <div className="macos-page-header macos-animate-up">
@@ -174,14 +173,14 @@ export function PriorityProjectsPage() {
             Priority Queue
           </div>
           <div className="flex items-center gap-3 mb-2">
-            <div className={`p-2 rounded-2xl ${isDark ? 'bg-[#00FF88]/10' : 'bg-[#2563EB]/10'}`}>
-              <Star className={`w-6 h-6 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
+            <div className={`p-2 rounded-2xl ${isDark ? 'bg-[var(--alpha-signal-soft)]' : 'bg-[var(--alpha-signal-soft)]'}`}>
+              <Star className={`w-6 h-6 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
             </div>
             <div>
-              <h1 className={`text-2xl font-bold font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+              <h1 className={`text-2xl font-bold font-mono ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
                 Priority Projects
               </h1>
-              <p className={`font-mono text-sm ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+              <p className={`font-mono text-sm ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
                 Sorted by priority level, deadline urgency, and wallet count.
               </p>
             </div>
@@ -190,18 +189,18 @@ export function PriorityProjectsPage() {
 
         {/* Stats */}
         <div className="mb-6 flex flex-wrap gap-4">
-          <div className={`macos-premium-card px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
-            <Star className={`w-5 h-5 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
+          <div className={`macos-premium-card px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-[var(--alpha-panel)] border-[var(--alpha-border)]'}`}>
+            <Star className={`w-5 h-5 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
             <div>
-              <p className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>Priority Projects</p>
-              <p className={`text-xl font-bold font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>{priorityProjects.length}</p>
+              <p className={`text-xs font-mono ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>Priority Projects</p>
+              <p className={`text-xl font-bold font-mono ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>{priorityProjects.length}</p>
             </div>
           </div>
-          <div className={`macos-premium-card px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'}`}>
-            <Wallet className={`w-5 h-5 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
+          <div className={`macos-premium-card px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-[var(--alpha-panel)] border-[var(--alpha-border)]'}`}>
+            <Wallet className={`w-5 h-5 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
             <div>
-              <p className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>Total Wallets</p>
-              <p className={`text-xl font-bold font-mono ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>{totalWallets}</p>
+              <p className={`text-xs font-mono ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>Total Wallets</p>
+              <p className={`text-xl font-bold font-mono ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>{totalWallets}</p>
             </div>
           </div>
         </div>
@@ -209,14 +208,14 @@ export function PriorityProjectsPage() {
         {/* Search */}
         <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="relative max-w-md group flex-1">
-            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${isDark ? 'text-[#6B7280] group-focus-within:text-[#00FF88]' : 'text-[#6B7280] group-focus-within:text-[#2563EB]'}`} />
+            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${isDark ? 'text-[var(--alpha-text-muted)] group-focus-within:text-[var(--alpha-signal)]' : 'text-[var(--alpha-text-muted)] group-focus-within:text-[var(--alpha-signal)]'}`} />
             <Input
               placeholder="Search priority projects..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={`pl-10 font-mono border-2 transition-all duration-200 ${isDark 
-                ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] focus:border-[#00FF88]' 
-                : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+                ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)] text-[var(--alpha-text)] focus:border-[var(--alpha-signal)]' 
+                : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)] text-[var(--alpha-text)] focus:border-[var(--alpha-signal)]'
               }`}
             />
           </div>
@@ -224,8 +223,8 @@ export function PriorityProjectsPage() {
           <Button
             variant="outline"
             className={`font-mono border-2 transition-all duration-200 ${isDark 
-              ? 'border-[#00FF88]/50 text-[#00FF88] hover:bg-[#00FF88]/10' 
-              : 'border-[#2563EB]/50 text-[#2563EB] hover:bg-[#2563EB]/10'
+              ? 'border-[var(--alpha-signal)] text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-soft)]' 
+              : 'border-[var(--alpha-signal)] text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-soft)]'
             }`}
             onClick={() => window.location.href = '/dashboard'}
           >
@@ -236,19 +235,19 @@ export function PriorityProjectsPage() {
 
         {filteredProjects.length === 0 ? (
           <div className="macos-empty-state py-16 text-center">
-            <Star className={`w-16 h-16 mx-auto mb-4 ${isDark ? 'text-[#1F2937]' : 'text-[#E5E7EB]'}`} />
-            <h3 className={`font-mono font-bold mb-2 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+            <Star className={`w-16 h-16 mx-auto mb-4 ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`} />
+            <h3 className={`font-mono font-bold mb-2 ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
               No Priority Projects
             </h3>
-            <p className={`font-mono text-sm mb-4 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+            <p className={`font-mono text-sm mb-4 ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
               Mark projects as priority or set High/Medium priority level to see them here.
             </p>
             <Button
               onClick={() => window.location.href = '/dashboard'}
               className={`font-mono border-2 ${
                 isDark 
-                  ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88]' 
-                  : 'bg-[#2563EB] text-white border-[#2563EB]'
+                  ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)]' 
+                  : 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)]'
               }`}
             >
               Go to Dashboard
@@ -261,20 +260,17 @@ export function PriorityProjectsPage() {
               const accent = getAccentColor(project.priority);
               
               return (
-                <motion.div
+                <div
                   key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
                   className={`
-                    macos-premium-card relative p-4 overflow-hidden group cursor-pointer
+                    macos-premium-card macos-card-entry relative p-4 overflow-hidden group cursor-pointer
                     transition-all duration-300 ease-out
                     transform hover:-translate-y-1 hover:shadow-xl
                     ${isDark
-                      ? "bg-[#161B22] border-[#1F2937] hover:border-[#1F2937]"
-                      : "bg-white border-[#E5E7EB] hover:border-[#E5E7EB]"}
+                      ? "bg-[var(--alpha-surface)] border-[var(--alpha-border)] hover:border-[var(--alpha-border-strong)]"
+                      : "bg-[var(--alpha-panel)] border-[var(--alpha-border)] hover:border-[var(--alpha-border-strong)]"}
                   `}
-                  style={{ borderLeft: `3px solid ${accent}` }}
+                  style={{ borderLeft: `3px solid ${accent}`, ['--mac-delay' as any]: `${index * 26}ms` }}
                 >
                   {/* Glow effect */}
                   <div
@@ -289,8 +285,8 @@ export function PriorityProjectsPage() {
                     onClick={(e) => handleRemoveClick(e, project)}
                     className={`absolute top-2 right-2 z-20 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 ${
                       isDark 
-                        ? 'bg-[#0B0F14] text-[#6B7280] hover:text-[#EF4444]' 
-                        : 'bg-[#F3F4F6] text-[#9CA3AF] hover:text-[#DC2626]'
+                        ? 'bg-[var(--alpha-surface-strong)] text-[var(--alpha-text-muted)] hover:text-[var(--alpha-danger)]' 
+                        : 'bg-[var(--alpha-surface-soft)] text-[var(--alpha-text-muted)] hover:text-[var(--alpha-danger)]'
                     }`}
                   >
                     <X className="w-3.5 h-3.5" />
@@ -300,7 +296,10 @@ export function PriorityProjectsPage() {
                     <div className="flex items-start gap-3 mb-3">
                       <div 
                         className="w-12 h-12 rounded-xl overflow-hidden border flex-shrink-0 transition-transform duration-300 group-hover:scale-110 flex items-center justify-center"
-                        style={{ background: isDark ? '#0B0F14' : '#F3F4F6', borderColor: isDark ? '#1F2937' : '#E5E7EB' }}
+                        style={{
+                          background: isDark ? 'var(--alpha-surface-strong)' : 'var(--alpha-surface-soft)',
+                          borderColor: 'var(--alpha-border)',
+                        }}
                       >
                         {project.logo && !logoError[project.id] ? (
                           <img 
@@ -320,7 +319,7 @@ export function PriorityProjectsPage() {
                       </div>
                       
                       <div className="flex-1 min-w-0">
-                        <h3 className={`font-mono font-bold text-sm transition-colors truncate ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+                        <h3 className={`font-mono font-bold text-sm transition-colors truncate ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
                           {project.name}
                         </h3>
                         <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -332,7 +331,7 @@ export function PriorityProjectsPage() {
                             {project.priority}
                           </span>
                           {project.walletCount > 0 && (
-                            <span className={`text-[10px] font-mono flex items-center gap-1 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+                            <span className={`text-[10px] font-mono flex items-center gap-1 ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
                               <Wallet className="w-2.5 h-2.5" />
                               {project.walletCount}
                             </span>
@@ -341,13 +340,13 @@ export function PriorityProjectsPage() {
                       </div>
                     </div>
                     
-                    <div className={`flex items-center gap-2 p-2 rounded-lg mb-3 border ${isDark ? 'bg-[#0B0F14] border-[#1F2937]' : 'bg-[#F9FAFB] border-[#E5E7EB]'}`}>
-                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: project.completed ? '#10B981' : '#F59E0B' }} />
-                      <span className={`text-[10px] font-mono flex-1 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+                    <div className={`mb-3 flex items-center gap-2 rounded-lg border p-2 ${isDark ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)]' : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)]'}`}>
+                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: project.completed ? 'var(--alpha-signal)' : 'var(--alpha-warning)' }} />
+                      <span className={`text-[10px] font-mono flex-1 ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
                         {project.completed ? 'Completed' : 'In Progress'}
                       </span>
                       {project.deadline && (
-                        <span className={`text-[10px] font-mono flex items-center gap-1 ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+                        <span className={`text-[10px] font-mono flex items-center gap-1 ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
                           <Clock className="w-2.5 h-2.5" />
                           {new Date(project.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                         </span>
@@ -358,8 +357,8 @@ export function PriorityProjectsPage() {
                       variant="outline"
                       size="sm"
                       className={`w-full font-mono text-[10px] border transition-all duration-200 ${isDark 
-                        ? 'border-[#1F2937] text-[#E5E7EB] hover:bg-[#00FF88]/10 hover:border-[#00FF88] hover:text-[#00FF88]' 
-                        : 'border-[#E5E7EB] text-[#111827] hover:bg-[#2563EB]/10 hover:border-[#2563EB] hover:text-[#2563EB]'
+                        ? 'border-[var(--alpha-border)] text-[var(--alpha-text)] hover:bg-[var(--alpha-signal-soft)] hover:border-[var(--alpha-signal)] hover:text-[var(--alpha-signal)]' 
+                        : 'border-[var(--alpha-border)] text-[var(--alpha-text)] hover:bg-[var(--alpha-signal-soft)] hover:border-[var(--alpha-signal)] hover:text-[var(--alpha-signal)]'
                       }`}
                       onClick={() => handleViewDetails(project)}
                     >
@@ -373,7 +372,7 @@ export function PriorityProjectsPage() {
                     className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500"
                     style={{ background: accent }}
                   />
-                </motion.div>
+                </div>
               );
             })}
           </div>

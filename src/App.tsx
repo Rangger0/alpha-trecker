@@ -1,134 +1,200 @@
-// src/App.tsx - Update routing
+import { Suspense, lazy, type ComponentType, type ReactNode } from 'react';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { WalletProvider } from '@/contexts/WalletContext';
-import { LandingPage } from '@/pages/LandingPage';
-import { LoginPage } from '@/pages/LoginPage';
-import { RegisterPage } from '@/pages/RegisterPage';
-import { AuthPage } from '@/pages/AuthPage';
-import Dashboard from '@/pages/Dashboard';
-import { OverviewPage } from '@/pages/OverviewPage';
-import { EcosystemPage } from '@/pages/EcosystemPage';
-import { EcosystemDetailPage } from '@/pages/EcosystemDetailPage';
-import { PriorityProjectsPage } from '@/pages/PriorityProjectsPage';
-import { FaucetPage } from '@/pages/FaucetPage';
-import { MultipleAccountPage } from '@/pages/MultipleAccountPage';
-import { AboutPage } from '@/pages/AboutPage';
 import { Toaster } from '@/components/ui/sonner';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { ScreeningAddressPage } from "@/pages/ScreeningAddressPage";
-import { motion } from 'framer-motion';
-import { ToolsPage } from '@/pages/ToolsPage';
-import { AIToolsPage } from '@/pages/AIToolsPage';
-import { SwapPage } from '@/pages/SwapPage';
-import { RewardVaultPage } from '@/pages/RewardVaultPage';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
-// Page transition wrapper component
-function PageTransition({ children }: { children: React.ReactNode }) {
-  const location = useLocation();
-  const shouldAnimate = location.pathname === '/';
+const lazyNamed = <T extends ComponentType<unknown>>(
+  loader: () => Promise<Record<string, T>>,
+  exportName: string,
+) => lazy(async () => {
+  const module = await loader();
+  return { default: module[exportName] };
+});
 
-  if (!shouldAnimate) {
-    return <>{children}</>;
-  }
+const LandingPage = lazyNamed(() => import('@/pages/LandingPage'), 'LandingPage');
+const LoginPage = lazyNamed(() => import('@/pages/LoginPage'), 'LoginPage');
+const RegisterPage = lazyNamed(() => import('@/pages/RegisterPage'), 'RegisterPage');
+const AuthPage = lazyNamed(() => import('@/pages/AuthPage'), 'AuthPage');
+const OverviewPage = lazyNamed(() => import('@/pages/OverviewPage'), 'OverviewPage');
+const EcosystemPage = lazyNamed(() => import('@/pages/EcosystemPage'), 'EcosystemPage');
+const EcosystemDetailPage = lazyNamed(() => import('@/pages/EcosystemDetailPage'), 'EcosystemDetailPage');
+const PriorityProjectsPage = lazyNamed(() => import('@/pages/PriorityProjectsPage'), 'PriorityProjectsPage');
+const FaucetPage = lazyNamed(() => import('@/pages/FaucetPage'), 'FaucetPage');
+const MultipleAccountPage = lazyNamed(() => import('@/pages/MultipleAccountPage'), 'MultipleAccountPage');
+const AboutPage = lazyNamed(() => import('@/pages/AboutPage'), 'AboutPage');
+const ScreeningAddressPage = lazyNamed(() => import('@/pages/ScreeningAddressPage'), 'ScreeningAddressPage');
+const CheckEligibilityPage = lazyNamed(() => import('@/pages/CheckEligibilityPage'), 'CheckEligibilityPage');
+const ToolsPage = lazyNamed(() => import('@/pages/ToolsPage'), 'ToolsPage');
+const DeployToolsPage = lazyNamed(() => import('@/pages/DeployToolsPage'), 'DeployToolsPage');
+const AIToolsPage = lazyNamed(() => import('@/pages/AIToolsPage'), 'AIToolsPage');
+const SwapPage = lazyNamed(() => import('@/pages/SwapPage'), 'SwapPage');
+const RewardVaultPage = lazyNamed(() => import('@/pages/RewardVaultPage'), 'RewardVaultPage');
+const FeedbackInboxPage = lazyNamed(() => import('@/pages/FeedbackInboxPage'), 'FeedbackInboxPage');
+const FloatingFeedback = lazyNamed(() => import('@/components/feedback/FloatingFeedback'), 'FloatingFeedback');
 
+const LazyDashboard = lazy(() => import('@/pages/Dashboard'));
+
+function AppLoader() {
   return (
-    <motion.div
-      key={location.pathname}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.18,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      style={{ willChange: 'opacity, transform' }}
-    >
-      {children}
-    </motion.div>
+    <div className="min-h-screen flex items-center justify-center alpha-bg">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-[color:var(--alpha-highlight)] border-t-transparent" />
+        <p className="alpha-text-muted font-mono">Loading...</p>
+      </div>
+    </div>
   );
 }
 
-function AppContent() {
-  const { isAuthenticated, isLoading } = useAuth();
-  const location = useLocation();
+function PageTransition({ children }: { children: ReactNode }) {
+  return (
+    <div className="macos-route-transition">
+      {children}
+    </div>
+  );
+}
 
+function GuestAuthShell() {
+  const { isAuthenticated, isLoading } = useAuth();
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center alpha-bg">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin" />
-          <p className="alpha-text-muted font-mono">Loading...</p>
-        </div>
-      </div>
-    );
+    return <AppLoader />;
   }
 
+  return isAuthenticated ? <Navigate to="/overview" replace /> : <AuthPage />;
+}
+
+function RequireAuth() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <AppLoader />;
+  }
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+}
+
+function GuestRuntimeShell() {
   return (
-    <Routes location={location}>
-      <Route path="/" element={
-        <PageTransition><LandingPage /></PageTransition>
-      } />
-      <Route element={isAuthenticated ? <Navigate to="/overview" /> : <AuthPage />}>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
-      </Route>
-      <Route
-        path="/screening"
-        element={<PageTransition><ScreeningAddressPage /></PageTransition>}
-      />
-      <Route
-        path="/overview"
-        element={isAuthenticated ? <PageTransition><OverviewPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/dashboard"
-        element={isAuthenticated ? <PageTransition><Dashboard /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/ecosystem"
-        element={isAuthenticated ? <PageTransition><EcosystemPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/ecosystem/:id"
-        element={isAuthenticated ? <PageTransition><EcosystemDetailPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/priority-projects"
-        element={isAuthenticated ? <PageTransition><PriorityProjectsPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/reward-vault"
-        element={isAuthenticated ? <PageTransition><RewardVaultPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/faucet"
-        element={isAuthenticated ? <PageTransition><FaucetPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/tools"
-        element={isAuthenticated ? <PageTransition><ToolsPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/ai-tools"
-        element={isAuthenticated ? <PageTransition><AIToolsPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/swap-bridge"
-        element={isAuthenticated ? <PageTransition><SwapPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/swap"
-        element={isAuthenticated ? <Navigate to="/swap-bridge" replace /> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/multiple-account"
-        element={isAuthenticated ? <PageTransition><MultipleAccountPage /></PageTransition> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/about"
-        element={isAuthenticated ? <PageTransition><AboutPage /></PageTransition> : <Navigate to="/login" />}
-      />
-    </Routes>
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
+  );
+}
+
+function AppRuntimeShell() {
+  return (
+    <AuthProvider>
+      <WalletProvider>
+        <Outlet />
+        <Suspense fallback={null}>
+          <FloatingFeedback />
+        </Suspense>
+        <Toaster 
+          position="top-right"
+          toastOptions={{
+            style: {
+              background: 'var(--alpha-panel)',
+              border: '1px solid var(--alpha-border)',
+              color: 'var(--alpha-text)',
+            },
+          }}
+        />
+      </WalletProvider>
+    </AuthProvider>
+  );
+}
+
+function AppRoutes() {
+  return (
+    <Suspense fallback={<AppLoader />}>
+      <Routes>
+        <Route path="/" element={
+          <PageTransition><LandingPage /></PageTransition>
+        } />
+
+        <Route element={<GuestRuntimeShell />}>
+          <Route element={<GuestAuthShell />}>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+          </Route>
+        </Route>
+
+        <Route element={<AppRuntimeShell />}>
+          <Route
+            path="/screening"
+            element={<PageTransition><ScreeningAddressPage /></PageTransition>}
+          />
+          <Route
+            path="/check-eligibility"
+            element={<PageTransition><CheckEligibilityPage /></PageTransition>}
+          />
+          <Route
+            path="/faucet"
+            element={<PageTransition><FaucetPage /></PageTransition>}
+          />
+          <Route
+            path="/tools"
+            element={<PageTransition><ToolsPage /></PageTransition>}
+          />
+          <Route
+            path="/deploy"
+            element={<PageTransition><DeployToolsPage /></PageTransition>}
+          />
+          <Route
+            path="/ai-tools"
+            element={<PageTransition><AIToolsPage /></PageTransition>}
+          />
+          <Route
+            path="/swap-bridge"
+            element={<PageTransition><SwapPage /></PageTransition>}
+          />
+          <Route
+            path="/swap"
+            element={<Navigate to="/swap-bridge" replace />}
+          />
+
+          <Route element={<RequireAuth />}>
+            <Route
+              path="/overview"
+              element={<PageTransition><OverviewPage /></PageTransition>}
+            />
+            <Route
+              path="/dashboard"
+              element={<PageTransition><LazyDashboard /></PageTransition>}
+            />
+            <Route
+              path="/ecosystem"
+              element={<PageTransition><EcosystemPage /></PageTransition>}
+            />
+            <Route
+              path="/ecosystem/:id"
+              element={<PageTransition><EcosystemDetailPage /></PageTransition>}
+            />
+            <Route
+              path="/priority-projects"
+              element={<PageTransition><PriorityProjectsPage /></PageTransition>}
+            />
+            <Route
+              path="/reward-vault"
+              element={<PageTransition><RewardVaultPage /></PageTransition>}
+            />
+            <Route
+              path="/feedback-inbox"
+              element={<PageTransition><FeedbackInboxPage /></PageTransition>}
+            />
+            <Route
+              path="/multiple-account"
+              element={<PageTransition><MultipleAccountPage /></PageTransition>}
+            />
+            <Route
+              path="/about"
+              element={<PageTransition><AboutPage /></PageTransition>}
+            />
+          </Route>
+        </Route>
+      </Routes>
+    </Suspense>
   );
 }
 
@@ -136,21 +202,7 @@ function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
-        <AuthProvider>
-          <WalletProvider>
-            <AppContent />
-            <Toaster 
-              position="top-right"
-              toastOptions={{
-                style: {
-                  background: 'var(--alpha-panel)',
-                  border: '1px solid var(--alpha-border)',
-                  color: 'var(--alpha-text)',
-                },
-              }}
-            />
-          </WalletProvider>
-        </AuthProvider>
+        <AppRoutes />
       </ThemeProvider>
     </BrowserRouter>
   )

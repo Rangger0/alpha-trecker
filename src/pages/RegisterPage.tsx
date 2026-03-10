@@ -81,10 +81,10 @@ export function RegisterPage() {
       {error && (
         <Alert
           variant="destructive"
-          className="mb-4 border-[#ef4444]/30 bg-[#ef4444]/10 text-[#b42318]"
+          className="mb-4 border-[color:var(--alpha-danger-border)] bg-[color:var(--alpha-danger-soft)] text-[color:var(--alpha-danger)]"
         >
-          <AlertCircle className="h-4 w-4 text-[#ef4444]" />
-          <AlertDescription className="text-[#b42318]">{error}</AlertDescription>
+          <AlertCircle className="h-4 w-4 text-[var(--alpha-danger)]" />
+          <AlertDescription className="text-[var(--alpha-danger)]">{error}</AlertDescription>
         </Alert>
       )}
 

@@ -38,24 +38,23 @@ export function AboutPage() {
 
   const cardBaseClasses = `relative p-6 rounded-xl border transition-all duration-300 ease-out overflow-hidden group`;
   
-  const cardThemeClasses = isDark 
-    ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.1)]' 
-    : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/50 hover:shadow-[0_0_20px_rgba(37,99,235,0.1)]';
+  const cardThemeClasses =
+    'bg-[var(--alpha-panel)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal)] hover:shadow-[0_0_20px_rgba(255,87,51,0.08)]';
 
   return (
-    <DashboardLayout>
+    <DashboardLayout disableMonochrome>
       <div className="macos-root macos-page-shell max-w-5xl mx-auto px-2 py-8 sm:px-4">
         
         {/* Header */}
         <div className="macos-page-header macos-animate-up items-center text-center mb-10">
-          <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-2 transition-transform duration-300 hover:scale-105 ${isDark ? 'bg-[#161B22] border border-[#1F2937]' : 'bg-white border border-[#E5E7EB]'}`}>
-            <img src="/logo.png" alt="Alpha Tracker" className="w-12 h-12 object-contain" />
+          <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-2 transition-transform duration-300 hover:scale-105 ${isDark ? 'bg-[var(--alpha-surface)] border border-[var(--alpha-border)]' : 'bg-[var(--alpha-panel)] border border-[var(--alpha-border)]'}`}>
+            <img src="/logo.png" alt="Alpha Tracker" className="alpha-brand-logo w-12 h-12 object-contain" />
           </div>
           <div className="macos-page-kicker">Creator Notes</div>
-          <h1 className={`text-3xl font-bold font-mono mb-3 ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+          <h1 className={`text-3xl font-bold font-mono mb-3 ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
             ALPHA_TRACKER
           </h1>
-          <p className={`font-mono text-sm max-w-md mx-auto ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+          <p className={`font-mono text-sm max-w-md mx-auto ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
             Track and manage your airdrop portfolio. Organize projects, monitor progress, and never miss an opportunity in the Web3 space.
           </p>
         </div>
@@ -66,9 +65,9 @@ export function AboutPage() {
           {/* Left - Portfolio */}
           <div className={`macos-premium-card ${cardBaseClasses} ${cardThemeClasses}`}>
             {/* Animated gradient border */}
-            <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
+            <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[var(--alpha-signal-strong)] via-transparent to-[var(--alpha-signal-strong)]' : 'from-[var(--alpha-signal-strong)] via-transparent to-[var(--alpha-signal-strong)]'}`} />
             
-            <h2 className={`font-mono text-xs mb-4 flex items-center gap-2 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
+            <h2 className={`font-mono text-xs mb-4 flex items-center gap-2 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`}>
               <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
               <span className="opacity-60">$</span>
               <span>cat portfolio.json</span>
@@ -78,16 +77,16 @@ export function AboutPage() {
               href="https://alpha-terminal-eta.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${isDark ? 'hover:bg-[#0B0F14]' : 'hover:bg-[#F3F4F6]'}`}
+              className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${isDark ? 'hover:bg-[var(--alpha-surface-strong)]' : 'hover:bg-[var(--alpha-hover-soft)]'}`}
             >
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-110 ${isDark ? 'bg-[#0B0F14]' : 'bg-[#F3F4F6]'}`}>
-                <img src="/logo1.png" alt="Alpha Terminal" className="w-6 h-6 object-contain" />
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-110 ${isDark ? 'bg-[var(--alpha-surface-strong)]' : 'bg-[var(--alpha-surface-soft)]'}`}>
+                <img src="/logo1.png" alt="Alpha Terminal" className="alpha-brand-logo w-6 h-6 object-contain" />
               </div>
               <div>
-                <p className={`font-mono text-sm font-bold ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+                <p className={`font-mono text-sm font-bold ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
                   Alpha Terminal
                 </p>
-                <p className={`font-mono text-xs ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
+                <p className={`font-mono text-xs ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`}>
                   alpha-terminal-eta.vercel.app
                 </p>
               </div>
@@ -96,22 +95,22 @@ export function AboutPage() {
 
           {/* Right - Rose Alpha */}
           <div className={`macos-premium-card ${cardBaseClasses} ${cardThemeClasses}`}>
-            <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
+            <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[var(--alpha-signal-strong)] via-transparent to-[var(--alpha-signal-strong)]' : 'from-[var(--alpha-signal-strong)] via-transparent to-[var(--alpha-signal-strong)]'}`} />
             
-            <h2 className={`font-mono text-xs mb-4 flex items-center gap-2 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
+            <h2 className={`font-mono text-xs mb-4 flex items-center gap-2 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`}>
               <span className="opacity-60">$</span>
               <span>whoami</span>
             </h2>
             
             <div className="flex items-center gap-3">
-              <div className={`w-12 h-12 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105 ring-2 ring-transparent group-hover:ring-current ${isDark ? 'group-hover:ring-[#00FF88]/50' : 'group-hover:ring-[#2563EB]/50'}`}>
+              <div className={`w-12 h-12 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105 ring-2 ring-transparent group-hover:ring-current ${isDark ? 'group-hover:ring-[var(--alpha-signal-border)]' : 'group-hover:ring-[var(--alpha-signal-border)]'}`}>
                 <img src="/profile.png" alt="Rose Alpha" className="w-full h-full object-cover" />
               </div>
               <div>
-                <p className={`font-mono text-sm font-bold ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+                <p className={`font-mono text-sm font-bold ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
                   Rose Alpha
                 </p>
-                <p className={`font-mono text-xs ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>
+                <p className={`font-mono text-xs ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
                   Developer & Creator
                 </p>
               </div>
@@ -121,9 +120,9 @@ export function AboutPage() {
 
         {/* Media - Horizontal Layout */}
         <div className={`macos-premium-card ${cardBaseClasses} ${cardThemeClasses}`}>
-          <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[#00FF88]/20 via-transparent to-[#00FF88]/20' : 'from-[#2563EB]/20 via-transparent to-[#2563EB]/20'}`} />
+          <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r ${isDark ? 'from-[var(--alpha-signal-strong)] via-transparent to-[var(--alpha-signal-strong)]' : 'from-[var(--alpha-signal-strong)] via-transparent to-[var(--alpha-signal-strong)]'}`} />
           
-          <h2 className={`font-mono text-xs mb-6 flex items-center gap-2 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>
+          <h2 className={`font-mono text-xs mb-6 flex items-center gap-2 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`}>
             <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
             <span className="opacity-60">$</span>
             <span>ls -la media/</span>
@@ -136,23 +135,23 @@ export function AboutPage() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`flex items-center gap-2 transition-all duration-200 hover:scale-105 ${isDark ? 'hover:text-[#00FF88]' : 'hover:text-[#2563EB]'}`}
+                  className={`flex items-center gap-2 transition-all duration-200 hover:scale-105 ${isDark ? 'hover:text-[var(--alpha-signal)]' : 'hover:text-[var(--alpha-signal)]'}`}
                 >
-                  <div className={`w-8 h-8 rounded flex items-center justify-center transition-all duration-200 ${isDark ? 'text-[#6B7280] hover:text-[#00FF88] hover:bg-[#00FF88]/10' : 'text-[#6B7280] hover:text-[#2563EB] hover:bg-[#2563EB]/10'}`}>
+                  <div className={`w-8 h-8 rounded flex items-center justify-center transition-all duration-200 ${isDark ? 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-soft)]' : 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-soft)]'}`}>
                     <link.Icon className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className={`font-mono text-sm font-bold ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>
+                    <p className={`font-mono text-sm font-bold ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
                       {link.name}
                     </p>
-                    <p className={`font-mono text-xs ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
+                    <p className={`font-mono text-xs ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
                       {link.handle}
                     </p>
                   </div>
                 </a>
                 
                 {index < mediaLinks.length - 1 && (
-                  <span className={`hidden md:block transition-colors duration-200 ${isDark ? 'text-[#1F2937] group-hover:text-[#00FF88]/30' : 'text-[#E5E7EB] group-hover:text-[#2563EB]/30'}`}>—</span>
+                  <span className={`hidden md:block transition-colors duration-200 ${isDark ? 'text-[var(--alpha-text)] group-hover:text-[var(--alpha-signal-border)]' : 'text-[var(--alpha-text)] group-hover:text-[var(--alpha-signal-border)]'}`}>—</span>
                 )}
               </div>
             ))}
@@ -160,7 +159,7 @@ export function AboutPage() {
         </div>
 
         {/* Footer */}
-        <div className={`text-center mt-12 font-mono text-xs ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
+        <div className={`text-center mt-12 font-mono text-xs ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
           <p>© 2026 ALPHA_TRACKER. All rights reserved.</p>
           <p className="mt-1">Built with passion for the Web3 community.</p>
         </div>

@@ -6,9 +6,9 @@ module.exports = {
     extend: {
       // FONT FAMILY
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
-        display: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['SF Pro Text', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        mono: ['SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+        display: ['SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
       fontWeight: {
         normal: 400,
@@ -61,7 +61,7 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Custom colors - Premium Dark + Gold
+        // Custom colors - Premium Dark + Monochrome Accent
         dark: {
           bg: 'rgb(var(--theme-dark-bg) / <alpha-value>)',
           secondary: 'rgb(var(--theme-dark-secondary) / <alpha-value>)',

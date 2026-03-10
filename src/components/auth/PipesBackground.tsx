@@ -33,7 +33,7 @@ export function PipesBackground() {
     const frameInterval = 1000 / 30;
     const colors = isDark
       ? ['#decc73', '#eede2e', '#f6da74', '#f1e986', '#f8eb94']
-      : ['#2564eb', '#3B82F6', '#60A5FA', '#1d4fd8', '#93C5FD'];
+      : ['#2564eb', 'var(--alpha-signal)', '#60A5FA', '#1d4fd8', '#93C5FD'];
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const maxPipes = prefersReducedMotion ? 0 : 10;
     const spawnInterval = prefersReducedMotion ? Number.MAX_SAFE_INTEGER : 30;

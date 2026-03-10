@@ -21,7 +21,7 @@ export function Footer() {
 
   return (
     <footer className={`border-t py-12 px-4 sm:px-6 lg:px-8 ${
-      isDark ? 'border-[#1F2937] bg-[#0B0F14]' : 'border-gray-200 bg-gray-50'
+      isDark ? 'border-[var(--alpha-border)] bg-[var(--alpha-surface-strong)]' : 'border-gray-200 bg-gray-50'
     }`}>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -37,13 +37,13 @@ export function Footer() {
                 />
               ) : (
                 <div className="w-8 h-8 rounded flex items-center justify-center bg-white/10">
-                  <span className={`font-mono font-bold ${isDark ? 'text-[#00FF88]' : 'text-blue-600'}`}>
+                  <span className={`font-mono font-bold ${isDark ? 'text-[var(--alpha-signal)]' : 'text-blue-600'}`}>
                     {'>'}_
                   </span>
                 </div>
               )}
               <span className={`font-bold font-mono ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                <span className={isDark ? 'text-[#00FF88]' : 'text-blue-600'}>ALPHA</span>_TRACKER
+                <span className={isDark ? 'text-[var(--alpha-signal)]' : 'text-blue-600'}>ALPHA</span>_TRACKER
               </span>
             </Link>
             <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -63,7 +63,7 @@ export function Footer() {
                 {links.map((link, index) => (
                   <li key={index}>
                     {typeof link === 'string' ? (
-                      <a href="#" className={`text-sm hover:text-[#00FF88] transition-colors ${
+                      <a href="#" className={`text-sm hover:text-[var(--alpha-signal)] transition-colors ${
                         isDark ? 'text-gray-400' : 'text-gray-600'
                       }`}>
                         {link}
@@ -73,7 +73,7 @@ export function Footer() {
                         href={link.href} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className={`text-sm hover:text-[#00FF88] transition-colors ${
+                        className={`text-sm hover:text-[var(--alpha-signal)] transition-colors ${
                           isDark ? 'text-gray-400' : 'text-gray-600'
                         }`}
                       >
@@ -88,12 +88,12 @@ export function Footer() {
         </div>
 
         <div className={`pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4 ${
-          isDark ? 'border-[#1F2937]' : 'border-gray-200'
+          isDark ? 'border-[var(--alpha-border)]' : 'border-gray-200'
         }`}>
           <p className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
             Copyright © 2026 Alpha Tracker
           </p>
-          <a href="#" className={`text-sm hover:text-[#00FF88] transition-colors ${
+          <a href="#" className={`text-sm hover:text-[var(--alpha-signal)] transition-colors ${
             isDark ? 'text-gray-500' : 'text-gray-500'
           }`}>
             Terms of Service

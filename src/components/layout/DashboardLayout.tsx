@@ -5,9 +5,10 @@ import { TopBar } from './TopBar';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
+  disableMonochrome?: boolean;
 }
 
-export function DashboardLayout({ children }: DashboardLayoutProps) {
+export function DashboardLayout({ children, disableMonochrome = false }: DashboardLayoutProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -24,16 +25,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  const sidebarLeftOffset = 16;
-  const sidebarWidth = 240;
+  const sidebarLeftOffset = 24;
+  const sidebarWidth = 252;
   const topBarHeight = 48;
-  const sidebarTopOffset = topBarHeight + 12;
-  const sidebarBottomOffset = 16;
-  const mainTopPadding = topBarHeight + 16;
+  const sidebarTopOffset = topBarHeight + 20;
+  const sidebarBottomOffset = 20;
+  const mainTopPadding = topBarHeight + 18;
 
   return (
-    // alpha-theme wrapper: palet hanya mempengaruhi halaman dengan layout ini
-    <div className={`alpha-theme ${isDark ? 'dark' : ''} alpha-bg macos-app-shell min-h-screen`}>
+    <div className={`alpha-theme ${isDark ? 'dark' : 'light'} alpha-bg macos-app-shell min-h-screen`}>
       <Sidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -54,9 +54,16 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           paddingTop: `${mainTopPadding}px`,
         }}
       >
-        <div className="w-full px-4 py-5 sm:px-6 sm:py-6">
-          <div className="macos-panel overflow-hidden rounded-[2rem] border border-alpha-border/80 bg-white/10 shadow-[var(--alpha-shadow)]">
-            <div className="p-5 sm:p-6">
+        <div className="w-full px-3.5 py-4 sm:px-5 sm:py-5">
+          <div
+            className={`macos-panel ${disableMonochrome ? '' : 'macos-theme-monochrome'} macos-window-open overflow-hidden rounded-[2rem] border shadow-[var(--alpha-shadow)]`}
+            style={{
+              borderColor: 'color-mix(in srgb, var(--alpha-border) 92%, transparent)',
+              background:
+                'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 97%, transparent), color-mix(in srgb, var(--alpha-panel) 95%, transparent))',
+            }}
+          >
+            <div className="p-4 sm:p-5">
               {children}
             </div>
           </div>

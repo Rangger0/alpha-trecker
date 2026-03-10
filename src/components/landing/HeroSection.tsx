@@ -1,301 +1,232 @@
-import { Button } from '@/components/ui/button';
+import type { CSSProperties } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, ArrowRight, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { PREDEFINED_ECOSYSTEMS } from '@/lib/ecosystems';
 
-const dashboardImages = [
-  { src: '/1.png', alt: 'Register to login flow', label: 'Register to Login' },
-  { src: '/2.png', alt: 'Overview page', label: 'Overview' },
-  { src: '/3.png', alt: 'Dashboard page', label: 'Dashboard' },
-  { src: '/4.png', alt: 'Add new airdrop modal', label: 'Add New Airdrop' },
-  { src: '/5.png', alt: 'Tools page', label: 'Tools' },
-  { src: '/6.png', alt: 'AI tools page', label: 'AI Tools' },
-  { src: '/7.png', alt: 'Swap and bridge page', label: 'Swap & Bridge' },
+const workflowRows = [
+  {
+    label: 'Research',
+    value: 'Overview, ecosystems, AI tools',
+  },
+  {
+    label: 'Tracking',
+    value: 'Screening, eligibility, reward vault',
+  },
+  {
+    label: 'Execution',
+    value: 'Tools, deploy, swap & bridge',
+  },
+  {
+    label: 'Review',
+    value: 'Next actions and reward follow-up',
+  },
+];
+
+const starDots = [
+  { top: '14%', left: '16%' },
+  { top: '22%', left: '72%' },
+  { top: '38%', left: '58%' },
+  { top: '62%', left: '82%' },
+  { top: '72%', left: '24%' },
+];
+
+const shootingStars = [
+  { top: '8%', left: '18%', delay: '1.4s', duration: '15s', distanceX: '152px', distanceY: '96px', length: '180px' },
+  { top: '16%', left: '52%', delay: '4.8s', duration: '17s', distanceX: '176px', distanceY: '112px', length: '220px' },
+  { top: '22%', left: '78%', delay: '7.2s', duration: '19s', distanceX: '132px', distanceY: '86px', length: '168px' },
+  { top: '42%', left: '62%', delay: '10.5s', duration: '18s', distanceX: '146px', distanceY: '92px', length: '194px' },
+  { top: '54%', left: '28%', delay: '12.8s', duration: '16s', distanceX: '164px', distanceY: '102px', length: '208px' },
+  { top: '70%', left: '72%', delay: '15.6s', duration: '18s', distanceX: '118px', distanceY: '74px', length: '156px' },
 ];
 
 export function HeroSection() {
-  const [typedText, setTypedText] = useState('');
-  const [showDashboard, setShowDashboard] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const fullText = '$ alpha-tracker --status';
+  const logoFieldRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let index = 0;
-    const timer = window.setInterval(() => {
-      if (index <= fullText.length) {
-        setTypedText(fullText.slice(0, index));
-        index += 1;
-      } else {
-        window.clearInterval(timer);
-        window.setTimeout(() => setShowDashboard(true), 450);
-      }
-    }, 42);
+    let frameId = 0;
+    const logoField = logoFieldRef.current;
+    if (!logoField) {
+      return undefined;
+    }
 
-    return () => window.clearInterval(timer);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const applyMotion = () => {
+      const scrollProgress = Math.min(window.scrollY / 720, 1);
+      const logoOpacity = Math.max(0.22, 0.58 - scrollProgress * 0.2);
+      const logoShift = scrollProgress * 30;
+      const logoScale = 1.08 - scrollProgress * 0.05;
+
+      logoField.style.opacity = `${logoOpacity}`;
+      logoField.style.transform = `translate3d(0, ${logoShift}px, 0) scale(${logoScale})`;
+    };
+
+    const syncScroll = () => {
+      if (frameId !== 0) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        applyMotion();
+        frameId = 0;
+      });
+    };
+
+    if (prefersReducedMotion) {
+      logoField.style.opacity = '0.58';
+      logoField.style.transform = 'translate3d(0, 0, 0) scale(1.08)';
+      return undefined;
+    }
+
+    applyMotion();
+    window.addEventListener('scroll', syncScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', syncScroll);
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
   }, []);
 
-  useEffect(() => {
-    if (!isAutoPlaying || !showDashboard) return undefined;
-
-    const interval = window.setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % dashboardImages.length);
-    }, 4000);
-
-    return () => window.clearInterval(interval);
-  }, [isAutoPlaying, showDashboard]);
-
-  const nextSlide = () => {
-    setIsAutoPlaying(false);
-    setCurrentSlide((prev) => (prev + 1) % dashboardImages.length);
-  };
-
-  const prevSlide = () => {
-    setIsAutoPlaying(false);
-    setCurrentSlide((prev) => (prev - 1 + dashboardImages.length) % dashboardImages.length);
-  };
-
   return (
-    <section className="relative overflow-hidden px-4 pb-24 pt-36 sm:px-6 lg:px-8">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute left-[10%] top-[8%] h-64 w-64 rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-border) 22%, transparent), transparent 72%)' }}
-        />
-        <div
-          className="absolute right-[10%] top-[10%] h-64 w-64 rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent-to) 16%, transparent), transparent 72%)' }}
-        />
-        <div
-          className="absolute left-1/2 top-[40%] h-72 w-72 -translate-x-1/2 rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 12%, transparent), transparent 72%)' }}
-        />
-      </div>
+    <section className="alpha-landing-hero-section relative isolate overflow-hidden px-4 pb-16 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-14">
+      <div className="alpha-landing-hero-atmosphere" aria-hidden="true">
+        {starDots.map((dot) => (
+          <span
+            key={`${dot.top}-${dot.left}`}
+            className="alpha-landing-star-dot"
+            style={{ top: dot.top, left: dot.left } as CSSProperties}
+          />
+        ))}
 
-      <div className="relative z-10 mx-auto max-w-7xl text-center">
+        {shootingStars.map((star, index) => (
+          <span
+            key={`${star.top}-${star.left}-${index}`}
+            className="alpha-landing-sky-streak"
+            style={{
+              top: star.top,
+              left: star.left,
+              '--shoot-delay': star.delay,
+              '--shoot-duration': star.duration,
+              '--shoot-distance-x': star.distanceX,
+              '--shoot-distance-y': star.distanceY,
+              '--shoot-length': star.length,
+            } as CSSProperties}
+          />
+        ))}
+
         <div
-          className="mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 shadow-sm"
+          ref={logoFieldRef}
+          className="alpha-landing-logo-field"
           style={{
-            background: 'color-mix(in srgb, var(--alpha-surface) 88%, transparent)',
-            border: '1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent)',
-            color: 'var(--alpha-text-muted)',
+            opacity: 0.58,
+            transform: 'translate3d(0, 0, 0) scale(1.08)',
           }}
         >
-          <Sparkles className="h-4 w-4" style={{ color: 'var(--alpha-accent-to)' }} />
-          <span className="text-sm font-medium">Alpha Tracker 2.0 - Public Beta</span>
-        </div>
+          <div className="alpha-landing-logo-spin">
+            <span className="alpha-landing-logo-sheen" />
+            <div className="alpha-landing-jupiter-shell">
+              <span className="alpha-landing-jupiter-band alpha-landing-jupiter-band--one" />
+              <span className="alpha-landing-jupiter-band alpha-landing-jupiter-band--two" />
+              <span className="alpha-landing-jupiter-band alpha-landing-jupiter-band--three" />
+              <span className="alpha-landing-jupiter-band alpha-landing-jupiter-band--four" />
+              <span className="alpha-landing-jupiter-ring" />
+              <span className="alpha-landing-jupiter-ring alpha-landing-jupiter-ring--lower" />
 
-        <h1
-          className="mb-6 text-4xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-5xl lg:text-6xl"
-          style={{ color: 'var(--alpha-text)' }}
-        >
-          The Project Tool For{' '}
-          <span style={{ color: 'var(--alpha-accent-to)' }}>
-            Airdroppers
-          </span>
-        </h1>
-
-        <p className="mx-auto mb-10 max-w-2xl text-lg leading-8 sm:text-xl" style={{ color: 'var(--alpha-text-muted)' }}>
-          Explore your data, build your dashboard, and keep your team aligned.
-          Stop hunting blindly, start running a cleaner operation.
-        </p>
-
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link to="/register">
-            <Button
-              className="macos-btn h-12 rounded-full px-8 text-base font-semibold transition-opacity duration-150 hover:opacity-92"
-              style={{
-                background:
-                  'linear-gradient(135deg, var(--alpha-accent-from), color-mix(in srgb, var(--alpha-accent-to) 78%, var(--alpha-accent) 22%))',
-                color: 'var(--alpha-accent-contrast)',
-                boxShadow: '0 18px 34px color-mix(in srgb, var(--alpha-accent-to) 22%, transparent)',
-              }}
-            >
-              Get Started - It&apos;s Free
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
-
-          <a href="#features">
-            <Button
-              variant="outline"
-              className="macos-btn h-12 rounded-full px-8 text-base font-semibold transition-opacity duration-150 hover:opacity-85"
-              style={{
-                borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
-                background: 'color-mix(in srgb, var(--alpha-surface) 86%, transparent)',
-                color: 'var(--alpha-text)',
-              }}
-            >
-              Learn More
-              <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </a>
-        </div>
-
-        <div className="relative mt-16">
-          <div
-            className="absolute -inset-2 rounded-[2rem] blur-2xl"
-            style={{ background: 'linear-gradient(90deg, color-mix(in srgb, var(--alpha-accent-to) 16%, transparent), color-mix(in srgb, var(--alpha-border) 16%, transparent))' }}
-          />
-
-          <div
-            className="macos-landing-card relative overflow-hidden rounded-[2rem]"
-            style={{
-              borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
-              background:
-                'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent))',
-            }}
-          >
-            <div
-              className="flex h-10 items-center border-b px-4"
-              style={{ borderColor: 'color-mix(in srgb, var(--alpha-border) 76%, transparent)' }}
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono" style={{ color: 'var(--alpha-text-muted)' }}>
-                  alpha-tracker
-                </span>
-                <span className="text-xs" style={{ color: 'var(--alpha-text-muted)' }}>—</span>
-                <span className="text-xs font-mono" style={{ color: 'var(--alpha-text-muted)' }}>
-                  bash
-                </span>
-              </div>
-            </div>
-
-            <div className="p-6 text-left font-mono text-sm">
-              <div style={{ color: 'var(--alpha-accent-to)' }}>
-                {typedText}
-                <span className="animate-blink">_</span>
-              </div>
-              <div className="mt-4 space-y-1" style={{ color: 'var(--alpha-text-muted)' }}>
-                <div className="animate-fade-in delay-500">{'>'} Initializing dashboard...</div>
-                <div className="animate-fade-in delay-700">{'>'} Loading portfolio data...</div>
-                <div className="animate-fade-in delay-900">{'>'} Syncing 12 wallets...</div>
-                <div className="animate-fade-in delay-1100" style={{ color: 'var(--alpha-accent)' }}>
-                  {'>'} Ready! Found 3 new airdrop opportunities
-                </div>
+              <div className="alpha-landing-logo-core">
+                <img
+                  src="/logo/logo.png"
+                  alt=""
+                  aria-hidden="true"
+                  className="alpha-brand-logo alpha-landing-logo-mark relative z-10 h-[44%] w-[44%] object-contain"
+                  loading="eager"
+                  decoding="async"
+                />
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div
-          className={`relative mt-16 transition-all duration-700 ${
-            showDashboard ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
-          }`}
-        >
-          <div
-            className="absolute -inset-4 rounded-[2rem] blur-2xl"
-            style={{ background: 'linear-gradient(90deg, color-mix(in srgb, var(--alpha-accent) 12%, transparent), color-mix(in srgb, var(--alpha-border) 12%, transparent))' }}
-          />
+      <div className="macos-landing-width relative z-20">
+        <div className="alpha-landing-hero-stack">
+          <div className="alpha-landing-hero-copy alpha-landing-hero-copy--center space-y-6">
+            <span className="macos-page-kicker alpha-landing-kicker">
+              <Sparkles className="h-7.5 w-7.5" />
+              Alpha Tracker
+            </span>
 
-          <div className="group relative">
-            <button
-              onClick={prevSlide}
-              className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full border p-3 opacity-0 transition-all duration-200 group-hover:opacity-100"
-              style={{
-                borderColor: 'color-mix(in srgb, var(--alpha-border) 86%, transparent)',
-                background: 'color-mix(in srgb, var(--alpha-surface) 92%, transparent)',
-                color: 'var(--alpha-text)',
-              }}
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
+            <h1 className="alpha-landing-headline">
+              <span className="alpha-landing-headline-line alpha-landing-headline-line--primary">
+                Research, track, execute, and review
+              </span>
+              <span className="alpha-landing-headline-line alpha-landing-headline-line--accent alpha-landing-headline-accent">
+                crypto opportunities
+              </span>
+            </h1>
 
-            <button
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full border p-3 opacity-0 transition-all duration-200 group-hover:opacity-100"
-              style={{
-                borderColor: 'color-mix(in srgb, var(--alpha-border) 86%, transparent)',
-                background: 'color-mix(in srgb, var(--alpha-surface) 92%, transparent)',
-                color: 'var(--alpha-text)',
-              }}
-              aria-label="Next slide"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
+            <p className="alpha-landing-lead">
+              Alpha Tracker keeps research, tracking, execution, and review in one workspace so crypto work stays
+              structured.
+            </p>
 
-            <div
-              className="macos-landing-card relative overflow-hidden rounded-[2rem]"
-              style={{
-                borderColor: 'color-mix(in srgb, var(--alpha-border) 86%, transparent)',
-                background:
-                  'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent))',
-              }}
-            >
-              <div
-                className="flex transition-transform duration-700 ease-out"
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-              >
-                {dashboardImages.map((image) => (
-                  <div key={image.label} className="w-full flex-shrink-0 p-3">
-                    <div className="relative overflow-hidden rounded-[1.5rem]">
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        className="aspect-[16/9] w-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const fallback = target.nextElementSibling as HTMLElement | null;
-                          if (fallback) fallback.style.display = 'flex';
-                        }}
-                      />
+            <div className="alpha-landing-hero-actions">
+              <Link to="/register">
+                <Button
+                  className="macos-btn h-11 rounded-full px-7 text-sm font-semibold"
+                  style={{
+                    background: 'var(--alpha-accent-to)',
+                    color: 'var(--alpha-accent-contrast)',
+                    border: '1px solid color-mix(in srgb, var(--alpha-accent-to) 72%, transparent)',
+                  }}
+                >
+                  Start Free
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
 
-                      <div
-                        className="hidden aspect-[16/9] w-full items-center justify-center"
-                        style={{
-                          background: 'color-mix(in srgb, var(--alpha-panel) 92%, transparent)',
-                          color: 'var(--alpha-text-muted)',
-                        }}
-                      >
-                        <div className="text-center font-mono">
-                          <div className="mb-3 text-5xl">📊</div>
-                          <div className="text-sm">{image.label}</div>
-                          <div className="mt-1 text-xs">Add {image.src} to the public folder</div>
-                        </div>
-                      </div>
+              <a href="#workflow">
+                <Button
+                  variant="outline"
+                  className="macos-btn h-11 rounded-full px-7 text-sm font-semibold"
+                  style={{
+                    borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
+                    background: 'color-mix(in srgb, var(--alpha-surface) 88%, transparent)',
+                    color: 'var(--alpha-text)',
+                  }}
+                >
+                  View Workflow
+                </Button>
+              </a>
+            </div>
 
-                      <div
-                        className="absolute inset-x-0 bottom-0 p-4"
-                        style={{ background: 'linear-gradient(180deg, transparent, rgba(10, 12, 18, 0.42))' }}
-                      >
-                        <p className="text-left text-base font-semibold tracking-[-0.02em] text-white">
-                          {image.label}
-                        </p>
-                      </div>
-                    </div>
+            <p className="alpha-landing-hero-meta alpha-landing-hero-meta--center">
+              Tracks {PREDEFINED_ECOSYSTEMS.length}+ ecosystems inside the same research and execution workflow.
+            </p>
+          </div>
+
+          <div className="alpha-landing-hero-stage">
+            <div className="alpha-landing-hero-stage-glow" aria-hidden="true" />
+            <div className="alpha-landing-hero-panel alpha-landing-hero-panel--showcase">
+              <div className="alpha-landing-hero-panel-header">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--alpha-text-muted)]">
+                  Inside the product
+                </p>
+                <span className="alpha-landing-status-pill">Core workflow</span>
+              </div>
+
+              <div className="mt-5 space-y-3">
+                {workflowRows.map((item) => (
+                  <div key={item.label} className="alpha-landing-hero-panel-row">
+                    <p className="alpha-landing-hero-panel-label">{item.label}</p>
+                    <p className="alpha-landing-hero-panel-value">{item.value}</p>
                   </div>
                 ))}
               </div>
-
-              <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-                {dashboardImages.map((image, index) => (
-                  <button
-                    key={image.label}
-                    onClick={() => {
-                      setIsAutoPlaying(false);
-                      setCurrentSlide(index);
-                    }}
-                    className="h-2.5 rounded-full transition-all duration-200"
-                    style={{
-                      width: currentSlide === index ? '30px' : '10px',
-                      background:
-                        currentSlide === index
-                          ? 'linear-gradient(90deg, var(--alpha-accent-from), var(--alpha-accent-to))'
-                          : 'color-mix(in srgb, var(--alpha-border) 70%, transparent)',
-                    }}
-                    aria-label={`Go to ${image.label}`}
-                  />
-                ))}
-              </div>
             </div>
-          </div>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm" style={{ color: 'var(--alpha-text-muted)' }}>
-              Preview of your personalized dashboard. Hover to inspect, use arrows to navigate.
-            </p>
           </div>
         </div>
       </div>

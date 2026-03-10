@@ -1,59 +1,67 @@
-// src/components/landing/ProjectsMarquee.tsx
-const projects = [
-  { name: 'Plume', logo: '/logos/plume.png', fallback: 'https://alpha-terminal-eta.vercel.app/media/plume-logo.png' },
-  { name: 'Elixir', logo: '/logos/elixir.png', fallback: 'https://alpha-terminal-eta.vercel.app/media/elixir-logo.png' },
-  { name: 'ether.fi', logo: '/logos/ether.fi.png', fallback: 'https://alpha-terminal-eta.vercel.app/media/etherfi-logo.png' },
-  { name: 'Polygon', logo: '/logos/polygon.png', fallback: 'https://alpha-terminal-eta.vercel.app/media/polygon-logo.png' },
-  { name: 'Ethereum', logo: '/logos/ethereum.png', fallback: 'https://alpha-terminal-eta.vercel.app/media/ethereum-logo.png' },
-  { name: 'Solana', logo: '/logos/solana.png', fallback: 'https://alpha-terminal-eta.vercel.app/media/solana-logo.png' },
-  { name: 'LayerZero', logo: '/logos/layerzero.png', fallback: 'https://alpha-terminal-eta.vercel.app/media/layerzero-logo.png' },
-  { name: 'Celestia', logo: '/logos/celestia.png', fallback: 'https://alpha-terminal-eta.vercel.app/media/celestia-logo.png' },
-];
+import { PREDEFINED_ECOSYSTEMS } from '@/lib/ecosystems';
+
+const ecosystemItems = PREDEFINED_ECOSYSTEMS.slice(0, 12);
+const firstRow = ecosystemItems.slice(0, 6);
+const secondRow = ecosystemItems.slice(6, 12);
+
+const renderTrack = (items: typeof firstRow, reverse = false) => (
+  <div className="alpha-landing-ecosystem-marquee">
+    <div className={`alpha-landing-ecosystem-track ${reverse ? 'alpha-landing-ecosystem-track--reverse' : ''}`}>
+      {[0, 1].map((copy) => (
+        <div key={copy} className="alpha-landing-ecosystem-group">
+          {items.map((ecosystem) => (
+            <article key={`${copy}-${ecosystem.id}`} className="alpha-landing-ecosystem-card">
+              <div
+                className="flex h-10 w-10 items-center justify-center rounded-[0.9rem] border"
+                style={{
+                  borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
+                  background:
+                    'linear-gradient(180deg, color-mix(in srgb, white 12%, transparent), color-mix(in srgb, var(--alpha-surface) 88%, transparent))',
+                  boxShadow: 'inset 0 1px 0 color-mix(in srgb, white 14%, transparent)',
+                }}
+              >
+                <img
+                  src={ecosystem.logo}
+                  alt={ecosystem.name}
+                  className="h-5 w-5 object-contain grayscale"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold tracking-[-0.02em] text-[var(--alpha-text)]">
+                  {ecosystem.name}
+                </p>
+                <p className="mt-1 text-xs text-[var(--alpha-text-muted)]">
+                  @{ecosystem.twitterHandle}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 export function ProjectsMarquee() {
   return (
-    <section id="projects" className="relative overflow-hidden py-12">
-      <div
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 sm:w-32"
-        style={{ background: 'linear-gradient(90deg, var(--alpha-bg), transparent)' }}
-      />
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 sm:w-32"
-        style={{ background: 'linear-gradient(270deg, var(--alpha-bg), transparent)' }}
-      />
+    <section id="ecosystems" className="px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <div className="macos-landing-width grid gap-8 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-start">
+        <div className="space-y-4">
+          <p className="macos-section-label">Ecosystem tracking</p>
+          <h2 className="alpha-landing-section-title">
+            Track major and emerging ecosystems in the same workspace.
+          </h2>
+          <p className="alpha-landing-section-copy">
+            Ecosystem coverage stays close to research and execution instead of becoming a separate tool.
+          </p>
+        </div>
 
-      <div className="projects-marquee">
-        <div className="projects-marquee__track">
-          {[0, 1].map((groupIndex) => (
-            <div key={groupIndex} className="projects-marquee__group" aria-hidden={groupIndex === 1}>
-              {projects.map((project) => (
-                <div
-                  key={`${groupIndex}-${project.name}`}
-                  className="flex h-24 w-48 flex-shrink-0 items-center justify-center rounded-[1.4rem] transition-all duration-200 hover:-translate-y-1"
-                  style={{
-                    background:
-                      'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 94%, transparent), color-mix(in srgb, var(--alpha-panel) 88%, transparent))',
-                    border: '1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent)',
-                    boxShadow: '0 14px 26px rgba(18, 20, 31, 0.08)',
-                  }}
-                >
-                  <div className="flex items-center gap-3 px-4">
-                    <img
-                      src={project.logo}
-                      alt={project.name}
-                      className="h-10 w-10 object-contain"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = project.fallback;
-                      }}
-                    />
-                    <span className="text-base font-semibold tracking-[-0.01em]" style={{ color: 'var(--alpha-text)' }}>
-                      {project.name}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
+        <div className="space-y-3" data-stagger>
+          {renderTrack(firstRow)}
+          {renderTrack(secondRow, true)}
         </div>
       </div>
     </section>

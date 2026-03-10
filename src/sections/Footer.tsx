@@ -30,7 +30,7 @@ export function Footer() {
             <img 
               src="/logo-flat.png" 
               alt="ALPHA TRECKER" 
-              className="w-10 h-10"
+              className="alpha-brand-logo w-10 h-10"
             />
             <span className="font-bold text-lg tracking-wider">
               ALPHA TRECKER

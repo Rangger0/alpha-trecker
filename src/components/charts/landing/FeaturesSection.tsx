@@ -38,7 +38,7 @@ export function FeaturesSection() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <span className={`inline-block px-4 py-1 rounded-full text-sm font-medium mb-4 ${
-            isDark ? 'bg-[#00FF88]/10 text-[#00FF88]' : 'bg-blue-100 text-blue-600'
+            isDark ? 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)]' : 'bg-blue-100 text-blue-600'
           }`}>
             Features
           </span>
@@ -60,7 +60,7 @@ export function FeaturesSection() {
               key={index}
               className={`p-6 rounded-xl border transition-all duration-300 hover:scale-105 ${
                 isDark 
-                  ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/50' 
+                  ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal)]' 
                   : 'bg-white border-gray-200 hover:border-blue-300 shadow-sm'
               }`}
             >

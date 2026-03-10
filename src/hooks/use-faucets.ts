@@ -37,6 +37,7 @@ export function useFaucets() {
 
   const addFaucet = async (data: FaucetData) => {
     if (!user) return;
+
     try {
       const newFaucet = await createFaucetService(data, user.id);
       setFaucets(prev => [newFaucet, ...prev]);
@@ -46,6 +47,8 @@ export function useFaucets() {
   };
 
   const updateFaucet = async (id: string, data: Partial<FaucetData>) => {
+    if (!user) return;
+
     try {
       const updated = await updateFaucetService(id, data);
       setFaucets(prev => prev.map(f => f.id === id ? updated : f));
@@ -55,6 +58,8 @@ export function useFaucets() {
   };
 
   const removeFaucet = async (id: string) => {
+    if (!user) return;
+
     try {
       await deleteFaucetService(id);
       setFaucets(prev => prev.filter(f => f.id !== id));

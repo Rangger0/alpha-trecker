@@ -21,89 +21,89 @@ input, textarea, [contenteditable] {
 
 
 /* ===============================
-   THEME VARIABLES - PREMIUM DARK + GOLD
+   THEME VARIABLES - FALLBACK TOKENS
 ================================ */
 
 @layer base {
 
 :root {
 
-/* DARK MODE - Premium Dark + Gold */
+/* Light fallback */
 
---background: 220 18% 16%;
---foreground: 0 0% 93%;
+--background: 0 0% 97%;
+--foreground: 218 11% 25%;
 
---card: 216 10% 26%;
---card-foreground: 0 0% 93%;
+--card: 0 0% 93%;
+--card-foreground: 218 11% 25%;
 
---popover: 216 10% 26%;
---popover-foreground: 0 0% 93%;
+--popover: 0 0% 97%;
+--popover-foreground: 218 11% 25%;
 
---primary: 43 100% 71%;
---primary-foreground: 220 18% 16%;
+--primary: 10 100% 57%;
+--primary-foreground: 0 0% 97%;
 
---secondary: 216 10% 26%;
---secondary-foreground: 0 0% 93%;
+--secondary: 220 13% 92%;
+--secondary-foreground: 218 11% 25%;
 
---muted: 216 10% 26%;
---muted-foreground: 0 0% 73%;
+--muted: 220 13% 92%;
+--muted-foreground: 220 14% 62%;
 
---accent: 43 100% 71%;
---accent-foreground: 220 18% 16%;
+--accent: 10 100% 57%;
+--accent-foreground: 0 0% 97%;
 
 --destructive: 0 84% 60%;
 --destructive-foreground: 0 0% 100%;
 
---border: 216 10% 30%;
---input: 216 10% 30%;
---ring: 43 100% 71%;
+--border: 220 9% 86%;
+--input: 220 9% 86%;
+--ring: 10 100% 57%;
 
 --radius: 0.5rem;
 
 /* Custom Alpha Variables */
---alpha-bg: #222831;
---alpha-panel: #393E46;
---alpha-accent: #FFD369;
---alpha-accent-hover: #E5BE5C;
---alpha-accent-contrast: #222831;
---alpha-text: #EEEEEE;
---alpha-text-muted: #B8B8B8;
---alpha-border: #4A5059;
---alpha-surface: #2D333D;
+--alpha-bg: #F7F7F7;
+--alpha-panel: #EEEEEE;
+--alpha-accent: #ffffff;
+--alpha-accent-hover: #ffffff;
+--alpha-accent-contrast: #F7F7F7;
+--alpha-text: #393E46;
+--alpha-text-muted: #929AAB;
+--alpha-border: rgba(57, 62, 70, 0.12);
+--alpha-surface: #F7F7F7;
 
 }
 
-/* LIGHT MODE */
+/* Dark fallback */
 
 .dark {
 
---background: 220 18% 16%;
---foreground: 0 0% 93%;
+--background: 0 0% 0%;
+--foreground: 0 0% 97%;
 
---card: 216 10% 26%;
---card-foreground: 0 0% 93%;
+--card: 0 0% 7%;
+--card-foreground: 0 0% 97%;
 
---popover: 216 10% 26%;
---popover-foreground: 0 0% 93%;
+--popover: 0 0% 7%;
+--popover-foreground: 0 0% 97%;
 
---primary: 43 100% 71%;
---primary-foreground: 220 18% 16%;
+--primary: 10 100% 57%;
+--primary-foreground: 0 0% 97%;
 
---secondary: 216 10% 26%;
---secondary-foreground: 0 0% 93%;
+--secondary: 0 0% 9%;
+--secondary-foreground: 0 0% 97%;
 
---muted: 216 10% 26%;
---muted-foreground: 0 0% 73%;
+--muted: 0 0% 9%;
+--muted-foreground: 220 14% 62%;
 
---accent: 43 100% 71%;
---accent-foreground: 220 18% 16%;
+--accent: 10 100% 57%;
+--accent-foreground: 0 0% 97%;
 
 --destructive: 0 84% 60%;
 --destructive-foreground: 0 0% 100%;
 
---border: 216 10% 30%;
---input: 216 10% 30%;
---ring: 43 100% 71%;
+--border: 0 0% 12%;
+--input: 0 0% 12%;
+--ring: 10 100% 57%;
 
 }
 
@@ -130,22 +130,25 @@ body {
   @apply antialiased;
 
   font-family:
-  'Courier New',
-  'Monaco',
-  'Consolas',
-  'Menlo',
-  monospace;
+  var(--mac-font-stack, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
+  font-weight: 500;
 
   overflow-x: hidden;
 
   width: 100%;
   min-height: 100vh;
 
-  line-height: 1.1;
+  line-height: 1.28;
 
-  background-color: var(--alpha-bg);
+  background:
+    var(--alpha-bg-pattern, none),
+    var(--alpha-bg);
   color: var(--alpha-text);
 
+}
+
+h1, h2, h3, h4, h5, h6, button, label, th {
+  font-weight: 600;
 }
 
 #root {
@@ -175,7 +178,7 @@ body {
 .terminal-card:hover {
 
   border-color: var(--alpha-accent);
-  box-shadow: 0 0 20px rgba(255,211,105,0.15);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--alpha-highlight) 16%, transparent);
 
 }
 
@@ -195,18 +198,18 @@ body {
 
   @apply rounded;
 
-  background: rgba(255,211,105,0.25);
+  background: color-mix(in srgb, var(--alpha-accent) 24%, transparent);
 
 }
 
 ::-webkit-scrollbar-thumb:hover {
 
-  background: rgba(255,211,105,0.45);
+  background: color-mix(in srgb, var(--alpha-accent) 42%, transparent);
 
 }
 
 html:not(.dark) ::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.25);
+  background: color-mix(in srgb, var(--alpha-accent) 22%, transparent);
 }
 
 }
@@ -223,11 +226,11 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
 }
 
 .text-glow-gold {
-  text-shadow: 0 0 20px rgba(255, 211, 105, 0.5);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--alpha-highlight) 36%, transparent);
 }
 
 .border-glow {
-  box-shadow: 0 0 20px rgba(255,211,105,0.2);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--alpha-highlight) 18%, transparent);
 }
 
 .w-full-screen {

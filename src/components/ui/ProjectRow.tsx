@@ -19,11 +19,11 @@ interface ProjectRowProps {
 }
 
 const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
-  /* ...same mapping as before... */
+ 
 };
 
 const STATUS_COLORS: Record<string, { dark: string; light: string }> = {
-  /* ...same mapping as before... */
+
 };
 
 export function ProjectRow({ project, index, onAddPriority }: ProjectRowProps) {
@@ -41,16 +41,16 @@ export function ProjectRow({ project, index, onAddPriority }: ProjectRowProps) {
   };
 
   return (
-    <tr className={`border-b transition-colors ${isDark ? 'border-[#1F2937] hover:bg-[#161B22]' : 'border-[#E5E7EB] hover:bg-[#F9FAFB]'}`}>
-      <td className="px-4 py-4"><span className={`font-mono text-sm ${isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'}`}>{index + 1}</span></td>
+    <tr className={`border-b transition-colors ${isDark ? 'border-[var(--alpha-border)] hover:bg-[var(--alpha-surface)]' : 'border-[var(--alpha-border)] hover:bg-[color:var(--alpha-hover-soft)]'}`}>
+      <td className="px-4 py-4"><span className={`font-mono text-sm ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>{index + 1}</span></td>
 
       <td className="px-4 py-4">
         <div className="flex items-center gap-3">
-          <div className={`w-8 h-8 rounded flex items-center justify-center font-bold text-sm ${isDark ? 'bg-[#161B22] text-[#00FF88]' : 'bg-[#F3F4F6] text-[#2563EB]'}`}>
+          <div className={`w-8 h-8 rounded flex items-center justify-center font-bold text-sm ${isDark ? 'bg-[var(--alpha-surface)] text-[var(--alpha-signal)]' : 'bg-[var(--alpha-surface-soft)] text-[var(--alpha-signal)]'}`}>
             {project.name[0].toUpperCase()}
           </div>
           <div>
-            <p className={`font-mono font-medium ${isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'}`}>{project.name}</p>
+            <p className={`font-mono font-medium ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>{project.name}</p>
           </div>
         </div>
       </td>
@@ -60,20 +60,20 @@ export function ProjectRow({ project, index, onAddPriority }: ProjectRowProps) {
       </td>
 
       <td className="px-4 py-4">
-        <div className={`flex items-center gap-2 px-3 py-1.5 rounded border w-fit ${isDark ? 'bg-[#00FF88]/5 border-[#00FF88]/20' : 'bg-[#2563EB]/5 border-[#2563EB]/20'}`}>
-          <Wallet className={`w-3.5 h-3.5 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
-          <span className={`font-mono text-xs ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`}>{formatWallet(project.walletAddress || '')}</span>
+        <div className={`flex items-center gap-2 px-3 py-1.5 rounded border w-fit ${isDark ? 'bg-[var(--alpha-signal-softest)] border-[var(--alpha-signal-border)]' : 'bg-[var(--alpha-signal-softest)] border-[var(--alpha-signal-border)]'}`}>
+          <Wallet className={`w-3.5 h-3.5 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
+          <span className={`font-mono text-xs ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`}>{formatWallet(project.walletAddress || '')}</span>
         </div>
       </td>
 
       <td className="px-4 py-4">
         {project.officialLink ? (
-          <a href={project.officialLink} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-1.5 font-mono text-xs transition-colors ${isDark ? 'text-[#3B82F6] hover:text-[#00FF88]' : 'text-[#2563EB] hover:text-[#10B981]'}`}>
+          <a href={project.officialLink} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-1.5 font-mono text-xs transition-colors ${isDark ? 'text-[var(--alpha-signal)] hover:text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)] hover:text-[var(--alpha-signal)]'}`}>
             <ExternalLink className="w-3.5 h-3.5" />
             {project.officialLink.slice(0, 20)}...
           </a>
         ) : (
-          <span className={`font-mono text-xs ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>-</span>
+          <span className={`font-mono text-xs ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>-</span>
         )}
       </td>
 
@@ -83,7 +83,7 @@ export function ProjectRow({ project, index, onAddPriority }: ProjectRowProps) {
 
       <td className="px-4 py-4">
         <div className="relative">
-          <Button variant="ghost" size="sm" onClick={() => setShowMenu(!showMenu)} className={`font-mono text-xs border ${isDark ? 'border-[#1F2937] text-[#6B7280] hover:bg-[#00FF88]/10 hover:text-[#00FF88]' : 'border-[#E5E7EB] text-[#6B7280] hover:bg-[#2563EB]/10 hover:text-[#2563EB]'}`}>
+          <Button variant="ghost" size="sm" onClick={() => setShowMenu(!showMenu)} className={`font-mono text-xs border ${isDark ? 'border-[var(--alpha-border)] text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-signal-soft)] hover:text-[var(--alpha-signal)]' : 'border-[var(--alpha-border)] text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-signal-soft)] hover:text-[var(--alpha-signal)]'}`}>
             Add Priority
           </Button>
 

@@ -51,26 +51,26 @@ export const Notification: React.FC = () => {
   const getIcon = (type: string) => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="w-5 h-5 text-[#00FF88]" />;
+        return <CheckCircle className="w-5 h-5 text-[var(--alpha-signal)]" />;
       case 'warning':
-        return <AlertTriangle className="w-5 h-5 text-[#F59E0B]" />;
+        return <AlertTriangle className="w-5 h-5 text-[var(--alpha-warning)]" />;
       case 'error':
-        return <X className="w-5 h-5 text-[#EF4444]" />;
+        return <X className="w-5 h-5 text-[var(--alpha-danger)]" />;
       default:
-        return <Info className="w-5 h-5 text-[#3B82F6]" />;
+        return <Info className="w-5 h-5 text-[var(--alpha-signal)]" />;
     }
   };
 
   const getBgColor = (type: string) => {
     switch (type) {
       case 'success':
-        return isDark ? 'bg-[#00FF88]/10 border-[#00FF88]/20' : 'bg-[#10B981]/10 border-[#10B981]/20';
+        return isDark ? 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal-border)]' : 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal-border)]';
       case 'warning':
-        return isDark ? 'bg-[#F59E0B]/10 border-[#F59E0B]/20' : 'bg-[#EA580C]/10 border-[#EA580C]/20';
+        return isDark ? 'bg-[var(--alpha-warning-soft)] border-[var(--alpha-warning-border)]' : 'bg-[var(--alpha-warning-soft)] border-[var(--alpha-warning-border)]';
       case 'error':
-        return isDark ? 'bg-[#EF4444]/10 border-[#EF4444]/20' : 'bg-[#DC2626]/10 border-[#DC2626]/20';
+        return isDark ? 'bg-[var(--alpha-danger-soft)] border-[var(--alpha-danger-border)]' : 'bg-[var(--alpha-danger-soft)] border-[var(--alpha-danger-border)]';
       default:
-        return isDark ? 'bg-[#3B82F6]/10 border-[#3B82F6]/20' : 'bg-[#2563EB]/10 border-[#2563EB]/20';
+        return isDark ? 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal-border)]' : 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal-border)]';
     }
   };
 
@@ -80,14 +80,14 @@ export const Notification: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className={`relative p-2 rounded border transition-colors ${
           isDark 
-            ? 'text-[#6B7280] border-[#1F2937] hover:bg-[#00FF88]/10 hover:text-[#00FF88]' 
-            : 'text-[#6B7280] border-[#E5E7EB] hover:bg-[#2563EB]/10 hover:text-[#2563EB]'
+            ? 'text-[var(--alpha-text-muted)] border-[var(--alpha-border)] hover:bg-[var(--alpha-signal-soft)] hover:text-[var(--alpha-signal)]' 
+            : 'text-[var(--alpha-text-muted)] border-[var(--alpha-border)] hover:bg-[var(--alpha-signal-soft)] hover:text-[var(--alpha-signal)]'
         }`}
       >
         <Bell className="w-5 h-5" />
         {notifications.length > 0 && (
           <span className={`absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs flex items-center justify-center ${
-            isDark ? 'bg-[#00FF88] text-[#0B0F14]' : 'bg-[#2563EB] text-white'
+            isDark ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)]' : 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)]'
           }`}>
             {notifications.length}
           </span>
@@ -102,21 +102,21 @@ export const Notification: React.FC = () => {
           />
           <div className={`absolute right-0 top-full mt-2 w-80 rounded-lg border shadow-xl z-50 ${
             isDark 
-              ? 'bg-[#161B22] border-[#1F2937]' 
-              : 'bg-white border-[#E5E7EB]'
+              ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' 
+              : 'bg-[var(--alpha-panel)] border-[var(--alpha-border)]'
           }`}>
             <div className={`flex items-center justify-between p-3 border-b ${
-              isDark ? 'border-[#1F2937]' : 'border-[#E5E7EB]'
+              isDark ? 'border-[var(--alpha-border)]' : 'border-[var(--alpha-border)]'
             }`}>
               <h3 className={`font-mono font-bold ${
-                isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
               }`}>
                 NOTIFICATIONS
               </h3>
               <button
                 onClick={() => setNotifications([])}
                 className={`text-xs font-mono ${
-                  isDark ? 'text-[#6B7280] hover:text-[#E5E7EB]' : 'text-[#6B7280] hover:text-[#111827]'
+                  isDark ? 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-text)]' : 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-text)]'
                 }`}
               >
                 CLEAR_ALL
@@ -126,7 +126,7 @@ export const Notification: React.FC = () => {
             <div className="max-h-64 overflow-y-auto">
               {notifications.length === 0 ? (
                 <div className={`p-4 text-center font-mono text-sm ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                  isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                 }`}>
                   No notifications
                 </div>
@@ -141,26 +141,26 @@ export const Notification: React.FC = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <p className={`font-mono text-sm font-bold ${
-                            isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                            isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                           }`}>
                             {notification.title}
                           </p>
                           <button
                             onClick={() => removeNotification(notification.id)}
                             className={`p-1 rounded ${
-                              isDark ? 'text-[#6B7280] hover:bg-[#1F2937]' : 'text-[#6B7280] hover:bg-[#F3F4F6]'
+                              isDark ? 'text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)]' : 'text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)]'
                             }`}
                           >
                             <X className="w-3 h-3" />
                           </button>
                         </div>
                         <p className={`font-mono text-xs mt-1 ${
-                          isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                          isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                         }`}>
                           {notification.message}
                         </p>
                         <p className={`font-mono text-[10px] mt-1 ${
-                          isDark ? 'text-[#374151]' : 'text-[#9CA3AF]'
+                          isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                         }`}>
                           {notification.timestamp.toLocaleTimeString()}
                         </p>

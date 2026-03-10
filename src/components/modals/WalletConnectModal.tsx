@@ -54,34 +54,34 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div 
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/45"
         onClick={onClose}
       />
       <div className={`relative z-10 w-full max-w-md rounded-lg border shadow-2xl ${
         isDark 
-          ? 'bg-[#161B22] border-[#1F2937] shadow-[0_0_50px_rgba(0,255,136,0.1)]' 
-          : 'bg-white border-[#E5E7EB] shadow-2xl'
+          ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] shadow-[0_0_50px_var(--alpha-signal-glow)]' 
+          : 'bg-[var(--alpha-panel)] border-[var(--alpha-border)] shadow-[var(--alpha-shadow-strong)]'
       }`}>
         {/* Header */}
         <div className={`flex items-center justify-between p-4 border-b ${
-          isDark ? 'border-[#1F2937]' : 'border-[#E5E7EB]'
+          isDark ? 'border-[var(--alpha-border)]' : 'border-[var(--alpha-border)]'
         }`}>
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded flex items-center justify-center border ${
               isDark 
-                ? 'bg-[#00FF88]/10 border-[#00FF88] text-[#00FF88]' 
-                : 'bg-[#2563EB]/10 border-[#2563EB] text-[#2563EB]'
+                ? 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal)] text-[var(--alpha-signal)]' 
+                : 'bg-[var(--alpha-signal-soft)] border-[var(--alpha-signal)] text-[var(--alpha-signal)]'
             }`}>
               <Wallet className="w-5 h-5" />
             </div>
             <div>
               <h2 className={`font-mono font-bold ${
-                isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
               }`}>
                 {isDark ? 'CONNECT_WALLET.exe' : 'Connect Wallet'}
               </h2>
               <p className={`font-mono text-xs ${
-                isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
               }`}>
                 {isDark ? 'Initialize wallet connection...' : 'Add a new wallet to track'}
               </p>
@@ -91,8 +91,8 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
             onClick={onClose}
             className={`p-2 rounded transition-colors ${
               isDark 
-                ? 'text-[#6B7280] hover:bg-[#1F2937] hover:text-[#E5E7EB]' 
-                : 'text-[#6B7280] hover:bg-[#F3F4F6] hover:text-[#111827]'
+                ? 'text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)] hover:text-[var(--alpha-text)]' 
+                : 'text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)] hover:text-[var(--alpha-text)]'
             }`}
           >
             <X className="w-5 h-5" />
@@ -104,7 +104,7 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
           <form onSubmit={handleSubmit} className="space-y-3">
             <div>
               <label className={`block font-mono text-xs mb-1.5 ${
-                isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
               }`}>
                 WALLET ADDRESS *
               </label>
@@ -115,8 +115,8 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
                 onChange={(e) => setAddress(e.target.value)}
                 className={`font-mono text-sm border ${
                   isDark 
-                    ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#374151] focus:border-[#00FF88]' 
-                    : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+                    ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]' 
+                    : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)] text-[var(--alpha-text)] focus:border-[var(--alpha-signal)]'
                 }`}
               />
             </div>
@@ -124,7 +124,7 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className={`block font-mono text-xs mb-1.5 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                  isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                 }`}>
                   LABEL (OPTIONAL)
                 </label>
@@ -135,14 +135,14 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
                   onChange={(e) => setLabel(e.target.value)}
                   className={`font-mono text-sm border ${
                     isDark 
-                      ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] placeholder:text-[#374151] focus:border-[#00FF88]' 
-                      : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+                      ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)] focus:border-[var(--alpha-signal)]' 
+                      : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)] text-[var(--alpha-text)] focus:border-[var(--alpha-signal)]'
                   }`}
                 />
               </div>
               <div>
                 <label className={`block font-mono text-xs mb-1.5 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                  isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                 }`}>
                   CHAIN *
                 </label>
@@ -151,8 +151,8 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
                   onChange={(e) => setChain(e.target.value)}
                   className={`w-full h-10 px-3 rounded-md font-mono text-sm border ${
                     isDark 
-                      ? 'bg-[#0B0F14] border-[#1F2937] text-[#E5E7EB] focus:border-[#00FF88]' 
-                      : 'bg-[#F3F4F6] border-[#E5E7EB] text-[#111827] focus:border-[#2563EB]'
+                      ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)] text-[var(--alpha-text)] focus:border-[var(--alpha-signal)]' 
+                      : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)] text-[var(--alpha-text)] focus:border-[var(--alpha-signal)]'
                   }`}
                 >
                   <option value="eth">Ethereum</option>
@@ -166,7 +166,7 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
 
             {error && (
               <p className={`font-mono text-xs ${
-                isDark ? 'text-[#EF4444]' : 'text-[#DC2626]'
+                isDark ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-danger)]'
               }`}>
                 {error}
               </p>
@@ -176,8 +176,8 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
               type="submit"
               className={`w-full font-mono border-2 ${
                 isDark 
-                  ? 'bg-[#00FF88] text-[#0B0F14] border-[#00FF88] hover:bg-[#00FF88]/90 hover:shadow-[0_0_20px_rgba(0,255,136,0.4)]' 
-                  : 'bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#2563EB]/90'
+                  ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)] hover:shadow-[0_0_20px_var(--alpha-signal-glow)]' 
+                  : 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]'
               }`}
             >
               <Wallet className="h-4 w-4 mr-2" />
@@ -188,10 +188,10 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
           {/* Connected Wallets List */}
           {wallets.length > 0 && (
             <div className={`border-t pt-4 ${
-              isDark ? 'border-[#1F2937]' : 'border-[#E5E7EB]'
+              isDark ? 'border-[var(--alpha-border)]' : 'border-[var(--alpha-border)]'
             }`}>
               <h3 className={`font-mono text-xs mb-3 ${
-                isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
               }`}>
                 CONNECTED_WALLETS ({wallets.length})
               </h3>
@@ -201,8 +201,8 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
                     key={wallet.address}
                     className={`flex items-center justify-between p-2 rounded border ${
                       isDark 
-                        ? 'bg-[#0B0F14] border-[#1F2937]' 
-                        : 'bg-[#F3F4F6] border-[#E5E7EB]'
+                        ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)]' 
+                        : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)]'
                     }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
@@ -210,17 +210,17 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
                         wallet.chain === 'eth' ? 'bg-[#627eea]' :
                         wallet.chain === 'bsc' ? 'bg-[#f3ba2f]' :
                         wallet.chain === 'polygon' ? 'bg-[#8247e5]' :
-                        'bg-[#00FF88]'
+                        'bg-[var(--alpha-signal)]'
                       }`} />
                       <span className={`font-mono text-sm truncate ${
-                        isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                        isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                       }`}>
                         {wallet.label || `${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`}
                       </span>
                       <span className={`font-mono text-xs px-1.5 py-0.5 rounded ${
                         isDark 
-                          ? 'bg-[#1F2937] text-[#6B7280]' 
-                          : 'bg-white text-[#6B7280]'
+                          ? 'bg-[var(--alpha-surface-strong)] text-[var(--alpha-text-muted)]' 
+                          : 'bg-[var(--alpha-surface-soft)] text-[var(--alpha-text-muted)]'
                       }`}>
                         {wallet.chain.toUpperCase()}
                       </span>
@@ -229,8 +229,8 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
                       onClick={() => removeWallet(wallet.address)}
                       className={`p-1.5 rounded transition-colors ${
                         isDark 
-                          ? 'text-[#EF4444] hover:bg-[#EF4444]/10' 
-                          : 'text-[#DC2626] hover:bg-[#DC2626]/10'
+                          ? 'text-[var(--alpha-danger)] hover:bg-[var(--alpha-danger-soft)]' 
+                          : 'text-[var(--alpha-danger)] hover:bg-[var(--alpha-danger-soft)]'
                       }`}
                     >
                       <Trash2 className="w-4 h-4" />

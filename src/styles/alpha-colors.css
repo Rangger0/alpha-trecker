@@ -1,159 +1,307 @@
-/* Canonical palette for Alpha Tracker.
-   Light mode follows the first reference image.
-   Dark mode follows the second reference image. */
+/* Alpha Tracker monochrome palette
+   Direction: chrome silver + black + white + neutral gray */
 
 :root,
 html.light,
 .alpha-theme,
 .alpha-theme.light {
-  --background: 42 37% 94%;
-  --foreground: 96 9% 31%;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 7%;
 
-  --card: 35 42% 90%;
-  --card-foreground: 96 9% 31%;
+  --card: 0 0% 96%;
+  --card-foreground: 0 0% 7%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 96 9% 31%;
+  --popover-foreground: 0 0% 7%;
 
-  --primary: 87 24% 63%;
+  --primary: 0 0% 8%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 35 42% 90%;
-  --secondary-foreground: 96 9% 31%;
+  --secondary: 0 0% 94%;
+  --secondary-foreground: 0 0% 8%;
 
-  --muted: 34 30% 88%;
-  --muted-foreground: 86 6% 47%;
+  --muted: 0 0% 95%;
+  --muted-foreground: 0 0% 42%;
 
-  --accent: 87 24% 63%;
+  --accent: 0 0% 10%;
   --accent-foreground: 0 0% 100%;
 
-  --destructive: 0 75% 58%;
+  --destructive: 0 0% 18%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 36 29% 80%;
-  --input: 36 29% 80%;
-  --ring: 87 24% 63%;
+  --border: 0 0% 76%;
+  --input: 0 0% 76%;
+  --ring: 0 0% 16%;
+  --radius: 1rem;
 
-  --theme-dark-bg: 78 85 71;
-  --theme-dark-secondary: 122 128 113;
-  --theme-dark-hover: 232 226 216;
+  --theme-dark-bg: 9 9 9;
+  --theme-dark-secondary: 22 22 22;
+  --theme-dark-hover: 44 44 44;
 
   --theme-light: 255 255 255;
-  --theme-light-muted: 216 207 191;
+  --theme-light-muted: 135 135 135;
 
-  --theme-accent: 165 182 141;
-  --theme-accent-hover: 143 157 120;
-  --theme-accent-soft: 239 231 219;
+  --theme-accent: 18 18 18;
+  --theme-accent-hover: 56 56 56;
+  --theme-accent-soft: 124 124 124;
 
-  --alpha-bg: #f5f1e8;
-  --alpha-panel: #efe7db;
-  --alpha-surface: #ffffff;
-  --alpha-accent: #a5b68d;
-  --alpha-accent-hover: #8f9d78;
-  --alpha-accent-from: #8f9d78;
-  --alpha-accent-to: #a5b68d;
+  --alpha-bg: #ffffff;
+  --alpha-bg-pattern:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(241, 241, 241, 0.98)),
+    repeating-linear-gradient(-45deg, rgba(17, 17, 17, 0.04) 0 2px, transparent 2px 18px);
+  --alpha-panel: #f1f1f1;
+  --alpha-surface: #fafafa;
+  --alpha-surface-soft: #f5f5f5;
+  --alpha-surface-strong: #e4e4e4;
+  --alpha-accent: #111111;
+  --alpha-accent-hover: #343434;
+  --alpha-accent-from: #090909;
+  --alpha-accent-to: #3c3c3c;
   --alpha-accent-contrast: #ffffff;
-  --alpha-text: #4e5547;
-  --alpha-text-muted: #7a8071;
-  --alpha-muted: #7a8071;
-  --alpha-border: #d8cfbf;
-  --alpha-row-selected: #dfe6d1;
-  --alpha-row-selected-text: #4e5547;
-  --alpha-row-odd: rgba(165, 182, 141, 0.08);
-  --alpha-row-even: rgba(216, 207, 191, 0.14);
-  --alpha-hover-soft: rgba(143, 157, 120, 0.12);
-  --alpha-shadow: 0 18px 40px rgba(78, 85, 71, 0.12);
-  --alpha-transition: 220ms ease;
+  --alpha-highlight: #111111;
+  --alpha-highlight-soft: rgba(17, 17, 17, 0.08);
+  --alpha-highlight-border: rgba(17, 17, 17, 0.22);
+  --alpha-text: #0f0f0f;
+  --alpha-text-muted: #606060;
+  --alpha-text-soft: #7a7a7a;
+  --alpha-muted: #6d6d6d;
+  --alpha-border: rgba(82, 82, 82, 0.24);
+  --alpha-border-strong: rgba(17, 17, 17, 0.34);
+  --alpha-row-selected: rgba(17, 17, 17, 0.1);
+  --alpha-row-selected-text: #0f0f0f;
+  --alpha-row-odd: rgba(17, 17, 17, 0.012);
+  --alpha-row-even: rgba(17, 17, 17, 0.028);
+  --alpha-hover-soft: rgba(17, 17, 17, 0.05);
+  --alpha-overlay: rgba(255, 255, 255, 0.8);
+  --alpha-shadow: 0 18px 32px rgba(20, 20, 20, 0.1);
+  --alpha-shadow-strong: 0 24px 52px rgba(20, 20, 20, 0.14);
+  --alpha-transition: 180ms ease;
+
+  --alpha-signal: #111111;
+  --alpha-signal-softest: rgba(17, 17, 17, 0.035);
+  --alpha-signal-soft: rgba(17, 17, 17, 0.08);
+  --alpha-signal-border: rgba(17, 17, 17, 0.2);
+  --alpha-signal-strong: rgba(17, 17, 17, 0.16);
+  --alpha-signal-press: #303030;
+  --alpha-signal-glow: rgba(17, 17, 17, 0.16);
+
+  --alpha-info: #4a4a4a;
+  --alpha-info-softest: rgba(74, 74, 74, 0.035);
+  --alpha-info-soft: rgba(74, 74, 74, 0.08);
+  --alpha-info-border: rgba(74, 74, 74, 0.16);
+  --alpha-info-strong: rgba(74, 74, 74, 0.14);
+  --alpha-info-press: #333333;
+
+  --alpha-violet: #7a7a7a;
+  --alpha-violet-softest: rgba(122, 122, 122, 0.035);
+  --alpha-violet-soft: rgba(122, 122, 122, 0.08);
+  --alpha-violet-border: rgba(122, 122, 122, 0.16);
+  --alpha-violet-strong: rgba(122, 122, 122, 0.14);
+  --alpha-violet-press: #5f5f5f;
+
+  --alpha-warning: #4f4f4f;
+  --alpha-warning-softest: rgba(79, 79, 79, 0.035);
+  --alpha-warning-soft: rgba(79, 79, 79, 0.08);
+  --alpha-warning-border: rgba(79, 79, 79, 0.18);
+  --alpha-warning-strong: rgba(79, 79, 79, 0.14);
+  --alpha-warning-press: #373737;
+
+  --alpha-danger: #202020;
+  --alpha-danger-softest: rgba(32, 32, 32, 0.035);
+  --alpha-danger-soft: rgba(32, 32, 32, 0.08);
+  --alpha-danger-border: rgba(32, 32, 32, 0.18);
+  --alpha-danger-strong: rgba(32, 32, 32, 0.14);
+  --alpha-danger-press: #090909;
+
+  --sidebar-background: 0 0% 95%;
+  --sidebar-foreground: 0 0% 7%;
+  --sidebar-primary: 0 0% 8%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 93%;
+  --sidebar-accent-foreground: 0 0% 7%;
+  --sidebar-border: 0 0% 76%;
+  --sidebar-ring: 0 0% 12%;
 }
 
 html.dark,
 .alpha-theme.dark {
-  --background: 237 16% 24%;
-  --foreground: 180 13% 93%;
+  --background: 0 0% 0%;
+  --foreground: 0 0% 97%;
 
-  --card: 230 18% 31%;
-  --card-foreground: 180 13% 93%;
+  --card: 0 0% 8%;
+  --card-foreground: 0 0% 97%;
 
-  --popover: 230 18% 31%;
-  --popover-foreground: 180 13% 93%;
+  --popover: 0 0% 8%;
+  --popover-foreground: 0 0% 97%;
 
-  --primary: 177 22% 77%;
-  --primary-foreground: 237 16% 24%;
+  --primary: 0 0% 96%;
+  --primary-foreground: 0 0% 5%;
 
-  --secondary: 229 21% 39%;
-  --secondary-foreground: 180 13% 93%;
+  --secondary: 0 0% 10%;
+  --secondary-foreground: 0 0% 97%;
 
-  --muted: 231 17% 30%;
-  --muted-foreground: 177 22% 77%;
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 67%;
 
-  --accent: 226 25% 58%;
-  --accent-foreground: 180 13% 93%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 5%;
 
-  --destructive: 0 80% 62%;
-  --destructive-foreground: 0 0% 100%;
+  --destructive: 0 0% 84%;
+  --destructive-foreground: 0 0% 5%;
 
-  --border: 226 21% 58%;
-  --input: 226 21% 58%;
-  --ring: 177 22% 77%;
+  --border: 0 0% 22%;
+  --input: 0 0% 22%;
+  --ring: 0 0% 88%;
 
-  --theme-dark-bg: 51 52 70;
-  --theme-dark-secondary: 75 83 115;
-  --theme-dark-hover: 95 106 145;
+  --theme-dark-bg: 0 0 0;
+  --theme-dark-secondary: 18 18 18;
+  --theme-dark-hover: 34 34 34;
 
-  --theme-light: 234 239 239;
-  --theme-light-muted: 184 207 206;
+  --theme-light: 255 255 255;
+  --theme-light-muted: 184 184 184;
 
-  --theme-accent: 184 207 206;
-  --theme-accent-hover: 218 227 226;
-  --theme-accent-soft: 127 140 170;
+  --theme-accent: 243 243 243;
+  --theme-accent-hover: 214 214 214;
+  --theme-accent-soft: 162 162 162;
 
-  --alpha-bg: #333446;
-  --alpha-panel: #3f435c;
-  --alpha-surface: #4b5373;
-  --alpha-accent: #b8cfce;
-  --alpha-accent-hover: #dae3e2;
-  --alpha-accent-from: #5b6584;
-  --alpha-accent-to: #7f8caa;
-  --alpha-accent-contrast: #333446;
-  --alpha-text: #eaefef;
-  --alpha-text-muted: #b8cfce;
-  --alpha-muted: #b8cfce;
-  --alpha-border: #7f8caa;
-  --alpha-row-selected: #5b6584;
-  --alpha-row-selected-text: #eaefef;
-  --alpha-row-odd: rgba(184, 207, 206, 0.06);
-  --alpha-row-even: rgba(127, 140, 170, 0.09);
-  --alpha-hover-soft: rgba(184, 207, 206, 0.08);
-  --alpha-shadow: 0 18px 44px rgba(20, 22, 33, 0.38);
+  --alpha-bg: #000000;
+  --alpha-bg-pattern:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.04), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.03), transparent 32%);
+  --alpha-panel: #0d0d0d;
+  --alpha-surface: #141414;
+  --alpha-surface-soft: #1a1a1a;
+  --alpha-surface-strong: #212121;
+  --alpha-accent: #f3f3f3;
+  --alpha-accent-hover: #d7d7d7;
+  --alpha-accent-from: #ffffff;
+  --alpha-accent-to: #cbcbcb;
+  --alpha-accent-contrast: #050505;
+  --alpha-highlight: #ffffff;
+  --alpha-highlight-soft: rgba(255, 255, 255, 0.14);
+  --alpha-highlight-border: rgba(255, 255, 255, 0.28);
+  --alpha-text: #ffffff;
+  --alpha-text-muted: #b8b8b8;
+  --alpha-text-soft: #8f8f8f;
+  --alpha-muted: #b0b0b0;
+  --alpha-border: rgba(255, 255, 255, 0.12);
+  --alpha-border-strong: rgba(255, 255, 255, 0.24);
+  --alpha-row-selected: rgba(255, 255, 255, 0.1);
+  --alpha-row-selected-text: #ffffff;
+  --alpha-row-odd: rgba(255, 255, 255, 0.012);
+  --alpha-row-even: rgba(255, 255, 255, 0.02);
+  --alpha-hover-soft: rgba(255, 255, 255, 0.06);
+  --alpha-overlay: rgba(0, 0, 0, 0.82);
+  --alpha-shadow: 0 20px 40px rgba(0, 0, 0, 0.44);
+  --alpha-shadow-strong: 0 28px 56px rgba(0, 0, 0, 0.56);
+
+  --alpha-signal: #ffffff;
+  --alpha-signal-softest: rgba(255, 255, 255, 0.04);
+  --alpha-signal-soft: rgba(255, 255, 255, 0.1);
+  --alpha-signal-border: rgba(255, 255, 255, 0.22);
+  --alpha-signal-strong: rgba(255, 255, 255, 0.18);
+  --alpha-signal-press: #d7d7d7;
+  --alpha-signal-glow: rgba(255, 255, 255, 0.22);
+
+  --alpha-info: #d3d3d3;
+  --alpha-info-softest: rgba(211, 211, 211, 0.03);
+  --alpha-info-soft: rgba(211, 211, 211, 0.08);
+  --alpha-info-border: rgba(211, 211, 211, 0.16);
+  --alpha-info-strong: rgba(211, 211, 211, 0.14);
+  --alpha-info-press: #ececec;
+
+  --alpha-violet: #cbcbcb;
+  --alpha-violet-softest: rgba(203, 203, 203, 0.03);
+  --alpha-violet-soft: rgba(203, 203, 203, 0.08);
+  --alpha-violet-border: rgba(203, 203, 203, 0.16);
+  --alpha-violet-strong: rgba(203, 203, 203, 0.14);
+  --alpha-violet-press: #ececec;
+
+  --alpha-warning: #e1e1e1;
+  --alpha-warning-softest: rgba(225, 225, 225, 0.03);
+  --alpha-warning-soft: rgba(225, 225, 225, 0.08);
+  --alpha-warning-border: rgba(225, 225, 225, 0.16);
+  --alpha-warning-strong: rgba(225, 225, 225, 0.14);
+  --alpha-warning-press: #f3f3f3;
+
+  --alpha-danger: #f0f0f0;
+  --alpha-danger-softest: rgba(240, 240, 240, 0.03);
+  --alpha-danger-soft: rgba(240, 240, 240, 0.08);
+  --alpha-danger-border: rgba(240, 240, 240, 0.18);
+  --alpha-danger-strong: rgba(240, 240, 240, 0.14);
+  --alpha-danger-press: #ffffff;
+
+  --sidebar-background: 0 0% 8%;
+  --sidebar-foreground: 0 0% 97%;
+  --sidebar-primary: 0 0% 96%;
+  --sidebar-primary-foreground: 0 0% 5%;
+  --sidebar-accent: 0 0% 10%;
+  --sidebar-accent-foreground: 0 0% 97%;
+  --sidebar-border: 0 0% 22%;
+  --sidebar-ring: 0 0% 88%;
 }
 
 html,
 body {
   height: 100%;
   margin: 0;
-  background: var(--alpha-bg);
+  background:
+    var(--alpha-bg-pattern, none),
+    var(--alpha-bg);
   color: var(--alpha-text);
 }
 
 html,
 body,
 #root,
-main,
 .app-root,
-.app-container,
-.alpha-theme {
-  background: var(--alpha-bg);
+.app-container {
+  background: transparent;
   color: var(--alpha-text);
-  transition:
-    background-color var(--alpha-transition),
-    color var(--alpha-transition);
 }
 
+.alpha-theme,
+.macos-landing-shell,
+.macos-auth-shell {
+  background:
+    var(--alpha-bg-pattern, none),
+    var(--alpha-bg);
+  color: var(--alpha-text);
+}
+
+html.theme-switching,
+html.theme-switching body,
+html.theme-switching #root,
 html.theme-switching *,
 html.theme-switching *::before,
 html.theme-switching *::after {
   transition: none !important;
   animation: none !important;
+}
+
+.alpha-bg {
+  background-color: var(--alpha-bg);
+}
+
+.alpha-panel-bg {
+  background-color: var(--alpha-panel);
+}
+
+.alpha-surface-bg {
+  background-color: var(--alpha-surface);
+}
+
+.alpha-text {
+  color: var(--alpha-text);
+}
+
+.alpha-text-muted,
+.alpha-muted {
+  color: var(--alpha-text-muted);
+}
+
+.alpha-border {
+  border-color: var(--alpha-border);
 }
 
 .sidebar,
@@ -187,7 +335,7 @@ html.theme-switching *::after {
 .table-wrapper,
 .table-container {
   background: transparent;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
 }
 
@@ -205,11 +353,11 @@ html.theme-switching *::after {
 }
 
 .table tbody tr:nth-child(odd) {
-  background: color-mix(in srgb, var(--alpha-panel) 86%, var(--alpha-row-odd) 14%);
+  background: color-mix(in srgb, var(--alpha-panel) 92%, var(--alpha-row-odd) 8%);
 }
 
 .table tbody tr:nth-child(even) {
-  background: color-mix(in srgb, var(--alpha-panel) 93%, var(--alpha-row-even) 7%);
+  background: color-mix(in srgb, var(--alpha-panel) 92%, var(--alpha-row-even) 8%);
 }
 
 .table tbody tr:hover,
@@ -222,7 +370,7 @@ html.theme-switching *::after {
 .card,
 .stats-card {
   padding: 18px;
-  border-radius: 12px;
+  border-radius: 14px;
   background: var(--alpha-panel);
   border: 1px solid var(--alpha-border);
   box-shadow: var(--alpha-shadow);
@@ -232,7 +380,7 @@ html.theme-switching *::after {
 .tag,
 .pill,
 .status {
-  background: var(--alpha-accent);
+  background: var(--alpha-highlight);
   color: var(--alpha-accent-contrast);
   padding: 4px 8px;
   border-radius: 999px;
@@ -249,11 +397,7 @@ select,
   border-radius: 10px;
 }
 
-.alpha-muted {
-  color: var(--alpha-muted);
-}
-
 ::selection {
-  background: color-mix(in srgb, var(--alpha-accent) 65%, transparent);
+  background: color-mix(in srgb, var(--alpha-highlight) 42%, transparent);
   color: var(--alpha-row-selected-text);
 }

@@ -1,103 +1,274 @@
-import { Star, TrendingUp, Brain, DollarSign, Bell, Monitor } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { MousePointer2, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const detailedFeatures = [
+const previewSlides = [
   {
-    icon: Star,
-    title: 'Priority Projects',
-    description: 'Manage your most important airdrop projects with countdowns, progress tracking, and reminders.',
-    points: ['Real-time countdown timers', 'Task management with progress', 'Smart reset intervals'],
+    src: '/2.webp',
+    alt: 'Alpha Tracker overview screen',
+    label: 'Overview',
   },
   {
-    icon: TrendingUp,
-    title: 'Real-time Market Data',
-    description: 'Track live market prices, trends, and chart context without leaving your workspace.',
-    points: ['Live price updates', 'TradingView integration', 'Market heatmap overview'],
+    src: '/3.webp',
+    alt: 'Alpha Tracker dashboard screen',
+    label: 'Dashboard',
   },
   {
-    icon: Brain,
-    title: 'AI-Powered Tools',
-    description: 'Use AI assistants to brainstorm, search faster, and identify new opportunities.',
-    points: ['AI airdrop generator', 'Smart search and suggestions', 'Trending opportunity detection'],
+    src: '/4.webp',
+    alt: 'Alpha Tracker new airdrop workflow',
+    label: 'Add airdrop',
   },
   {
-    icon: DollarSign,
-    title: 'Advanced Financial Tools',
-    description: 'Calculate profit, manage multiple accounts, and review portfolio performance cleanly.',
-    points: ['Profit and loss tracking', 'Multiple account management', 'Portfolio performance snapshots'],
+    src: '/5.webp',
+    alt: 'Alpha Tracker tools screen',
+    label: 'Tools',
   },
   {
-    icon: Bell,
-    title: 'Smart Notifications',
-    description: 'Stay on top of deadlines with reminders, alerts, and collaboration-driven follow-ups.',
-    points: ['Global priority reminders', 'Push notifications support', 'Live community follow-up'],
+    src: '/6.webp',
+    alt: 'Alpha Tracker AI tools screen',
+    label: 'AI tools',
   },
   {
-    icon: Monitor,
-    title: 'Modern Experience',
-    description: 'Use the same workspace comfortably across desktop and mobile with consistent layout behavior.',
-    points: ['Responsive interface', 'Dark and light mode support', 'Installable app flow'],
+    src: '/7.webp',
+    alt: 'Alpha Tracker swap and bridge screen',
+    label: 'Swap & bridge',
   },
 ];
 
+const previewPoints = [
+  'Overview keeps active work and priorities visible.',
+  'Tracking panels stay close to the market context.',
+  'Execution routes remain inside the same workspace.',
+];
+
 export function DetailedFeatures() {
+  const [previewState, setPreviewState] = useState({
+    index: 0,
+    direction: 1,
+  });
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [isCarouselActive, setIsCarouselActive] = useState(false);
+  const [dragState, setDragState] = useState({
+    isDragging: false,
+    startX: 0,
+    deltaX: 0,
+  });
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) {
+      return undefined;
+    }
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsCarouselActive(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsCarouselActive(Boolean(entry?.isIntersecting));
+      },
+      {
+        rootMargin: '180px 0px',
+        threshold: 0.18,
+      }
+    );
+
+    observer.observe(viewport);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isCarouselActive) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setPreviewState((current) => {
+        const lastIndex = previewSlides.length - 1;
+
+        if (current.index >= lastIndex) {
+          return {
+            index: Math.max(lastIndex - 1, 0),
+            direction: -1,
+          };
+        }
+
+        if (current.index <= 0 && current.direction < 0) {
+          return {
+            index: Math.min(1, lastIndex),
+            direction: 1,
+          };
+        }
+
+        return {
+          index: current.index + current.direction,
+          direction: current.direction,
+        };
+      });
+    }, 4200);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [isCarouselActive]);
+
+  const lastIndex = previewSlides.length - 1;
+
+  const changeSlide = (step: number) => {
+    setPreviewState((current) => {
+      const nextIndex = Math.min(Math.max(current.index + step, 0), lastIndex);
+      const nextDirection = step >= 0 ? 1 : -1;
+      return { index: nextIndex, direction: nextDirection };
+    });
+    setIsCarouselActive(false);
+    window.setTimeout(() => setIsCarouselActive(true), 50);
+  };
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!viewportRef.current) return;
+    viewportRef.current.setPointerCapture(event.pointerId);
+    setIsCarouselActive(false);
+    setDragState({
+      isDragging: true,
+      startX: event.clientX,
+      deltaX: 0,
+    });
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    setDragState((state) => {
+      if (!state.isDragging) return state;
+      return {
+        ...state,
+        deltaX: event.clientX - state.startX,
+      };
+    });
+  };
+
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!viewportRef.current) return;
+    viewportRef.current.releasePointerCapture(event.pointerId);
+
+    setDragState((state) => {
+      if (!state.isDragging) {
+        setIsCarouselActive(true);
+        return state;
+      }
+
+      const width = viewportRef.current?.clientWidth ?? 1;
+      const threshold = width * 0.15;
+      let nextIndex = previewState.index;
+      let nextDirection = previewState.direction;
+
+      if (Math.abs(state.deltaX) > threshold) {
+        if (state.deltaX < 0) {
+          nextIndex = Math.min(previewState.index + 1, lastIndex);
+          nextDirection = 1;
+        } else {
+          nextIndex = Math.max(previewState.index - 1, 0);
+          nextDirection = -1;
+        }
+      }
+
+      setPreviewState({ index: nextIndex, direction: nextDirection });
+      setIsCarouselActive(true);
+
+      return { isDragging: false, startX: 0, deltaX: 0 };
+    });
+  };
+
+  const viewportWidth = viewportRef.current?.clientWidth ?? 1;
+  const dragOffsetPercent = dragState.isDragging
+    ? (dragState.deltaX / viewportWidth) * 100
+    : 0;
+
   return (
-    <section className="px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-16 text-center">
-          <h2
-            className="mb-4 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
-            style={{ color: 'var(--alpha-text)' }}
-          >
-            Powerful Features for Web3 Teams
+    <section id="preview" className="px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <div className="macos-landing-width grid gap-10 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:items-center">
+        <div className="space-y-4">
+          <p className="macos-section-label">Dashboard preview</p>
+          <h2 className="alpha-landing-section-title">
+            One screen for priorities, tracking, and execution routes.
           </h2>
-          <p className="mx-auto max-w-2xl text-lg" style={{ color: 'var(--alpha-text-muted)' }}>
-            Everything you need to manage projects, track market context, and keep execution consistent.
+          <p className="alpha-landing-section-copy">
+            The dashboard is the entry point for daily work, so research and action stay connected.
           </p>
+
+          <div className="space-y-3 pt-2">
+            {previewPoints.map((item) => (
+              <div key={item} className="alpha-landing-list-row">
+                <span className="alpha-landing-list-dot" />
+                <p className="text-sm leading-7 text-[var(--alpha-text-muted)]">{item}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {detailedFeatures.map((feature) => (
-            <article
-              key={feature.title}
-              className="macos-landing-card rounded-[1.75rem] p-6 transition-all duration-200 hover:-translate-y-1"
+        <div className="alpha-landing-preview-shell alpha-landing-preview-shell--large" data-stagger>
+          <div
+            ref={viewportRef}
+            className={`alpha-landing-preview-viewport ${dragState.isDragging ? 'is-dragging' : ''}`}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerLeave={handlePointerUp}
+          >
+            <div className="alpha-landing-preview-toolbar">
+              <span className="alpha-landing-preview-toolbar-title">Dashboard preview</span>
+              <span className="alpha-landing-preview-toolbar-meta">
+                {previewState.index + 1} / {previewSlides.length}
+              </span>
+            </div>
+
+            <div className="alpha-landing-drag-hint">
+              <MousePointer2 className="h-4 w-4" />
+              <span>Drag to explore</span>
+            </div>
+
+            <div className="alpha-landing-preview-nav">
+              <button
+                type="button"
+                aria-label="Previous preview"
+                onClick={() => changeSlide(-1)}
+                className="alpha-landing-preview-nav-btn"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next preview"
+                onClick={() => changeSlide(1)}
+                className="alpha-landing-preview-nav-btn"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div
+              className="alpha-landing-preview-track"
               style={{
-                borderColor: 'color-mix(in srgb, var(--alpha-border) 84%, transparent)',
-                background:
-                  'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 89%, transparent))',
+                transform: `translate3d(calc(-${previewState.index * 100}% + ${dragOffsetPercent}%), 0, 0)`,
+                transition: dragState.isDragging ? 'none' : undefined,
               }}
             >
-              <div
-                className="mb-4 flex h-12 w-12 items-center justify-center rounded-[14px]"
-                style={{
-                  background:
-                    'linear-gradient(135deg, color-mix(in srgb, var(--alpha-accent-to) 18%, transparent), color-mix(in srgb, var(--alpha-border) 62%, var(--alpha-surface) 38%))',
-                  color: 'var(--alpha-text)',
-                  border: '1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent)',
-                }}
-              >
-                <feature.icon className="h-5 w-5" />
-              </div>
-
-              <h3 className="mb-2 text-lg font-semibold tracking-[-0.02em]" style={{ color: 'var(--alpha-text)' }}>
-                {feature.title}
-              </h3>
-              <p className="mb-4 text-sm leading-6" style={{ color: 'var(--alpha-text-muted)' }}>
-                {feature.description}
-              </p>
-
-              <ul className="space-y-2">
-                {feature.points.map((point) => (
-                  <li key={point} className="flex items-center gap-2 text-sm" style={{ color: 'var(--alpha-text-muted)' }}>
-                    <span
-                      className="h-1.5 w-1.5 rounded-full"
-                      style={{ background: 'var(--alpha-accent-to)' }}
-                    />
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+              {previewSlides.map((slide) => (
+                <figure key={slide.src} className="alpha-landing-preview-slide">
+                  <img
+                    src={slide.src}
+                    alt={slide.alt}
+                    className="alpha-landing-preview-image"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <figcaption className="alpha-landing-preview-caption">{slide.label}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

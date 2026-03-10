@@ -19,7 +19,7 @@ export const Stats: React.FC = () => {
       change: '+12.5%',
       isPositive: true,
       icon: DollarSign,
-      color: isDark ? 'text-[#00FF88]' : 'text-[#10B981]'
+      color: isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'
     },
     {
       label: 'CURRENT_VALUE',
@@ -27,7 +27,7 @@ export const Stats: React.FC = () => {
       change: '+11.2%',
       isPositive: true,
       icon: Wallet,
-      color: isDark ? 'text-[#3B82F6]' : 'text-[#2563EB]'
+      color: isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'
     },
     {
       label: 'TOTAL_PROFIT',
@@ -35,7 +35,7 @@ export const Stats: React.FC = () => {
       change: '+11.2%',
       isPositive: true,
       icon: TrendingUp,
-      color: isDark ? 'text-[#8B5CF6]' : 'text-[#4F46E5]'
+      color: isDark ? 'text-[var(--alpha-violet)]' : 'text-[var(--alpha-violet)]'
     },
     {
       label: 'ACTIVE_AIRDROPS',
@@ -43,7 +43,7 @@ export const Stats: React.FC = () => {
       change: '+3 new',
       isPositive: true,
       icon: Target,
-      color: isDark ? 'text-[#F59E0B]' : 'text-[#EA580C]'
+      color: isDark ? 'text-[var(--alpha-warning)]' : 'text-[var(--alpha-warning)]'
     }
   ];
 
@@ -52,30 +52,30 @@ export const Stats: React.FC = () => {
       {stats.map((stat, idx) => (
         <Card key={idx} className={`border transition-all duration-300 ${
           isDark 
-            ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/30' 
-            : 'bg-white border-[#E5E7EB] hover:border-[#2563EB]/30'
+            ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal-border)]' 
+            : 'bg-white border-[var(--alpha-border)] hover:border-[var(--alpha-signal-border)]'
         }`}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className={`text-xs font-mono mb-1 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                  isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                 }`}>{stat.label}</p>
                 <p className={`text-2xl font-bold font-mono ${
-                  isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                  isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                 }`}>
                   {stat.value}
                 </p>
                 <p className={`text-xs font-mono mt-1 ${
                   stat.isPositive
-                    ? (isDark ? 'text-[#00FF88]' : 'text-[#10B981]')
-                    : (isDark ? 'text-[#EF4444]' : 'text-[#DC2626]')
+                    ? (isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]')
+                    : (isDark ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-danger)]')
                 }`}>
                   {stat.change}
                 </p>
               </div>
               <div className={`w-12 h-12 rounded flex items-center justify-center ${
-                isDark ? 'bg-[#00FF88]/5 border border-[#00FF88]/20' : 'bg-[#2563EB]/5 border border-[#2563EB]/20'
+                isDark ? 'bg-[var(--alpha-signal-softest)] border border-[var(--alpha-signal-border)]' : 'bg-[var(--alpha-signal-softest)] border border-[var(--alpha-signal-border)]'
               }`}>
                 <stat.icon className={`w-6 h-6 ${stat.color}`} />
               </div>

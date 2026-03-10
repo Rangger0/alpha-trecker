@@ -79,6 +79,12 @@ export const getCoinPrice = async (coinId: string) => {
   return response.data[coinId];
 };
 
+export const getSimplePrices = async (coinIds: string[]) => {
+  const url = `${COINGECKO_API}/simple/price?ids=${coinIds.join(',')}&vs_currencies=usd&include_24hr_change=true`;
+  const response = await axios.get<CoinPriceResponse>(url);
+  return response.data;
+};
+
 export const getCoinMarketData = async (coinIds: string[]) => {
   const url = `${COINGECKO_API}/coins/markets?vs_currency=usd&ids=${coinIds.join(',')}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
   const response = await axios.get<CoinMarketItem[]>(url);

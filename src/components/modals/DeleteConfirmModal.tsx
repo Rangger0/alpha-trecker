@@ -69,9 +69,9 @@ export function DeleteConfirmModal({
               : (isDark ? 'bg-[rgba(245,158,11,0.08)]' : 'bg-[rgba(217,119,6,0.08)]')
           }`}>
             {isDeleteVariant ? (
-              <AlertTriangle className={`h-8 w-8 ${isDark ? 'text-[#EF4444]' : 'text-[#DC2626]'}`} />
+              <AlertTriangle className={`h-8 w-8 ${isDark ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-danger)]'}`} />
             ) : (
-              <X className={`h-8 w-8 ${isDark ? 'text-[#F59E0B]' : 'text-[#D97706]'}`} />
+              <X className={`h-8 w-8 ${isDark ? 'text-[var(--alpha-warning)]' : 'text-[#D97706]'}`} />
             )}
           </div>
           <DialogTitle className={`text-xl font-mono alpha-text`}>
@@ -82,7 +82,7 @@ export function DeleteConfirmModal({
               <span dangerouslySetInnerHTML={{ 
                 __html: displayDescription.replace(
                   /<strong>(.*?)<\/strong>/g, 
-                  '<strong class="' + (isDeleteVariant ? 'text-[#EF4444]' : 'text-[#F59E0B]') + '">$1</strong>'
+                  '<strong class="' + (isDeleteVariant ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-warning)]') + '">$1</strong>'
                 ) 
               }} />
             ) : (

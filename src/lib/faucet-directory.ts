@@ -1,0 +1,226 @@
+import { chainDirectoryMap } from '@/lib/chain-directory';
+
+export type FaucetEnvironment = 'Testnet' | 'Devnet';
+export type FaucetAccess = 'Open' | 'Wallet' | 'Rate limited';
+
+export interface FaucetDirectoryEntry {
+  id: string;
+  name: string;
+  networkName: string;
+  chainId: keyof typeof chainDirectoryMap;
+  environment: FaucetEnvironment;
+  token: string;
+  provider: string;
+  access: FaucetAccess;
+  logo: string;
+  accent: string;
+  faucetUrl: string;
+  sourceUrl: string;
+  summary: string;
+  note: string;
+}
+
+const makeEntry = (
+  id: string,
+  chainId: keyof typeof chainDirectoryMap,
+  name: string,
+  networkName: string,
+  environment: FaucetEnvironment,
+  token: string,
+  provider: string,
+  access: FaucetAccess,
+  faucetUrl: string,
+  sourceUrl: string,
+  summary: string,
+  note: string,
+): FaucetDirectoryEntry => {
+  const chain = chainDirectoryMap[chainId];
+
+  return {
+    id,
+    name,
+    networkName,
+    chainId,
+    environment,
+    token,
+    provider,
+    access,
+    logo: chain.logo,
+    accent: chain.accent,
+    faucetUrl,
+    sourceUrl,
+    summary,
+    note,
+  };
+};
+
+export const faucetDirectory: FaucetDirectoryEntry[] = [
+  makeEntry(
+    'ethereum-sepolia-alchemy',
+    'ethereum',
+    'Ethereum Sepolia',
+    'Sepolia',
+    'Testnet',
+    'Sepolia ETH',
+    'Alchemy Faucet',
+    'Wallet',
+    'https://www.alchemy.com/faucets/ethereum-sepolia',
+    'https://ethereum.org/developers/docs/networks/#sepolia',
+    'Faucet Sepolia yang paling umum dipakai buat deploy dan test ERC-20/ERC-721.',
+    'Butuh sign-in atau wallet connect, tapi paling gampang buat flow testnet Ethereum.',
+  ),
+  makeEntry(
+    'ethereum-hoodi-public',
+    'ethereum',
+    'Ethereum Hoodi',
+    'Hoodi',
+    'Testnet',
+    'Hoodi ETH',
+    'Public Faucet',
+    'Open',
+    'https://hoodi-faucet.pk910.de/',
+    'https://ethereum.org/developers/docs/networks/#hoodi',
+    'Template Ethereum testnet baru yang sekarang dipakai menggantikan Holesky.',
+    'Pakai ini kalau kamu pindah dari Holesky ke network Ethereum yang lebih baru.',
+  ),
+  makeEntry(
+    'base-sepolia-cdp',
+    'base',
+    'Base Sepolia',
+    'Base Sepolia',
+    'Testnet',
+    'Base Sepolia ETH',
+    'Coinbase CDP Faucet',
+    'Wallet',
+    'https://portal.cdp.coinbase.com/products/faucet',
+    'https://docs.base.org/base-chain/tools/network-faucets',
+    'Faucet Base Sepolia dengan UX paling stabil untuk builder Base.',
+    'Gratis, cepat, dan relevan kalau deploy target kamu Base mainnet/testnet.',
+  ),
+  makeEntry(
+    'arbitrum-sepolia-alchemy',
+    'arbitrum',
+    'Arbitrum Sepolia',
+    'Arbitrum Sepolia',
+    'Testnet',
+    'Arbitrum Sepolia ETH',
+    'Alchemy Faucet',
+    'Wallet',
+    'https://www.alchemy.com/faucets/arbitrum-sepolia',
+    'https://docs.arbitrum.io/for-devs/dev-tools-and-resources/chain-info',
+    'Faucet praktis buat test deploy dan tx Arbitrum Sepolia.',
+    'Dipakai luas untuk test smart contract, bridge, dan gas fee Arbitrum.',
+  ),
+  makeEntry(
+    'polygon-amoy-official',
+    'polygon',
+    'Polygon Amoy',
+    'Amoy',
+    'Testnet',
+    'POL / Amoy gas',
+    'Polygon Faucet',
+    'Wallet',
+    'https://faucet.polygon.technology/',
+    'https://docs.polygon.technology/tools/testnets/',
+    'Portal faucet untuk Amoy, testnet utama Polygon PoS saat ini.',
+    'Kalau portal lagi padat, biasanya masih bisa pakai provider lain dari halaman docs resmi Polygon.',
+  ),
+  makeEntry(
+    'bnb-testnet-official',
+    'bnbchain',
+    'BNB Chain Testnet',
+    'BNB Testnet',
+    'Testnet',
+    'tBNB',
+    'BNB Chain Faucet',
+    'Wallet',
+    'https://www.bnbchain.org/en/testnet-faucet',
+    'https://docs.bnbchain.org/bnb-smart-chain/develop/faucet/',
+    'Faucet resmi BNB Chain untuk kebutuhan gas di testnet.',
+    'Pilihan aman kalau kamu deploy atau tes transaksi EVM di ekosistem BNB.',
+  ),
+  makeEntry(
+    'avalanche-fuji-core',
+    'avalanche',
+    'Avalanche Fuji',
+    'Fuji',
+    'Testnet',
+    'Fuji AVAX',
+    'Core Faucet',
+    'Wallet',
+    'https://core.app/tools/testnet-faucet/',
+    'https://build.avax.network/docs/tooling/get-testnet-tokens',
+    'Faucet Fuji dari ekosistem Avalanche untuk contract dan app testing.',
+    'Bisa dipakai untuk test deploy C-Chain dan flow wallet Avalanche.',
+  ),
+  makeEntry(
+    'berachain-bepolia-hub',
+    'berachain',
+    'Berachain Bepolia',
+    'Bepolia',
+    'Testnet',
+    'BERA',
+    'Bera Hub Faucet',
+    'Wallet',
+    'https://bepolia.hub.berachain.com/',
+    'https://docs.berachain.com/build/getting-started/common-resources',
+    'Portal resmi Berachain untuk claim BERA di Bepolia testnet.',
+    'Cocok untuk builder Berachain yang butuh faucet dan dApp entry point dalam satu portal.',
+  ),
+  makeEntry(
+    'monad-testnet-faucet',
+    'monad',
+    'Monad Testnet',
+    'Monad Testnet',
+    'Testnet',
+    'MON',
+    'Monad Faucet',
+    'Wallet',
+    'https://faucet.monad.xyz/',
+    'https://developers.monad.xyz/',
+    'Faucet resmi Monad untuk claim MON di public testnet.',
+    'Biasanya ada syarat wallet activity atau social connect untuk jatah token lebih besar.',
+  ),
+  makeEntry(
+    'pharos-testnet-portal',
+    'pharos',
+    'Pharos Testnet',
+    'Pharos Testnet',
+    'Testnet',
+    'PHRS',
+    'Pharos Faucet',
+    'Wallet',
+    'https://testnet.pharosnetwork.xyz/',
+    'https://www.pharosnetwork.xyz/',
+    'Portal resmi Pharos testnet dengan faucet PHRS dan akses task ecosystem.',
+    'Pas untuk simpan link testnet baru yang lagi ramai di kalangan hunter dan builder.',
+  ),
+  makeEntry(
+    'solana-devnet-official',
+    'solana',
+    'Solana Devnet',
+    'Devnet',
+    'Devnet',
+    'Devnet SOL',
+    'Solana Faucet',
+    'Open',
+    'https://faucet.solana.com/',
+    'https://solana.com/docs/references/clusters',
+    'Faucet devnet Solana resmi untuk airdrop SOL testing.',
+    'Paling cocok untuk uji token, NFT, dan transaksi Solana devnet.',
+  ),
+  makeEntry(
+    'sui-testnet-official',
+    'sui',
+    'Sui Testnet',
+    'Testnet',
+    'Testnet',
+    'Testnet SUI',
+    'Sui Faucet',
+    'Open',
+    'https://faucet.sui.io/',
+    'https://docs.sui.io/guides/developer/getting-started/get-coins',
+    'Faucet Sui resmi yang langsung kasih SUI testnet ke address wallet kamu.',
+    'Cocok untuk publish package, mint NFT, dan test tx di jaringan Sui.',
+  ),
+];

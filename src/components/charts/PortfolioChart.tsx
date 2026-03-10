@@ -66,62 +66,62 @@ export const PortfolioChart: React.FC = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className={`border ${
-          isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'
+          isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
         }`}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className={`text-xs font-mono mb-1 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                  isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                 }`}>TOTAL_VALUE</p>
                 <p className={`text-2xl font-bold font-mono ${
-                  isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                  isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                 }`}>
                   ${data.totalValue.toLocaleString()}
                 </p>
               </div>
               <div className={`w-10 h-10 rounded flex items-center justify-center ${
-                isDark ? 'bg-[#00FF88]/10 border border-[#00FF88]/20' : 'bg-[#2563EB]/10 border border-[#2563EB]/20'
+                isDark ? 'bg-[var(--alpha-signal-soft)] border border-[var(--alpha-signal-border)]' : 'bg-[var(--alpha-signal-soft)] border border-[var(--alpha-signal-border)]'
               }`}>
-                <DollarSign className={`w-5 h-5 ${isDark ? 'text-[#00FF88]' : 'text-[#2563EB]'}`} />
+                <DollarSign className={`w-5 h-5 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className={`border ${
-          isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'
+          isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
         }`}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className={`text-xs font-mono mb-1 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                  isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                 }`}>24H_CHANGE</p>
                 <div className="flex items-center gap-2">
                   <p className={`text-2xl font-bold font-mono ${
                     data.totalChange >= 0 
-                      ? (isDark ? 'text-[#00FF88]' : 'text-[#10B981]')
-                      : (isDark ? 'text-[#EF4444]' : 'text-[#DC2626]')
+                      ? (isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]')
+                      : (isDark ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-danger)]')
                   }`}>
                     {data.totalChange >= 0 ? '+' : ''}{data.totalChange.toLocaleString()}
                   </p>
                   {data.totalChange >= 0 ? (
-                    <TrendingUp className={`w-5 h-5 ${isDark ? 'text-[#00FF88]' : 'text-[#10B981]'}`} />
+                    <TrendingUp className={`w-5 h-5 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
                   ) : (
-                    <TrendingDown className={`w-5 h-5 ${isDark ? 'text-[#EF4444]' : 'text-[#DC2626]'}`} />
+                    <TrendingDown className={`w-5 h-5 ${isDark ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-danger)]'}`} />
                   )}
                 </div>
               </div>
               <div className={`w-10 h-10 rounded flex items-center justify-center ${
                 data.totalChange >= 0
-                  ? (isDark ? 'bg-[#00FF88]/10 border border-[#00FF88]/20' : 'bg-[#10B981]/10 border border-[#10B981]/20')
-                  : (isDark ? 'bg-[#EF4444]/10 border border-[#EF4444]/20' : 'bg-[#DC2626]/10 border border-[#DC2626]/20')
+                  ? (isDark ? 'bg-[var(--alpha-signal-soft)] border border-[var(--alpha-signal-border)]' : 'bg-[var(--alpha-signal-soft)] border border-[var(--alpha-signal-border)]')
+                  : (isDark ? 'bg-[var(--alpha-danger-soft)] border border-[var(--alpha-danger-border)]' : 'bg-[var(--alpha-danger-soft)] border border-[var(--alpha-danger-border)]')
               }`}>
                 <Activity className={`w-5 h-5 ${
                   data.totalChange >= 0
-                    ? (isDark ? 'text-[#00FF88]' : 'text-[#10B981]')
-                    : (isDark ? 'text-[#EF4444]' : 'text-[#DC2626]')
+                    ? (isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]')
+                    : (isDark ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-danger)]')
                 }`} />
               </div>
             </div>
@@ -129,26 +129,26 @@ export const PortfolioChart: React.FC = () => {
         </Card>
 
         <Card className={`border ${
-          isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'
+          isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
         }`}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className={`text-xs font-mono mb-1 ${
-                  isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                  isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                 }`}>CHANGE_%</p>
                 <p className={`text-2xl font-bold font-mono ${
                   data.changePercentage >= 0 
-                    ? (isDark ? 'text-[#00FF88]' : 'text-[#10B981]')
-                    : (isDark ? 'text-[#EF4444]' : 'text-[#DC2626]')
+                    ? (isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]')
+                    : (isDark ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-danger)]')
                 }`}>
                   {data.changePercentage >= 0 ? '+' : ''}{data.changePercentage.toFixed(2)}%
                 </p>
               </div>
               <div className={`w-10 h-10 rounded flex items-center justify-center ${
-                isDark ? 'bg-[#8B5CF6]/10 border border-[#8B5CF6]/20' : 'bg-[#4F46E5]/10 border border-[#4F46E5]/20'
+                isDark ? 'bg-[var(--alpha-violet-soft)] border border-[var(--alpha-violet-border)]' : 'bg-[var(--alpha-violet-soft)] border border-[var(--alpha-violet-border)]'
               }`}>
-                <PieChart className={`w-5 h-5 ${isDark ? 'text-[#8B5CF6]' : 'text-[#4F46E5]'}`} />
+                <PieChart className={`w-5 h-5 ${isDark ? 'text-[var(--alpha-violet)]' : 'text-[var(--alpha-violet)]'}`} />
               </div>
             </div>
           </CardContent>
@@ -157,11 +157,11 @@ export const PortfolioChart: React.FC = () => {
 
       {/* Distribution Chart */}
       <Card className={`border ${
-        isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'
+        isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
       }`}>
         <CardContent className="p-4">
           <h3 className={`font-mono font-bold mb-4 ${
-            isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+            isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
           }`}>
             {isDark ? '> PORTFOLIO_DISTRIBUTION' : 'Portfolio Distribution'}
           </h3>
@@ -176,16 +176,16 @@ export const PortfolioChart: React.FC = () => {
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <span className={`font-mono text-sm ${
-                      isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+                      isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
                     }`}>{item.name}</span>
                     <span className={`font-mono text-sm ${
-                      isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                      isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                     }`}>
                       ${item.value.toLocaleString()} ({item.percentage}%)
                     </span>
                   </div>
                   <div className={`h-2 rounded-full overflow-hidden ${
-                    isDark ? 'bg-[#0B0F14]' : 'bg-[#F3F4F6]'
+                    isDark ? 'bg-[var(--alpha-surface-strong)]' : 'bg-[var(--alpha-surface-soft)]'
                   }`}>
                     <div 
                       className="h-full rounded-full transition-all duration-500"
@@ -204,11 +204,11 @@ export const PortfolioChart: React.FC = () => {
 
       {/* Simple Bar Chart History */}
       <Card className={`border ${
-        isDark ? 'bg-[#161B22] border-[#1F2937]' : 'bg-white border-[#E5E7EB]'
+        isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
       }`}>
         <CardContent className="p-4">
           <h3 className={`font-mono font-bold mb-4 ${
-            isDark ? 'text-[#E5E7EB]' : 'text-[#111827]'
+            isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'
           }`}>
             {isDark ? '> VALUE_HISTORY' : 'Value History'}
           </h3>
@@ -221,13 +221,13 @@ export const PortfolioChart: React.FC = () => {
                   <div className="w-full flex items-end justify-center h-24">
                     <div 
                       className={`w-full max-w-[40px] rounded-t transition-all duration-500 ${
-                        isDark ? 'bg-[#00FF88]/60' : 'bg-[#2563EB]/60'
+                        isDark ? 'bg-[var(--alpha-signal-strong)]' : 'bg-[var(--alpha-signal-strong)]'
                       }`}
                       style={{ height: `${Math.max(height, 10)}%` }}
                     />
                   </div>
                   <span className={`font-mono text-xs ${
-                    isDark ? 'text-[#6B7280]' : 'text-[#6B7280]'
+                    isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'
                   }`}>
                     {item.date}
                   </span>

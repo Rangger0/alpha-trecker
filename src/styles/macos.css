@@ -1,18 +1,21 @@
 :root{
-  /* macOS UI tokens — tweak nilai bila perlu */
+  /* macOS UI tokens */
   --mac-radius-sm: 10px;
   --mac-radius-md: 18px;
   --mac-radius-lg: 26px;
   --mac-radius-xl: 34px;
 
-  --mac-shadow-1: 0 8px 20px rgba(10,11,13,0.06);
-  --mac-shadow-2: 0 14px 36px rgba(10,11,13,0.1);
-  --mac-shadow-3: 0 18px 44px rgba(10,11,13,0.12);
+  --mac-shadow-1: var(--alpha-shadow);
+  --mac-shadow-2: var(--alpha-shadow-strong);
+  --mac-shadow-3: var(--alpha-shadow-strong);
 
-  --mac-backdrop: rgba(255,255,255,0.6);
-  --mac-blur: 10px;
+  --mac-backdrop: var(--alpha-overlay);
+  --mac-blur: 0px;
 
-  --mac-font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mac-font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --mac-display-stack: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --alpha-landing-font: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --alpha-landing-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 
   /* sizes */
   --mac-gap: 12px;
@@ -26,6 +29,307 @@
   color: var(--alpha-text);
 }
 
+.macos-theme-monochrome {
+  filter: grayscale(1);
+}
+
+.macos-theme-monochrome img {
+  filter: none !important; /* keep logos and images in color while chrome stays mono */
+}
+
+.alpha-brand-logo {
+  filter: none !important;
+}
+
+.eco-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 94%, transparent)),
+    radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--alpha-text) 5%, transparent), transparent 50%);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.38);
+  backdrop-filter: blur(8px);
+}
+
+.eco-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
+  color: var(--alpha-text);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.48);
+}
+
+.eco-chip.subtle {
+  border-color: color-mix(in srgb, var(--alpha-border) 76%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 94%, transparent);
+  color: var(--alpha-text-muted);
+}
+
+.eco-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 12px;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  background: color-mix(in srgb, var(--alpha-hover-soft) 86%, transparent);
+  color: var(--alpha-text);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: var(--mac-font-stack);
+}
+
+.eco-logo,
+.eco-logo-lg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 98%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
+  box-shadow:
+    0 12px 20px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.eco-logo { width: 44px; height: 44px; }
+.eco-logo-lg { width: 56px; height: 56px; border-radius: 18px; }
+
+.eco-block {
+  border-radius: 18px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
+  background:
+    linear-gradient(155deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 92%, transparent));
+  box-shadow:
+    0 12px 28px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.eco-progress {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 78%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface-strong) 88%, transparent);
+  overflow: hidden;
+}
+.eco-progress__bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--alpha-text) 74%, var(--alpha-panel)), color-mix(in srgb, var(--alpha-text) 48%, var(--alpha-surface)));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.32),
+    0 8px 18px rgba(0,0,0,0.12);
+  transition: width 300ms ease;
+}
+
+.eco-mini {
+  border-radius: 14px;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 80%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 94%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.28);
+}
+
+.eco-label {
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--alpha-text-muted);
+}
+
+.eco-card {
+  position: relative;
+  display: block;
+  text-align: left;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  border-radius: 18px;
+  padding: 14px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 10%, color-mix(in srgb, var(--alpha-border-strong) 18%, transparent), transparent 34%),
+    radial-gradient(circle at 18% 12%, rgba(255,255,255,0.06), transparent 32%),
+    linear-gradient(175deg, color-mix(in srgb, var(--alpha-surface) 97%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
+  box-shadow:
+    0 14px 32px rgba(0,0,0,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.46);
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease, background-color 140ms ease;
+}
+.eco-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 18px 38px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+  border-color: color-mix(in srgb, var(--alpha-border) 76%, transparent);
+}
+.eco-card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 16px;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 42%, transparent 74%),
+    linear-gradient(180deg, rgba(255,255,255,0.08), transparent 38%);
+  opacity: 0.7;
+}
+.eco-card__halo {
+  position: absolute;
+  inset: 10px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 24% 20%, rgba(255,255,255,0.1), transparent 48%),
+    radial-gradient(circle at 76% 78%, color-mix(in srgb, var(--alpha-text) 12%, transparent), transparent 60%);
+  opacity: 0.3;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.eco-card:hover .eco-card__halo {
+  opacity: 0.5;
+  transform: translateY(-1px);
+}
+
+.eco-card > .mt-3 { margin-top: 8px; }
+.eco-card > .mt-4 { margin-top: 10px; }
+.eco-card .eco-progress { margin-top: 10px; }
+
+@media (max-width: 640px) {
+  .eco-card {
+    padding: 12px;
+    border-radius: 16px;
+    gap: 10px;
+  }
+
+  .eco-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .eco-logo { width: 40px; height: 40px; }
+  .eco-logo-lg { width: 48px; height: 48px; }
+
+  .eco-metrics {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .eco-metric-pill {
+    width: 100%;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .eco-mini {
+    width: 100%;
+  }
+
+  .eco-progress {
+    height: 7px;
+  }
+
+  .eco-card h3 {
+    font-size: 1rem;
+  }
+
+  .eco-card .text-\[2\.25rem\] {
+    font-size: 1.8rem;
+  }
+
+  .eco-card .text-\[2\.45rem\] {
+    font-size: 1.9rem;
+  }
+}
+.eco-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.eco-metrics {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+.eco-metric-pill {
+  min-width: 108px;
+  padding: 10px;
+  border-radius: 12px;
+  text-align: right;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.28);
+}
+
+.eco-card > .mt-3 { margin-top: 8px; }
+.eco-card > .mt-4 { margin-top: 10px; }
+.eco-card .eco-progress { margin-top: 10px; }
+.dashboard-clean {
+  --alpha-hover-soft: color-mix(in srgb, var(--alpha-text) 5%, transparent);
+  --alpha-surface-soft: color-mix(in srgb, var(--alpha-surface) 92%, var(--alpha-panel));
+  --alpha-border-strong: color-mix(in srgb, var(--alpha-border) 80%, transparent);
+  --alpha-highlight-soft: color-mix(in srgb, var(--alpha-highlight) 10%, transparent);
+  line-height: 1.45;
+}
+
+.dashboard-clean .macos-card,
+.dashboard-clean .macos-premium-card,
+.dashboard-clean .macos-page-header {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--alpha-surface) 99%, transparent),
+    color-mix(in srgb, var(--alpha-panel) 96%, transparent)
+  );
+  border-color: color-mix(in srgb, var(--alpha-border) 96%, transparent);
+  box-shadow: var(--alpha-shadow);
+}
+
+.dashboard-clean .macos-card::before,
+.dashboard-clean .macos-premium-card::before {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--alpha-text) 5%, transparent), transparent 28%);
+  opacity: 0.2;
+}
+
+.dashboard-clean .macos-card-hover:hover,
+.dashboard-clean .macos-premium-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
+  border-color: color-mix(in srgb, var(--alpha-highlight) 14%, var(--alpha-border));
+}
+
+.dashboard-clean .macos-page-header::after {
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--alpha-border) 70%, transparent), transparent);
+}
+
+.dashboard-clean .macos-page-kicker {
+  background: color-mix(in srgb, var(--alpha-surface) 96%, transparent);
+  color: var(--alpha-text-muted);
+  letter-spacing: 0.18em;
+}
+
+.dashboard-clean .macos-panel {
+  box-shadow: var(--alpha-shadow);
+}
+
+.dashboard-clean .macos-table tr:hover td {
+  background: var(--alpha-hover-soft);
+}
+
 .macos-app-shell {
   position: relative;
   isolation: isolate;
@@ -37,9 +341,10 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-accent) 12%, transparent) 0, transparent 30%),
-    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 88%, transparent), transparent 42%);
-  opacity: 0.45;
+    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-highlight) 10%, transparent) 0, transparent 30%),
+    radial-gradient(circle at right center, color-mix(in srgb, var(--alpha-accent) 12%, transparent) 0, transparent 34%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 94%, transparent), transparent 42%);
+  opacity: 0.74;
 }
 
 /* Card surface in mac style (rounded, subtle shadow) */
@@ -48,19 +353,27 @@
   border-radius: var(--mac-radius-md);
   box-shadow: var(--mac-shadow-1);
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, #fff 4%), color-mix(in srgb, var(--alpha-panel) 92%, transparent));
-  border: 1px solid var(--alpha-border);
+    radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--alpha-border-strong) 18%, transparent), transparent 36%),
+    radial-gradient(circle at top left, color-mix(in srgb, white 18%, transparent), transparent 36%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--alpha-surface) 92%, white 8%),
+      color-mix(in srgb, var(--alpha-panel) 88%, #8a8a8a 12%)
+    );
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 94%, transparent);
   transition:
-    transform 220ms ease,
-    box-shadow 220ms ease,
-    border-color 220ms ease,
-    background 220ms ease;
+    transform 180ms cubic-bezier(.22,1,.36,1),
+    box-shadow 180ms cubic-bezier(.22,1,.36,1),
+    border-color 180ms cubic-bezier(.22,1,.36,1),
+    background-color 180ms cubic-bezier(.22,1,.36,1);
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: 240px;
 }
 
 /* elevated card */
 .macos-card-hover:hover {
-  transform: translateY(-5px) scale(1.01);
+  transform: translateY(-3px);
   box-shadow: var(--mac-shadow-2);
 }
 
@@ -70,24 +383,82 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 42%),
-    linear-gradient(180deg, rgba(255,255,255,0.14), transparent 30%);
+    linear-gradient(180deg, color-mix(in srgb, white 14%, transparent), transparent 28%),
+    linear-gradient(135deg, transparent 44%, color-mix(in srgb, white 6%, transparent) 100%);
+  opacity: 0.72;
+}
+
+.macos-card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  pointer-events: none;
+  border-radius: calc(var(--mac-radius-md) - 6px);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02) 46%, transparent 78%),
+    linear-gradient(180deg, rgba(255,255,255,0.08), transparent 32%);
   opacity: 0.7;
+}
+
+@media (max-width: 640px) {
+  .macos-page-shell {
+    padding: 0;
+  }
+
+  .macos-page-header {
+    margin-bottom: 12px;
+    padding: 14px;
+    border-radius: 16px;
+    gap: 6px;
+  }
+
+  .macos-page-title {
+    font-size: 1.75rem;
+  }
+
+  .macos-page-subtitle {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .macos-card,
+  .macos-premium-card,
+  .macos-card-entry {
+    border-radius: 14px;
+    padding: 10px !important;
+    contain-intrinsic-size: 160px;
+  }
+
+  .macos-card::after {
+    inset: 3px;
+    border-radius: 12px;
+  }
 }
 
 /* Soft frosted panel for top bars, side panels */
 .macos-panel {
   border-radius: var(--mac-radius-lg);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 92%, #fff 8%), color-mix(in srgb, var(--alpha-panel) 96%, transparent));
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 78%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--alpha-surface) 90%, white 10%),
+      color-mix(in srgb, var(--alpha-panel) 86%, #858585 14%)
+    );
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
   box-shadow: var(--mac-shadow-1);
 }
 
 /* Modal wrapper (centered, mac style) */
 .macos-modal {
   border-radius: var(--mac-radius-md);
-  background: var(--alpha-surface);
-  border: 1px solid var(--alpha-border);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 24%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--alpha-surface) 96%, white 4%),
+      color-mix(in srgb, var(--alpha-panel) 86%, #7f7f7f 14%)
+    );
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 94%, transparent);
   box-shadow: var(--mac-shadow-2);
   overflow: hidden;
 }
@@ -99,36 +470,47 @@
   font-weight: 600;
   letter-spacing: .2px;
   transition:
-    background 180ms ease,
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
+    background-color 180ms cubic-bezier(.22,1,.36,1),
+    transform 180ms cubic-bezier(.22,1,.36,1),
+    box-shadow 180ms cubic-bezier(.22,1,.36,1),
+    border-color 180ms cubic-bezier(.22,1,.36,1),
+    color 180ms cubic-bezier(.22,1,.36,1);
 }
 
 .macos-btn:active { transform: translateY(1px) scale(0.99); }
 
 /* Primary (accent) button — uses alpha gradient */
 .macos-btn--primary {
-  background-image: linear-gradient(90deg, var(--alpha-accent-from), var(--alpha-accent-to));
+  background-image:
+    linear-gradient(180deg, color-mix(in srgb, white 18%, transparent), transparent 34%),
+    linear-gradient(135deg, var(--alpha-accent-from), var(--alpha-accent-to));
   color: var(--alpha-accent-contrast);
-  border: 1px solid color-mix(in srgb, var(--alpha-accent) 48%, transparent);
-  box-shadow: 0 12px 30px color-mix(in srgb, var(--alpha-accent) 26%, transparent);
+  border: 1px solid color-mix(in srgb, var(--alpha-highlight) 42%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 18%, transparent),
+    0 10px 24px color-mix(in srgb, var(--alpha-accent) 16%, transparent);
 }
 
 /* Ghost button (subtle) */
 .macos-btn--ghost {
-  background: transparent;
-  border: 1px solid var(--alpha-border);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 42%),
+    color-mix(in srgb, var(--alpha-surface) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 92%, transparent);
   color: var(--alpha-text);
 }
 
 /* Small tweaks for forms / inputs (rounded) */
 .macos-input {
   border-radius: 14px;
-  border: 1px solid var(--alpha-border);
-  background: color-mix(in srgb, var(--alpha-surface) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 92%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 38%),
+    color-mix(in srgb, var(--alpha-surface) 92%, transparent);
   padding: 10px 14px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 16%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--alpha-border) 30%, transparent);
 }
 
 /* Small helper for rounded icon wrappers */
@@ -139,15 +521,17 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  background: var(--alpha-panel);
-  border: 1px solid var(--alpha-border);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 42%),
+    color-mix(in srgb, var(--alpha-surface) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 90%, transparent);
 }
 
 /* Make dropdowns / popovers look mac-like */
 .macos-popover {
   border-radius: 10px;
-  background: var(--alpha-surface);
-  border: 1px solid var(--alpha-border);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 98%, transparent), color-mix(in srgb, var(--alpha-panel) 92%, transparent));
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 92%, transparent);
   box-shadow: var(--mac-shadow-2);
   overflow: hidden;
 }
@@ -162,7 +546,7 @@
 
 /* Nice focus outlines for accessibility */
 .macos-focus:focus {
-  outline: 3px solid rgba(0,173,181,0.12);
+  outline: 3px solid color-mix(in srgb, var(--alpha-highlight) 20%, transparent);
   outline-offset: 2px;
   border-radius: 8px;
 }
@@ -182,8 +566,13 @@
   border-radius: var(--mac-radius-xl);
   border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
   background:
-    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-accent) 16%, transparent), transparent 32%),
-    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 95%, #fff 5%), color-mix(in srgb, var(--alpha-panel) 88%, transparent));
+    radial-gradient(circle at top left, color-mix(in srgb, white 16%, transparent), transparent 28%),
+    radial-gradient(circle at bottom right, color-mix(in srgb, var(--alpha-border-strong) 12%, transparent), transparent 34%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--alpha-surface) 94%, white 6%),
+      color-mix(in srgb, var(--alpha-panel) 88%, #7d7d7d 12%)
+    );
   box-shadow: var(--mac-shadow-1);
   overflow: hidden;
 }
@@ -209,7 +598,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.26em;
-  color: var(--alpha-text-muted);
+  color: var(--alpha-highlight);
 }
 
 .macos-page-title {
@@ -242,7 +631,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.24em;
-  color: var(--alpha-text-muted);
+  color: var(--alpha-highlight);
 }
 
 .macos-premium-card {
@@ -250,20 +639,27 @@
   border-radius: 24px;
   border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
   background:
-    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-accent) 14%, transparent), transparent 36%),
-    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 95%, #fff 5%), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
+    radial-gradient(circle at top left, color-mix(in srgb, white 14%, transparent), transparent 32%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--alpha-surface) 94%, white 6%),
+      color-mix(in srgb, var(--alpha-panel) 88%, #838383 12%)
+    );
   box-shadow: var(--mac-shadow-1);
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: 260px;
   transition:
-    transform 220ms ease,
-    box-shadow 220ms ease,
-    border-color 220ms ease;
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    border-color 140ms ease,
+    background-color 140ms ease;
 }
 
 .macos-premium-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   box-shadow: var(--mac-shadow-2);
-  border-color: color-mix(in srgb, var(--alpha-accent) 28%, var(--alpha-border));
+  border-color: color-mix(in srgb, var(--alpha-highlight) 34%, var(--alpha-border));
 }
 
 .macos-premium-card::before {
@@ -271,14 +667,18 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255,255,255,0.18), transparent 28%);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 14%, transparent), transparent 22%),
+    linear-gradient(135deg, transparent 48%, color-mix(in srgb, white 6%, transparent));
 }
 
 .macos-empty-state {
   border-radius: 28px;
   border: 1px dashed color-mix(in srgb, var(--alpha-border) 86%, transparent);
-  background: color-mix(in srgb, var(--alpha-surface) 84%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 92%, transparent);
   box-shadow: var(--mac-shadow-1);
+  content-visibility: auto;
+  contain-intrinsic-size: 160px;
 }
 
 .macos-auth-stage {
@@ -293,8 +693,8 @@
   inset: -20px -12px;
   pointer-events: none;
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-accent) 18%, transparent), transparent 34%),
-    radial-gradient(circle at bottom right, color-mix(in srgb, var(--alpha-border) 26%, transparent), transparent 30%);
+    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-highlight) 14%, transparent), transparent 34%),
+    radial-gradient(circle at bottom right, color-mix(in srgb, var(--alpha-accent) 16%, transparent), transparent 30%);
   opacity: 0.82;
 }
 
@@ -304,10 +704,10 @@
   border-radius: 30px;
   border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
   background:
-    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 34%),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), transparent 34%),
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--alpha-surface) 96%, #fff 4%),
+      color-mix(in srgb, var(--alpha-surface) 98%, transparent),
       color-mix(in srgb, var(--alpha-panel) 14%, var(--alpha-surface) 86%)
     );
   box-shadow: var(--alpha-shadow);
@@ -319,7 +719,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255,255,255,0.18), transparent 28%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--alpha-text) 8%, transparent), transparent 28%);
 }
 
 .macos-auth-card > * {
@@ -342,6 +742,81 @@
   transform: translateY(-1px);
 }
 
+.macos-modal-compact {
+  border-radius: 28px;
+  padding: 0;
+  backdrop-filter: blur(10px);
+}
+
+.macos-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 24px 0;
+}
+
+.macos-modal-title {
+  margin: 0;
+  font-family: var(--mac-font-stack);
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  color: var(--alpha-text);
+}
+
+.macos-modal-description {
+  margin: 8px 0 0;
+  font-family: var(--mac-font-stack);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--alpha-text-muted);
+}
+
+.macos-modal-section-label {
+  margin: 0;
+  font-family: var(--mac-font-stack);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--alpha-text-soft);
+}
+
+.macos-modal-label {
+  font-family: var(--mac-font-stack);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--alpha-text);
+}
+
+.macos-modal-input {
+  min-height: 48px;
+  font-family: var(--mac-font-stack);
+  font-size: 14px;
+}
+
+.macos-modal-note {
+  font-family: var(--mac-font-stack);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--alpha-text-muted);
+}
+
+.macos-modal-submit {
+  min-height: 40px;
+  padding-inline: 16px;
+  border-radius: 999px;
+  font-family: var(--mac-font-stack);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.macos-modal-block {
+  padding-inline: 24px;
+}
+
 @media (max-width: 640px) {
   .macos-auth-stage::before {
     inset: -12px -2px;
@@ -356,6 +831,8 @@
 .macos-landing-shell {
   position: relative;
   overflow: hidden;
+  font-family: var(--alpha-landing-font);
+  background: var(--alpha-bg);
 }
 
 .macos-landing-shell::before {
@@ -364,15 +841,725 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-accent) 14%, transparent), transparent 32%),
-    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-border) 24%, transparent), transparent 36%);
+    linear-gradient(180deg, color-mix(in srgb, white 8%, transparent), transparent 14%),
+    linear-gradient(135deg, transparent 58%, color-mix(in srgb, white 4%, transparent) 100%);
+  opacity: 1;
+}
+
+html.dark .macos-landing-shell::before,
+.alpha-theme.dark .macos-landing-shell::before {
+  background:
+    radial-gradient(circle at 16% 12%, rgba(255, 255, 255, 0.07), transparent 18%),
+    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.05), transparent 22%),
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0 82px,
+      rgba(255, 255, 255, 0.012) 82px 92px,
+      rgba(255, 255, 255, 0.16) 92px 95px,
+      rgba(255, 255, 255, 0.022) 95px 112px,
+      transparent 112px 210px
+    ),
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0 168px,
+      rgba(255, 255, 255, 0.022) 168px 175px,
+      rgba(255, 255, 255, 0.08) 175px 178px,
+      transparent 178px 312px
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 14%);
+  opacity: 0.72;
+}
+
+html.light .macos-landing-shell::before,
+.alpha-theme.light .macos-landing-shell::before {
+  background:
+    radial-gradient(circle at 16% 12%, rgba(0, 0, 0, 0.045), transparent 18%),
+    radial-gradient(circle at 82% 18%, rgba(0, 0, 0, 0.035), transparent 22%),
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0 82px,
+      rgba(0, 0, 0, 0.012) 82px 92px,
+      rgba(0, 0, 0, 0.11) 92px 95px,
+      rgba(0, 0, 0, 0.02) 95px 112px,
+      transparent 112px 210px
+    ),
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0 168px,
+      rgba(0, 0, 0, 0.018) 168px 175px,
+      rgba(0, 0, 0, 0.055) 175px 178px,
+      transparent 178px 312px
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.035), transparent 14%);
+  opacity: 0.9;
+}
+
+.macos-landing-shell::after {
+  content: none;
+}
+
+.macos-landing-shell .macos-section-label,
+.macos-landing-shell .macos-page-kicker,
+.macos-landing-shell .alpha-landing-nav-note {
+  letter-spacing: 0.22em;
+}
+
+.alpha-landing-nav-title {
+  font-family: var(--alpha-landing-display);
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  color: var(--alpha-text);
+}
+
+.alpha-landing-nav-note {
+  font-size: 11px;
+  color: var(--alpha-text-muted);
+}
+
+.alpha-landing-kicker {
+  font-family: var(--alpha-landing-font);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--alpha-highlight);
+}
+
+.alpha-landing-hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.alpha-landing-hero-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.alpha-landing-hero-copy--center {
+  align-items: center;
+  max-width: 46rem;
+}
+
+.alpha-landing-headline {
+  margin: 0;
+  max-width: min(100%, 980px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--alpha-landing-display);
+  font-size: clamp(2.7rem, 4.1vw, 4.25rem);
+  font-weight: 700;
+  line-height: 0.96;
+  letter-spacing: -0.06em;
+  color: var(--alpha-text);
+  text-align: center;
+}
+
+.alpha-landing-headline > span {
+  display: block;
+}
+
+.alpha-landing-headline-line {
+  display: inline-block;
+  padding-block: 0.02em;
+  white-space: nowrap;
+}
+
+.alpha-landing-headline-line--primary {
+  max-width: none;
+}
+
+.alpha-landing-headline-line--accent {
+  max-width: none;
+}
+
+.alpha-landing-headline-accent {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, white 86%, var(--alpha-accent-to) 14%) 0%,
+    color-mix(in srgb, var(--alpha-text) 78%, white 22%) 48%,
+    color-mix(in srgb, var(--alpha-accent-from) 74%, white 26%) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.alpha-landing-lead {
+  margin: 0;
+  max-width: 38rem;
+  font-size: clamp(1rem, 1.1vw, 1.06rem);
+  line-height: 1.72;
+  color: var(--alpha-text-muted);
+  text-wrap: pretty;
+  text-align: center;
+}
+
+.alpha-landing-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.alpha-landing-hero-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.alpha-landing-hero-flow--center {
+  justify-content: center;
+}
+
+.alpha-landing-hero-flow-item {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--alpha-text-muted);
+  background: color-mix(in srgb, var(--alpha-panel) 78%, transparent);
+}
+
+.alpha-landing-hero-meta {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--alpha-text-muted);
+}
+
+.alpha-landing-hero-meta--center {
+  max-width: 32rem;
+  text-align: center;
+}
+
+.alpha-landing-section-title {
+  margin: 0;
+  font-family: var(--alpha-landing-display);
+  font-size: clamp(1.9rem, 3.1vw, 2.7rem);
+  font-weight: 650;
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+  color: var(--alpha-text);
+  text-wrap: balance;
+}
+
+.alpha-landing-section-copy {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--alpha-text-muted);
+}
+
+.alpha-landing-block-title {
+  margin: 0;
+  font-family: var(--alpha-landing-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--alpha-text);
+}
+
+.alpha-landing-hero-panel,
+.alpha-landing-minimal-card,
+.alpha-landing-preview-shell,
+.alpha-landing-ecosystem-card,
+.alpha-landing-cta-shell,
+.alpha-landing-signal-card,
+.alpha-landing-lane-card {
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
+  background: color-mix(in srgb, var(--alpha-panel) 86%, transparent);
+  box-shadow: var(--alpha-shadow);
+}
+
+.alpha-landing-hero-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  padding: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, white 12%, transparent),
+      color-mix(in srgb, var(--alpha-border-strong) 8%, transparent)
+    ),
+    color-mix(in srgb, var(--alpha-panel) 92%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.alpha-landing-hero-panel--showcase {
+  width: min(100%, 620px);
+  margin-inline: auto;
+}
+
+.alpha-landing-hero-stage {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  padding-top: 0.5rem;
+}
+
+.alpha-landing-hero-stage-glow {
+  position: absolute;
+  inset: 2rem 10% auto;
+  height: 12rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at center, color-mix(in srgb, white 16%, transparent), transparent 70%);
+  opacity: 0.72;
+  transform: translate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+.alpha-landing-hero-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.alpha-landing-hero-panel-row {
+  display: grid;
+  gap: 4px;
+  padding: 14px 0;
+  border-top: 1px solid color-mix(in srgb, var(--alpha-border) 78%, transparent);
+}
+
+.alpha-landing-hero-panel-label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--alpha-text);
+}
+
+.alpha-landing-hero-panel-value {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--alpha-text-muted);
+}
+
+.alpha-landing-minimal-card,
+.alpha-landing-lane-card,
+.alpha-landing-signal-card,
+.alpha-landing-ecosystem-card {
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.alpha-landing-list-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.alpha-landing-list-dot {
+  margin-top: 11px;
+  height: 6px;
+  width: 6px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--alpha-accent-to);
+}
+
+.alpha-landing-preview-shell {
+  overflow: hidden;
+  border-radius: 28px;
+  padding: 10px;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--alpha-border) 84%, transparent),
+    var(--alpha-shadow-strong),
+    0 0 36px color-mix(in srgb, white 8%, transparent);
+}
+
+.alpha-landing-preview-shell--large {
+  width: min(100%, 760px);
+  justify-self: center;
+  padding: 12px;
+}
+
+.alpha-landing-preview-viewport {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.45rem;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--alpha-text) 8%, transparent),
+      color-mix(in srgb, var(--alpha-text) 3%, transparent)
+    ),
+  color-mix(in srgb, var(--alpha-panel) 94%, transparent);
+  cursor: grab;
+}
+
+.alpha-landing-preview-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.alpha-landing-preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--alpha-border) 80%, transparent);
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--alpha-surface-strong) 92%, transparent);
+}
+
+.alpha-landing-preview-toolbar-title,
+.alpha-landing-preview-toolbar-meta,
+.alpha-landing-preview-caption {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.alpha-landing-preview-toolbar-title {
+  color: var(--alpha-text);
+}
+
+.alpha-landing-drag-hint {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
+  color: var(--alpha-text);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.32);
+  pointer-events: none;
+}
+
+.alpha-landing-preview-nav {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.alpha-landing-preview-nav-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
+  color: var(--alpha-text);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.32);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.alpha-landing-preview-nav-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.38);
+}
+
+.alpha-landing-preview-nav-btn:active {
+  transform: translateY(0);
+}
+
+.alpha-landing-preview-toolbar-meta,
+.alpha-landing-preview-caption {
+  color: var(--alpha-text-muted);
+}
+
+.alpha-landing-preview-track {
+  display: flex;
+  width: 100%;
+  transition: transform 760ms cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+}
+
+.alpha-landing-preview-slide {
+  flex: 0 0 100%;
+}
+
+.alpha-landing-preview-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9.3;
+  object-fit: cover;
+}
+
+.alpha-landing-preview-caption {
+  padding: 12px 14px 14px;
+  background: color-mix(in srgb, var(--alpha-surface-strong) 78%, transparent);
+}
+
+.alpha-landing-ecosystem-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 220px;
+  padding: 16px 18px;
+}
+
+.alpha-landing-cta-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  border-radius: 28px;
+  padding: 28px;
+}
+
+.alpha-landing-hero-atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.alpha-landing-hero-atmosphere::before,
+.alpha-landing-hero-atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: -12% -10%;
+}
+
+html.dark .alpha-landing-hero-atmosphere::before,
+.alpha-theme.dark .alpha-landing-hero-atmosphere::before {
+  background:
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0 104px,
+      rgba(255, 255, 255, 0.018) 104px 118px,
+      rgba(255, 255, 255, 0.22) 118px 122px,
+      rgba(255, 255, 255, 0.026) 122px 148px,
+      transparent 148px 288px
+    ),
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0 212px,
+      rgba(255, 255, 255, 0.02) 212px 223px,
+      rgba(255, 255, 255, 0.12) 223px 226px,
+      transparent 226px 386px
+    );
+  opacity: 0.84;
+}
+
+html.light .alpha-landing-hero-atmosphere::before,
+.alpha-theme.light .alpha-landing-hero-atmosphere::before {
+  background:
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0 104px,
+      rgba(0, 0, 0, 0.016) 104px 118px,
+      rgba(0, 0, 0, 0.12) 118px 122px,
+      rgba(0, 0, 0, 0.022) 122px 148px,
+      transparent 148px 288px
+    ),
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0 212px,
+      rgba(0, 0, 0, 0.018) 212px 223px,
+      rgba(0, 0, 0, 0.06) 223px 226px,
+      transparent 226px 386px
+    );
+  opacity: 0.78;
+}
+
+html.dark .alpha-landing-hero-atmosphere::after,
+.alpha-theme.dark .alpha-landing-hero-atmosphere::after {
+  background:
+    radial-gradient(circle at 8% 6%, rgba(255, 255, 255, 0.08), transparent 18%),
+    radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.07), transparent 22%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), transparent 22%);
+  opacity: 0.9;
+}
+
+html.light .alpha-landing-hero-atmosphere::after,
+.alpha-theme.light .alpha-landing-hero-atmosphere::after {
+  background:
+    radial-gradient(circle at 8% 6%, rgba(0, 0, 0, 0.045), transparent 18%),
+    radial-gradient(circle at 88% 14%, rgba(0, 0, 0, 0.04), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent 22%);
+  opacity: 0.88;
+}
+
+.alpha-landing-star-dot {
+  position: absolute;
+  height: 2px;
+  width: 2px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--alpha-text) 36%, transparent);
+  opacity: 0.6;
+}
+
+.alpha-landing-sky-streak {
+  position: absolute;
+  width: var(--shoot-length, 190px);
+  height: 2px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--alpha-text) 10%, transparent) 22%,
+      color-mix(in srgb, var(--alpha-text) 84%, transparent) 54%,
+      transparent 100%
+    );
+  box-shadow: 0 0 16px color-mix(in srgb, var(--alpha-text) 18%, transparent);
+  opacity: 0;
+  transform: translate3d(0, 0, 0) rotate(-35deg) scaleX(0.42);
+  transform-origin: left center;
+  animation: alpha-landing-shooting-star var(--shoot-duration, 16s) cubic-bezier(0.16, 0.7, 0.22, 1) infinite;
+  animation-delay: var(--shoot-delay, 0s);
+  will-change: transform, opacity;
+}
+
+.alpha-landing-icon-badge {
+  display: inline-flex;
+  height: 38px;
+  width: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 90%, transparent);
+  color: var(--alpha-highlight);
+}
+
+.alpha-landing-status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 90%, transparent);
+  padding: 9px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--alpha-text-muted);
+}
+
+.macos-landing-shell .macos-page-header,
+.macos-landing-shell .macos-premium-card,
+.macos-landing-shell .macos-landing-card,
+.macos-landing-shell .terminal-card,
+.macos-landing-shell .macos-nav-shell,
+.macos-landing-shell .macos-hero-mark-stage,
+.macos-landing-shell .macos-hero-menu-panel {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+}
+
+.macos-landing-shell .terminal-card {
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
+  background: color-mix(in srgb, var(--alpha-panel) 88%, transparent);
+}
+
+.macos-landing-shell .macos-page-header,
+.macos-landing-shell .macos-premium-card,
+.macos-landing-shell .macos-landing-card,
+.macos-landing-shell .macos-nav-shell,
+.macos-landing-shell .macos-hero-mark-stage {
+  border-color: color-mix(in srgb, var(--alpha-border) 84%, transparent);
+  background: color-mix(in srgb, var(--alpha-panel) 88%, transparent);
+}
+
+.macos-landing-shell .macos-page-kicker,
+.macos-landing-shell .macos-section-label {
+  font-family: var(--alpha-landing-font);
+  letter-spacing: 0.2em;
+}
+
+.macos-hero-wordmark {
+  margin: 0;
+  font-family: var(--mac-display-stack);
+  font-size: clamp(3.5rem, 8vw, 6.4rem);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.06em;
+  color: var(--alpha-text);
+  text-shadow:
+    0 0 28px rgba(255, 38, 38, 0.12),
+    0 0 60px rgba(94, 9, 9, 0.14);
+}
+
+.macos-landing-viewport {
+  position: relative;
+  min-height: calc(100svh - 24px);
+  border-radius: clamp(28px, 3vw, 42px);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-highlight) 7%, transparent), transparent 28%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 99%, transparent), color-mix(in srgb, var(--alpha-panel) 94%, transparent));
+  box-shadow:
+    0 30px 90px rgba(18, 20, 31, 0.14),
+    var(--alpha-shadow-strong);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.macos-landing-viewport::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-accent) 8%, transparent), transparent 32%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-text) 7%, transparent), transparent 22%);
+  opacity: 0.9;
+}
+
+.macos-landing-viewport::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  pointer-events: none;
+  border-radius: calc(clamp(28px, 3vw, 42px) - 10px);
+  border: 1px solid color-mix(in srgb, white 10%, transparent);
+  opacity: 0.5;
+}
+
+.macos-landing-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.macos-landing-width {
+  width: min(100%, 1180px);
+  margin-inline: auto;
 }
 
 .macos-nav-shell {
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--alpha-border) 90%, transparent);
-  background: color-mix(in srgb, var(--alpha-surface) 94%, transparent);
-  box-shadow: var(--mac-shadow-1);
+  background: color-mix(in srgb, var(--alpha-panel) 88%, transparent);
+  box-shadow: var(--alpha-shadow);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
 }
 
 .macos-landing-card {
@@ -380,9 +1567,15 @@
   border-radius: 28px;
   border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
   background:
-    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-accent) 12%, transparent), transparent 36%),
-    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, #fff 4%), color-mix(in srgb, var(--alpha-panel) 88%, transparent));
+    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), transparent 36%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 98%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
   box-shadow: var(--mac-shadow-2);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease;
+  will-change: transform;
 }
 
 .macos-landing-card::before {
@@ -390,12 +1583,721 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255,255,255,0.16), transparent 22%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--alpha-text) 7%, transparent), transparent 22%);
+}
+
+.macos-landing-card:hover {
+  transform: translate3d(0, -2px, 0);
+  border-color: color-mix(in srgb, var(--alpha-highlight) 18%, var(--alpha-border));
+}
+
+.macos-hero-cosmos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.alpha-landing-space::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255,255,255,0.08) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 56% 30%, rgba(255,255,255,0.08) 0 1.1px, transparent 1.7px),
+    radial-gradient(circle at 34% 74%, rgba(255,255,255,0.08) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 74% 64%, rgba(255,255,255,0.07) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 88% 42%, rgba(255,255,255,0.08) 0 1.2px, transparent 1.8px);
+  opacity: 0.45;
+}
+
+.alpha-landing-space-grid {
+  position: absolute;
+  inset: -10% -5%;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0.015), transparent 34%),
+    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.08), transparent 18%),
+    radial-gradient(circle at 76% 24%, rgba(255, 255, 255, 0.08), transparent 18%),
+    radial-gradient(circle at 64% 70%, rgba(160, 160, 160, 0.09), transparent 24%);
+  opacity: 0.84;
+}
+
+.alpha-landing-space-glow {
+  position: absolute;
+  inset: -12% -6% auto 42%;
+  height: min(44rem, 68vw);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.12), transparent 52%);
+  filter: blur(24px);
+  opacity: 0.52;
+}
+
+.macos-hero-cosmos::before {
+  content: "";
+  position: absolute;
+  inset: -12% -8% -8%;
+  background:
+    radial-gradient(circle at 74% 34%, rgba(255, 255, 255, 0.12), transparent 24%),
+    radial-gradient(circle at 62% 54%, rgba(120, 120, 120, 0.1), transparent 30%),
+    radial-gradient(circle at 24% 28%, rgba(255,255,255,0.045), transparent 18%);
+  opacity: 0.94;
+}
+
+.macos-hero-cosmos-haze {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 74% 38%, rgba(255, 255, 255, 0.1), transparent 18%),
+    radial-gradient(circle at 80% 66%, rgba(128, 128, 128, 0.08), transparent 20%);
+  filter: blur(28px);
+  opacity: 0.54;
+}
+
+.alpha-landing-logo-field {
+  position: absolute;
+  right: clamp(0rem, 5vw, 4.5rem);
+  top: 3%;
+  width: min(36rem, 48vw);
+  aspect-ratio: 1;
+  transform-origin: center;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+.alpha-landing-logo-spin {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: alpha-landing-logo-spin 64s linear infinite;
+  will-change: transform;
+}
+
+.alpha-landing-jupiter-shell {
+  position: absolute;
+  inset: 8%;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border-strong) 62%, transparent);
+  background:
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.86), transparent 18%),
+    radial-gradient(circle at 72% 70%, rgba(255, 255, 255, 0.16), transparent 24%),
+    linear-gradient(
+      180deg,
+      #fefefe 0%,
+      #d9d9d9 9%,
+      #8b8b8b 18%,
+      #f3f3f3 28%,
+      #9e9e9e 39%,
+      #ececec 49%,
+      #787878 59%,
+      #d8d8d8 69%,
+      #949494 80%,
+      #efefef 90%,
+      #7f7f7f 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    inset 0 -42px 72px rgba(0, 0, 0, 0.18),
+    0 26px 54px rgba(0, 0, 0, 0.24);
+}
+
+.alpha-landing-jupiter-shell::before {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 24%),
+    radial-gradient(circle at 62% 58%, rgba(0, 0, 0, 0.12), transparent 24%);
+  opacity: 0.8;
+}
+
+.alpha-landing-jupiter-shell::after {
+  content: "";
+  position: absolute;
+  right: 22%;
+  top: 58%;
+  width: 18%;
+  height: 10%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.42), transparent 30%),
+    linear-gradient(90deg, rgba(105, 105, 105, 0.82), rgba(228, 228, 228, 0.74));
+  opacity: 0.58;
+  filter: blur(1px);
+}
+
+.alpha-landing-jupiter-band {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 9%;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent),
+    rgba(70, 70, 70, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.alpha-landing-jupiter-band--one {
+  top: 18%;
+}
+
+.alpha-landing-jupiter-band--two {
+  top: 34%;
+  left: 6%;
+  right: 12%;
+  opacity: 0.88;
+}
+
+.alpha-landing-jupiter-band--three {
+  top: 50%;
+  left: 12%;
+  right: 8%;
+  opacity: 0.82;
+}
+
+.alpha-landing-jupiter-band--four {
+  top: 68%;
+  opacity: 0.76;
+}
+
+.alpha-landing-jupiter-ring {
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  top: 44%;
+  height: 14%;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent),
+    rgba(255, 255, 255, 0.04);
+  transform: rotate(-14deg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 0 18px rgba(255, 255, 255, 0.08);
+}
+
+.alpha-landing-jupiter-ring--lower {
+  top: 47%;
+  left: -2%;
+  right: -8%;
+  opacity: 0.5;
+  transform: rotate(-14deg) scale(0.9);
+}
+
+.alpha-landing-logo-sheen {
+  position: absolute;
+  inset: -18% auto auto -46%;
+  width: 34%;
+  height: 150%;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.28), rgba(255,255,255,0));
+  opacity: 0;
+  transform: rotate(-26deg) translate3d(0, 0, 0);
+  pointer-events: none;
+  animation: alpha-landing-logo-sheen 16s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.alpha-landing-logo-halo {
+  position: absolute;
+  inset: 18%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent 56%);
+  filter: blur(12px);
+}
+
+.alpha-landing-logo-core {
+  position: absolute;
+  inset: 34%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, white 24%, var(--alpha-border));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, white 16%, transparent), transparent 34%),
+    color-mix(in srgb, var(--alpha-panel) 88%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 18%, transparent),
+    0 22px 48px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.alpha-landing-logo-mark {
+  filter: brightness(1.06) contrast(1.04);
+  opacity: 0.98;
+}
+
+.alpha-landing-logo-ring {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 45%;
+  height: 14%;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-text) 14%, transparent);
+}
+
+.alpha-landing-logo-ring--outer {
+  transform: rotate(-18deg) scale(1.03);
+  opacity: 0.56;
+}
+
+.alpha-landing-logo-ring--inner {
+  transform: rotate(58deg) scale(0.8);
+  opacity: 0.34;
+}
+
+.alpha-landing-orbit-dot {
+  position: absolute;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--alpha-text) 54%, transparent);
+}
+
+.alpha-landing-orbit-dot--one {
+  top: 30%;
+  right: 20%;
+  width: 8px;
+  height: 8px;
+}
+
+.alpha-landing-orbit-dot--two {
+  bottom: 28%;
+  left: 20%;
+  width: 5px;
+  height: 5px;
+}
+
+.alpha-landing-orbit-dot--three {
+  top: 52%;
+  left: 12%;
+  width: 4px;
+  height: 4px;
+}
+
+.macos-hero-cosmos-planet {
+  position: absolute;
+  top: 3%;
+  right: -8%;
+  width: min(44rem, 62vw);
+  aspect-ratio: 1;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.macos-hero-cosmos-core {
+  position: absolute;
+  inset: 22%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 76%, transparent);
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255,255,255,0.14), transparent 22%),
+    radial-gradient(circle at 72% 68%, rgba(255, 36, 36, 0.12), transparent 26%),
+    linear-gradient(160deg, rgba(38, 18, 18, 0.7), rgba(14, 14, 14, 0.74));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -36px 60px rgba(4, 6, 14, 0.18),
+    0 36px 80px rgba(7, 10, 19, 0.18);
+  backdrop-filter: blur(12px);
+  animation: macos-cosmos-breathe 18s ease-in-out infinite;
+}
+
+.macos-hero-cosmos-core-glow {
+  position: absolute;
+  inset: -10%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, color-mix(in srgb, var(--alpha-highlight) 18%, transparent), transparent 54%);
+  filter: blur(18px);
+  opacity: 0.75;
+}
+
+.macos-hero-cosmos-ring {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 42%;
+  height: 17%;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 58%, transparent);
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 16%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.12) 84%, transparent 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 0 22px rgba(255,255,255,0.05);
+}
+
+.macos-hero-cosmos-ring--back {
+  transform: rotate(-16deg) scale(1.12);
+  opacity: 0.45;
+}
+
+.macos-hero-cosmos-ring--front {
+  transform: rotate(-16deg) scale(0.96);
+  opacity: 0.28;
+}
+
+.macos-hero-shooting-star {
+  position: absolute;
+  width: var(--shoot-size, 180px);
+  height: 1.5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.92), rgba(255,255,255,0));
+  opacity: 0;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.28));
+  transform: rotate(-24deg) translate3d(0, 0, 0) scaleX(0.55);
+  animation: macos-shooting-star var(--shoot-duration, 12s) linear infinite;
+  animation-delay: var(--shoot-delay, 0s);
+}
+
+.macos-hero-shooting-star::after {
+  content: "";
+  position: absolute;
+  right: 10%;
+  top: -1.5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 16px rgba(255,255,255,0.36);
+}
+
+.alpha-landing-shooting-star {
+  position: absolute;
+  width: var(--shoot-size, 180px);
+  height: 1.5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.92), rgba(255,255,255,0));
+  opacity: 0;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.24));
+  transform: rotate(-24deg) translate3d(0, 0, 0) scaleX(0.52);
+  animation: macos-shooting-star var(--shoot-duration, 12s) linear infinite;
+  animation-delay: var(--shoot-delay, 0s);
+}
+
+.alpha-landing-shooting-star::after {
+  content: "";
+  position: absolute;
+  right: 8%;
+  top: -1.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 0 16px rgba(255,255,255,0.32);
+}
+
+.macos-hero-mark-stage {
+  position: relative;
+  min-height: 100%;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
+  background:
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), transparent 28%),
+    radial-gradient(circle at 82% 18%, color-mix(in srgb, var(--alpha-accent-to) 10%, transparent), transparent 26%),
+    linear-gradient(160deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 92%, transparent));
+  box-shadow:
+    0 24px 58px rgba(18, 20, 31, 0.12),
+    var(--mac-shadow-2);
+  isolation: isolate;
+}
+
+.macos-hero-mark-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.16), transparent 26%),
+    radial-gradient(circle at 72% 44%, color-mix(in srgb, var(--alpha-accent) 8%, transparent), transparent 34%);
+  opacity: 0.95;
+}
+
+.macos-hero-mark-stage::after {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  pointer-events: none;
+  border-radius: 28px;
+  border: 1px solid color-mix(in srgb, white 10%, transparent);
+  opacity: 0.42;
+}
+
+.alpha-landing-preview-ambient {
+  display: none;
+}
+
+.alpha-landing-preview-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.08), transparent 18%),
+    radial-gradient(circle at 20% 18%, rgba(255, 45, 45, 0.08), transparent 28%);
+}
+
+.macos-hero-mark-glow {
+  position: absolute;
+  right: 2%;
+  top: 8%;
+  width: min(30rem, 86%);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, color-mix(in srgb, var(--alpha-accent-to) 16%, transparent), transparent 52%);
+  filter: blur(18px);
+  pointer-events: none;
+  animation: macos-orb-drift 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+.macos-hero-mark-shell {
+  position: relative;
+  display: flex;
+  width: min(100%, 380px);
+  aspect-ratio: 1;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,0.18), transparent 24%),
+    radial-gradient(circle at 70% 72%, color-mix(in srgb, var(--alpha-accent-to) 8%, transparent), transparent 36%),
+    linear-gradient(145deg, color-mix(in srgb, var(--alpha-surface) 98%, transparent), color-mix(in srgb, var(--alpha-panel) 88%, transparent));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.18),
+    inset 0 -28px 58px rgba(0,0,0,0.08),
+    0 26px 60px rgba(18, 20, 31, 0.14);
+  backdrop-filter: blur(10px);
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.macos-hero-menu-grid {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.macos-hero-menu-panel {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 80%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 74%, transparent), color-mix(in srgb, var(--alpha-panel) 66%, transparent));
+  padding: 16px;
+  backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.macos-hero-menu-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,0.1), transparent 34%);
+}
+
+.macos-hero-menu-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 74%, transparent);
+  background: rgba(255,255,255,0.04);
+  padding: 7px 11px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--alpha-text-muted);
+}
+
+.macos-hero-mini-card {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-highlight) 9%, transparent), transparent 38%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
+  box-shadow: 0 16px 38px rgba(18, 20, 31, 0.1);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.macos-hero-mini-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.16), transparent 28%);
+}
+
+.macos-hero-mini-card:hover {
+  transform: translate3d(0, -2px, 0);
+  border-color: color-mix(in srgb, var(--alpha-highlight) 18%, var(--alpha-border));
+  box-shadow: 0 22px 44px rgba(18, 20, 31, 0.14);
+}
+
+.macos-hero-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.macos-hero-list-item:hover {
+  transform: translateX(2px);
+}
+
+.macos-hero-list-icon {
+  display: inline-flex;
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), color-mix(in srgb, var(--alpha-surface) 88%, transparent));
+  color: var(--alpha-accent-to);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.macos-hero-cadence-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 80%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 74%, transparent);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.macos-hero-cadence-row:hover {
+  transform: translate3d(0, -1px, 0);
+  border-color: color-mix(in srgb, var(--alpha-highlight) 16%, var(--alpha-border));
+}
+
+.macos-hero-cadence-step {
+  display: inline-flex;
+  min-width: 42px;
+  justify-content: center;
+  padding: 8px 10px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 82%, transparent);
+  font-family: var(--mac-font-stack);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--alpha-text);
+}
+
+.macos-hero-mark-shell::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, white 14%, transparent);
+  opacity: 0.48;
+}
+
+.macos-hero-mark-shell::after {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, white 8%, transparent);
+  opacity: 0.24;
+  transform: scale(1.04);
+}
+
+.macos-hero-mark-grid {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, transparent 58%, rgba(255,255,255,0.08) 58.5%, transparent 59.5%),
+    radial-gradient(circle at center, transparent 70%, rgba(255,255,255,0.05) 70.5%, transparent 71.5%),
+    linear-gradient(90deg, transparent 0, transparent calc(50% - 0.5px), rgba(255,255,255,0.05) calc(50% - 0.5px), rgba(255,255,255,0.05) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(transparent 0, transparent calc(50% - 0.5px), rgba(255,255,255,0.05) calc(50% - 0.5px), rgba(255,255,255,0.05) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+  opacity: 0.52;
+}
+
+.macos-scroll-section {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 320ms cubic-bezier(.22,1,.36,1),
+    transform 460ms cubic-bezier(.22,1,.36,1);
+  will-change: opacity, transform;
+}
+
+.macos-scroll-section[data-visible="true"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.macos-scroll-section [data-stagger] {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 320ms cubic-bezier(.22,1,.36,1),
+    transform 460ms cubic-bezier(.22,1,.36,1);
+  transition-delay: var(--stagger-delay, 0ms);
+}
+
+.macos-scroll-section[data-visible="true"] [data-stagger] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.macos-landing-enter {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0) scale(0.985);
+  animation: macos-landing-reveal 760ms cubic-bezier(.16,1,.3,1) forwards;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+.macos-landing-orb {
+  animation: macos-orb-drift 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+.macos-landing-orb--slow {
+  animation-duration: 24s;
+}
+
+.macos-landing-orb--reverse {
+  animation-direction: alternate-reverse;
 }
 
 .projects-marquee {
   position: relative;
   overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, black 9%, black 91%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, black 9%, black 91%, transparent 100%);
 }
 
 .projects-marquee__track {
@@ -404,7 +2306,12 @@
   align-items: center;
   gap: 1.25rem;
   will-change: transform;
-  animation: projects-marquee-right 36s linear infinite;
+  animation: projects-marquee-right 38s linear infinite;
+}
+
+.projects-marquee__track--reverse {
+  animation-direction: reverse;
+  animation-duration: 34s;
 }
 
 .projects-marquee__group {
@@ -418,6 +2325,34 @@
   animation-play-state: paused;
 }
 
+.alpha-landing-ecosystem-marquee {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, black 8%, black 92%, transparent 100%);
+}
+
+.alpha-landing-ecosystem-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 12px;
+  will-change: transform;
+  animation: alpha-landing-ecosystem-forward 42s linear infinite;
+}
+
+.alpha-landing-ecosystem-track--reverse {
+  animation-name: alpha-landing-ecosystem-reverse;
+  animation-duration: 46s;
+}
+
+.alpha-landing-ecosystem-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 12px;
+}
+
 @keyframes projects-marquee-right {
   from {
     transform: translate3d(-50%, 0, 0);
@@ -427,14 +2362,237 @@
   }
 }
 
+@keyframes alpha-landing-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes alpha-landing-logo-sheen {
+  0%, 72%, 100% {
+    opacity: 0;
+    transform: rotate(-26deg) translate3d(0, 0, 0);
+  }
+  76% {
+    opacity: 0.22;
+  }
+  92% {
+    opacity: 0.08;
+    transform: rotate(-26deg) translate3d(250%, 0, 0);
+  }
+}
+
+@keyframes alpha-landing-shooting-star {
+  0%, 82% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-35deg) scaleX(0.42);
+  }
+  86% {
+    opacity: 0.88;
+  }
+  100% {
+    opacity: 0;
+    transform:
+      translate3d(var(--shoot-distance-x, 110px), var(--shoot-distance-y, 72px), 0)
+      rotate(-35deg)
+      scaleX(1);
+  }
+}
+
+@keyframes alpha-landing-ecosystem-forward {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes alpha-landing-ecosystem-reverse {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .alpha-landing-logo-field {
+    right: 5%;
+    top: 6%;
+    width: min(28rem, 54vw);
+  }
+
+  .alpha-landing-headline {
+    max-width: min(100%, 980px);
+    font-size: clamp(2.4rem, 4vw, 3.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .alpha-landing-logo-field {
+    right: -2%;
+    top: 10%;
+    width: min(21rem, 62vw);
+  }
+
+  .alpha-landing-hero-copy {
+    align-items: center;
+  }
+
+  .alpha-landing-headline {
+    max-width: 100%;
+    font-size: clamp(2.6rem, 12vw, 4rem);
+    text-wrap: balance;
+    text-align: center;
+  }
+
+  .alpha-landing-headline-line {
+    white-space: normal;
+  }
+
+  .alpha-landing-headline-line--primary,
+  .alpha-landing-headline-line--accent {
+    max-width: none;
+  }
+
+  .alpha-landing-lead {
+    line-height: 1.72;
+    text-align: center;
+  }
+
+  .alpha-landing-preview-shell--large {
+    width: 100%;
+  }
+
+  .alpha-landing-hero-stage {
+    padding-top: 0;
+  }
+
+  .alpha-landing-hero-panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alpha-landing-logo-field,
+  .alpha-landing-logo-spin,
+  .alpha-landing-preview-track,
+  .alpha-landing-ecosystem-track,
+  .alpha-landing-sky-streak,
+  .alpha-landing-logo-sheen {
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
 @keyframes macos-rise {
   from {
     opacity: 0;
-    transform: translateY(24px) scale(0.985);
+    transform: translate3d(0, 18px, 0) scale(0.992);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes macos-window-open {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes macos-route-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes macos-card-entry {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes macos-ambient-pan {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.06) translate3d(0, -18px, 0);
+  }
+}
+
+@keyframes macos-orb-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(16px, -18px, 0) scale(1.06);
+  }
+}
+
+@keyframes macos-cosmos-breathe {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) scale(1.03);
+  }
+}
+
+@keyframes macos-landing-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.985);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes macos-shooting-star {
+  0%, 72%, 100% {
+    opacity: 0;
+    transform: rotate(-24deg) translate3d(0, 0, 0) scaleX(0.55);
+  }
+  76% {
+    opacity: 0.82;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-24deg) translate3d(220px, 145px, 0) scaleX(1);
+  }
+}
+
+@keyframes macos-preview-breathe {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
@@ -456,12 +2614,65 @@
   }
 }
 
+@keyframes macos-preview-slide-right {
+  from {
+    opacity: 0;
+    transform: translate3d(48px, 0, 0) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes macos-preview-slide-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-48px, 0, 0) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
 .macos-animate-up {
-  animation: macos-rise 360ms cubic-bezier(.22,1,.36,1) both;
+  animation: macos-rise 320ms cubic-bezier(.22,1,.36,1) both;
 }
 
 .macos-animate-float {
   animation: macos-float 7s ease-in-out infinite;
+}
+
+.macos-window-open {
+  animation: macos-window-open 220ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.macos-route-transition {
+  animation: macos-route-enter 220ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.macos-card-entry {
+  --mac-delay: 0ms;
+  animation: macos-card-entry 160ms linear both;
+  animation-delay: var(--mac-delay);
+}
+
+.macos-preview-frame--right {
+  animation: macos-preview-slide-right 340ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.macos-preview-frame--left {
+  animation: macos-preview-slide-left 340ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.macos-preview-screen-active {
+  animation: macos-preview-breathe 620ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.macos-card-entry:nth-child(n+9) {
+  animation: none;
+  opacity: 1;
 }
 
 .macos-sheen {
@@ -484,4 +2695,50 @@
 
 .macos-sheen:hover::after {
   transform: skewX(-18deg) translateX(320%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .macos-animate-up,
+  .macos-animate-float,
+  .macos-window-open,
+  .macos-route-transition,
+  .macos-card-entry,
+  .macos-landing-enter,
+  .macos-landing-orb,
+  .macos-hero-cosmos-core,
+  .macos-hero-shooting-star,
+  .macos-sheen::after,
+  .projects-marquee__track,
+  .macos-preview-frame--right,
+  .macos-preview-frame--left,
+  .macos-preview-screen-active {
+    animation: none !important;
+    transition-duration: 1ms !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .macos-card-hover:hover,
+  .macos-premium-card:hover,
+  .macos-landing-card:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .macos-landing-shell {
+    overflow: hidden;
+  }
+
+  .macos-landing-shell::after {
+    inset: 12% -35% auto 34%;
+    height: 420px;
+    opacity: 0.62;
+  }
+
+  .macos-hero-cosmos-planet {
+    top: 6%;
+    right: -32%;
+    width: min(36rem, 112vw);
+  }
 }

@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
 import { Check, MoonStar, Sparkles } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -25,18 +24,18 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
   const softAccentStrong = 'color-mix(in srgb, var(--alpha-accent) 28%, transparent)';
 
   return (
-    <div className="macos-root min-h-screen overflow-hidden" style={{ background: 'var(--alpha-bg)' }}>
+    <div className="macos-root macos-auth-shell min-h-screen overflow-hidden" style={{ background: 'var(--alpha-bg)' }}>
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute left-[4%] top-[6%] h-44 w-44 rounded-full blur-3xl"
+          className="absolute left-[4%] top-[6%] h-36 w-36 rounded-full blur-2xl opacity-60"
           style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 22%, transparent), transparent 68%)' }}
         />
         <div
-          className="absolute right-[8%] top-[12%] h-52 w-52 rounded-full blur-3xl"
+          className="absolute right-[8%] top-[12%] h-40 w-40 rounded-full blur-2xl opacity-55"
           style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-border) 26%, transparent), transparent 72%)' }}
         />
         <div
-          className="absolute bottom-[10%] left-[14%] h-44 w-44 rounded-full blur-3xl"
+          className="absolute bottom-[10%] left-[14%] h-36 w-36 rounded-full blur-2xl opacity-55"
           style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 16%, transparent), transparent 70%)' }}
         />
       </div>
@@ -88,7 +87,7 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                       boxShadow: '0 14px 30px rgba(18, 20, 31, 0.14)',
                     }}
                   >
-                    <img src="/logo.png" alt="Alpha Tracker" className="h-7 w-7 object-contain" />
+                    <img src="/logo.png" alt="Alpha Tracker" className="alpha-brand-logo h-7 w-7 object-contain" />
                   </div>
                   <div className="min-w-0">
                     <p
@@ -174,11 +173,11 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                     className="absolute right-[8%] top-[20%] hidden h-48 w-48 rounded-full lg:block"
                     style={{ border: `1px dashed ${shellBorder}` }}
                   />
-                  <img
-                    src="/logo.png"
-                    alt=""
-                    className="absolute right-[8%] top-[18%] hidden h-56 w-56 object-contain opacity-[0.08] lg:block"
-                  />
+                    <img
+                      src="/logo.png"
+                      alt=""
+                      className="alpha-brand-logo absolute right-[8%] top-[18%] hidden h-56 w-56 object-contain opacity-[0.08] lg:block"
+                    />
                 </div>
 
                 <div className="relative z-10 max-w-[34rem]">
@@ -238,18 +237,12 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
 
               <div className="flex items-start justify-center lg:justify-end">
                 <div className="macos-auth-stage w-full max-w-[430px] lg:min-h-[548px]">
-                  <AnimatePresence initial={false} mode="wait">
-                    <motion.div
-                      key={isLoginRoute ? 'login' : 'register'}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                      style={{ willChange: 'opacity' }}
-                    >
-                      {children}
-                    </motion.div>
-                  </AnimatePresence>
+                  <div
+                    key={isLoginRoute ? 'login' : 'register'}
+                    className="macos-window-open"
+                  >
+                    {children}
+                  </div>
                 </div>
               </div>
             </div>
@@ -272,7 +265,7 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                         border: `1px solid ${shellBorder}`,
                       }}
                     >
-                      <img src="/logo.png" alt="Alpha Tracker" className="h-9 w-9 object-contain" />
+                      <img src="/logo.png" alt="Alpha Tracker" className="alpha-brand-logo h-9 w-9 object-contain" />
                     </div>
                     <div>
                       <p

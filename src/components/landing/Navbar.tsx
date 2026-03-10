@@ -3,66 +3,85 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { MoonStar, SunMedium } from 'lucide-react';
 
+const navLinks = [
+  { label: 'Workflow', href: '#workflow' },
+  { label: 'Preview', href: '#preview' },
+  { label: 'Ecosystems', href: '#ecosystems' },
+];
+
 export function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
   return (
-    <nav className="fixed inset-x-0 top-4 z-50 px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <nav className="pointer-events-none fixed inset-x-0 top-0 z-[80] px-4 pb-4 pt-4 sm:px-6 lg:px-8">
+      <div className="macos-landing-width">
         <div
-          className="macos-nav-shell flex h-16 items-center justify-between px-4 sm:px-5"
+          className="macos-nav-shell pointer-events-auto flex h-[72px] items-center justify-between gap-3 px-4 sm:px-5"
           style={{
-            background: 'color-mix(in srgb, var(--alpha-surface) 84%, transparent)',
+            background: 'color-mix(in srgb, var(--alpha-panel) 88%, transparent)',
             borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
-            boxShadow: '0 18px 44px rgba(18, 20, 31, 0.12)',
           }}
         >
-          <Link to="/" className="flex items-center gap-3">
-            <img src="/logo.png" alt="Alpha Tracker" className="h-10 w-10 object-contain" />
-            <span
-              className="text-lg font-semibold tracking-[-0.02em]"
-              style={{ color: 'var(--alpha-text)' }}
-            >
-              ALPHA_TRACKER
-            </span>
-          </Link>
+          <div className="flex min-w-0 items-center gap-3">
+            <Link to="/" className="flex min-w-0 shrink-0 items-center gap-3">
+              <img src="/logo/logo.png" alt="Alpha Tracker" className="alpha-brand-logo h-10 w-10 object-contain" />
+              <div className="min-w-0">
+                <p className="alpha-landing-nav-title truncate">
+                  Alpha Tracker
+                </p>
+                <p className="alpha-landing-nav-note hidden sm:block">
+                  Disciplined crypto research and execution workspace
+                </p>
+              </div>
+            </Link>
+          </div>
 
           <div className="hidden items-center gap-8 md:flex">
-            {['Features', 'Projects', 'Pricing'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-sm font-medium transition-opacity duration-150 hover:opacity-85"
-                style={{ color: 'var(--alpha-text-muted)' }}
-              >
-                {item}
-              </a>
+            {navLinks.map((item) => (
+              item.href.startsWith('/') ? (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="text-sm font-medium transition-opacity duration-150 hover:opacity-85"
+                  style={{ color: 'var(--alpha-text-muted)' }}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="text-sm font-medium transition-opacity duration-150 hover:opacity-85"
+                  style={{ color: 'var(--alpha-text-muted)' }}
+                >
+                  {item.label}
+                </a>
+              )
             ))}
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <Link to="/login">
               <Button
                 variant="ghost"
                 className="rounded-full px-4 text-sm font-medium transition-opacity duration-150 hover:opacity-85"
                 style={{ color: 'var(--alpha-text-muted)' }}
               >
-                Login
+                Sign In
               </Button>
             </Link>
 
             <Link to="/register">
               <Button
-                className="macos-btn rounded-full px-5 text-sm font-semibold transition-opacity duration-150 hover:opacity-92"
+                className="macos-btn macos-sheen rounded-full px-5 text-sm font-semibold transition-opacity duration-150 hover:opacity-92"
                 style={{
-                  background:
-                    'linear-gradient(135deg, var(--alpha-accent-from), color-mix(in srgb, var(--alpha-accent-to) 78%, var(--alpha-accent) 22%))',
+                  background: 'var(--alpha-accent-to)',
                   color: 'var(--alpha-accent-contrast)',
-                  boxShadow: '0 16px 34px color-mix(in srgb, var(--alpha-accent-to) 24%, transparent)',
+                  border: '1px solid color-mix(in srgb, var(--alpha-accent-to) 72%, transparent)',
                 }}
               >
-                Sign Up
+                Start Free
               </Button>
             </Link>
 
@@ -72,7 +91,7 @@ export function Navbar() {
               style={{
                 borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
                 color: 'var(--alpha-text-muted)',
-                background: 'color-mix(in srgb, var(--alpha-surface) 92%, transparent)',
+                background: 'color-mix(in srgb, var(--alpha-surface) 88%, transparent)',
               }}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
             >

@@ -33,6 +33,10 @@ const AIRDROP_ALERT_RSS_URL = "https://airdropalert.com/feed/rssfeed";
 const RSS2JSON_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(AIRDROP_ALERT_RSS_URL)}`;
 const REFRESH_INTERVAL_MS = 1000 * 60 * 15;
 
+let cachedItems: AirdropNewsItem[] | null = null;
+let cachedError: string | null = null;
+let cachedAt = 0;
+
 const stripHtml = (value: string) => value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 
 const detectNewsTag = (item: Rss2JsonItem) => {
@@ -47,9 +51,9 @@ const detectNewsTag = (item: Rss2JsonItem) => {
 };
 
 export function useAirdropNews() {
-  const [items, setItems] = useState<AirdropNewsItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [items, setItems] = useState<AirdropNewsItem[]>(() => cachedItems ?? []);
+  const [loading, setLoading] = useState(() => cachedItems == null);
+  const [error, setError] = useState<string | null>(() => cachedError);
 
   useEffect(() => {
     let isMounted = true;
@@ -66,7 +70,7 @@ export function useAirdropNews() {
           throw new Error(payload.message || "News feed returned an invalid response");
         }
 
-        const normalized = (payload.items || []).slice(0, 6).map((item) => ({
+        const normalized = (payload.items || []).slice(0, 10).map((item) => ({
           id: item.link,
           title: item.title,
           link: item.link,
@@ -79,12 +83,17 @@ export function useAirdropNews() {
 
         if (!isMounted) return;
 
+        cachedItems = normalized;
+        cachedError = null;
+        cachedAt = Date.now();
         setItems(normalized);
         setError(null);
       } catch (error) {
         if (!isMounted) return;
         console.error("Failed to load airdrop news:", error);
-        setError(error instanceof Error ? error.message : "Failed to load airdrop news");
+        const message = error instanceof Error ? error.message : "Failed to load airdrop news";
+        cachedError = message;
+        setError(message);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -92,7 +101,16 @@ export function useAirdropNews() {
       }
     };
 
-    loadNews();
+    const cacheIsFresh = cachedItems && Date.now() - cachedAt < REFRESH_INTERVAL_MS;
+
+    if (cacheIsFresh) {
+      setItems(cachedItems ?? []);
+      setError(cachedError);
+      setLoading(false);
+    } else {
+      void loadNews();
+    }
+
     const intervalId = window.setInterval(loadNews, REFRESH_INTERVAL_MS);
 
     return () => {

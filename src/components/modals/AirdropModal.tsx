@@ -1,6 +1,7 @@
 // ALPHA TRECKER - Airdrop Modal (Add/Edit)
 import { useState, useEffect } from 'react';
 import {
+  DialogClose,
   Dialog,
   DialogContent,
   DialogHeader,
@@ -62,7 +63,7 @@ const normalizeDateInputValue = (value?: string) => {
   return `${year}-${month}-${day}`;
 };
 
-export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark = false }: AirdropModalProps) {
+export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: AirdropModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [projectLogo, setProjectLogo] = useState('');
@@ -75,7 +76,6 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   
-  // NEW: Priority and Deadline fields
   const [priority, setPriority] = useState<PriorityLevel>('Low');
   const [deadline, setDeadline] = useState<string>(getTodayDateInputValue());
   const [isPriority, setIsPriority] = useState(false);
@@ -93,9 +93,9 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
       setStatus(airdrop.status ?? 'Planning');
       setNotes(airdrop.notes ?? '');
       setTasks(airdrop.tasks ?? []);
-      setPriority((airdrop as any).priority ?? 'Low');
+      setPriority(airdrop.priority ?? 'Low');
       setDeadline(normalizeDateInputValue(airdrop.deadline ?? airdrop.createdAt));
-      setIsPriority((airdrop as any).isPriority ?? false);
+      setIsPriority(airdrop.isPriority ?? airdrop.is_priority ?? false);
     } else {
       resetForm();
     }
@@ -173,28 +173,60 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`max-w-2xl max-h-[90vh] overflow-y-auto macos-modal alpha-surface alpha-border`}>
-        <DialogHeader className="border-0 pb-0">
-          <DialogTitle className={`text-2xl font-mono alpha-text`}>
-            {mode === 'add' ? '> ADD_NEW_AIRDROP.exe' : '> EDIT_AIRDROP.exe'}
-          </DialogTitle>
-          <DialogDescription className={`font-mono alpha-muted`}>
-            {mode === 'add' 
-              ? 'Initialize new airdrop tracking protocol...' 
-              : 'Modify existing project parameters...'}
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent
+        showCloseButton={false}
+        className="max-h-[90vh] max-w-[760px] overflow-y-auto border-0 bg-transparent p-0 shadow-none"
+      >
+        <div className="macos-modal macos-modal-compact">
+          <div className="macos-modal-header">
+            <DialogHeader className="flex-1 gap-0 text-left">
+              <DialogTitle className="macos-modal-title">
+                {mode === 'add' ? 'Add Airdrop' : 'Edit Airdrop'}
+              </DialogTitle>
+              <DialogDescription className="macos-modal-description">
+                {mode === 'add'
+                  ? 'Buat project baru dengan tampilan lebih rapih dan ringan.'
+                  : 'Perbarui detail project tanpa gaya terminal lama.'}
+              </DialogDescription>
+            </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6 mt-4">
-          {/* Basic Info */}
-          <div className="space-y-4">
-            <h4 className={`text-sm font-mono uppercase tracking-wider alpha-muted`}>
+            <div className="flex items-center gap-2 pr-8">
+              <Button
+                form="airdrop-form"
+                type="submit"
+                disabled={isLoading || !projectName.trim()}
+                className="macos-btn macos-btn--primary macos-modal-submit"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {mode === 'add' ? 'Adding...' : 'Updating...'}
+                  </>
+                ) : mode === 'add' ? 'Add Airdrop' : 'Update Airdrop'}
+              </Button>
+
+              <DialogClose asChild>
+                <button
+                  type="button"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] alpha-text transition-[background-color,color,border-color] duration-150 hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-hover-soft)]"
+                  aria-label="Close modal"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </DialogClose>
+            </div>
+          </div>
+
+          <form id="airdrop-form" onSubmit={handleSubmit} className="mt-5 space-y-6 pb-6">
+          
+          <div className="macos-modal-block space-y-4">
+            <h4 className="macos-modal-section-label">
               Basic Information
             </h4>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="projectName" className={`font-mono alpha-text`}>
+                <Label htmlFor="projectName" className="macos-modal-label">
                   Project Name *
                 </Label>
                 <Input
@@ -203,12 +235,12 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                   value={projectName}
                   onChange={(e) => setProjectName(e.target.value)}
                   required
-                  className={`font-mono macos-input`}
+                  className="macos-input macos-modal-input"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="projectLogo" className={`font-mono alpha-text`}>
+                <Label htmlFor="projectLogo" className="macos-modal-label">
                   Project Logo URL
                 </Label>
                 <Input
@@ -216,21 +248,21 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                   placeholder="https://..."
                   value={projectLogo}
                   onChange={(e) => setProjectLogo(e.target.value)}
-                  className={`font-mono macos-input`}
+                  className="macos-input macos-modal-input"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="type" className={`font-mono alpha-text`}>
+                <Label htmlFor="type" className="macos-modal-label">
                   Type *
                 </Label>
                 <Select value={type} onValueChange={(v) => setType(v as AirdropType)}>
-                  <SelectTrigger className={`font-mono macos-input`}>
+                  <SelectTrigger className="macos-input macos-modal-input">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className={`font-mono macos-popover`}>
+                  <SelectContent className="macos-popover">
                     {AIRDROP_TYPES.map(t => (
                       <SelectItem 
                         key={t} 
@@ -244,14 +276,14 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="status" className={`font-mono alpha-text`}>
+                <Label htmlFor="status" className="macos-modal-label">
                   Status *
                 </Label>
                 <Select value={status} onValueChange={(v) => setStatus(v as AirdropStatus)}>
-                  <SelectTrigger className={`font-mono macos-input`}>
+                  <SelectTrigger className="macos-input macos-modal-input">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className={`font-mono macos-popover`}>
+                  <SelectContent className="macos-popover">
                     {AIRDROP_STATUSES.map(s => (
                       <SelectItem 
                         key={s} 
@@ -264,19 +296,17 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                 </Select>
               </div>
             </div>
-
-            {/* Priority & Project Date */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="space-y-2">
-                <Label className={`font-mono flex items-center gap-2 alpha-text`}>
+                <Label className="macos-modal-label flex items-center gap-2">
                   <Flag className="w-4 h-4" />
-                  Priority Level
+                 Tier
                 </Label>
                 <Select value={priority} onValueChange={(v) => setPriority(v as PriorityLevel)}>
-                  <SelectTrigger className={`font-mono macos-input`}>
+                  <SelectTrigger className="macos-input macos-modal-input">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className={`font-mono macos-popover`}>
+                  <SelectContent className="macos-popover">
                     {PRIORITY_LEVELS.map(p => (
                       <SelectItem 
                         key={p} 
@@ -290,46 +320,42 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="deadline" className={`font-mono flex items-center gap-2 alpha-text`}>
+                <Label htmlFor="deadline" className="macos-modal-label flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
-                  Tanggal Project
+                 Date
                 </Label>
                 <Input
                   id="deadline"
                   type="date"
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  className={`font-mono macos-input`}
+                  className="macos-input macos-modal-input"
                   required
                 />
-                <p className="text-xs font-mono alpha-text-muted">
-                  Tanggal ini akan tampil di kartu project dashboard.
+                <p className="macos-modal-note">
                 </p>
               </div>
             </div>
 
-            {/* NEW: Priority Toggle */}
-            <div className={`flex items-center gap-3 p-3 rounded-lg border-2 border-dashed transition-colors ${isDark ? 'border-opacity-20' : ''}`}>
+            <div className="flex items-center gap-3 rounded-2xl border border-dashed border-alpha-border bg-[color:var(--alpha-hover-soft)] p-3.5 transition-colors">
               <Checkbox
                 id="isPriority"
                 checked={isPriority}
                 onCheckedChange={(checked) => setIsPriority(checked as boolean)}
-                className={isDark ? '' : ''}
               />
-              <Label htmlFor="isPriority" className={`font-mono cursor-pointer alpha-text`}>
+              <Label htmlFor="isPriority" className="macos-modal-label cursor-pointer">
                 Mark as Priority Project (will appear in Priority tab)
               </Label>
             </div>
           </div>
 
-          {/* Links */}
-          <div className="space-y-4">
-            <h4 className={`text-sm font-mono uppercase tracking-wider alpha-muted`}>
+          <div className="macos-modal-block space-y-4">
+            <h4 className="macos-modal-section-label">
               Links
             </h4>
             
             <div className="space-y-2">
-              <Label htmlFor="platformLink" className={`font-mono alpha-text`}>
+              <Label htmlFor="platformLink" className="macos-modal-label">
                 Platform Link
               </Label>
               <Input
@@ -337,13 +363,13 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                 placeholder="https://..."
                 value={platformLink}
                 onChange={(e) => setPlatformLink(e.target.value)}
-                className={`font-mono macos-input`}
+                className="macos-input macos-modal-input"
               />
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="twitterUsername" className={`font-mono alpha-text`}>
+                <Label htmlFor="twitterUsername" className="macos-modal-label">
                   X (Twitter) Username
                 </Label>
                 <Input
@@ -351,12 +377,12 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                   placeholder="username (without @)"
                   value={twitterUsername}
                   onChange={(e) => setTwitterUsername(e.target.value)}
-                  className={`font-mono macos-input`}
+                  className="macos-input macos-modal-input"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="walletAddress" className={`font-mono alpha-text`}>
+                <Label htmlFor="walletAddress" className="macos-modal-label">
                   Wallet Address
                 </Label>
                 <Input
@@ -364,15 +390,15 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                   placeholder="0x..."
                   value={walletAddress}
                   onChange={(e) => setWalletAddress(e.target.value)}
-                  className={`font-mono macos-input`}
+                  className="macos-input macos-modal-input"
                 />
               </div>
             </div>
           </div>
 
-          {/* Tasks */}
-          <div className="space-y-4">
-            <h4 className={`text-sm font-mono uppercase tracking-wider alpha-muted`}>
+        
+          <div className="macos-modal-block space-y-4">
+            <h4 className="macos-modal-section-label">
               Tasks
             </h4>
             
@@ -382,7 +408,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                 value={newTaskTitle}
                 onChange={(e) => setNewTaskTitle(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTask())}
-                className={`font-mono macos-input`}
+                className="macos-input macos-modal-input"
               />
               <Button 
                 type="button" 
@@ -399,12 +425,12 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                 {tasks.map(task => (
                   <div 
                     key={task.id} 
-                    className={`flex items-center gap-2 p-2 rounded-lg border ${isDark ? 'alpha-panel' : 'alpha-panel'}`}
+                    className="flex items-center gap-2 rounded-2xl border border-alpha-border bg-[color:var(--alpha-surface)] p-2.5"
                   >
                     <button
                       type="button"
                       onClick={() => handleToggleTask(task.id)}
-                      className={`w-4 h-4 rounded border ${task.completed ? 'bg-[var(--alpha-accent-from)] border-[var(--alpha-accent-from)]' : ''}`}
+                      className={`h-4 w-4 rounded border border-alpha-border ${task.completed ? 'border-[var(--alpha-accent-from)] bg-[var(--alpha-accent-from)] text-[var(--alpha-accent-contrast)]' : ''}`}
                     >
                       {task.completed && (
                         <svg viewBox="0 0 24 24" fill="none" className={`w-full h-full`}>
@@ -412,13 +438,13 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
                         </svg>
                       )}
                     </button>
-                    <span className={`flex-1 font-mono ${task.completed ? 'line-through alpha-muted' : 'alpha-text'}`}>
+                    <span className={`flex-1 text-sm ${task.completed ? 'line-through alpha-muted' : 'alpha-text'}`}>
                       {task.title}
                     </span>
                     <button
                       type="button"
                       onClick={() => handleRemoveTask(task.id)}
-                      className={`transition-colors alpha-muted hover:text-red-500`}
+                      className={`transition-colors alpha-muted hover:text-[var(--alpha-danger)]`}
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -429,8 +455,8 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
           </div>
 
           {/* Notes */}
-          <div className="space-y-2">
-            <Label htmlFor="notes" className={`font-mono alpha-text`}>
+          <div className="macos-modal-block space-y-2">
+            <Label htmlFor="notes" className="macos-modal-label">
               Notes
             </Label>
             <Textarea
@@ -438,38 +464,12 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, isDark 
               placeholder="Add any additional notes..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              rows={3}
-              className={`font-mono macos-input`}
+              rows={4}
+              className="macos-input macos-modal-input min-h-[108px]"
             />
           </div>
-
-          {/* Actions */}
-          <div className="flex justify-end gap-3 pt-4">
-            <Button 
-              type="button" 
-              variant="outline" 
-              onClick={onClose}
-              disabled={isLoading}
-              className={`macos-btn macos-btn--ghost`}
-            >
-              Cancel
-            </Button>
-            <Button 
-              type="submit"
-              disabled={isLoading || !projectName.trim()}
-              className={`macos-btn macos-btn--primary`}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                mode === 'add' ? 'ADD_AIRDROP' : 'SAVE_CHANGES'
-              )}
-            </Button>
-          </div>
-        </form>
+          </form>
+        </div>
       </DialogContent>
     </Dialog>
   );

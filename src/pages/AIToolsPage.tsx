@@ -1,327 +1,454 @@
 import { useTheme } from "@/contexts/ThemeContext";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { ArrowUpRight,  Code,  Terminal, Brain } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowUpRight, Bot, Brain, Code, Sparkles, Terminal } from "lucide-react";
+import type { CSSProperties } from "react";
 
 type AITool = {
   name: string;
   description: string;
   url: string;
-  logo: string;
+  logo?: string;
   accent: string;
-  category: string;
+  tags?: string[];
 };
+
+const codingAI: AITool[] = [
+  {
+    name: "ChatGPT",
+    description: "General-purpose copilot for coding, debugging, planning, and quick product thinking.",
+    url: "https://chatgpt.com",
+    logo: "/logos/chatgpt.png",
+    accent: "#fafafa",
+    tags: ["coding", "reasoning"],
+  },
+  {
+    name: "Claude",
+    description: "Strong long-context assistant for refactors, writing specs, and code review.",
+    url: "https://claude.ai",
+    logo: "/logos/claude.png",
+    accent: "#D97706",
+    tags: ["context", "review"],
+  },
+  {
+    name: "Kimi AI",
+    description: "Fast analysis assistant with strong document digestion for research-heavy work.",
+    url: "https://kimi.moonshot.cn",
+    logo: "/logos/kimi.png",
+    accent: "#ffffff",
+    tags: ["docs", "analysis"],
+  },
+  {
+    name: "Cursor",
+    description: "AI-first editor for codebase chat, edits, and workflow inside the IDE.",
+    url: "https://cursor.com",
+    logo: "/logos/cursor.png",
+    accent: "#ffffff",
+    tags: ["editor", "ide"],
+  },
+  {
+    name: "GitHub Copilot",
+    description: "Pair programmer for inline completion, chat, and everyday coding assist.",
+    url: "https://github.com/features/copilot",
+    logo: "/logos/github.png",
+    accent: "#ffffff",
+    tags: ["autocomplete", "pairing"],
+  },
+  {
+    name: "Windsurf",
+    description: "Code editor with agent-style flows for planning, edits, and execution loops.",
+    url: "https://windsurf.com/editor",
+    logo: "/logos/windsurf.png",
+    accent: "#f1f1f1",
+    tags: ["editor", "agentic"],
+  },
+  {
+    name: "Codeium",
+    description: "Fast free autocomplete and chat assistant for multi-language dev work.",
+    url: "https://codeium.com",
+    logo: "/logos/code.png",
+    accent: "#ffffff",
+    tags: ["free", "autocomplete"],
+  },
+  {
+    name: "Replit AI",
+    description: "Browser-first coding assistant for prototypes, apps, and quick product shipping.",
+    url: "https://replit.com/ai",
+    logo: "/logos/replit.png",
+    accent: "#f96800",
+    tags: ["browser", "prototype"],
+  },
+];
+
+const researchAI: AITool[] = [
+  {
+    name: "DeepSeek",
+    description: "Useful for dense reasoning, market reading, and rough technical synthesis.",
+    url: "https://www.deepseek.com",
+    logo: "/logos/deepseek.png",
+    accent: "#265ee0",
+    tags: ["reasoning", "market"],
+  },
+  {
+    name: "Perplexity",
+    description: "Research engine with web grounding for fast fact-finding and exploration.",
+    url: "https://www.perplexity.ai",
+    logo: "/logos/perplexity.png",
+    accent: "#225e37",
+    tags: ["web", "research"],
+  },
+  {
+    name: "NotebookLM",
+    description: "Source-grounded workspace for studying docs, notes, transcripts, and summaries.",
+    url: "https://notebooklm.google.com",
+    logo: "/logos/note.png",
+    accent: "#ffffff",
+    tags: ["notes", "source-grounded"],
+  },
+  {
+    name: "Grok",
+    description: "Fast real-time assistant that is useful for broad search and current-event context.",
+    url: "https://grok.com",
+    logo: "/logos/grok.png",
+    accent: "#ffffff",
+    tags: ["realtime", "search"],
+  },
+  {
+    name: "Phind",
+    description: "Developer search assistant for debugging paths, libraries, and code explanations.",
+    url: "https://phind.com",
+    logo: "/logos/phind.png",
+    accent: "var(--alpha-signal)",
+    tags: ["developer", "search"],
+  },
+  {
+    name: "You.com",
+    description: "Search-centric assistant with privacy angle and multiple answer modes.",
+    url: "https://you.com",
+    logo: "/logos/you.png",
+    accent: "#bfa2f1",
+    tags: ["privacy", "search"],
+  },
+  {
+    name: "Exa",
+    description: "Search API and research workflow focused on high-signal web retrieval.",
+    url: "https://exa.ai",
+    logo: "/logos/exa.png",
+    accent: "#22d3ee",
+    tags: ["retrieval", "api"],
+  },
+  {
+    name: "Elicit",
+    description: "Research assistant for reading papers, comparing evidence, and synthesis.",
+    url: "https://elicit.com",
+    logo: "/logos/elicit.png",
+    accent: "#34d399",
+    tags: ["papers", "evidence"],
+  },
+];
+
+const agentAI: AITool[] = [
+  {
+    name: "OpenHands",
+    description: "Agent platform for code tasks that can inspect, edit, and iterate on repos.",
+    url: "https://openhands.dev",
+    logo: "/logos/openhands.png",
+    accent: "#7dd3fc",
+    tags: ["coding agent", "automation"],
+  },
+  {
+    name: "AutoGPT",
+    description: "Autonomous workflow runner for long-horizon tasks and chained actions.",
+    url: "https://agpt.co",
+    logo: "/logos/auto.png",
+    accent: "#381b69",
+    tags: ["autonomous", "task loop"],
+  },
+  {
+    name: "CrewAI",
+    description: "Multi-agent orchestration layer for role-based teams and repeatable flows.",
+    url: "https://www.crewai.com",
+    logo: "/logos/crew.png",
+    accent: "var(--alpha-violet)",
+    tags: ["multi-agent", "orchestration"],
+  },
+  {
+    name: "LangChain",
+    description: "Framework for building LLM applications, tools, memory, and chains.",
+    url: "https://www.langchain.com",
+    logo: "/logos/langchain.png",
+    accent: "#86cef4",
+    tags: ["framework", "llm apps"],
+  },
+  {
+    name: "LangGraph",
+    description: "Graph-based runtime for stateful multi-step and multi-agent execution.",
+    url: "https://www.langchain.com/langgraph",
+    logo: "/logos/lang.png",
+    accent: "#27beff",
+    tags: ["stateful", "graph"],
+  },
+  {
+    name: "AutoGen",
+    description: "Microsoft framework for agent conversations, tooling, and structured execution.",
+    url: "https://microsoft.github.io/autogen/stable/",
+    logo: "/logos/ag.png",
+    accent: "#999999",
+    tags: ["framework", "microsoft"],
+  },
+  {
+    name: "Flowise",
+    description: "Visual builder for chatflows, agent graphs, and internal AI automation.",
+    url: "https://flowiseai.com",
+    logo: "/logos/flowise.png",
+    accent: "#0b4cfe",
+    tags: ["visual", "builder"],
+  },
+  {
+    name: "Dify",
+    description: "Platform to ship AI apps, workflows, agents, and internal copilots faster.",
+    url: "https://dify.ai",
+    logo: "/logos/dify.png",
+    accent: "#007bff",
+    tags: ["workflow", "app platform"],
+  },
+];
+
+const getToolInitials = (name: string) => {
+  const parts = name
+    .replace(/[^a-zA-Z0-9 ]+/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (parts.length === 0) return "AI";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+
+  return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+};
+
+const getAccentGlow = (accent: string) => `color-mix(in srgb, ${accent} 14%, transparent)`;
+
+const aiSections = [
+  {
+    key: "coding",
+    title: "Coding & Development",
+    note: "Editors, copilots, dan assistants buat ngoding lebih cepat dan lebih rapi.",
+    icon: Code,
+    iconClassName: "border border-alpha-border bg-[color:var(--alpha-hover-soft)] text-[var(--alpha-highlight)]",
+    tools: codingAI,
+  },
+  {
+    key: "research",
+    title: "Research & Analysis",
+    note: "Stack buat cari context, baca source, dan bantu screening project lebih cepat.",
+    icon: Brain,
+    iconClassName: "border border-alpha-border bg-[color:var(--alpha-hover-soft)] text-[var(--alpha-highlight)]",
+    tools: researchAI,
+  },
+  {
+    key: "agents",
+    title: "AI Agents",
+    note: "Framework dan platform agentic buat workflow yang lebih otomatis dan repeatable.",
+    icon: Terminal,
+    iconClassName: "border border-alpha-border bg-[color:var(--alpha-hover-soft)] text-[var(--alpha-highlight)]",
+    tools: agentAI,
+  },
+] as const;
 
 export function AIToolsPage() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-
-  const codingAI: AITool[] = [
-    {
-      name: "ChatGPT",
-      description: "OpenAI's conversational AI for coding & research",
-      url: "https://chat.openai.com",
-      logo: "/logos/chatgpt.png",
-      accent: "#fafafa",
-      category: "Coding"
-    },
-    {
-      name: "Kimi AI",
-      description: "Advanced AI assistant for analysis & coding",
-      url: "https://kimi.moonshot.cn",
-      logo: "/logos/kimi.png",
-      accent: "#ffffff",
-      category: "Coding"
-    },
-    {
-      name: "GitHub Copilot",
-      description: "AI pair programmer for code completion",
-      url: "https://github.com/copilot",
-      logo: "/logos/github.png",
-      accent: "#ffffff",
-      category: "Coding"
-    },
-    {
-      name: "Claude",
-      description: "Anthropic's AI for coding and analysis",
-      url: "https://claude.ai",
-      logo: "/logos/claude.png",
-      accent: "#D97706",
-      category: "Coding"
-    },
-    {
-      name: "Codeium",
-      description: "Free AI coding assistant & autocomplete",
-      url: "https://codeium.com",
-      logo: "/logos/codeium.png",
-      accent: "#ffffff",
-      category: "Coding"
-    },
-    {
-      name: "Tabnine",
-      description: "AI code completion for all languages",
-      url: "https://tabnine.com",
-      logo: "/logos/tabnine.png",
-      accent: "#ff0000",
-      category: "Coding"
-    },
-  ];
-
-  const researchAI: AITool[] = [
-    {
-      name: "DeepSeek",
-      description: "AI for airdrop screening & crypto research",
-      url: "https://deepseek.com",
-      logo: "/logos/deepseek.png",
-      accent: "#265ee0",
-      category: "Research"
-    },
-    {
-      name: "Perplexity",
-      description: "AI search engine for research",
-      url: "https://perplexity.ai",
-      logo: "/logos/perplexity.png",
-      accent: "#225e37",
-      category: "Research"
-    },
-    {
-      name: "Phind",
-      description: "AI search for developers Soon",
-      url: "https://phind.com",
-      logo: "/logos/phind.png",
-      accent: "#10B981",
-      category: "Research"
-    },
-    {
-      name: "You.com",
-      description: "AI search with privacy focus",
-      url: "https://you.com",
-      logo: "/logos/you.png",
-      accent: "#bfa2f1",
-      category: "Research"
-    },
-  ];
-
-  const agentAI: AITool[] = [
-    {
-      name: "AutoGPT",
-      description: "Autonomous AI agent for tasks",
-      url: "https://agpt.co",
-      logo: "/logos/autogpt.png",
-      accent: "#00D4AA",
-      category: "Agent"
-    },
-    {
-      name: "BabyAGI",
-      description: "Task-driven autonomous agent",
-      url: "https://github.com/yoheinakajima/babyagi",
-      logo: "/logos/babyagi.png",
-      accent: "#9dfdff",
-      category: "Agent"
-    },
-    {
-      name: "CrewAI",
-      description: "Multi-agent AI system Soon",
-      url: "https://crewai.io",
-      logo: "/logos/crewai.png",
-      accent: "#8B5CF6",
-      category: "Agent"
-    },
-    {
-      name: "LangChain",
-      description: "Framework for AI applications",
-      url: "https://langchain.com",
-      logo: "/logos/langchain.png",
-      accent: "#86cef4",
-      category: "Agent"
-    },
-  ];
-
-  const handleClick = (url: string) => {
-    window.open(url, "_blank");
-  };
+  const totalTools = aiSections.reduce((sum, section) => sum + section.tools.length, 0);
 
   const renderToolCard = (tool: AITool, index: number) => (
-    <motion.div
+    <a
       key={tool.name}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05 }}
-      onClick={() => handleClick(tool.url)}
-      style={{
-        borderLeft: `3px solid ${tool.accent}` }}
+      href={tool.url}
+      target="_blank"
+      rel="noreferrer"
+      style={
+        {
+          borderLeft: `3px solid ${tool.accent}`,
+          "--mac-delay": `${index * 24}ms`,
+        } as CSSProperties
+      }
       className={`
-        macos-premium-card relative p-4 overflow-hidden group
-        transition-all duration-300 ease-out cursor-pointer
-        transform hover:-translate-y-0.5 hover:shadow-lg
+        macos-premium-card macos-card-entry group relative block min-h-[136px] overflow-hidden rounded-[1.35rem] p-4
+        transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-lg
         ${isDark
-          ? "bg-[#161B22] border-[#1F2937] hover:border-[#1F2937]"
-          : "bg-white border-[#E5E7EB] hover:border-[#E5E7EB]"}
+          ? "bg-[var(--alpha-surface)] border-[var(--alpha-border)] hover:border-[var(--alpha-border-strong)]"
+          : "bg-[var(--alpha-panel)] border-[var(--alpha-border)] hover:border-[var(--alpha-border-strong)]"}
       `}
     >
-      {/* Glow effect */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-lg"
-        style={{
-          background: `linear-gradient(135deg, ${tool.accent}08 0%, transparent 50%)`
-        }}
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: `linear-gradient(135deg, ${getAccentGlow(tool.accent)} 0%, transparent 54%)` }}
       />
 
-      <div className="relative z-10 flex items-center gap-3">
-        {/* Icon/Logo */}
-        <div
-          className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110 ${
-            isDark ? "bg-[#0B0F14]" : "bg-[#F3F4F6]"
-          }`}
-        >
-          <img
-            src={tool.logo}
-            alt={tool.name}
-            className="w-6 h-6 object-contain"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-              target.parentElement!.innerHTML = `<div class="w-6 h-6 rounded-full" style="background: ${tool.accent}"></div>`;
-            }}
-          />
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-0.5">
-            <h3
-              className={`font-bold text-sm truncate ${
-                isDark ? "text-[#E5E7EB]" : "text-[#111827]"
-              }`}
-            >
-              {tool.name}
-            </h3>
-            <ArrowUpRight 
-              className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 flex-shrink-0 ml-2"
+      <div className="relative z-10 flex h-full flex-col">
+        <div className="flex items-start gap-3">
+          <div
+            className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border text-sm font-semibold uppercase tracking-[0.18em] ${
+              isDark
+                ? "border-[var(--alpha-border)] bg-[color:var(--alpha-hover-soft)]"
+                : "border-[var(--alpha-border)] bg-[color:var(--alpha-hover-soft)]"
+            }`}
+            style={{ color: tool.accent }}
+          >
+            {tool.logo ? (
+              <img
+                src={tool.logo}
+                alt={tool.name}
+                className="h-6 w-6 object-contain"
+                onError={(event) => {
+                  const target = event.currentTarget;
+                  target.style.display = "none";
+                  const fallback = target.nextElementSibling as HTMLSpanElement | null;
+                  if (fallback) fallback.style.display = "flex";
+                }}
+              />
+            ) : null}
+            <span
+              className={`${tool.logo ? "hidden" : "flex"} h-6 w-6 items-center justify-center text-[11px] font-bold`}
               style={{ color: tool.accent }}
-            />
+            >
+              {getToolInitials(tool.name)}
+            </span>
           </div>
-          
-          <p className={`text-xs truncate ${isDark ? "text-[#6B7280]" : "text-[#6B7280]"}`}>
-            {tool.description}
-          </p>
-        </div>
-      </div>
 
-      {/* Bottom accent line */}
-      <div 
-        className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500"
-        style={{ background: tool.accent }}
-      />
-    </motion.div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="truncate text-[15px] font-semibold alpha-text">{tool.name}</h3>
+              <ArrowUpRight
+                className="mt-0.5 h-4 w-4 flex-shrink-0 opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100"
+                style={{ color: tool.accent }}
+              />
+            </div>
+            <p className="mt-1.5 line-clamp-2 text-[12px] leading-5 alpha-text-muted">{tool.description}</p>
+          </div>
+        </div>
+
+        <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+          {(tool.tags ?? []).slice(0, 2).map((tag) => (
+            <span
+              key={tag}
+              className={`rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] ${
+                "border-[var(--alpha-border)] bg-[color:var(--alpha-hover-soft)]"
+              } alpha-text-muted`}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <div
+          className="absolute bottom-0 left-0 h-[2px] w-0 transition-all duration-500 group-hover:w-full"
+          style={{ background: tool.accent }}
+        />
+      </div>
+    </a>
   );
 
   return (
-    <DashboardLayout>
+    <DashboardLayout disableMonochrome>
       <div className="macos-root macos-page-shell">
-        {/* Header */}
-        <div className="macos-page-header macos-animate-up">
-          <div className="macos-page-kicker">
-            <Brain className="h-3.5 w-3.5" />
-            AI Stack
+        <section className="macos-page-header macos-animate-up">
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-end">
+            <div>
+              <div className="macos-page-kicker">
+                <Brain className="h-3.5 w-3.5" />
+                AI Stack
+              </div>
+              <h1 className="macos-page-title">AI Tools</h1>
+              <p className="macos-page-subtitle">
+                Stack AI yang lebih lengkap buat coding, research, dan workflow agentic. Saya isi section-nya
+                biar nggak ada slot kosong dan lebih enak dipakai sebagai command center harian.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="macos-card rounded-[1.2rem] px-4 py-3">
+                <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">Total tools</p>
+                <p className="mt-2 text-[1.55rem] font-semibold alpha-text">{totalTools}</p>
+              </div>
+              <div className="macos-card rounded-[1.2rem] px-4 py-3">
+                <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">Categories</p>
+                <p className="mt-2 text-[1.55rem] font-semibold alpha-text">{aiSections.length}</p>
+              </div>
+              <div className="macos-card rounded-[1.2rem] px-4 py-3">
+                <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">Coding stack</p>
+                <p className="mt-2 text-[1.55rem] font-semibold alpha-text">{codingAI.length}</p>
+              </div>
+              <div className="macos-card rounded-[1.2rem] px-4 py-3">
+                <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">Agent builders</p>
+                <p className="mt-2 text-[1.55rem] font-semibold alpha-text">{agentAI.length}</p>
+              </div>
+            </div>
           </div>
-          <h1 className="macos-page-title">AI Tools</h1>
-          <p className="macos-page-subtitle">
-            AI assistants untuk coding, research, dan eksplorasi Web3 dengan bahasa visual macOS yang lebih premium.
-          </p>
+        </section>
+
+        <div className="mt-8 space-y-8">
+          {aiSections.map((section, sectionIndex) => {
+            const SectionIcon = section.icon;
+
+            return (
+              <section key={section.key}>
+                <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+                  <div className="flex items-start gap-3">
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${section.iconClassName}`}>
+                      <SectionIcon className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-[var(--alpha-signal)]">
+                          {section.title}
+                        </h2>
+                        <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
+                          {section.tools.length} tools
+                        </span>
+                      </div>
+                      <p className="mt-1 text-sm alpha-text-muted">{section.note}</p>
+                    </div>
+                  </div>
+
+                  <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
+                    <Sparkles className="h-3.5 w-3.5 text-gold" />
+                    Curated stack
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                  {section.tools.map((tool, index) =>
+                    renderToolCard(
+                      tool,
+                      index + sectionIndex * 20
+                    )
+                  )}
+                </div>
+              </section>
+            );
+          })}
         </div>
 
-        {/* Coding AI */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
-              <Code className="w-4 h-4 text-purple-500" />
+        <section className="mt-8">
+          <div className="macos-card flex flex-col gap-3 rounded-[1.4rem] p-5 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-gold/20 bg-gold/10 text-gold">
+                <Bot className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">Workflow note</p>
+                <p className="mt-1 text-sm leading-6 alpha-text-muted">
+                  Pakai kombinasi satu editor AI, satu research engine, dan satu agent framework biar halaman ini
+                  jadi stack operasional, bukan cuma bookmark list.
+                </p>
+              </div>
             </div>
-            <h2 className={`text-xs font-mono font-bold tracking-widest uppercase ${
-              isDark ? "text-[#00FF88]" : "text-[#10B981]"
-            }`}>
-              Coding & Development
-            </h2>
+            <span className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-gold">
+              Ready to use
+            </span>
           </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-            {codingAI.map((tool, index) => renderToolCard(tool, index))}
-          </div>
-        </div>
-
-        {/* Research AI */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
-              <Brain className="w-4 h-4 text-blue-500" />
-            </div>
-            <h2 className={`text-xs font-mono font-bold tracking-widest uppercase ${
-              isDark ? "text-[#00FF88]" : "text-[#10B981]"
-            }`}>
-              Research & Analysis
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-            {researchAI.map((tool, index) => renderToolCard(tool, index + codingAI.length))}
-            
-            {/* Fill empty slots */}
-            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
-              <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
-                More tools coming soon
-              </span>
-            </div>
-            
-            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
-              <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
-                More tools coming soon
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* AI Agents */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
-              <Terminal className="w-4 h-4 text-green-500" />
-            </div>
-            <h2 className={`text-xs font-mono font-bold tracking-widest uppercase ${
-              isDark ? "text-[#00FF88]" : "text-[#10B981]"
-            }`}>
-              AI Agents
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-            {agentAI.map((tool, index) => renderToolCard(tool, index + codingAI.length + researchAI.length))}
-            
-            {/* Fill empty slots */}
-            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
-              <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
-                More tools coming soon
-              </span>
-            </div>
-            
-            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
-              <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
-                More tools coming soon
-              </span>
-            </div>
-            
-            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
-              <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
-                More tools coming soon
-              </span>
-            </div>
-            
-            <div className="macos-empty-state min-h-[80px] flex items-center justify-center p-4">
-              <span className={`text-xs font-mono ${isDark ? 'text-[#6B7280]' : 'text-[#9CA3AF]'}`}>
-                More tools coming soon
-              </span>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
     </DashboardLayout>
   );

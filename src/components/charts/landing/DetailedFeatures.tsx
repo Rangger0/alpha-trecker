@@ -73,7 +73,7 @@ export function DetailedFeatures() {
               key={index}
               className={`p-6 rounded-xl border transition-all duration-300 hover:shadow-lg ${
                 isDark 
-                  ? 'bg-[#161B22] border-[#1F2937] hover:border-[#00FF88]/30' 
+                  ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal-border)]' 
                   : 'bg-white border-gray-200 hover:border-blue-200'
               }`}
             >
@@ -94,7 +94,7 @@ export function DetailedFeatures() {
                     isDark ? 'text-gray-500' : 'text-gray-500'
                   }`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${
-                      isDark ? 'bg-[#00FF88]' : 'bg-blue-500'
+                      isDark ? 'bg-[var(--alpha-signal)]' : 'bg-blue-500'
                     }`} />
                     {point}
                   </li>
