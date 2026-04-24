@@ -17,7 +17,7 @@ export function Navbar() {
     <nav className="pointer-events-none fixed inset-x-0 top-0 z-[80] px-4 pb-4 pt-4 sm:px-6 lg:px-8">
       <div className="macos-landing-width">
         <div
-          className="macos-nav-shell pointer-events-auto flex h-[72px] items-center justify-between gap-3 px-4 sm:px-5"
+          className="macos-nav-shell pointer-events-auto flex h-[66px] items-center justify-between gap-3 px-4 sm:px-5"
           style={{
             background: 'color-mix(in srgb, var(--alpha-panel) 88%, transparent)',
             borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
@@ -25,7 +25,7 @@ export function Navbar() {
         >
           <div className="flex min-w-0 items-center gap-3">
             <Link to="/" className="flex min-w-0 shrink-0 items-center gap-3">
-              <img src="/logo/logo.png" alt="Alpha Tracker" className="alpha-brand-logo h-10 w-10 object-contain" />
+              <img src="/logo/logo.png" alt="Alpha Tracker" className="alpha-brand-logo h-9 w-9 object-contain" />
               <div className="min-w-0">
                 <p className="alpha-landing-nav-title truncate">
                   Alpha Tracker

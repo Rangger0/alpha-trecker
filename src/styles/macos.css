@@ -2,7 +2,7 @@
   /* macOS UI tokens */
   --mac-radius-sm: 10px;
   --mac-radius-md: 18px;
-  --mac-radius-lg: 26px;
+  --mac-radius-lg: 24px;
   --mac-radius-xl: 34px;
 
   --mac-shadow-1: var(--alpha-shadow);
@@ -18,7 +18,7 @@
   --alpha-landing-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 
   /* sizes */
-  --mac-gap: 12px;
+  --mac-gap: 10px;
 }
 
 /* Root to enable mac style on selected pages */
@@ -341,10 +341,111 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-highlight) 10%, transparent) 0, transparent 30%),
-    radial-gradient(circle at right center, color-mix(in srgb, var(--alpha-accent) 12%, transparent) 0, transparent 34%),
-    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 94%, transparent), transparent 42%);
-  opacity: 0.74;
+    radial-gradient(circle at 8% 12%, color-mix(in srgb, var(--alpha-highlight) 14%, transparent) 0, transparent 24%),
+    radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--alpha-accent) 12%, transparent) 0, transparent 22%),
+    radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--alpha-accent) 8%, transparent) 0, transparent 34%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 42%, transparent), transparent 34%);
+  opacity: 0.94;
+}
+
+.alpha-topbar-shell {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px) saturate(118%);
+  -webkit-backdrop-filter: blur(10px) saturate(118%);
+}
+
+.alpha-topbar-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--alpha-highlight) 14%, transparent), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.08), transparent 46%);
+  opacity: 0.7;
+}
+
+.alpha-topbar-shell::after {
+  content: "";
+  position: absolute;
+  inset: auto 22px 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--alpha-border-strong) 82%, transparent), transparent);
+}
+
+.alpha-topbar-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  border: 1px solid var(--alpha-topbar-chip-border);
+  background: var(--alpha-topbar-chip-gradient);
+  color: var(--alpha-text-muted);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.alpha-shell-frame {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 90%, transparent), color-mix(in srgb, var(--alpha-panel) 96%, transparent)),
+    linear-gradient(135deg, rgba(255,255,255,0.02), transparent 46%);
+}
+
+.alpha-shell-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--alpha-highlight) 14%, transparent), transparent 28%),
+    radial-gradient(circle at 88% 14%, color-mix(in srgb, var(--alpha-accent) 13%, transparent), transparent 26%),
+    radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--alpha-accent) 9%, transparent), transparent 34%);
+  opacity: 0.9;
+}
+
+.alpha-shell-frame::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: calc(var(--mac-radius-xl) - 2px);
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), transparent 20%),
+    linear-gradient(135deg, rgba(255,255,255,0.03), transparent 44%);
+  opacity: 0.72;
+}
+
+.alpha-shell-ambient {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(72px);
+  opacity: 0.42;
+}
+
+.alpha-shell-ambient--top {
+  inset: -140px 18% auto;
+  height: 240px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--alpha-highlight) 34%, transparent), transparent 72%);
+}
+
+.alpha-shell-ambient--left {
+  left: -96px;
+  top: 18%;
+  width: 240px;
+  height: 360px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 20%, transparent), transparent 72%);
+}
+
+.alpha-shell-ambient--right {
+  right: -88px;
+  bottom: 8%;
+  width: 260px;
+  height: 280px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--alpha-info) 18%, transparent), transparent 72%);
 }
 
 /* Card surface in mac style (rounded, subtle shadow) */
@@ -353,14 +454,15 @@
   border-radius: var(--mac-radius-md);
   box-shadow: var(--mac-shadow-1);
   background:
-    radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--alpha-border-strong) 18%, transparent), transparent 36%),
-    radial-gradient(circle at top left, color-mix(in srgb, white 18%, transparent), transparent 36%),
+    radial-gradient(circle at 14% 0%, color-mix(in srgb, var(--alpha-highlight) 14%, transparent), transparent 34%),
+    radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 28%),
+    radial-gradient(circle at top left, color-mix(in srgb, white 10%, transparent), transparent 30%),
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--alpha-surface) 92%, white 8%),
-      color-mix(in srgb, var(--alpha-panel) 88%, #8a8a8a 12%)
+      color-mix(in srgb, var(--alpha-surface) 95%, white 5%),
+      color-mix(in srgb, var(--alpha-panel) 92%, #5f6a71 8%)
     );
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 94%, transparent);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
   transition:
     transform 180ms cubic-bezier(.22,1,.36,1),
     box-shadow 180ms cubic-bezier(.22,1,.36,1),
@@ -368,12 +470,12 @@
     background-color 180ms cubic-bezier(.22,1,.36,1);
   overflow: hidden;
   content-visibility: auto;
-  contain-intrinsic-size: 240px;
+  contain-intrinsic-size: 220px;
 }
 
 /* elevated card */
 .macos-card-hover:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--mac-shadow-2);
 }
 
@@ -383,9 +485,9 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, color-mix(in srgb, white 14%, transparent), transparent 28%),
-    linear-gradient(135deg, transparent 44%, color-mix(in srgb, white 6%, transparent) 100%);
-  opacity: 0.72;
+    linear-gradient(180deg, color-mix(in srgb, white 12%, transparent), transparent 24%),
+    linear-gradient(135deg, transparent 44%, color-mix(in srgb, white 5%, transparent) 100%);
+  opacity: 0.66;
 }
 
 .macos-card::after {
@@ -395,9 +497,9 @@
   pointer-events: none;
   border-radius: calc(var(--mac-radius-md) - 6px);
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02) 46%, transparent 78%),
-    linear-gradient(180deg, rgba(255,255,255,0.08), transparent 32%);
-  opacity: 0.7;
+    linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02) 42%, transparent 78%),
+    linear-gradient(180deg, rgba(255,255,255,0.05), transparent 28%);
+  opacity: 0.62;
 }
 
 @media (max-width: 640px) {
@@ -439,19 +541,24 @@
 .macos-panel {
   border-radius: var(--mac-radius-lg);
   background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), transparent 32%),
+    radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 28%),
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--alpha-surface) 90%, white 10%),
-      color-mix(in srgb, var(--alpha-panel) 86%, #858585 14%)
+      color-mix(in srgb, var(--alpha-surface) 90%, white 6%),
+      color-mix(in srgb, var(--alpha-panel) 92%, #5e676e 8%)
     );
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
-  box-shadow: var(--mac-shadow-1);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
+  box-shadow:
+    var(--mac-shadow-1),
+    inset 0 1px 0 color-mix(in srgb, white 16%, transparent);
 }
 
 /* Modal wrapper (centered, mac style) */
 .macos-modal {
   border-radius: var(--mac-radius-md);
   background:
+    radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 30%),
     linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 24%),
     linear-gradient(
       180deg,
@@ -465,8 +572,10 @@
 
 /* Buttons (primary/ghost) */
 .macos-btn {
-  border-radius: 14px;
-  padding: 10px 14px;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  line-height: 1.25;
   font-weight: 600;
   letter-spacing: .2px;
   transition:
@@ -502,12 +611,14 @@
 
 /* Small tweaks for forms / inputs (rounded) */
 .macos-input {
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--alpha-border) 92%, transparent);
   background:
     linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 38%),
     color-mix(in srgb, var(--alpha-surface) 92%, transparent);
-  padding: 10px 14px;
+  min-height: 44px;
+  padding: 9px 12px;
+  font-size: 0.95rem;
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, white 16%, transparent),
     inset 0 -1px 0 color-mix(in srgb, var(--alpha-border) 30%, transparent);
@@ -538,7 +649,7 @@
 
 /* Table tweaks: larger cell padding & subtle row hover */
 .macos-table td, .macos-table th {
-  padding: 14px 16px;
+  padding: 12px 14px;
 }
 .macos-table tr:hover td {
   background: linear-gradient(90deg, transparent, rgba(0,0,0,0.02));
@@ -554,33 +665,39 @@
 .macos-page-shell {
   position: relative;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
 }
 
 .macos-page-header {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 24px;
-  padding: 26px 28px;
+  padding: clamp(24px, 2.8vw, 32px);
   border-radius: var(--mac-radius-xl);
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, white 16%, transparent), transparent 28%),
-    radial-gradient(circle at bottom right, color-mix(in srgb, var(--alpha-border-strong) 12%, transparent), transparent 34%),
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--alpha-highlight) 14%, transparent), transparent 32%),
+    radial-gradient(circle at 88% 14%, color-mix(in srgb, var(--alpha-accent) 11%, transparent), transparent 28%),
+    radial-gradient(circle at bottom right, color-mix(in srgb, var(--alpha-border-strong) 10%, transparent), transparent 34%),
     linear-gradient(
       180deg,
       color-mix(in srgb, var(--alpha-surface) 94%, white 6%),
-      color-mix(in srgb, var(--alpha-panel) 88%, #7d7d7d 12%)
-    );
+      color-mix(in srgb, var(--alpha-panel) 92%, #576168 8%)
+  );
   box-shadow: var(--mac-shadow-1);
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: 180px;
 }
 
 .macos-page-header::after {
   content: "";
   position: absolute;
-  inset: auto 28px 0;
+  inset: auto 24px 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--alpha-border) 85%, transparent), transparent);
 }
@@ -590,31 +707,33 @@
   align-items: center;
   gap: 8px;
   width: fit-content;
-  padding: 7px 12px;
+  padding: 6px 11px;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 90%, transparent);
-  background: color-mix(in srgb, var(--alpha-surface) 88%, transparent);
-  font-size: 11px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), transparent 46%),
+    color-mix(in srgb, var(--alpha-surface) 88%, transparent);
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.22em;
   color: var(--alpha-highlight);
 }
 
 .macos-page-title {
   margin: 0;
-  font-size: clamp(2rem, 2.8vw, 3.25rem);
-  line-height: 0.98;
+  font-size: clamp(2.1rem, 3vw, 3.6rem);
+  line-height: 1.02;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--alpha-text);
 }
 
 .macos-page-subtitle {
-  max-width: 58rem;
+  max-width: 62rem;
   margin: 0;
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: 0.98rem;
+  line-height: 1.68;
   color: var(--alpha-text-muted);
 }
 
@@ -622,33 +741,35 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 14px;
-  padding: 6px 12px;
+  margin-bottom: 12px;
+  padding: 5px 11px;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
   background: color-mix(in srgb, var(--alpha-surface) 88%, transparent);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.2em;
   color: var(--alpha-highlight);
 }
 
 .macos-premium-card {
   position: relative;
-  border-radius: 24px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 88%, transparent);
+  border-radius: 22px;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, white 14%, transparent), transparent 32%),
+    radial-gradient(circle at 14% 0%, color-mix(in srgb, var(--alpha-highlight) 14%, transparent), transparent 34%),
+    radial-gradient(circle at 86% 10%, color-mix(in srgb, var(--alpha-accent) 11%, transparent), transparent 28%),
+    radial-gradient(circle at top left, color-mix(in srgb, white 8%, transparent), transparent 28%),
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--alpha-surface) 94%, white 6%),
-      color-mix(in srgb, var(--alpha-panel) 88%, #838383 12%)
+      color-mix(in srgb, var(--alpha-surface) 94%, white 5%),
+      color-mix(in srgb, var(--alpha-panel) 92%, #5f676d 8%)
     );
   box-shadow: var(--mac-shadow-1);
   overflow: hidden;
   content-visibility: auto;
-  contain-intrinsic-size: 260px;
+  contain-intrinsic-size: 220px;
   transition:
     transform 140ms ease,
     box-shadow 140ms ease,
@@ -659,7 +780,7 @@
 .macos-premium-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--mac-shadow-2);
-  border-color: color-mix(in srgb, var(--alpha-highlight) 34%, var(--alpha-border));
+  border-color: color-mix(in srgb, var(--alpha-highlight) 26%, var(--alpha-border));
 }
 
 .macos-premium-card::before {
@@ -668,12 +789,12 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, color-mix(in srgb, white 14%, transparent), transparent 22%),
-    linear-gradient(135deg, transparent 48%, color-mix(in srgb, white 6%, transparent));
+    linear-gradient(180deg, color-mix(in srgb, white 12%, transparent), transparent 20%),
+    linear-gradient(135deg, transparent 48%, color-mix(in srgb, white 5%, transparent));
 }
 
 .macos-empty-state {
-  border-radius: 28px;
+  border-radius: 24px;
   border: 1px dashed color-mix(in srgb, var(--alpha-border) 86%, transparent);
   background: color-mix(in srgb, var(--alpha-surface) 92%, transparent);
   box-shadow: var(--mac-shadow-1);
@@ -685,6 +806,32 @@
   position: relative;
   width: 100%;
   min-height: 100%;
+}
+
+.macos-auth-copy-panel,
+.macos-auth-form-shell {
+  will-change: transform, opacity, filter;
+}
+
+.macos-auth-switch-idle .macos-auth-copy-panel,
+.macos-auth-switch-idle .macos-auth-form-shell {
+  animation: none;
+}
+
+.macos-auth-switch-left .macos-auth-copy-panel {
+  animation: macos-auth-copy-left 420ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.macos-auth-switch-left .macos-auth-form-shell {
+  animation: macos-auth-form-left 520ms cubic-bezier(.16,1,.3,1) both;
+}
+
+.macos-auth-switch-right .macos-auth-copy-panel {
+  animation: macos-auth-copy-right 420ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.macos-auth-switch-right .macos-auth-form-shell {
+  animation: macos-auth-form-right 520ms cubic-bezier(.16,1,.3,1) both;
 }
 
 .macos-auth-stage::before {
@@ -700,8 +847,8 @@
 
 .macos-auth-card {
   position: relative;
-  padding: clamp(24px, 4vw, 32px);
-  border-radius: 30px;
+  padding: clamp(22px, 3.5vw, 28px);
+  border-radius: 28px;
   border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
   background:
     radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), transparent 34%),
@@ -727,9 +874,23 @@
   z-index: 1;
 }
 
+.macos-auth-logo-spin {
+  transform-origin: 50% 50%;
+  animation: macos-auth-logo-spin 16s linear infinite;
+}
+
+.macos-auth-logo-spin--slow {
+  animation-duration: 22s;
+}
+
+.macos-auth-logo-spin--ambient {
+  animation-duration: 28s;
+  animation-direction: reverse;
+}
+
 .macos-auth-field {
-  border-radius: 18px;
-  min-height: 52px;
+  border-radius: 16px;
+  min-height: 48px;
   box-shadow: none;
   transition:
     border-color 160ms ease,
@@ -826,6 +987,16 @@
   .macos-auth-card {
     border-radius: 26px;
   }
+
+  .macos-auth-switch-left .macos-auth-copy-panel,
+  .macos-auth-switch-right .macos-auth-copy-panel {
+    animation-duration: 320ms;
+  }
+
+  .macos-auth-switch-left .macos-auth-form-shell,
+  .macos-auth-switch-right .macos-auth-form-shell {
+    animation-duration: 420ms;
+  }
 }
 
 .macos-landing-shell {
@@ -841,57 +1012,33 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, color-mix(in srgb, white 8%, transparent), transparent 14%),
-    linear-gradient(135deg, transparent 58%, color-mix(in srgb, white 4%, transparent) 100%);
+    radial-gradient(circle at 50% -10%, color-mix(in srgb, var(--alpha-accent) 14%, transparent), transparent 30%),
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--alpha-highlight) 8%, transparent), transparent 20%),
+    radial-gradient(circle at 82% 20%, color-mix(in srgb, var(--alpha-info) 7%, transparent), transparent 22%),
+    linear-gradient(180deg, color-mix(in srgb, white 6%, transparent), transparent 16%);
   opacity: 1;
 }
 
 html.dark .macos-landing-shell::before,
 .alpha-theme.dark .macos-landing-shell::before {
   background:
-    radial-gradient(circle at 16% 12%, rgba(255, 255, 255, 0.07), transparent 18%),
-    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.05), transparent 22%),
-    repeating-linear-gradient(
-      -35deg,
-      transparent 0 82px,
-      rgba(255, 255, 255, 0.012) 82px 92px,
-      rgba(255, 255, 255, 0.16) 92px 95px,
-      rgba(255, 255, 255, 0.022) 95px 112px,
-      transparent 112px 210px
-    ),
-    repeating-linear-gradient(
-      -35deg,
-      transparent 0 168px,
-      rgba(255, 255, 255, 0.022) 168px 175px,
-      rgba(255, 255, 255, 0.08) 175px 178px,
-      transparent 178px 312px
-    ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 14%);
-  opacity: 0.72;
+    radial-gradient(circle at 50% -8%, color-mix(in srgb, var(--alpha-accent) 20%, transparent), transparent 32%),
+    radial-gradient(circle at 14% 14%, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), transparent 20%),
+    radial-gradient(circle at 86% 16%, color-mix(in srgb, var(--alpha-info) 9%, transparent), transparent 22%),
+    linear-gradient(135deg, transparent 0 46%, color-mix(in srgb, var(--alpha-highlight) 4%, transparent) 58%, transparent 72%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 14%);
+  opacity: 0.78;
 }
 
 html.light .macos-landing-shell::before,
 .alpha-theme.light .macos-landing-shell::before {
   background:
-    radial-gradient(circle at 16% 12%, rgba(0, 0, 0, 0.045), transparent 18%),
-    radial-gradient(circle at 82% 18%, rgba(0, 0, 0, 0.035), transparent 22%),
-    repeating-linear-gradient(
-      -35deg,
-      transparent 0 82px,
-      rgba(0, 0, 0, 0.012) 82px 92px,
-      rgba(0, 0, 0, 0.11) 92px 95px,
-      rgba(0, 0, 0, 0.02) 95px 112px,
-      transparent 112px 210px
-    ),
-    repeating-linear-gradient(
-      -35deg,
-      transparent 0 168px,
-      rgba(0, 0, 0, 0.018) 168px 175px,
-      rgba(0, 0, 0, 0.055) 175px 178px,
-      transparent 178px 312px
-    ),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.035), transparent 14%);
-  opacity: 0.9;
+    radial-gradient(circle at 50% -8%, color-mix(in srgb, var(--alpha-accent) 16%, transparent), transparent 32%),
+    radial-gradient(circle at 14% 14%, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), transparent 20%),
+    radial-gradient(circle at 86% 16%, color-mix(in srgb, var(--alpha-info) 8%, transparent), transparent 22%),
+    linear-gradient(135deg, transparent 0 46%, color-mix(in srgb, var(--alpha-highlight) 5%, transparent) 58%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 14%);
+  opacity: 0.92;
 }
 
 .macos-landing-shell::after {
@@ -901,57 +1048,64 @@ html.light .macos-landing-shell::before,
 .macos-landing-shell .macos-section-label,
 .macos-landing-shell .macos-page-kicker,
 .macos-landing-shell .alpha-landing-nav-note {
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
 }
 
 .alpha-landing-nav-title {
   font-family: var(--alpha-landing-display);
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   font-weight: 650;
   letter-spacing: -0.045em;
   color: var(--alpha-text);
 }
 
 .alpha-landing-nav-note {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--alpha-text-muted);
 }
 
 .alpha-landing-kicker {
   font-family: var(--alpha-landing-font);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--alpha-highlight);
+}
+
+.alpha-landing-hero-section {
+  --hero-scroll-progress: 0;
 }
 
 .alpha-landing-hero-copy {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  transform: translate3d(0, calc(var(--hero-scroll-progress) * -18px), 0);
+  transition: transform 220ms cubic-bezier(.22,1,.36,1);
+  will-change: transform;
 }
 
 .alpha-landing-hero-stack {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .alpha-landing-hero-copy--center {
   align-items: center;
-  max-width: 46rem;
+  max-width: 42rem;
 }
 
 .alpha-landing-headline {
   margin: 0;
-  max-width: min(100%, 980px);
+  max-width: min(100%, 900px);
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: var(--alpha-landing-display);
-  font-size: clamp(2.7rem, 4.1vw, 4.25rem);
+  font-size: clamp(2.45rem, 3.7vw, 3.95rem);
   font-weight: 700;
-  line-height: 0.96;
+  line-height: 0.98;
   letter-spacing: -0.06em;
   color: var(--alpha-text);
   text-align: center;
@@ -989,9 +1143,9 @@ html.light .macos-landing-shell::before,
 
 .alpha-landing-lead {
   margin: 0;
-  max-width: 38rem;
-  font-size: clamp(1rem, 1.1vw, 1.06rem);
-  line-height: 1.72;
+  max-width: 34rem;
+  font-size: clamp(1.02rem, 1.14vw, 1.1rem);
+  line-height: 1.74;
   color: var(--alpha-text-muted);
   text-wrap: pretty;
   text-align: center;
@@ -1019,8 +1173,8 @@ html.light .macos-landing-shell::before,
   align-items: center;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
-  padding: 8px 12px;
-  font-size: 12px;
+  padding: 7px 10px;
+  font-size: 12.5px;
   font-weight: 500;
   line-height: 1;
   color: var(--alpha-text-muted);
@@ -1029,8 +1183,8 @@ html.light .macos-landing-shell::before,
 
 .alpha-landing-hero-meta {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.65;
   color: var(--alpha-text-muted);
 }
 
@@ -1042,7 +1196,7 @@ html.light .macos-landing-shell::before,
 .alpha-landing-section-title {
   margin: 0;
   font-family: var(--alpha-landing-display);
-  font-size: clamp(1.9rem, 3.1vw, 2.7rem);
+  font-size: clamp(1.75rem, 2.7vw, 2.45rem);
   font-weight: 650;
   line-height: 1.04;
   letter-spacing: -0.05em;
@@ -1053,15 +1207,15 @@ html.light .macos-landing-shell::before,
 .alpha-landing-section-copy {
   margin: 0;
   max-width: 34rem;
-  font-size: 15px;
-  line-height: 1.8;
+  font-size: 0.98rem;
+  line-height: 1.72;
   color: var(--alpha-text-muted);
 }
 
 .alpha-landing-block-title {
   margin: 0;
   font-family: var(--alpha-landing-display);
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   font-weight: 600;
   letter-spacing: -0.03em;
   color: var(--alpha-text);
@@ -1082,8 +1236,8 @@ html.light .macos-landing-shell::before,
 .alpha-landing-hero-panel {
   position: relative;
   overflow: hidden;
-  border-radius: 28px;
-  padding: 24px;
+  border-radius: 24px;
+  padding: 20px;
   background:
     linear-gradient(
       180deg,
@@ -1105,6 +1259,12 @@ html.light .macos-landing-shell::before,
   width: 100%;
   max-width: 720px;
   padding-top: 0.5rem;
+  transform:
+    translate3d(0, calc(var(--hero-scroll-progress) * 26px), 0)
+    scale(calc(1 - var(--hero-scroll-progress) * 0.03));
+  transform-origin: center top;
+  transition: transform 220ms cubic-bezier(.22,1,.36,1);
+  will-change: transform;
 }
 
 .alpha-landing-hero-stage-glow {
@@ -1112,9 +1272,15 @@ html.light .macos-landing-shell::before,
   inset: 2rem 10% auto;
   height: 12rem;
   border-radius: 999px;
-  background: radial-gradient(circle at center, color-mix(in srgb, white 16%, transparent), transparent 70%);
+  background:
+    radial-gradient(
+      circle at center,
+      color-mix(in srgb, var(--alpha-highlight) 32%, transparent),
+      transparent 70%
+    );
   opacity: 0.72;
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(0, calc(var(--hero-scroll-progress) * 14px), 0);
+  transition: transform 220ms cubic-bezier(.22,1,.36,1);
   pointer-events: none;
 }
 
@@ -1128,13 +1294,13 @@ html.light .macos-landing-shell::before,
 .alpha-landing-hero-panel-row {
   display: grid;
   gap: 4px;
-  padding: 14px 0;
+  padding: 12px 0;
   border-top: 1px solid color-mix(in srgb, var(--alpha-border) 78%, transparent);
 }
 
 .alpha-landing-hero-panel-label {
   margin: 0;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1143,8 +1309,8 @@ html.light .macos-landing-shell::before,
 
 .alpha-landing-hero-panel-value {
   margin: 0;
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: 15px;
+  line-height: 1.6;
   color: var(--alpha-text-muted);
 }
 
@@ -1152,8 +1318,8 @@ html.light .macos-landing-shell::before,
 .alpha-landing-lane-card,
 .alpha-landing-signal-card,
 .alpha-landing-ecosystem-card {
-  border-radius: 22px;
-  padding: 20px;
+  border-radius: 18px;
+  padding: 16px;
 }
 
 .alpha-landing-list-row {
@@ -1173,18 +1339,18 @@ html.light .macos-landing-shell::before,
 
 .alpha-landing-preview-shell {
   overflow: hidden;
-  border-radius: 28px;
-  padding: 10px;
+  border-radius: 24px;
+  padding: 8px;
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--alpha-border) 84%, transparent),
     var(--alpha-shadow-strong),
-    0 0 36px color-mix(in srgb, white 8%, transparent);
+    0 0 36px color-mix(in srgb, var(--alpha-highlight) 12%, transparent);
 }
 
 .alpha-landing-preview-shell--large {
-  width: min(100%, 760px);
+  width: min(100%, 700px);
   justify-self: center;
-  padding: 12px;
+  padding: 10px;
 }
 
 .alpha-landing-preview-viewport {
@@ -1218,7 +1384,7 @@ html.light .macos-landing-shell::before,
 .alpha-landing-preview-toolbar-title,
 .alpha-landing-preview-toolbar-meta,
 .alpha-landing-preview-caption {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -1241,7 +1407,7 @@ html.light .macos-landing-shell::before,
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
   color: var(--alpha-text);
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1263,8 +1429,8 @@ html.light .macos-landing-shell::before,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 10px;
   border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
   background:
@@ -1315,16 +1481,16 @@ html.light .macos-landing-shell::before,
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 220px;
-  padding: 16px 18px;
+  min-width: 204px;
+  padding: 14px 16px;
 }
 
 .alpha-landing-cta-shell {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  border-radius: 28px;
-  padding: 28px;
+  gap: 22px;
+  border-radius: 24px;
+  padding: 24px;
 }
 
 .alpha-landing-hero-atmosphere {
@@ -1339,96 +1505,68 @@ html.light .macos-landing-shell::before,
   content: "";
   position: absolute;
   inset: -12% -10%;
+  transition: transform 220ms cubic-bezier(.22,1,.36,1);
 }
 
 html.dark .alpha-landing-hero-atmosphere::before,
 .alpha-theme.dark .alpha-landing-hero-atmosphere::before {
   background:
-    repeating-linear-gradient(
-      -35deg,
-      transparent 0 104px,
-      rgba(255, 255, 255, 0.018) 104px 118px,
-      rgba(255, 255, 255, 0.22) 118px 122px,
-      rgba(255, 255, 255, 0.026) 122px 148px,
-      transparent 148px 288px
-    ),
-    repeating-linear-gradient(
-      -35deg,
-      transparent 0 212px,
-      rgba(255, 255, 255, 0.02) 212px 223px,
-      rgba(255, 255, 255, 0.12) 223px 226px,
-      transparent 226px 386px
-    );
-  opacity: 0.84;
+    radial-gradient(circle at 50% -6%, color-mix(in srgb, var(--alpha-accent) 28%, transparent), transparent 30%),
+    radial-gradient(circle at 22% 12%, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), transparent 22%),
+    radial-gradient(circle at 78% 16%, color-mix(in srgb, var(--alpha-info) 12%, transparent), transparent 24%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-accent) 8%, transparent), transparent 24%);
+  opacity: 0.82;
+  transform: translate3d(0, calc(var(--hero-scroll-progress) * 18px), 0);
 }
 
 html.light .alpha-landing-hero-atmosphere::before,
 .alpha-theme.light .alpha-landing-hero-atmosphere::before {
   background:
-    repeating-linear-gradient(
-      -35deg,
-      transparent 0 104px,
-      rgba(0, 0, 0, 0.016) 104px 118px,
-      rgba(0, 0, 0, 0.12) 118px 122px,
-      rgba(0, 0, 0, 0.022) 122px 148px,
-      transparent 148px 288px
-    ),
-    repeating-linear-gradient(
-      -35deg,
-      transparent 0 212px,
-      rgba(0, 0, 0, 0.018) 212px 223px,
-      rgba(0, 0, 0, 0.06) 223px 226px,
-      transparent 226px 386px
-    );
-  opacity: 0.78;
+    radial-gradient(circle at 50% -6%, color-mix(in srgb, var(--alpha-accent) 24%, transparent), transparent 30%),
+    radial-gradient(circle at 22% 12%, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), transparent 22%),
+    radial-gradient(circle at 78% 16%, color-mix(in srgb, var(--alpha-info) 10%, transparent), transparent 24%),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-accent) 7%, transparent), transparent 24%);
+  opacity: 0.76;
+  transform: translate3d(0, calc(var(--hero-scroll-progress) * 18px), 0);
 }
 
 html.dark .alpha-landing-hero-atmosphere::after,
 .alpha-theme.dark .alpha-landing-hero-atmosphere::after {
   background:
-    radial-gradient(circle at 8% 6%, rgba(255, 255, 255, 0.08), transparent 18%),
-    radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.07), transparent 22%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.12), transparent 22%);
-  opacity: 0.9;
+    radial-gradient(circle at 14% 8%, color-mix(in srgb, var(--alpha-highlight) 18%, transparent), transparent 18%),
+    radial-gradient(circle at 86% 14%, color-mix(in srgb, var(--alpha-info) 14%, transparent), transparent 22%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.14), transparent 24%);
+  opacity: 0.86;
+  transform: translate3d(0, calc(var(--hero-scroll-progress) * 10px), 0);
 }
 
 html.light .alpha-landing-hero-atmosphere::after,
 .alpha-theme.light .alpha-landing-hero-atmosphere::after {
   background:
-    radial-gradient(circle at 8% 6%, rgba(0, 0, 0, 0.045), transparent 18%),
-    radial-gradient(circle at 88% 14%, rgba(0, 0, 0, 0.04), transparent 22%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent 22%);
-  opacity: 0.88;
+    radial-gradient(circle at 14% 8%, color-mix(in srgb, var(--alpha-highlight) 14%, transparent), transparent 18%),
+    radial-gradient(circle at 86% 14%, color-mix(in srgb, var(--alpha-info) 12%, transparent), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 24%);
+  opacity: 0.82;
+  transform: translate3d(0, calc(var(--hero-scroll-progress) * 10px), 0);
 }
 
-.alpha-landing-star-dot {
+.alpha-landing-fall-dot {
   position: absolute;
-  height: 2px;
-  width: 2px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--alpha-text) 36%, transparent);
-  opacity: 0.6;
-}
-
-.alpha-landing-sky-streak {
-  position: absolute;
-  width: var(--shoot-length, 190px);
-  height: 2px;
+  width: var(--fall-size, 3px);
+  height: var(--fall-size, 3px);
   border-radius: 999px;
   background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      color-mix(in srgb, var(--alpha-text) 10%, transparent) 22%,
-      color-mix(in srgb, var(--alpha-text) 84%, transparent) 54%,
-      transparent 100%
-    );
-  box-shadow: 0 0 16px color-mix(in srgb, var(--alpha-text) 18%, transparent);
+    radial-gradient(circle, color-mix(in srgb, var(--alpha-text) 86%, transparent) 0 42%, transparent 68%),
+    color-mix(in srgb, var(--alpha-highlight) 84%, transparent);
+  box-shadow:
+    -14px -22px 0 -0.5px color-mix(in srgb, var(--alpha-text) 22%, transparent),
+    -28px -44px 0 -0.8px color-mix(in srgb, var(--alpha-accent) 18%, transparent),
+    -42px -66px 0 -1px color-mix(in srgb, var(--alpha-highlight) 14%, transparent),
+    0 0 16px color-mix(in srgb, var(--alpha-highlight) 18%, transparent);
   opacity: 0;
-  transform: translate3d(0, 0, 0) rotate(-35deg) scaleX(0.42);
-  transform-origin: left center;
-  animation: alpha-landing-shooting-star var(--shoot-duration, 16s) cubic-bezier(0.16, 0.7, 0.22, 1) infinite;
-  animation-delay: var(--shoot-delay, 0s);
+  transform: translate3d(0, 0, 0) rotate(-34deg) scale(0.8);
+  animation: alpha-landing-falling-dot var(--fall-duration, 11s) linear infinite;
+  animation-delay: var(--fall-delay, 0s);
   will-change: transform, opacity;
 }
 
@@ -1500,8 +1638,8 @@ html.light .alpha-landing-hero-atmosphere::after,
   letter-spacing: -0.06em;
   color: var(--alpha-text);
   text-shadow:
-    0 0 28px rgba(255, 38, 38, 0.12),
-    0 0 60px rgba(94, 9, 9, 0.14);
+    0 0 28px color-mix(in srgb, var(--alpha-highlight) 22%, transparent),
+    0 0 60px color-mix(in srgb, var(--alpha-accent) 18%, transparent);
 }
 
 .macos-landing-viewport {
@@ -1547,7 +1685,7 @@ html.light .alpha-landing-hero-atmosphere::after,
 }
 
 .macos-landing-width {
-  width: min(100%, 1180px);
+  width: min(100%, 1100px);
   margin-inline: auto;
 }
 
@@ -1680,26 +1818,23 @@ html.light .alpha-landing-hero-atmosphere::after,
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--alpha-border-strong) 62%, transparent);
   background:
-    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.86), transparent 18%),
-    radial-gradient(circle at 72% 70%, rgba(255, 255, 255, 0.16), transparent 24%),
+    radial-gradient(circle at 28% 22%, color-mix(in srgb, white 84%, var(--alpha-highlight) 16%), transparent 18%),
+    radial-gradient(circle at 72% 70%, color-mix(in srgb, var(--alpha-info) 26%, transparent), transparent 24%),
     linear-gradient(
       180deg,
-      #fefefe 0%,
-      #d9d9d9 9%,
-      #8b8b8b 18%,
-      #f3f3f3 28%,
-      #9e9e9e 39%,
-      #ececec 49%,
-      #787878 59%,
-      #d8d8d8 69%,
-      #949494 80%,
-      #efefef 90%,
-      #7f7f7f 100%
+      color-mix(in srgb, white 92%, var(--alpha-highlight) 8%) 0%,
+      color-mix(in srgb, white 74%, var(--alpha-info) 26%) 12%,
+      color-mix(in srgb, #7f8d93 84%, var(--alpha-accent) 16%) 24%,
+      color-mix(in srgb, white 84%, var(--alpha-highlight) 16%) 38%,
+      color-mix(in srgb, #9aa7ad 82%, var(--alpha-info) 18%) 52%,
+      color-mix(in srgb, #66747b 82%, var(--alpha-accent) 18%) 68%,
+      color-mix(in srgb, white 88%, var(--alpha-highlight) 12%) 84%,
+      color-mix(in srgb, #708088 80%, var(--alpha-accent) 20%) 100%
     );
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    inset 0 1px 0 color-mix(in srgb, white 42%, transparent),
     inset 0 -42px 72px rgba(0, 0, 0, 0.18),
-    0 26px 54px rgba(0, 0, 0, 0.24);
+    0 26px 54px color-mix(in srgb, var(--alpha-accent) 10%, rgba(0, 0, 0, 0.24));
 }
 
 .alpha-landing-jupiter-shell::before {
@@ -1708,8 +1843,8 @@ html.light .alpha-landing-hero-atmosphere::after,
   inset: 4%;
   border-radius: inherit;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 24%),
-    radial-gradient(circle at 62% 58%, rgba(0, 0, 0, 0.12), transparent 24%);
+    linear-gradient(180deg, color-mix(in srgb, white 20%, transparent), transparent 24%),
+    radial-gradient(circle at 62% 58%, color-mix(in srgb, var(--alpha-accent) 16%, transparent), transparent 24%);
   opacity: 0.8;
 }
 
@@ -1722,8 +1857,12 @@ html.light .alpha-landing-hero-atmosphere::after,
   height: 10%;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.42), transparent 30%),
-    linear-gradient(90deg, rgba(105, 105, 105, 0.82), rgba(228, 228, 228, 0.74));
+    radial-gradient(circle at 30% 40%, color-mix(in srgb, white 42%, transparent), transparent 30%),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, #6a7379 78%, var(--alpha-accent) 22%),
+      color-mix(in srgb, white 78%, var(--alpha-highlight) 22%)
+    );
   opacity: 0.58;
   filter: blur(1px);
 }
@@ -1735,9 +1874,9 @@ html.light .alpha-landing-hero-atmosphere::after,
   height: 9%;
   border-radius: 999px;
   background:
-    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent),
-    rgba(70, 70, 70, 0.14);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    linear-gradient(90deg, transparent, color-mix(in srgb, white 34%, transparent), transparent),
+    color-mix(in srgb, var(--alpha-accent) 14%, rgba(70, 70, 70, 0.14));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 14%, transparent);
 }
 
 .alpha-landing-jupiter-band--one {
@@ -1770,14 +1909,14 @@ html.light .alpha-landing-hero-atmosphere::after,
   top: 44%;
   height: 14%;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.38);
+  border: 1px solid color-mix(in srgb, white 26%, var(--alpha-info));
   background:
-    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent),
-    rgba(255, 255, 255, 0.04);
+    linear-gradient(90deg, transparent, color-mix(in srgb, white 20%, transparent), transparent),
+    color-mix(in srgb, var(--alpha-info) 10%, rgba(255, 255, 255, 0.04));
   transform: rotate(-14deg);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 0 18px rgba(255, 255, 255, 0.08);
+    inset 0 1px 0 color-mix(in srgb, white 18%, transparent),
+    0 0 18px color-mix(in srgb, var(--alpha-info) 18%, transparent);
 }
 
 .alpha-landing-jupiter-ring--lower {
@@ -1793,7 +1932,13 @@ html.light .alpha-landing-hero-atmosphere::after,
   inset: -18% auto auto -46%;
   width: 34%;
   height: 150%;
-  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.28), rgba(255,255,255,0));
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--alpha-highlight) 34%, transparent),
+      transparent
+    );
   opacity: 0;
   transform: rotate(-26deg) translate3d(0, 0, 0);
   pointer-events: none;
@@ -1806,7 +1951,7 @@ html.light .alpha-landing-hero-atmosphere::after,
   inset: 18%;
   border-radius: 999px;
   background:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent 56%);
+    radial-gradient(circle at center, color-mix(in srgb, var(--alpha-highlight) 28%, transparent), transparent 56%);
   filter: blur(12px);
 }
 
@@ -1900,8 +2045,8 @@ html.light .alpha-landing-hero-atmosphere::after,
   border: 1px solid color-mix(in srgb, var(--alpha-border) 76%, transparent);
   background:
     radial-gradient(circle at 34% 30%, rgba(255,255,255,0.14), transparent 22%),
-    radial-gradient(circle at 72% 68%, rgba(255, 36, 36, 0.12), transparent 26%),
-    linear-gradient(160deg, rgba(38, 18, 18, 0.7), rgba(14, 14, 14, 0.74));
+    radial-gradient(circle at 72% 68%, color-mix(in srgb, var(--alpha-accent) 24%, transparent), transparent 26%),
+    linear-gradient(160deg, color-mix(in srgb, var(--alpha-accent) 18%, rgba(18, 24, 28, 0.7)), rgba(14, 14, 14, 0.74));
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.12),
     inset 0 -36px 60px rgba(4, 6, 14, 0.18),
@@ -1970,31 +2115,6 @@ html.light .alpha-landing-hero-atmosphere::after,
   box-shadow: 0 0 16px rgba(255,255,255,0.36);
 }
 
-.alpha-landing-shooting-star {
-  position: absolute;
-  width: var(--shoot-size, 180px);
-  height: 1.5px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.92), rgba(255,255,255,0));
-  opacity: 0;
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.24));
-  transform: rotate(-24deg) translate3d(0, 0, 0) scaleX(0.52);
-  animation: macos-shooting-star var(--shoot-duration, 12s) linear infinite;
-  animation-delay: var(--shoot-delay, 0s);
-}
-
-.alpha-landing-shooting-star::after {
-  content: "";
-  position: absolute;
-  right: 8%;
-  top: -1.5px;
-  width: 5px;
-  height: 5px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 0 16px rgba(255,255,255,0.32);
-}
-
 .macos-hero-mark-stage {
   position: relative;
   min-height: 100%;
@@ -2041,7 +2161,7 @@ html.light .alpha-landing-hero-atmosphere::after,
   pointer-events: none;
   background:
     linear-gradient(180deg, rgba(255,255,255,0.08), transparent 18%),
-    radial-gradient(circle at 20% 18%, rgba(255, 45, 45, 0.08), transparent 28%);
+    radial-gradient(circle at 20% 18%, color-mix(in srgb, var(--alpha-highlight) 24%, transparent), transparent 28%);
 }
 
 .macos-hero-mark-glow {
@@ -2246,31 +2366,38 @@ html.light .alpha-landing-hero-atmosphere::after,
 }
 
 .macos-scroll-section {
+  --section-scroll-shift: 0px;
+  --section-scroll-scale: 1;
   opacity: 0;
-  transform: translate3d(0, 18px, 0);
+  transform:
+    translate3d(0, calc(18px + var(--section-scroll-shift)), 0)
+    scale(var(--section-scroll-scale));
+  transform-origin: center top;
   transition:
-    opacity 320ms cubic-bezier(.22,1,.36,1),
-    transform 460ms cubic-bezier(.22,1,.36,1);
+    opacity 360ms cubic-bezier(.22,1,.36,1),
+    transform 520ms cubic-bezier(.22,1,.36,1);
   will-change: opacity, transform;
 }
 
 .macos-scroll-section[data-visible="true"] {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform:
+    translate3d(0, var(--section-scroll-shift), 0)
+    scale(var(--section-scroll-scale));
 }
 
 .macos-scroll-section [data-stagger] {
   opacity: 0;
-  transform: translate3d(0, 16px, 0);
+  transform: translate3d(0, calc(16px + (var(--section-scroll-shift) * 0.24)), 0);
   transition:
-    opacity 320ms cubic-bezier(.22,1,.36,1),
-    transform 460ms cubic-bezier(.22,1,.36,1);
+    opacity 360ms cubic-bezier(.22,1,.36,1),
+    transform 520ms cubic-bezier(.22,1,.36,1);
   transition-delay: var(--stagger-delay, 0ms);
 }
 
 .macos-scroll-section[data-visible="true"] [data-stagger] {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(0, calc(var(--section-scroll-shift) * 0.14), 0);
 }
 
 .macos-landing-enter {
@@ -2385,20 +2512,23 @@ html.light .alpha-landing-hero-atmosphere::after,
   }
 }
 
-@keyframes alpha-landing-shooting-star {
-  0%, 82% {
+@keyframes alpha-landing-falling-dot {
+  0%, 72% {
     opacity: 0;
-    transform: translate3d(0, 0, 0) rotate(-35deg) scaleX(0.42);
+    transform: translate3d(0, 0, 0) rotate(-34deg) scale(0.78);
   }
-  86% {
-    opacity: 0.88;
+  78% {
+    opacity: 0.72;
+  }
+  92% {
+    opacity: 0.86;
   }
   100% {
     opacity: 0;
     transform:
-      translate3d(var(--shoot-distance-x, 110px), var(--shoot-distance-y, 72px), 0)
-      rotate(-35deg)
-      scaleX(1);
+      translate3d(var(--fall-distance-x, 132px), var(--fall-distance-y, 248px), 0)
+      rotate(-34deg)
+      scale(1);
   }
 }
 
@@ -2480,12 +2610,22 @@ html.light .alpha-landing-hero-atmosphere::after,
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .alpha-landing-hero-copy,
+  .alpha-landing-hero-stage,
+  .alpha-landing-hero-stage-glow,
+  .alpha-landing-hero-atmosphere::before,
+  .alpha-landing-hero-atmosphere::after,
+  .macos-scroll-section,
+  .macos-scroll-section [data-stagger],
   .alpha-landing-logo-field,
   .alpha-landing-logo-spin,
   .alpha-landing-preview-track,
   .alpha-landing-ecosystem-track,
-  .alpha-landing-sky-streak,
-  .alpha-landing-logo-sheen {
+  .alpha-landing-fall-dot,
+  .alpha-landing-logo-sheen,
+  .macos-auth-copy-panel,
+  .macos-auth-form-shell,
+  .macos-auth-logo-spin {
     transform: none !important;
     animation: none !important;
   }
@@ -2505,11 +2645,74 @@ html.light .alpha-landing-hero-atmosphere::after,
 @keyframes macos-window-open {
   from {
     opacity: 0;
-    transform: translate3d(0, 10px, 0) scale(0.992);
+    transform: translate3d(0, 16px, 0) scale(0.988);
+    filter: blur(10px);
   }
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+@keyframes macos-auth-copy-left {
+  from {
+    opacity: 0;
+    transform: translate3d(22px, 0, 0) scale(0.992);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes macos-auth-copy-right {
+  from {
+    opacity: 0;
+    transform: translate3d(-22px, 0, 0) scale(0.992);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes macos-auth-form-left {
+  from {
+    opacity: 0;
+    transform: translate3d(62px, 0, 0) scale(0.986);
+    filter: blur(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes macos-auth-form-right {
+  from {
+    opacity: 0;
+    transform: translate3d(-62px, 0, 0) scale(0.986);
+    filter: blur(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes macos-auth-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -2525,9 +2728,11 @@ html.light .alpha-landing-hero-atmosphere::after,
 @keyframes macos-card-entry {
   from {
     opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.994);
   }
   to {
     opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
@@ -2645,11 +2850,13 @@ html.light .alpha-landing-hero-atmosphere::after,
 }
 
 .macos-window-open {
-  animation: macos-window-open 220ms cubic-bezier(.22,1,.36,1) both;
+  animation: macos-window-open 280ms cubic-bezier(.22,1,.36,1) both;
 }
 
 .macos-route-transition {
   animation: macos-route-enter 220ms cubic-bezier(.22,1,.36,1) both;
+  isolation: isolate;
+  will-change: opacity;
 }
 
 .macos-card-entry {
@@ -2741,4 +2948,52 @@ html.light .alpha-landing-hero-atmosphere::after,
     right: -32%;
     width: min(36rem, 112vw);
   }
+}
+
+html.dark .macos-app-shell::before {
+  opacity: 0.82;
+  background:
+    radial-gradient(circle at 8% 10%, color-mix(in srgb, var(--alpha-accent) 18%, transparent) 0, transparent 22%),
+    radial-gradient(circle at 86% 8%, color-mix(in srgb, var(--alpha-highlight) 14%, transparent) 0, transparent 18%),
+    radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--alpha-accent) 10%, transparent) 0, transparent 32%),
+    linear-gradient(180deg, rgba(255,255,255,0.02), transparent 34%);
+}
+
+html.dark .alpha-topbar-shell {
+  background: var(--alpha-topbar-gradient);
+  backdrop-filter: blur(10px) saturate(102%);
+  -webkit-backdrop-filter: blur(10px) saturate(102%);
+}
+
+html.dark .alpha-topbar-shell::before {
+  opacity: 0.62;
+  background:
+    radial-gradient(circle at 14% 0%, color-mix(in srgb, var(--alpha-accent) 18%, transparent), transparent 34%),
+    radial-gradient(circle at 88% 0%, color-mix(in srgb, var(--alpha-highlight) 15%, transparent), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), transparent 42%);
+}
+
+html.dark .alpha-topbar-shell::after,
+html.dark .macos-page-header::after {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+
+html.dark .alpha-topbar-chip,
+html.dark .alpha-topbar-shell .macos-icon,
+html.dark .macos-page-kicker,
+html.dark .macos-section-label {
+  border-color: var(--alpha-topbar-chip-border);
+  background: var(--alpha-topbar-chip-gradient);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+html.dark .macos-page-header,
+html.dark .dashboard-clean .macos-page-header {
+  border-color: var(--alpha-shell-border);
+  background:
+    radial-gradient(circle at 14% 0%, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), transparent 30%),
+    radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--alpha-info) 8%, transparent), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.02), transparent 22%),
+    var(--alpha-shell-gradient);
+  box-shadow: var(--alpha-shadow);
 }

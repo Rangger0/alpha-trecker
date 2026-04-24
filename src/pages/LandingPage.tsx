@@ -1,4 +1,4 @@
-import { Suspense, lazy, startTransition, useEffect, useState, type ReactNode } from 'react';
+import { Suspense, lazy, startTransition, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Navbar } from '@/components/landing/Navbar';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { Footer } from '@/components/landing/Footer';
@@ -32,11 +32,13 @@ function DeferredLandingSection({
   children: ReactNode;
   placeholderHeight: number;
 }) {
-  const { ref, isVisible } = useDeferredVisibility<HTMLDivElement>({
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const { isVisible } = useDeferredVisibility<HTMLDivElement>({
     minDelay: 0,
     rootMargin: '280px 0px',
     threshold: 0.08,
-    once: true,
+    once: false,
+    targetRef: sectionRef,
   });
   const [shouldRender, setShouldRender] = useState(false);
 
@@ -50,9 +52,64 @@ function DeferredLandingSection({
     });
   }, [isVisible, shouldRender]);
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) {
+      return undefined;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      section.style.setProperty('--section-scroll-shift', '0px');
+      section.style.setProperty('--section-scroll-scale', '1');
+      return undefined;
+    }
+
+    let frameId = 0;
+
+    const applyScrollMotion = () => {
+      const rect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 1;
+      const sectionCenter = rect.top + rect.height / 2;
+      const viewportCenter = viewportHeight / 2;
+      const normalizedOffset = (sectionCenter - viewportCenter) / viewportHeight;
+      const clampedOffset = Math.max(-1, Math.min(1, normalizedOffset));
+      const shift = clampedOffset * -28;
+      const scale = 1 - Math.min(Math.abs(clampedOffset) * 0.04, 0.04);
+
+      section.style.setProperty('--section-scroll-shift', `${shift.toFixed(2)}px`);
+      section.style.setProperty('--section-scroll-scale', scale.toFixed(4));
+    };
+
+    const syncScrollMotion = () => {
+      if (frameId !== 0) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        applyScrollMotion();
+        frameId = 0;
+      });
+    };
+
+    applyScrollMotion();
+    window.addEventListener('scroll', syncScrollMotion, { passive: true });
+    window.addEventListener('resize', syncScrollMotion);
+
+    return () => {
+      window.removeEventListener('scroll', syncScrollMotion);
+      window.removeEventListener('resize', syncScrollMotion);
+
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
+  }, []);
+
   return (
     <div
-      ref={ref}
+      ref={sectionRef}
       className="macos-scroll-section"
       data-visible={shouldRender ? 'true' : 'false'}
     >
@@ -114,18 +171,18 @@ export function LandingPage() {
     <div className="macos-root macos-landing-shell min-h-screen alpha-bg">
       <LandingScrollChrome />
       <Navbar />
-      <main className="pt-[96px] sm:pt-[104px]">
+      <main>
         <HeroSection />
-        <DeferredLandingSection placeholderHeight={720}>
+        <DeferredLandingSection placeholderHeight={760}>
           <FeaturesSection />
         </DeferredLandingSection>
-        <DeferredLandingSection placeholderHeight={760}>
+        <DeferredLandingSection placeholderHeight={920}>
           <DetailedFeatures />
         </DeferredLandingSection>
-        <DeferredLandingSection placeholderHeight={420}>
+        <DeferredLandingSection placeholderHeight={520}>
           <ProjectsMarquee />
         </DeferredLandingSection>
-        <DeferredLandingSection placeholderHeight={320}>
+        <DeferredLandingSection placeholderHeight={380}>
           <CTASection />
         </DeferredLandingSection>
       </main>

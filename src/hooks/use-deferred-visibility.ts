@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 
-interface UseDeferredVisibilityOptions {
+interface UseDeferredVisibilityOptions<T extends HTMLElement> {
   minDelay?: number;
   rootMargin?: string;
   threshold?: number;
   once?: boolean;
+  targetRef?: RefObject<T | null>;
 }
 
 export function useDeferredVisibility<T extends HTMLElement>({
@@ -12,8 +13,10 @@ export function useDeferredVisibility<T extends HTMLElement>({
   rootMargin = "220px 0px",
   threshold = 0.08,
   once = true,
-}: UseDeferredVisibilityOptions = {}) {
-  const ref = useRef<T | null>(null);
+  targetRef,
+}: UseDeferredVisibilityOptions<T> = {}) {
+  const internalRef = useRef<T | null>(null);
+  const ref = targetRef ?? internalRef;
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
