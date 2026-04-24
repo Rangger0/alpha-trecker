@@ -8,7 +8,7 @@ interface DashboardLayoutProps {
   disableMonochrome?: boolean;
 }
 
-export function DashboardLayout({ children, disableMonochrome = false }: DashboardLayoutProps) {
+export function DashboardLayout({ children, disableMonochrome = true }: DashboardLayoutProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -27,10 +27,10 @@ export function DashboardLayout({ children, disableMonochrome = false }: Dashboa
 
   const sidebarLeftOffset = 24;
   const sidebarWidth = 252;
-  const topBarHeight = 48;
-  const sidebarTopOffset = topBarHeight + 20;
-  const sidebarBottomOffset = 20;
-  const mainTopPadding = topBarHeight + 18;
+  const topBarHeight = 56;
+  const sidebarTopOffset = topBarHeight + 14;
+  const sidebarBottomOffset = 16;
+  const mainTopPadding = topBarHeight;
 
   return (
     <div className={`alpha-theme ${isDark ? 'dark' : 'light'} alpha-bg macos-app-shell min-h-screen`}>
@@ -54,16 +54,16 @@ export function DashboardLayout({ children, disableMonochrome = false }: Dashboa
           paddingTop: `${mainTopPadding}px`,
         }}
       >
-        <div className="w-full px-3.5 py-4 sm:px-5 sm:py-5">
+        <div className="w-full px-2 pb-2 pt-1.5 sm:px-3 sm:pb-3 sm:pt-2 lg:px-4 lg:pb-4">
           <div
-            className={`macos-panel ${disableMonochrome ? '' : 'macos-theme-monochrome'} macos-window-open overflow-hidden rounded-[2rem] border shadow-[var(--alpha-shadow)]`}
+            className={`macos-panel ${disableMonochrome ? '' : 'macos-theme-monochrome'} macos-window-open overflow-hidden rounded-[1.65rem] border shadow-[var(--alpha-shadow)]`}
             style={{
-              borderColor: 'color-mix(in srgb, var(--alpha-border) 92%, transparent)',
-              background:
-                'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 97%, transparent), color-mix(in srgb, var(--alpha-panel) 95%, transparent))',
+              borderColor: 'var(--alpha-shell-border)',
+              background: 'var(--alpha-shell-gradient)',
+              minHeight: `calc(100vh - ${mainTopPadding + 14}px)`,
             }}
           >
-            <div className="p-4 sm:p-5">
+            <div className="p-3.5 sm:p-4 lg:p-5">
               {children}
             </div>
           </div>

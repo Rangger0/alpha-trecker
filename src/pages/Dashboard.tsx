@@ -1,6 +1,7 @@
 // (file lengkap dengan perbaikan dropdown clipping)
 import { Suspense, lazy, useEffect, useMemo, useState, type ChangeEvent, type MouseEvent } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useI18n } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { supabase } from "@/lib/supabase";
@@ -58,11 +59,6 @@ const RewardPerformancePanel = lazy(async () => {
 const AirdropNewsPanel = lazy(async () => {
   const module = await import("@/components/dashboard/AirdropNewsPanel");
   return { default: module.AirdropNewsPanel };
-});
-
-const GasFeesPanel = lazy(async () => {
-  const module = await import("@/components/dashboard/GasFeesPanel");
-  return { default: module.GasFeesPanel };
 });
 
 const AirdropModal = lazy(async () => {
@@ -544,7 +540,7 @@ function DashboardCalendarPanel({
     <section className={cn(
       "relative overflow-hidden",
       embedded
-        ? "h-full rounded-[1.15rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-3.5 shadow-none"
+        ? "h-full rounded-[1.15rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4 shadow-none"
         : "macos-card p-4 shadow-none"
     )}>
       <span className={cn(
@@ -564,13 +560,13 @@ function DashboardCalendarPanel({
             </p>
           </div>
 
-          <div className="rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1.5 text-right">
+          <div className="min-w-[108px] rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3.5 py-2 text-center">
             <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Focused day</p>
-            <p className="mt-0.5 text-[13px] font-semibold alpha-text">{formatCalendarDate(selectedDate)}</p>
+            <p className="mt-0.5 text-[14px] font-semibold alpha-text">{formatCalendarDate(selectedDate)}</p>
           </div>
         </div>
 
-        <div className="mt-4 rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] p-3">
+        <div className="mt-4 rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] p-3.5">
           <div className="flex items-center justify-between gap-3">
             <button
               type="button"
@@ -578,14 +574,14 @@ function DashboardCalendarPanel({
                 const next = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
                 setCalendarMonth(next);
               }}
-              className="flex h-8 w-8 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-gold/10 hover:text-gold"
+              className="flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-gold/10 hover:text-gold"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
 
             <div className="text-center">
-              <p className="text-[14px] font-semibold alpha-text">{getCalendarMonthLabel(calendarMonth)}</p>
-              <p className="mt-1 text-[10px] alpha-text-muted">{selectedEntriesCount} project on focus</p>
+              <p className="text-[15px] font-semibold alpha-text">{getCalendarMonthLabel(calendarMonth)}</p>
+              <p className="mt-1 text-[11px] alpha-text-muted">{selectedEntriesCount} project on focus</p>
             </div>
 
             <button
@@ -594,24 +590,24 @@ function DashboardCalendarPanel({
                 const next = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
                 setCalendarMonth(next);
               }}
-              className="flex h-8 w-8 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-gold/10 hover:text-gold"
+              className="flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-gold/10 hover:text-gold"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="mt-3 grid grid-cols-7 gap-1">
+          <div className="mt-3.5 grid grid-cols-7 gap-1.5">
             {weekdayLabels.map((label) => (
               <div
                 key={label}
-                className="flex h-7 items-center justify-center text-[10px] font-medium uppercase tracking-[0.14em] alpha-text-muted"
+                className="flex h-8 items-center justify-center text-[10px] font-medium uppercase tracking-[0.14em] alpha-text-muted"
               >
                 {label}
               </div>
             ))}
           </div>
 
-          <div className="mt-1.5 grid grid-cols-7 gap-1">
+          <div className="mt-2 grid grid-cols-7 gap-1.5">
             {calendarDays.map(({ date, inCurrentMonth }) => {
               const hasDeadline = deadlineKeys.has(date.toDateString());
               const isSelected = isSameCalendarDay(date, selectedDate);
@@ -626,7 +622,7 @@ function DashboardCalendarPanel({
                     setCalendarMonth(new Date(date.getFullYear(), date.getMonth(), 1));
                   }}
                   className={cn(
-                    "flex h-8 w-full items-center justify-center rounded-[0.85rem] border text-[11px] font-medium transition-[background-color,border-color,color] duration-150 sm:h-9",
+                    "flex h-9 w-full items-center justify-center rounded-[0.95rem] border text-[12px] font-medium transition-[background-color,border-color,color] duration-150 sm:h-10",
                     inCurrentMonth ? "opacity-100" : "opacity-45",
                     isSelected
                       ? "border-gold bg-gold text-[color:var(--alpha-accent-contrast)]"
@@ -659,6 +655,7 @@ function DashboardWorkspacePanel({
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), now.getDate());
   }, []);
+  const { t } = useI18n();
 
   const deadlineEntries = useMemo(
     () =>
@@ -673,15 +670,10 @@ function DashboardWorkspacePanel({
     [airdrops]
   );
 
-  const nextUpcoming = useMemo(
-    () => deadlineEntries.find((entry) => entry.date.getTime() >= today.getTime()) ?? deadlineEntries[0] ?? null,
-    [deadlineEntries, today]
-  );
-
   const [selectedDateOverride, setSelectedDateOverride] = useState<Date | undefined>(undefined);
   const [calendarMonthOverride, setCalendarMonthOverride] = useState<Date | undefined>(undefined);
-  const activeSelectedDate = selectedDateOverride ?? nextUpcoming?.date ?? today;
-  const activeCalendarMonth = calendarMonthOverride ?? nextUpcoming?.date ?? today;
+  const activeSelectedDate = selectedDateOverride ?? today;
+  const activeCalendarMonth = calendarMonthOverride ?? today;
 
   const selectedEntries = useMemo(
     () => deadlineEntries.filter((entry) => isSameCalendarDay(entry.date, activeSelectedDate)),
@@ -712,19 +704,16 @@ function DashboardWorkspacePanel({
         <RewardPerformancePanel
           rewards={rewards}
           isDark={isDark}
-          title="Payout timeline"
-          subtitle="Reward history from your claimed airdrops. Record income in Reward Vault and this panel updates automatically."
+          title={t("rewardVault.timelineTitle")}
+          subtitle={t("rewardVault.timelineSubtitle")}
           compact
           embedded
         />
       </Suspense>
 
-      <div className="grid gap-4 xl:grid-cols-[360px_minmax(0,1fr)_280px]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(380px,0.92fr)] 2xl:grid-cols-[minmax(0,1fr)_minmax(420px,0.96fr)]">
         <Suspense fallback={<DashboardPanelFallback className="min-h-[348px]" />}>
           <AirdropNewsPanel isDark={isDark} />
-        </Suspense>
-        <Suspense fallback={<DashboardPanelFallback className="min-h-[348px]" />}>
-          <GasFeesPanel />
         </Suspense>
         <DashboardCalendarPanel
           selectedDate={activeSelectedDate}

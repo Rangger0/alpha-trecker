@@ -30,46 +30,46 @@ input, textarea, [contenteditable] {
 
 /* Light fallback */
 
---background: 0 0% 97%;
---foreground: 218 11% 25%;
+--background: 0 0% 100%;
+--foreground: 0 0% 0%;
 
---card: 0 0% 93%;
---card-foreground: 218 11% 25%;
+--card: 0 0% 100%;
+--card-foreground: 0 0% 0%;
 
---popover: 0 0% 97%;
---popover-foreground: 218 11% 25%;
+--popover: 0 0% 100%;
+--popover-foreground: 0 0% 0%;
 
---primary: 10 100% 57%;
---primary-foreground: 0 0% 97%;
+--primary: 0 0% 6%;
+--primary-foreground: 0 0% 100%;
 
---secondary: 220 13% 92%;
---secondary-foreground: 218 11% 25%;
+--secondary: 0 0% 96%;
+--secondary-foreground: 0 0% 0%;
 
---muted: 220 13% 92%;
---muted-foreground: 220 14% 62%;
+--muted: 0 0% 96%;
+--muted-foreground: 0 0% 38%;
 
---accent: 10 100% 57%;
---accent-foreground: 0 0% 97%;
+--accent: 0 0% 6%;
+--accent-foreground: 0 0% 100%;
 
---destructive: 0 84% 60%;
+--destructive: 0 0% 22%;
 --destructive-foreground: 0 0% 100%;
 
---border: 220 9% 86%;
---input: 220 9% 86%;
---ring: 10 100% 57%;
+--border: 0 0% 86%;
+--input: 0 0% 86%;
+--ring: 0 0% 18%;
 
 --radius: 0.5rem;
 
 /* Custom Alpha Variables */
---alpha-bg: #F7F7F7;
---alpha-panel: #EEEEEE;
---alpha-accent: #ffffff;
---alpha-accent-hover: #ffffff;
---alpha-accent-contrast: #F7F7F7;
---alpha-text: #393E46;
---alpha-text-muted: #929AAB;
---alpha-border: rgba(57, 62, 70, 0.12);
---alpha-surface: #F7F7F7;
+--alpha-bg: #ffffff;
+--alpha-panel: #ffffff;
+--alpha-accent: #111111;
+--alpha-accent-hover: #303030;
+--alpha-accent-contrast: #ffffff;
+--alpha-text: #000000;
+--alpha-text-muted: #5c5c5c;
+--alpha-border: rgba(0, 0, 0, 0.12);
+--alpha-surface: #f7f7f7;
 
 }
 
@@ -78,32 +78,42 @@ input, textarea, [contenteditable] {
 .dark {
 
 --background: 0 0% 0%;
---foreground: 0 0% 97%;
+--foreground: 0 0% 100%;
 
---card: 0 0% 7%;
---card-foreground: 0 0% 97%;
+--card: 0 0% 6%;
+--card-foreground: 0 0% 100%;
 
---popover: 0 0% 7%;
---popover-foreground: 0 0% 97%;
+--popover: 0 0% 6%;
+--popover-foreground: 0 0% 100%;
 
---primary: 10 100% 57%;
---primary-foreground: 0 0% 97%;
+--primary: 0 0% 100%;
+--primary-foreground: 0 0% 0%;
 
---secondary: 0 0% 9%;
---secondary-foreground: 0 0% 97%;
+--secondary: 0 0% 10%;
+--secondary-foreground: 0 0% 100%;
 
---muted: 0 0% 9%;
---muted-foreground: 220 14% 62%;
+--muted: 0 0% 10%;
+--muted-foreground: 0 0% 68%;
 
---accent: 10 100% 57%;
---accent-foreground: 0 0% 97%;
+--accent: 0 0% 100%;
+--accent-foreground: 0 0% 0%;
 
---destructive: 0 84% 60%;
+--destructive: 0 0% 56%;
 --destructive-foreground: 0 0% 100%;
 
---border: 0 0% 12%;
---input: 0 0% 12%;
---ring: 10 100% 57%;
+--border: 0 0% 18%;
+--input: 0 0% 18%;
+--ring: 0 0% 82%;
+
+--alpha-bg: #000000;
+--alpha-panel: #090909;
+--alpha-accent: #ffffff;
+--alpha-accent-hover: #d4d4d4;
+--alpha-accent-contrast: #000000;
+--alpha-text: #ffffff;
+--alpha-text-muted: #a3a3a3;
+--alpha-border: rgba(255, 255, 255, 0.12);
+--alpha-surface: #101010;
 
 }
 
@@ -123,6 +133,7 @@ input, textarea, [contenteditable] {
 html {
   scroll-behavior: smooth;
   font-size: 15px;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -131,14 +142,17 @@ body {
 
   font-family:
   var(--mac-font-stack, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
-  font-weight: 500;
+  font-weight: 520;
+  letter-spacing: -0.01em;
 
   overflow-x: hidden;
 
   width: 100%;
   min-height: 100vh;
 
-  line-height: 1.28;
+  line-height: 1.38;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: contain;
 
   background:
     var(--alpha-bg-pattern, none),
@@ -147,13 +161,47 @@ body {
 
 }
 
-h1, h2, h3, h4, h5, h6, button, label, th {
-  font-weight: 600;
+h1, h2, h3, h4, h5, h6, button, label, th, .font-display {
+  font-family:
+  var(--mac-display-stack, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+b, strong {
+  font-weight: 700;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
+}
+
+body .text-\[10px\] {
+  font-size: 0.72rem;
+  line-height: 1.12rem;
+}
+
+body .text-\[11px\] {
+  font-size: 0.78rem;
+  line-height: 1.18rem;
+}
+
+body .text-\[12px\] {
+  font-size: 0.835rem;
+  line-height: 1.24rem;
+}
+
+body .text-\[13px\] {
+  font-size: 0.9rem;
+  line-height: 1.32rem;
+}
+
+body input,
+body textarea,
+body select {
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 }

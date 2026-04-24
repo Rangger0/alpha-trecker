@@ -17,7 +17,6 @@ interface Pipe {
 export function PipesBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
-  const isDark = theme === 'dark';
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -31,9 +30,16 @@ export function PipesBackground() {
     let frameCount = 0;
     let lastFrameTime = 0;
     const frameInterval = 1000 / 30;
-    const colors = isDark
-      ? ['#decc73', '#eede2e', '#f6da74', '#f1e986', '#f8eb94']
-      : ['#2564eb', 'var(--alpha-signal)', '#60A5FA', '#1d4fd8', '#93C5FD'];
+    const rootStyles = getComputedStyle(document.documentElement);
+    const readColor = (cssVar: string, fallback: string) => rootStyles.getPropertyValue(cssVar).trim() || fallback;
+    const colors = [
+      readColor('--alpha-highlight', '#8df8ea'),
+      readColor('--alpha-signal', '#2ad0c3'),
+      readColor('--alpha-warning', '#f2c162'),
+      readColor('--alpha-violet', '#9bb7ff'),
+      readColor('--alpha-info', '#82d9f5'),
+    ];
+    const packetColor = readColor('--alpha-text', '#f4fffd');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const maxPipes = prefersReducedMotion ? 0 : 10;
     const spawnInterval = prefersReducedMotion ? Number.MAX_SAFE_INTEGER : 30;
@@ -102,7 +108,7 @@ export function PipesBackground() {
       // Data packet
       if (pipe.progress > 20) {
         const packetPos = pipe.progress * 0.72;
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = packetColor;
         ctx.shadowBlur = 12;
         ctx.shadowColor = pipe.color;
         ctx.globalAlpha = 1;
@@ -176,7 +182,7 @@ export function PipesBackground() {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationId);
     };
-  }, [isDark]);
+  }, [theme]);
 
   return (
     <canvas

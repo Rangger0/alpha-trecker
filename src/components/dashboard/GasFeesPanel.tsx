@@ -2,6 +2,7 @@ import { useMemo, type CSSProperties } from "react";
 import { Flame, RefreshCw, Signal, WifiOff } from "lucide-react";
 import { useGasFees } from "@/hooks/use-gas-fees";
 import { usePrices } from "@/hooks/use-prices";
+import { cn } from "@/lib/utils";
 
 const NATIVE_PRICE_IDS: Record<number, string> = {
   1: "ethereum",
@@ -55,8 +56,14 @@ const formatUpdatedAt = (timestamp: number | null) => {
   });
 };
 
-export function GasFeesPanel() {
+interface GasFeesPanelProps {
+  variant?: "dashboard" | "page";
+  showHeader?: boolean;
+}
+
+export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFeesPanelProps) {
   const { items, lastUpdated, totalChains, loading, error } = useGasFees();
+  const isPage = variant === "page";
   const visibleChainsLabel = totalChains > 0 ? `${items.length} chains live` : "Live";
   const nativeCoinIds = useMemo(
     () => Array.from(new Set(items.map((item) => NATIVE_PRICE_IDS[item.chainId]).filter(Boolean))),
@@ -69,28 +76,50 @@ export function GasFeesPanel() {
   const chipSurfaceClassName = "bg-[color:var(--alpha-surface-soft)]";
   const chipValueTextClassName = "alpha-text";
   const chipMutedTextClassName = "alpha-text-muted";
+  const listClassName = cn(
+    "grid grid-cols-1 gap-3",
+    isPage ? "mt-0 lg:grid-cols-2 2xl:grid-cols-3" : "mt-4 max-h-[280px] overflow-y-auto pr-1 sm:grid-cols-2",
+  );
 
   return (
-    <section className="rounded-[1.15rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-4 py-4 shadow-none">
-      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-start sm:justify-between">
-        <div>
+    <section
+      className={cn(
+        "border border-alpha-border bg-[color:var(--alpha-hover-soft)] shadow-none",
+        isPage ? "rounded-[1.45rem] px-4 py-4 sm:px-5 sm:py-5" : "rounded-[1.15rem] px-4 py-4",
+      )}
+    >
+      {showHeader ? (
+        <div className="flex flex-col gap-2.5 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
+              <Signal className="h-3.5 w-3.5 text-gold" />
+              Watchoor
+            </div>
+            <h4 className="mt-3 text-[16px] font-semibold alpha-text">Live gas fee</h4>
+            <p className="mt-1.5 max-w-xl text-[12px] leading-5 alpha-text-muted">
+              Snapshot biaya estimasi untuk basic transaction 21k gas. Layout ini dibikin lebih ringkas biar gampang scan chain yang lagi murah, normal, atau mahal.
+            </p>
+          </div>
+
+          <div className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-gold">
+            {visibleChainsLabel}
+          </div>
+        </div>
+      ) : (
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
             <Signal className="h-3.5 w-3.5 text-gold" />
-            Watchoor
+            Watchoor board
           </div>
-          <h4 className="mt-3 text-[16px] font-semibold alpha-text">Live gas fee</h4>
-          <p className="mt-1.5 max-w-xl text-[12px] leading-5 alpha-text-muted">
-            Snapshot biaya estimasi untuk basic transaction 21k gas. Layout ini dibikin lebih ringkas biar gampang scan chain yang lagi murah, normal, atau mahal.
-          </p>
-        </div>
 
-        <div className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-gold">
-          {visibleChainsLabel}
+          <div className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-gold">
+            {visibleChainsLabel}
+          </div>
         </div>
-      </div>
+      )}
 
       {loading ? (
-        <div className="mt-4 grid max-h-[280px] grid-cols-1 gap-3 overflow-y-auto pr-1 sm:grid-cols-2">
+        <div className={cn(listClassName, !showHeader && "mt-0")}>
           {Array.from({ length: 6 }).map((_, index) => (
             <div
               key={index}
@@ -123,11 +152,14 @@ export function GasFeesPanel() {
           </div>
         </div>
       ) : (
-        <div className="mt-4 grid max-h-[280px] grid-cols-1 gap-3 overflow-y-auto pr-1 sm:grid-cols-2">
+        <div className={cn(listClassName, !showHeader && "mt-0")}>
           {items.map((item, index) => (
             <div
               key={item.chainId}
-              className="macos-card-entry min-h-[206px] rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-3.5 py-3.5 shadow-none"
+              className={cn(
+                "macos-card-entry rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-3.5 py-3.5 shadow-none",
+                isPage ? "min-h-[214px]" : "min-h-[206px]",
+              )}
               style={{ '--mac-delay': `${index * 18}ms` } as CSSProperties}
             >
               {(() => {

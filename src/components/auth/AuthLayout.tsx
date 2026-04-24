@@ -15,6 +15,13 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
   const location = useLocation();
   const isDark = theme === 'dark';
   const isLoginRoute = location.pathname === '/login';
+  const authTransition = ((location.state as { authTransition?: 'left' | 'right' } | null)?.authTransition) ?? 'idle';
+  const authTransitionClass =
+    authTransition === 'left'
+      ? 'macos-auth-switch-left'
+      : authTransition === 'right'
+        ? 'macos-auth-switch-right'
+        : 'macos-auth-switch-idle';
 
   const shellBorder = 'color-mix(in srgb, var(--alpha-border) 86%, rgba(255, 255, 255, 0.35))';
   const shellGlow = isDark ? '0 34px 90px rgba(16, 18, 28, 0.34)' : '0 28px 80px rgba(108, 96, 79, 0.15)';
@@ -87,7 +94,7 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                       boxShadow: '0 14px 30px rgba(18, 20, 31, 0.14)',
                     }}
                   >
-                    <img src="/logo.png" alt="Alpha Tracker" className="alpha-brand-logo h-7 w-7 object-contain" />
+                    <img src="/logo.png" alt="Alpha Tracker" className="alpha-brand-logo macos-auth-logo-spin h-7 w-7 object-contain" />
                   </div>
                   <div className="min-w-0">
                     <p
@@ -124,6 +131,7 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                 <div className="flex items-center gap-2">
                   <Link
                     to="/login"
+                    state={{ authTransition: 'right' }}
                     className="rounded-full px-4 py-2 text-sm font-semibold transition-opacity duration-150 hover:opacity-90"
                     style={{
                       border: isLoginRoute ? '1px solid transparent' : `1px solid ${shellBorder}`,
@@ -135,6 +143,7 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                   </Link>
                   <Link
                     to="/register"
+                    state={{ authTransition: 'left' }}
                     className="rounded-full px-4 py-2 text-sm font-semibold transition-opacity duration-150 hover:opacity-90"
                     style={{
                       border: !isLoginRoute ? '1px solid transparent' : `1px solid ${shellBorder}`,
@@ -148,9 +157,12 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
               </div>
             </div>
 
-            <div className="relative z-10 mt-6 grid gap-5 lg:mt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,430px)] lg:gap-8">
+            <div
+              key={location.pathname}
+              className={`relative z-10 mt-6 grid gap-5 lg:mt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,430px)] lg:gap-8 ${authTransitionClass}`}
+            >
               <div
-                className="relative overflow-hidden rounded-[1.8rem] px-5 py-6 sm:px-7 sm:py-7"
+                className="macos-auth-copy-panel relative overflow-hidden rounded-[1.8rem] px-5 py-6 sm:px-7 sm:py-7"
                 style={{
                   border: `1px solid ${shellBorder}`,
                   background: featurePanel,
@@ -176,7 +188,7 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                     <img
                       src="/logo.png"
                       alt=""
-                      className="alpha-brand-logo absolute right-[8%] top-[18%] hidden h-56 w-56 object-contain opacity-[0.08] lg:block"
+                      className="alpha-brand-logo macos-auth-logo-spin macos-auth-logo-spin--ambient absolute right-[8%] top-[18%] hidden h-56 w-56 object-contain opacity-[0.08] lg:block"
                     />
                 </div>
 
@@ -235,7 +247,7 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                 </div>
               </div>
 
-              <div className="flex items-start justify-center lg:justify-end">
+              <div className="macos-auth-form-shell flex items-start justify-center lg:justify-end">
                 <div className="macos-auth-stage w-full max-w-[430px] lg:min-h-[548px]">
                   <div
                     key={isLoginRoute ? 'login' : 'register'}
@@ -265,7 +277,7 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                         border: `1px solid ${shellBorder}`,
                       }}
                     >
-                      <img src="/logo.png" alt="Alpha Tracker" className="alpha-brand-logo h-9 w-9 object-contain" />
+                      <img src="/logo.png" alt="Alpha Tracker" className="alpha-brand-logo macos-auth-logo-spin macos-auth-logo-spin--slow h-9 w-9 object-contain" />
                     </div>
                     <div>
                       <p

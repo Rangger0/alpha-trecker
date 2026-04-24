@@ -130,23 +130,19 @@ export function FloatingFeedback() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="pointer-events-auto group relative flex items-center gap-3 rounded-[1.35rem] border border-[color:var(--alpha-border-strong)] bg-[color:color-mix(in_srgb,var(--alpha-panel)_88%,transparent)] px-3 py-3 text-left shadow-[0_14px_34px_rgba(0,0,0,0.22)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[color:var(--alpha-highlight-border)]"
-          aria-label="Open feedback assistant"
+          className="pointer-events-auto group relative flex h-16 w-16 items-center justify-center rounded-[1.45rem] border border-[color:var(--alpha-border-strong)] bg-[color:color-mix(in_srgb,var(--alpha-panel)_90%,transparent)] shadow-[0_16px_38px_rgba(0,0,0,0.24)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[color:var(--alpha-highlight-border)]"
+          aria-label="Open Robot Live feedback"
+          title="Robot Live"
         >
           <span className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(circle_at_top_right,color-mix(in_srgb,var(--alpha-highlight)_18%,transparent),transparent_56%)] opacity-80" />
-          <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-[1rem] border border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface-soft)]">
+          <span className="relative flex h-12 w-12 items-center justify-center rounded-[1rem] border border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface-soft)]">
             <span className="absolute inset-1 rounded-[0.8rem] bg-[color:color-mix(in_srgb,var(--alpha-highlight)_14%,transparent)] blur-sm transition-opacity duration-200 group-hover:opacity-100" />
-            <Bot className="relative h-5 w-5 text-[color:var(--alpha-highlight)]" />
+            <Bot className="relative h-5.5 w-5.5 text-[color:var(--alpha-highlight)]" />
             <span className="absolute right-1.5 top-1.5 flex h-2.5 w-2.5">
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)]" />
             </span>
           </span>
-
-          <div className="relative hidden min-w-[150px] pr-1 sm:block">
-            <p className="text-xs font-mono uppercase tracking-[0.22em] alpha-text-muted">Robot live</p>
-            <p className="mt-1 text-sm font-semibold alpha-text">Feedback</p>
-            <p className="text-xs alpha-text-muted">Masuk ke inbox tim</p>
-          </div>
+          <span className="sr-only">Robot Live feedback</span>
         </button>
       </div>
 

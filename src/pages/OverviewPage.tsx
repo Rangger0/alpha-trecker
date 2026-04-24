@@ -110,7 +110,7 @@ export function OverviewPage() {
       label: 'Completed',
       value: completed,
       meta: `${successRate}% success rate`,
-      accent: '#14b8a6',
+      accent: 'var(--alpha-info)',
       icon: CheckCircle2,
     },
     {
@@ -145,7 +145,7 @@ export function OverviewPage() {
       title: 'Ecosystem atlas',
       subtitle: 'Lihat cluster chain dan progress setup yang aktif.',
       path: '/ecosystem',
-      accent: '#14b8a6',
+      accent: 'var(--alpha-info)',
       icon: Wallet,
     },
     {
@@ -153,7 +153,7 @@ export function OverviewPage() {
       title: 'Screening desk',
       subtitle: 'Cek wallet, eligibility, dan project signal lebih cepat.',
       path: '/screening',
-      accent: '#f59e0b',
+      accent: 'var(--alpha-warning)',
       icon: Activity,
     },
   ];
@@ -180,7 +180,7 @@ export function OverviewPage() {
       title: 'AI Stack',
       subtitle: 'Coding, research, dan workflow agentic',
       path: '/ai-tools',
-      accent: '#2bcaf6',
+      accent: 'var(--alpha-info)',
       icon: Bot,
     },
     {
@@ -188,7 +188,7 @@ export function OverviewPage() {
       title: 'Research Tools',
       subtitle: 'Deck market intel dan onchain scan',
       path: '/tools',
-      accent: '#8b5cf6',
+      accent: 'var(--alpha-violet)',
       icon: Wrench,
     },
     {
@@ -196,7 +196,7 @@ export function OverviewPage() {
       title: 'Swap & Bridge',
       subtitle: 'Cross-chain route and venue desk',
       path: '/swap-bridge',
-      accent: '#059669',
+      accent: 'var(--alpha-signal)',
       icon: Repeat,
     },
   ];
@@ -216,7 +216,7 @@ export function OverviewPage() {
     {
       title: 'Ecosystem',
       ...limits.ecosystem,
-      accent: '#14b8a6',
+      accent: 'var(--alpha-info)',
     },
     {
       title: 'Priorities',
@@ -226,7 +226,7 @@ export function OverviewPage() {
     {
       title: 'Tasks',
       ...limits.tasksPerDoc,
-      accent: '#f59e0b',
+      accent: 'var(--alpha-warning)',
     },
   ];
 

@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useI18n } from "@/contexts/LanguageContext";
 import type { Airdrop, AirdropReward, AirdropRewardInput, RewardClaimStatus } from "@/types";
 
 interface AirdropRewardModalProps {
@@ -43,13 +44,6 @@ const normalizeDateInputValue = (value?: string | null) => {
   return parsed.toISOString().slice(0, 10);
 };
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: value >= 1000 ? 0 : 2,
-  }).format(value);
-
 const formatPercent = (value: number | null) => {
   if (value == null || !Number.isFinite(value)) return "--";
   return `${value >= 0 ? "+" : ""}${value.toFixed(1)}%`;
@@ -65,6 +59,14 @@ export function AirdropRewardModal({
   onSubmit,
   onDelete,
 }: AirdropRewardModalProps) {
+  const {
+    t,
+    displayCurrencyLabel,
+    convertToUsd,
+    formatCurrency,
+    formatCurrencyInput,
+    translateOption,
+  } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [claimStatus, setClaimStatus] = useState<RewardClaimStatus>("Pending TGE");
@@ -81,21 +83,21 @@ export function AirdropRewardModal({
     if (!isOpen || !airdrop) return;
 
     setClaimStatus(reward?.claimStatus ?? "Pending TGE");
-    setAmountUsd(reward ? String(reward.amountUsd ?? 0) : "0");
-    setCapitalUsd(reward ? String(reward.capitalUsd ?? 0) : "0");
-    setFeeUsd(reward ? String(reward.feeUsd ?? 0) : "0");
+    setAmountUsd(reward ? formatCurrencyInput(reward.amountUsd ?? 0) : "0");
+    setCapitalUsd(reward ? formatCurrencyInput(reward.capitalUsd ?? 0) : "0");
+    setFeeUsd(reward ? formatCurrencyInput(reward.feeUsd ?? 0) : "0");
     setTokenAmount(reward?.tokenAmount != null ? String(reward.tokenAmount) : "");
     setTokenSymbol(reward?.tokenSymbol ?? "");
     setTgeDate(normalizeDateInputValue(reward?.tgeDate ?? airdrop.deadline));
     setClaimedAt(normalizeDateInputValue(reward?.claimedAt));
     setNotes(reward?.notes ?? "");
-  }, [isOpen, airdrop, reward]);
+  }, [airdrop, formatCurrencyInput, isOpen, reward]);
 
   if (!airdrop) return null;
 
-  const amountValue = Number(amountUsd || 0);
-  const capitalValue = Number(capitalUsd || 0);
-  const feeValue = Number(feeUsd || 0);
+  const amountValue = convertToUsd(Number(amountUsd || 0));
+  const capitalValue = convertToUsd(Number(capitalUsd || 0));
+  const feeValue = convertToUsd(Number(feeUsd || 0));
   const totalCost = capitalValue + feeValue;
   const netProfit = amountValue - totalCost;
   const roi = totalCost > 0 ? (netProfit / totalCost) * 100 : null;
@@ -109,9 +111,9 @@ export function AirdropRewardModal({
         onSubmit({
           airdropId: airdrop.id,
           claimStatus,
-          amountUsd: Number(amountUsd || 0),
-          capitalUsd: Number(capitalUsd || 0),
-          feeUsd: Number(feeUsd || 0),
+          amountUsd: amountValue,
+          capitalUsd: capitalValue,
+          feeUsd: feeValue,
           tokenAmount: tokenAmount ? Number(tokenAmount) : null,
           tokenSymbol: tokenSymbol || null,
           tgeDate: tgeDate || null,
@@ -151,13 +153,15 @@ export function AirdropRewardModal({
               <DialogHeader className="flex-1 border-0 pb-0 text-left">
                 <div className="inline-flex w-fit items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] alpha-text-muted">
                   <Sparkles className="h-3.5 w-3.5 text-gold" />
-                  Reward Vault
+                  {t("rewardModal.badge")}
                 </div>
                 <DialogTitle className="mt-4 text-2xl font-semibold alpha-text">
-                  {reward ? "Edit airdrop reward" : "Record airdrop reward"}
+                  {reward ? t("rewardModal.editTitle") : t("rewardModal.addTitle")}
                 </DialogTitle>
                 <DialogDescription className="alpha-text-muted">
-                  Simpan TGE, modal, fee, realized value, dan profit untuk <span className="font-medium alpha-text">{airdrop.projectName}</span>.
+                  {t("rewardModal.description", { project: airdrop.projectName }).split(airdrop.projectName)[0]}
+                  <span className="font-medium alpha-text">{airdrop.projectName}</span>
+                  {t("rewardModal.description", { project: airdrop.projectName }).split(airdrop.projectName)[1] ?? ""}
                 </DialogDescription>
               </DialogHeader>
 
@@ -165,7 +169,7 @@ export function AirdropRewardModal({
                 <button
                   type="button"
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] alpha-text transition-[background-color,color,border-color] duration-150 hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-hover-soft)]"
-                  aria-label="Close modal"
+                  aria-label={t("common.close")}
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -176,7 +180,7 @@ export function AirdropRewardModal({
           <form onSubmit={handleSubmit} className="mt-5 flex min-h-0 flex-1 flex-col">
             <div className="flex-1 space-y-6 overflow-y-auto px-6 pb-6">
               <div className="rounded-2xl border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4">
-                <p className="text-[11px] uppercase tracking-[0.24em] alpha-text-muted">Linked project</p>
+                <p className="text-[11px] uppercase tracking-[0.24em] alpha-text-muted">{t("rewardModal.linkedProject")}</p>
                 <div className="mt-3 flex items-center gap-3">
                   <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-alpha-border bg-[color:var(--alpha-surface)]">
                     {airdrop.projectLogo ? (
@@ -187,14 +191,17 @@ export function AirdropRewardModal({
                   </div>
                   <div>
                     <p className="text-lg font-semibold alpha-text">{airdrop.projectName}</p>
-                    <p className="text-sm alpha-text-muted">{airdrop.type} • {airdrop.status}</p>
+                    <p className="text-sm alpha-text-muted">
+                      {translateOption("airdropType", airdrop.type)} • {translateOption("airdropStatus", airdrop.status)}
+                    </p>
                   </div>
                 </div>
+                <p className="mt-3 text-xs alpha-text-muted">{t("rewardModal.moneyHint", { currency: displayCurrencyLabel })}</p>
               </div>
 
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
                 <div className="space-y-2">
-                  <Label htmlFor="claim-status" className="alpha-text">Claim status</Label>
+                  <Label htmlFor="claim-status" className="alpha-text">{t("rewardModal.claimStatus")}</Label>
                   <Select value={claimStatus} onValueChange={(value) => setClaimStatus(value as RewardClaimStatus)}>
                     <SelectTrigger id="claim-status" className="macos-input">
                       <SelectValue />
@@ -202,7 +209,7 @@ export function AirdropRewardModal({
                     <SelectContent className="macos-popover">
                       {CLAIM_STATUSES.map((status) => (
                         <SelectItem key={status} value={status}>
-                          {status}
+                          {translateOption("rewardClaimStatus", status)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -210,7 +217,7 @@ export function AirdropRewardModal({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="amount-usd" className="alpha-text">Realized value (USD)</Label>
+                  <Label htmlFor="amount-usd" className="alpha-text">{t("rewardModal.amountUsd")}</Label>
                   <div className="relative">
                     <Coins className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 alpha-text-muted" />
                     <Input
@@ -227,7 +234,7 @@ export function AirdropRewardModal({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="capital-usd" className="alpha-text">Capital deployed (USD)</Label>
+                  <Label htmlFor="capital-usd" className="alpha-text">{t("rewardModal.capitalUsd")}</Label>
                   <div className="relative">
                     <WalletCards className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 alpha-text-muted" />
                     <Input
@@ -246,7 +253,7 @@ export function AirdropRewardModal({
 
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr,1fr,1.2fr]">
                 <div className="space-y-2">
-                  <Label htmlFor="fee-usd" className="alpha-text">Fees / gas (USD)</Label>
+                  <Label htmlFor="fee-usd" className="alpha-text">{t("rewardModal.feeUsd")}</Label>
                   <div className="relative">
                     <ReceiptText className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 alpha-text-muted" />
                     <Input
@@ -263,26 +270,26 @@ export function AirdropRewardModal({
                 </div>
 
                 <div className="rounded-2xl border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4">
-                  <p className="text-[10px] uppercase tracking-[0.22em] alpha-text-muted">Total modal</p>
+                  <p className="text-[10px] uppercase tracking-[0.22em] alpha-text-muted">{t("rewardModal.totalCost")}</p>
                   <p className="mt-2 text-xl font-semibold alpha-text">{formatCurrency(totalCost)}</p>
-                  <p className="mt-1 text-xs alpha-text-muted">Capital + fees yang sudah kamu keluarin.</p>
+                  <p className="mt-1 text-xs alpha-text-muted">{t("rewardModal.totalCostHint")}</p>
                 </div>
 
                 <div className="rounded-2xl border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-[10px] uppercase tracking-[0.22em] alpha-text-muted">Net profit</p>
+                    <p className="text-[10px] uppercase tracking-[0.22em] alpha-text-muted">{t("rewardModal.netProfit")}</p>
                     <TrendingUp className={`h-4 w-4 ${netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]"}`} />
                   </div>
                   <p className={`mt-2 text-xl font-semibold ${netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]"}`}>
                     {formatCurrency(netProfit)}
                   </p>
-                  <p className="mt-1 text-xs alpha-text-muted">ROI {formatPercent(roi)}</p>
+                  <p className="mt-1 text-xs alpha-text-muted">{t("rewardModal.roi", { value: formatPercent(roi) })}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="tge-date" className="alpha-text">TGE date</Label>
+                  <Label htmlFor="tge-date" className="alpha-text">{t("rewardModal.tgeDate")}</Label>
                   <div className="relative">
                     <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 alpha-text-muted" />
                     <Input
@@ -296,7 +303,7 @@ export function AirdropRewardModal({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="claimed-at" className="alpha-text">Claimed date</Label>
+                  <Label htmlFor="claimed-at" className="alpha-text">{t("rewardModal.claimedAt")}</Label>
                   <div className="relative">
                     <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 alpha-text-muted" />
                     <Input
@@ -313,7 +320,7 @@ export function AirdropRewardModal({
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr,1fr]">
                 <div className="space-y-2">
-                  <Label htmlFor="token-symbol" className="alpha-text">Token symbol</Label>
+                  <Label htmlFor="token-symbol" className="alpha-text">{t("rewardModal.tokenSymbol")}</Label>
                   <Input
                     id="token-symbol"
                     value={tokenSymbol}
@@ -325,7 +332,7 @@ export function AirdropRewardModal({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="token-amount" className="alpha-text">Token amount</Label>
+                  <Label htmlFor="token-amount" className="alpha-text">{t("rewardModal.tokenAmount")}</Label>
                   <Input
                     id="token-amount"
                     type="number"
@@ -340,12 +347,12 @@ export function AirdropRewardModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="reward-notes" className="alpha-text">Notes</Label>
+                <Label htmlFor="reward-notes" className="alpha-text">{t("rewardModal.notes")}</Label>
                 <Textarea
                   id="reward-notes"
                   value={notes}
                   onChange={(event) => setNotes(event.target.value)}
-                  placeholder="OG wallet, vested schedule, sell plan, or other notes..."
+                  placeholder={t("rewardModal.notesPlaceholder")}
                   className="macos-input min-h-[120px]"
                 />
               </div>
@@ -363,18 +370,18 @@ export function AirdropRewardModal({
                       className="text-[var(--alpha-danger)] hover:bg-[var(--alpha-danger-soft)] hover:text-[var(--alpha-danger)]"
                     >
                       {isDeleting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                      Remove record
+                      {t("rewardModal.removeRecord")}
                     </Button>
                   ) : null}
                 </div>
 
                 <div className="flex flex-col-reverse gap-3 sm:flex-row">
                   <Button type="button" variant="ghost" onClick={onClose} className="macos-btn macos-btn--ghost">
-                    Cancel
+                    {t("common.cancel")}
                   </Button>
                   <Button type="submit" disabled={isLoading || isDeleting} className="macos-btn macos-btn--primary">
                     {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                    {reward ? "Save reward" : "Record reward"}
+                    {reward ? t("rewardModal.saveReward") : t("rewardModal.recordReward")}
                   </Button>
                 </div>
               </div>

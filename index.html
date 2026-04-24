@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,7 +23,7 @@
         const theme =
           localStorage.getItem('alpha_tracker_theme') ||
           localStorage.getItem('alpha_trecker_theme') ||
-          'light';
+          'dark';
         document.documentElement.classList.add(theme);
         document.documentElement.classList.remove(theme === 'dark' ? 'light' : 'dark');
         document.documentElement.style.colorScheme = theme;
@@ -31,7 +31,9 @@
     </script>
     
     <style>
-      html { background-color: #F7F7F7; }
+      html { background-color: #ffffff; }
+      html.dark { background-color: #000000; }
+      html.light { background-color: #ffffff; }
       body { margin: 0; min-height: 100vh; }
       #root { min-height: 100vh; }
     </style>

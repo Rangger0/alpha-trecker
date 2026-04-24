@@ -169,7 +169,7 @@ export function LoginPage() {
       <div className="mt-8 text-center">
         <p className="text-sm" style={{ color: 'var(--alpha-text-muted)' }}>
           Don&apos;t have an account yet?{' '}
-          <Link to="/register" className="font-semibold hover:underline" style={actionLinkStyle}>
+          <Link to="/register" state={{ authTransition: 'left' }} className="font-semibold hover:underline" style={actionLinkStyle}>
             Create Account
           </Link>
         </p>

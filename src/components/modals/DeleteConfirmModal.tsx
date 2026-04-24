@@ -58,36 +58,34 @@ export function DeleteConfirmModal({
   const displayConfirmLabel = confirmLabel || defaultConfirmLabel;
 
   const isDeleteVariant = variant === 'delete';
+  const accentColor = isDeleteVariant ? 'var(--alpha-danger)' : 'var(--alpha-warning)';
+  const accentFill = isDeleteVariant
+    ? 'color-mix(in srgb, var(--alpha-danger) 12%, transparent)'
+    : 'color-mix(in srgb, var(--alpha-warning) 12%, transparent)';
+  const emphasizedDescription = displayDescription.replace(
+    /<strong>(.*?)<\/strong>/g,
+    `<strong class="${isDeleteVariant ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-warning)]'}">$1</strong>`
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className={`max-w-md macos-modal alpha-surface alpha-border`}>
         <DialogHeader className="text-center">
-          <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
-            isDeleteVariant 
-              ? (isDark ? 'bg-[rgba(239,68,68,0.08)]' : 'bg-[rgba(220,38,38,0.08)]')
-              : (isDark ? 'bg-[rgba(245,158,11,0.08)]' : 'bg-[rgba(217,119,6,0.08)]')
-          }`}>
+          <div
+            className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
+            style={{ background: accentFill }}
+          >
             {isDeleteVariant ? (
-              <AlertTriangle className={`h-8 w-8 ${isDark ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-danger)]'}`} />
+              <AlertTriangle className="h-8 w-8" style={{ color: accentColor }} />
             ) : (
-              <X className={`h-8 w-8 ${isDark ? 'text-[var(--alpha-warning)]' : 'text-[#D97706]'}`} />
+              <X className="h-8 w-8" style={{ color: accentColor }} />
             )}
           </div>
           <DialogTitle className={`text-xl font-mono alpha-text`}>
             {displayTitle}
           </DialogTitle>
           <DialogDescription className={`font-mono alpha-muted`}>
-            {isDark ? (
-              <span dangerouslySetInnerHTML={{ 
-                __html: displayDescription.replace(
-                  /<strong>(.*?)<\/strong>/g, 
-                  '<strong class="' + (isDeleteVariant ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-warning)]') + '">$1</strong>'
-                ) 
-              }} />
-            ) : (
-              <span dangerouslySetInnerHTML={{ __html: displayDescription }} />
-            )}
+            <span dangerouslySetInnerHTML={{ __html: emphasizedDescription }} />
           </DialogDescription>
         </DialogHeader>
 

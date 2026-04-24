@@ -86,33 +86,34 @@ export const calculateProgress = (completed: number, total: number): number => {
   return Math.round((completed / total) * 100);
 };
 
-export const getStatusColor = (status: string, isDark: boolean = true): string => {
-  const colors: Record<string, { dark: string; light: string }> = {
-    'Planning': { dark: 'text-gray-400', light: 'text-gray-600' },
-    'Ongoing': { dark: 'text-blue-400', light: 'text-blue-600' },
-    'Done': { dark: 'text-[var(--alpha-signal)]', light: 'text-green-600' },
-    'Dropped': { dark: 'text-red-400', light: 'text-red-600' }
+export const getStatusColor = (status: string, _isDark: boolean = true): string => {
+  const colors: Record<string, string> = {
+    'Planning': 'text-[var(--alpha-text-muted)]',
+    'Ongoing': 'text-[var(--alpha-signal)]',
+    'Done': 'text-gold',
+    'Dropped': 'text-[var(--alpha-danger)]'
   };
-  return colors[status]?.[isDark ? 'dark' : 'light'] || colors['Planning'][isDark ? 'dark' : 'light'];
+  return colors[status] || colors['Planning'];
 };
 
-export const getTypeColor = (type: string, isDark: boolean = true): string => {
-  const colors: Record<string, { dark: string; light: string }> = {
-    'Testnet': { dark: 'text-purple-400', light: 'text-purple-600' },
-    'AI': { dark: 'text-cyan-400', light: 'text-cyan-600' },
-    'Quest': { dark: 'text-yellow-400', light: 'text-yellow-600' },
-    'Daily': { dark: 'text-pink-400', light: 'text-pink-600' },
-    'Daily Quest': { dark: 'text-pink-400', light: 'text-pink-600' },
-    'Retro': { dark: 'text-indigo-400', light: 'text-indigo-600' },
-    'Waitlist': { dark: 'text-blue-400', light: 'text-blue-600' },
-    'Depin': { dark: 'text-green-400', light: 'text-green-600' },
-    'NFT': { dark: 'text-red-400', light: 'text-red-600' },
-    'Domain Name': { dark: 'text-orange-400', light: 'text-orange-600' },
-    'Deploy SC': { dark: 'text-amber-400', light: 'text-amber-600' },
-    'DeFi': { dark: 'text-emerald-400', light: 'text-emerald-600' },
-    'Deploy NFT': { dark: 'text-rose-400', light: 'text-rose-600' }
+export const getTypeColor = (type: string, _isDark: boolean = true): string => {
+  const colors: Record<string, string> = {
+    'Testnet': 'text-[var(--alpha-violet)]',
+    'AI': 'text-[var(--alpha-signal)]',
+    'Quest': 'text-gold',
+    'Daily': 'text-[var(--alpha-warning)]',
+    'Daily Quest': 'text-[var(--alpha-warning)]',
+    'Retro': 'text-[var(--alpha-violet)]',
+    'Retroactive': 'text-[var(--alpha-violet)]',
+    'Waitlist': 'text-[var(--alpha-signal)]',
+    'Depin': 'text-[var(--alpha-signal)]',
+    'NFT': 'text-[var(--alpha-danger)]',
+    'Domain Name': 'text-[var(--alpha-danger)]',
+    'Deploy SC': 'text-gold',
+    'DeFi': 'text-gold',
+    'Deploy NFT': 'text-[var(--alpha-danger)]'
   };
-  return colors[type]?.[isDark ? 'dark' : 'light'] || colors['Quest'][isDark ? 'dark' : 'light'];
+  return colors[type] || colors['Quest'];
 };
 
 // ==================== SORTING & FILTERING ====================

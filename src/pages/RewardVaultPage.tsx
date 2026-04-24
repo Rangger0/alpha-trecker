@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useI18n } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAirdrops } from "@/hooks/use-airdrops";
 import { useAirdropRewards } from "@/hooks/use-airdrop-rewards";
@@ -32,25 +33,9 @@ const RewardPerformancePanel = lazy(async () => {
   return { default: module.RewardPerformancePanel };
 });
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: value >= 1000 ? 0 : 2,
-  }).format(value);
-
 const formatPercent = (value: number) => {
   if (!Number.isFinite(value)) return "--";
   return `${value >= 0 ? "+" : ""}${value.toFixed(1)}%`;
-};
-
-const formatTokenAmount = (value?: number | null) => {
-  if (value == null || !Number.isFinite(value)) return null;
-
-  return new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: value > 0 && value < 1 ? 2 : 0,
-    maximumFractionDigits: value >= 1000 ? 2 : 4,
-  }).format(value);
 };
 
 const getRewardCost = (reward?: RewardRow["reward"]) =>
@@ -65,10 +50,19 @@ const getRewardRoi = (reward?: RewardRow["reward"]) => {
   return (getRewardProfit(reward) / cost) * 100;
 };
 
-const getRewardTokenDisplay = (reward?: RewardRow["reward"]) => {
+const getRewardTokenDisplay = (
+  reward: RewardRow["reward"] | undefined,
+  formatNumber: (value: number, options?: Intl.NumberFormatOptions) => string
+) => {
   if (!reward) return null;
 
-  const amount = formatTokenAmount(reward.tokenAmount);
+  const amount =
+    reward.tokenAmount == null || !Number.isFinite(reward.tokenAmount)
+      ? null
+      : formatNumber(reward.tokenAmount, {
+          minimumFractionDigits: reward.tokenAmount > 0 && reward.tokenAmount < 1 ? 2 : 0,
+          maximumFractionDigits: reward.tokenAmount >= 1000 ? 2 : 4,
+        });
   const symbol = reward.tokenSymbol?.trim() || null;
 
   if (!amount && !symbol) return null;
@@ -76,18 +70,6 @@ const getRewardTokenDisplay = (reward?: RewardRow["reward"]) => {
 
   return amount || symbol;
 };
-
-const formatDisplayDate = (value?: string | null) => {
-  if (!value) return "--";
-  const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) return value;
-  return parsed.toLocaleDateString("id-ID", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-};
-
 type RewardRow = {
   airdrop: Airdrop;
   reward: ReturnType<typeof useAirdropRewards>["rewards"][number] | undefined;
@@ -113,6 +95,7 @@ function RewardPerformancePanelFallback() {
 
 export function RewardVaultPage() {
   const { theme } = useTheme();
+  const { t, formatCompactCurrency, formatCurrency, formatDate, formatNumber, translateOption } = useI18n();
   const isDark = theme === "dark";
   const { airdrops, loading: loadingAirdrops, refetch: refetchAirdrops } = useAirdrops();
   const {
@@ -207,7 +190,7 @@ export function RewardVaultPage() {
       return REWARD_FINANCE_SCHEMA_WARNING;
     }
 
-    return message || "Gagal menyimpan reward ke database.";
+    return message || t("rewardVault.saveError");
   };
 
   const syncAirdropStatusFromReward = async (airdrop: Airdrop, payload: AirdropRewardInput) => {
@@ -248,8 +231,8 @@ export function RewardVaultPage() {
 
       toast.success(
         savedReward.storageMode === "legacy_notes"
-          ? "Reward tersimpan, tapi finance tracking masih jalan di mode kompatibilitas schema lama."
-          : "Reward berhasil disimpan."
+          ? t("rewardVault.savedCompat")
+          : t("rewardVault.saved")
       );
       setSelectedAirdrop(null);
     } catch (error) {
@@ -262,7 +245,7 @@ export function RewardVaultPage() {
   const handleDeleteReward = async (rewardId: string) => {
     try {
       await removeReward(rewardId);
-      toast.success("Reward record dihapus.");
+      toast.success(t("rewardVault.deleted"));
       setSelectedAirdrop(null);
     } catch (error) {
       console.error(error);
@@ -272,18 +255,18 @@ export function RewardVaultPage() {
   };
 
   const summaryCards = [
-    { label: "Realized revenue", value: formatCurrency(totalEarned), icon: Coins, tone: "text-gold", accent: "var(--alpha-warning)" },
-    { label: "Capital deployed", value: formatCurrency(totalCapital), icon: Gem, tone: "text-[var(--alpha-signal)]", accent: "var(--alpha-signal)" },
-    { label: "Net profit", value: formatCurrency(netProfit), icon: CheckCircle2, tone: netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]", accent: netProfit >= 0 ? "var(--alpha-warning)" : "var(--alpha-danger)" },
-    { label: "Pending TGE", value: String(pendingCount).padStart(2, "0"), icon: Hourglass, tone: "text-[var(--alpha-signal)]", accent: "var(--alpha-signal)" },
+    { label: t("rewardVault.realizedRevenue"), value: formatCompactCurrency(totalEarned), icon: Coins, tone: "text-gold", accent: "var(--alpha-warning)" },
+    { label: t("rewardVault.capitalDeployed"), value: formatCompactCurrency(totalCapital), icon: Gem, tone: "text-[var(--alpha-signal)]", accent: "var(--alpha-signal)" },
+    { label: t("rewardVault.netProfit"), value: formatCompactCurrency(netProfit), icon: CheckCircle2, tone: netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]", accent: netProfit >= 0 ? "var(--alpha-warning)" : "var(--alpha-danger)" },
+    { label: t("rewardVault.pendingTge"), value: String(pendingCount).padStart(2, "0"), icon: Hourglass, tone: "text-[var(--alpha-signal)]", accent: "var(--alpha-signal)" },
   ];
 
   const financePills = [
-    { label: "Claimed projects", value: String(claimedRewards.length).padStart(2, "0") },
-    { label: "Avg ROI", value: formatPercent(averageRoi) },
-    { label: "Avg payout", value: formatCurrency(averageClaim) },
-    { label: "Best profit", value: formatCurrency(bestProfit) },
-    { label: "Best payout", value: formatCurrency(bestReward) },
+    { label: t("rewardVault.claimedProjects"), value: String(claimedRewards.length).padStart(2, "0") },
+    { label: t("rewardVault.avgRoi"), value: formatPercent(averageRoi) },
+    { label: t("rewardVault.avgPayout"), value: formatCompactCurrency(averageClaim) },
+    { label: t("rewardVault.bestProfit"), value: formatCompactCurrency(bestProfit) },
+    { label: t("rewardVault.bestPayout"), value: formatCompactCurrency(bestReward) },
   ];
 
   return (
@@ -294,12 +277,9 @@ export function RewardVaultPage() {
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.28em] alpha-text-muted">
                 <Sparkles className="h-3.5 w-3.5 text-gold" />
-                New sidebar module
+                {t("rewardVault.badge")}
               </div>
-              <h1 className="mt-3 text-[1.9rem] font-semibold tracking-tight alpha-text">Reward Vault</h1>
-              <p className="mt-1.5 max-w-2xl text-[13px] alpha-text-muted">
-                
-              </p>
+              <h1 className="mt-3 text-[1.9rem] font-semibold tracking-tight alpha-text">{t("rewardVault.title")}</h1>
             </div>
 
             <div className="flex w-full min-w-0 flex-col gap-2.5 sm:flex-row lg:max-w-[520px]">
@@ -308,7 +288,7 @@ export function RewardVaultPage() {
                 <Input
                   value={searchQuery}
                   onChange={(event) => setSearchQuery(event.target.value)}
-                  placeholder="Search project, token, or username..."
+                  placeholder={t("rewardVault.searchPlaceholder")}
                   className="macos-input !pl-11 pr-4 text-sm"
                 />
               </div>
@@ -318,11 +298,11 @@ export function RewardVaultPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="macos-popover">
-                  <SelectItem value="all">All statuses</SelectItem>
-                  <SelectItem value="Claimed">Claimed</SelectItem>
-                  <SelectItem value="Pending TGE">Pending TGE</SelectItem>
-                  <SelectItem value="Missed">Missed</SelectItem>
-                  <SelectItem value="untracked">Not recorded</SelectItem>
+                  <SelectItem value="all">{t("rewardVault.filter.all")}</SelectItem>
+                  <SelectItem value="Claimed">{translateOption("rewardClaimStatus", "Claimed")}</SelectItem>
+                  <SelectItem value="Pending TGE">{translateOption("rewardClaimStatus", "Pending TGE")}</SelectItem>
+                  <SelectItem value="Missed">{translateOption("rewardClaimStatus", "Missed")}</SelectItem>
+                  <SelectItem value="untracked">{t("rewardVault.filter.untracked")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -330,20 +310,7 @@ export function RewardVaultPage() {
 
           {showSchemaBanner ? (
             <div className="mb-6 rounded-2xl border border-[var(--alpha-danger-border)] bg-[var(--alpha-danger-soft)] px-4 py-3 text-sm text-[var(--alpha-danger)]">
-              {schemaWarning ? "App sekarang pakai mode kompatibilitas schema lama." : null}
-              {schemaWarning ? " " : null}
-              {" "}
-              <span className="font-semibold text-[var(--alpha-text)]">
-
-              </span>
-              {" "}
-              lalu
-              {" "}
-              <span className="font-semibold text-[var(--alpha-text)]">
-
-              </span>
-              {" "}
-            
+              {schemaWarning ?? REWARD_FINANCE_SCHEMA_WARNING}
             </div>
           ) : null}
 
@@ -386,8 +353,8 @@ export function RewardVaultPage() {
               rewards={rewards}
               isDark={isDark}
               className="mb-6"
-              title="Cashflow Timeline"
-              subtitle="Lihat revenue claim yang sudah realized sambil tetap pantau modal dan profit."
+              title={t("rewardVault.timelineTitle")}
+              subtitle={t("rewardVault.timelineSubtitle")}
               compact
             />
           </Suspense>
@@ -395,22 +362,22 @@ export function RewardVaultPage() {
           <div className="bg-transparent">
             <div className="mb-5 flex items-center justify-between px-1">
               <div>
-                <h2 className="text-lg font-semibold alpha-text">Tracked payouts</h2>
+                <h2 className="text-lg font-semibold alpha-text">{t("rewardVault.trackedPayouts")}</h2>
                 <p className="mt-1 text-[13px] alpha-text-muted">
-                  {filteredRows.length} project{filteredRows.length === 1 ? "" : "s"} tracking revenue, modal, dan ROI.
+                  {t("rewardVault.trackedCount", { count: filteredRows.length })}
                 </p>
               </div>
             </div>
 
             {loading ? (
-              <div className="px-5 py-12 text-center text-sm alpha-text-muted">Loading reward vault...</div>
+              <div className="px-5 py-12 text-center text-sm alpha-text-muted">{t("rewardVault.loading")}</div>
             ) : filteredRows.length === 0 ? (
               <div className="px-5 py-12 text-center">
                 <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-dashed border-alpha-border bg-[color:var(--alpha-hover-soft)] text-gold">
                   <Gem className="h-6 w-6" />
                 </div>
-                <p className="mt-4 text-lg font-medium alpha-text">No matching projects</p>
-                <p className="mt-2 text-sm alpha-text-muted">Try another keyword or change the reward status filter.</p>
+                <p className="mt-4 text-lg font-medium alpha-text">{t("rewardVault.emptyTitle")}</p>
+                <p className="mt-2 text-sm alpha-text-muted">{t("rewardVault.emptyDescription")}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5">
@@ -422,7 +389,7 @@ export function RewardVaultPage() {
                   const capital = getRewardCost(reward);
                   const profit = getRewardProfit(reward);
                   const roi = getRewardRoi(reward);
-                  const tokenDisplay = getRewardTokenDisplay(reward);
+                  const tokenDisplay = getRewardTokenDisplay(reward, formatNumber);
 
                   return (
                     <div
@@ -449,7 +416,7 @@ export function RewardVaultPage() {
                           </div>
                           <div className="min-w-0">
                             <p className="truncate pr-2 text-[13px] font-semibold alpha-text">{airdrop.projectName}</p>
-                            <p className="truncate text-[10px] alpha-text-muted">{airdrop.type}</p>
+                            <p className="truncate text-[10px] alpha-text-muted">{translateOption("airdropType", airdrop.type)}</p>
                           </div>
                         </div>
                         <ArrowUpRight className="h-4 w-4 shrink-0 opacity-0 transition-all duration-300 text-alpha-muted group-hover:opacity-100" />
@@ -457,19 +424,21 @@ export function RewardVaultPage() {
 
                       <div className="mb-2.5 grid grid-cols-2 gap-2 text-xs">
                         <div className="rounded border border-alpha-border/50 bg-[color:var(--alpha-hover-soft)] p-2">
-                          <p className="text-[10px] uppercase alpha-text-muted">Status</p>
-                          <p className="font-medium mt-1 truncate" style={{ color: statusColor }}>{reward?.claimStatus || "Untracked"}</p>
+                          <p className="text-[10px] uppercase alpha-text-muted">{t("rewardVault.card.status")}</p>
+                          <p className="font-medium mt-1 truncate" style={{ color: statusColor }}>
+                            {reward ? translateOption("rewardClaimStatus", reward.claimStatus) : t("rewardVault.card.untracked")}
+                          </p>
                         </div>
                         <div className="rounded border border-alpha-border/50 bg-[color:var(--alpha-hover-soft)] p-2">
-                          <p className="text-[10px] uppercase alpha-text-muted">Revenue</p>
+                          <p className="text-[10px] uppercase alpha-text-muted">{t("rewardVault.card.revenue")}</p>
                           <p className={`font-medium mt-1 ${reward ? "text-gold" : "alpha-text-muted"}`}>{reward ? formatCurrency(reward.amountUsd) : "-"}</p>
                         </div>
                         <div className="rounded border border-alpha-border/50 bg-[color:var(--alpha-hover-soft)] p-2">
-                          <p className="text-[10px] uppercase alpha-text-muted">Modal</p>
+                          <p className="text-[10px] uppercase alpha-text-muted">{t("rewardVault.card.capital")}</p>
                           <p className="font-medium mt-1 alpha-text">{reward ? formatCurrency(capital) : "-"}</p>
                         </div>
                         <div className="rounded border border-alpha-border/50 bg-[color:var(--alpha-hover-soft)] p-2">
-                          <p className="text-[10px] uppercase alpha-text-muted">Profit</p>
+                          <p className="text-[10px] uppercase alpha-text-muted">{t("rewardVault.card.profit")}</p>
                           <p className={`font-medium mt-1 ${reward ? (profit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]") : "alpha-text-muted"}`}>
                             {reward ? formatCurrency(profit) : "-"}
                           </p>
@@ -480,9 +449,9 @@ export function RewardVaultPage() {
                         <div className="mb-2.5 rounded-xl border border-alpha-border/50 bg-[color:var(--alpha-hover-soft)] px-3 py-2 text-xs">
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="min-w-0">
-                              <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Token reward</p>
+                              <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">{t("rewardVault.card.tokenReward")}</p>
                               <p className={`mt-1 truncate font-medium ${tokenDisplay ? "alpha-text" : "alpha-text-muted"}`}>
-                                {tokenDisplay || "Token amount / symbol belum diisi"}
+                                {tokenDisplay || t("rewardModal.tokenEmpty")}
                               </p>
                             </div>
                             {reward.tokenSymbol ? (
@@ -497,7 +466,7 @@ export function RewardVaultPage() {
                       <div className="flex flex-wrap items-center justify-between gap-2 border-t border-alpha-border/50 pt-2 text-[10px] alpha-text-muted">
                         <div className="flex items-center gap-1">
                           <CalendarDays className="w-3 h-3" />
-                          <span>{formatDisplayDate(reward?.tgeDate ?? airdrop.deadline)}</span>
+                          <span>{formatDate(reward?.tgeDate ?? airdrop.deadline)}</span>
                         </div>
 
                         <div className="flex flex-wrap items-center gap-2 sm:justify-end">

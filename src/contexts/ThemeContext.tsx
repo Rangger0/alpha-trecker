@@ -14,6 +14,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const THEME_KEY = 'alpha_tracker_theme';
 const LEGACY_THEME_KEY = 'alpha_trecker_theme';
+const DEFAULT_THEME: Theme = 'dark';
 const THEME_SWITCH_GUARD_CLASS = 'theme-switching';
 
 const applyThemeToDocument = (theme: Theme) => {
@@ -36,12 +37,12 @@ const guardThemeSwitch = () => {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'light';
+    if (typeof window === 'undefined') return DEFAULT_THEME;
     const storedTheme =
       (localStorage.getItem(THEME_KEY) as Theme | null) ??
       (localStorage.getItem(LEGACY_THEME_KEY) as Theme | null);
 
-    return storedTheme ?? 'light';
+    return storedTheme ?? DEFAULT_THEME;
   });
 
   useLayoutEffect(() => {
