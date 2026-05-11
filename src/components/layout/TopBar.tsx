@@ -8,6 +8,7 @@ import { AirdropModal } from '@/components/modals/AirdropModal';
 import { createAirdrop } from '@/services/database';
 import { emitAirdropsSync, invalidateAirdropsCache } from '@/lib/airdrops-store';
 import type { Airdrop } from '@/types';
+import { motion } from 'framer-motion';
 
 interface TopBarProps {
   onToggleSidebar: () => void;
@@ -82,16 +83,20 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
   return (
     <>
       <header
-        className="fixed inset-x-0 top-0 z-[90] px-2 pt-1.5 sm:px-3 sm:pt-2 lg:px-4"
+        className="fixed inset-x-0 top-0 z-[90] px-2 sm:px-3 lg:px-4"
       >
-        <div
-          className="alpha-topbar-shell macos-panel flex h-12 items-center rounded-[1.25rem] px-3.5 lg:px-4"
+        <motion.div
+          className="alpha-topbar-shell tactical-topbar macos-panel flex h-12 items-center rounded-[1.25rem] px-3.5 lg:px-4"
           style={{
             borderColor: 'var(--alpha-shell-border)',
             boxShadow: 'var(--alpha-shadow)',
             background: 'var(--alpha-topbar-gradient)',
           }}
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
+          <span className="tactical-topbar__scan" aria-hidden="true" />
           <div className="flex items-center gap-3">
             <button
               onClick={onToggleSidebar}
@@ -104,7 +109,7 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
 
             <div className="alpha-topbar-chip hidden px-3 py-1.5 text-[11px] font-display font-semibold uppercase tracking-[0.18em] md:flex">
               <span
-                className="h-2 w-2 rounded-full bg-[color:var(--alpha-accent)]"
+                className="tactical-live-dot h-2 w-2 rounded-full bg-[color:var(--alpha-accent)]"
                 style={{ boxShadow: '0 0 14px color-mix(in srgb, var(--alpha-accent) 45%, transparent)' }}
               />
               {currentSectionLabel}
@@ -122,6 +127,10 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
           </div>
 
           <div className="ml-auto flex items-center gap-2.5">
+            <div className="alpha-topbar-chip hidden px-3 py-1.5 text-[10px] font-display font-bold uppercase tracking-[0.22em] alpha-text-muted xl:flex">
+              <span className="tactical-live-dot h-1.5 w-1.5 rounded-full" />
+              OS ONLINE
+            </div>
             {session?.user ? (
               <button
                 onClick={() => setIsAddModalOpen(true)}
@@ -133,7 +142,7 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
               </button>
             ) : null}
           </div>
-        </div>
+        </motion.div>
       </header>
 
       {session?.user ? (
