@@ -6,6 +6,7 @@ export type AirdropType =
   | 'Daily Quest' 
   | 'Retroactive' 
   | 'Waitlist' 
+  | 'Node'
   | 'Depin' 
   | 'NFT' 
   | 'Domain Name' 
@@ -44,6 +45,7 @@ export interface Airdrop {
   waitlistCount?: number;
   funding?: string;
   potential?: PriorityLevel;
+  airdropConfirmed?: boolean;
   is_priority?: boolean;        
   isPriority?: boolean;          
   ecosystemId?: string;

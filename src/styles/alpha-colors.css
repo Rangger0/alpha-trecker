@@ -41,9 +41,9 @@ html.dark,
   --theme-light: 255 255 255;
   --theme-light-muted: 163 163 163;
 
-  --theme-accent: 255 255 255;
-  --theme-accent-hover: 214 214 214;
-  --theme-accent-soft: 229 229 229;
+  --theme-accent: 103 232 249;
+  --theme-accent-hover: 34 211 238;
+  --theme-accent-soft: 34 211 238;
 
   --alpha-font-stack: 'Rajdhani', 'Orbitron', 'Exo 2', 'Oxanium', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --alpha-display-stack: 'Rajdhani', 'Orbitron', 'Exo 2', 'Oxanium', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -87,41 +87,41 @@ html.dark,
     linear-gradient(180deg, rgba(6, 16, 28, 0.88), rgba(4, 10, 20, 0.92));
   --alpha-topbar-chip-border: rgba(103,232,249,0.22);
 
-  --alpha-signal: #ffffff;
-  --alpha-signal-softest: rgba(255, 255, 255, 0.05);
-  --alpha-signal-soft: rgba(255, 255, 255, 0.09);
-  --alpha-signal-border: rgba(255, 255, 255, 0.16);
-  --alpha-signal-strong: rgba(255, 255, 255, 0.14);
-  --alpha-signal-press: #d4d4d4;
-  --alpha-signal-glow: rgba(255, 255, 255, 0.18);
+  --alpha-signal: #67E8F9;
+  --alpha-signal-softest: rgba(103, 232, 249, 0.055);
+  --alpha-signal-soft: rgba(103, 232, 249, 0.12);
+  --alpha-signal-border: rgba(103, 232, 249, 0.28);
+  --alpha-signal-strong: rgba(34, 211, 238, 0.22);
+  --alpha-signal-press: #22D3EE;
+  --alpha-signal-glow: rgba(34, 211, 238, 0.28);
 
-  --alpha-info: #d4d4d4;
-  --alpha-info-softest: rgba(212, 212, 212, 0.05);
-  --alpha-info-soft: rgba(212, 212, 212, 0.09);
-  --alpha-info-border: rgba(212, 212, 212, 0.16);
-  --alpha-info-strong: rgba(212, 212, 212, 0.14);
-  --alpha-info-press: #bdbdbd;
+  --alpha-info: #22D3EE;
+  --alpha-info-softest: rgba(34, 211, 238, 0.05);
+  --alpha-info-soft: rgba(34, 211, 238, 0.11);
+  --alpha-info-border: rgba(34, 211, 238, 0.24);
+  --alpha-info-strong: rgba(34, 211, 238, 0.18);
+  --alpha-info-press: #0891B2;
 
-  --alpha-violet: #c4c4c4;
-  --alpha-violet-softest: rgba(196, 196, 196, 0.05);
-  --alpha-violet-soft: rgba(196, 196, 196, 0.09);
-  --alpha-violet-border: rgba(196, 196, 196, 0.16);
-  --alpha-violet-strong: rgba(196, 196, 196, 0.14);
-  --alpha-violet-press: #ababab;
+  --alpha-violet: #C084FC;
+  --alpha-violet-softest: rgba(192, 132, 252, 0.05);
+  --alpha-violet-soft: rgba(192, 132, 252, 0.11);
+  --alpha-violet-border: rgba(192, 132, 252, 0.24);
+  --alpha-violet-strong: rgba(192, 132, 252, 0.18);
+  --alpha-violet-press: #A855F7;
 
-  --alpha-warning: #a8a8a8;
-  --alpha-warning-softest: rgba(168, 168, 168, 0.05);
-  --alpha-warning-soft: rgba(168, 168, 168, 0.09);
-  --alpha-warning-border: rgba(168, 168, 168, 0.16);
-  --alpha-warning-strong: rgba(168, 168, 168, 0.14);
-  --alpha-warning-press: #8c8c8c;
+  --alpha-warning: #F472B6;
+  --alpha-warning-softest: rgba(244, 114, 182, 0.05);
+  --alpha-warning-soft: rgba(244, 114, 182, 0.11);
+  --alpha-warning-border: rgba(244, 114, 182, 0.24);
+  --alpha-warning-strong: rgba(244, 114, 182, 0.18);
+  --alpha-warning-press: #EC4899;
 
-  --alpha-danger: #666666;
-  --alpha-danger-softest: rgba(102, 102, 102, 0.08);
-  --alpha-danger-soft: rgba(102, 102, 102, 0.12);
-  --alpha-danger-border: rgba(102, 102, 102, 0.2);
-  --alpha-danger-strong: rgba(102, 102, 102, 0.14);
-  --alpha-danger-press: #555555;
+  --alpha-danger: #FB7185;
+  --alpha-danger-softest: rgba(251, 113, 133, 0.06);
+  --alpha-danger-soft: rgba(251, 113, 133, 0.12);
+  --alpha-danger-border: rgba(251, 113, 133, 0.24);
+  --alpha-danger-strong: rgba(251, 113, 133, 0.18);
+  --alpha-danger-press: #F43F5E;
 
   --sidebar-background: 0 0% 4%;
   --sidebar-foreground: 0 0% 100%;
@@ -135,23 +135,23 @@ html.dark,
 
 html.light,
 .alpha-theme.light {
-  --background: 0 0% 100%;
-  --foreground: 0 0% 0%;
+  --background: 0 0% 97%;
+  --foreground: 0 0% 8%;
 
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 0%;
+  --card-foreground: 0 0% 8%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 0%;
+  --popover-foreground: 0 0% 8%;
 
   --primary: 0 0% 6%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 0 0% 96%;
-  --secondary-foreground: 0 0% 0%;
+  --secondary-foreground: 0 0% 8%;
 
   --muted: 0 0% 96%;
-  --muted-foreground: 0 0% 38%;
+  --muted-foreground: 0 0% 35%;
 
   --accent: 0 0% 6%;
   --accent-foreground: 0 0% 100%;
@@ -159,8 +159,8 @@ html.light,
   --destructive: 0 0% 22%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 0 0% 86%;
-  --input: 0 0% 86%;
+  --border: 0 0% 88%;
+  --input: 0 0% 92%;
   --ring: 0 0% 18%;
 
   --theme-dark-bg: 255 255 255;
@@ -174,45 +174,45 @@ html.light,
   --theme-accent-hover: 48 48 48;
   --theme-accent-soft: 229 229 229;
 
-  --alpha-bg: #ffffff;
+  --alpha-bg: #f3f6fb;
   --alpha-bg-pattern:
-    radial-gradient(circle at 14% 0%, rgba(0, 0, 0, 0.05), transparent 22%),
-    radial-gradient(circle at 88% 10%, rgba(0, 0, 0, 0.035), transparent 18%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.015), rgba(255, 255, 255, 0) 40%);
+    radial-gradient(circle at 14% 0%, rgba(15, 23, 42, 0.05), transparent 22%),
+    radial-gradient(circle at 88% 10%, rgba(15, 23, 42, 0.03), transparent 18%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.02), rgba(255, 255, 255, 0) 40%);
   --alpha-panel: #ffffff;
-  --alpha-surface: #f7f7f7;
-  --alpha-surface-soft: #fafafa;
-  --alpha-surface-strong: #efefef;
-  --alpha-accent: #111111;
-  --alpha-accent-hover: #303030;
-  --alpha-accent-from: #111111;
-  --alpha-accent-to: #2a2a2a;
+  --alpha-surface: #f7f9fc;
+  --alpha-surface-soft: #f4f6fb;
+  --alpha-surface-strong: #e8eef6;
+  --alpha-accent: #111827;
+  --alpha-accent-hover: #334155;
+  --alpha-accent-from: #111827;
+  --alpha-accent-to: #334155;
   --alpha-accent-contrast: #ffffff;
-  --alpha-highlight: #111111;
-  --alpha-highlight-soft: rgba(17, 17, 17, 0.08);
-  --alpha-highlight-border: rgba(17, 17, 17, 0.18);
-  --alpha-text: #000000;
-  --alpha-text-muted: #5c5c5c;
-  --alpha-text-soft: #2f2f2f;
-  --alpha-muted: #5c5c5c;
-  --alpha-border: rgba(0, 0, 0, 0.12);
-  --alpha-border-strong: rgba(0, 0, 0, 0.18);
-  --alpha-row-selected: rgba(0, 0, 0, 0.06);
-  --alpha-row-selected-text: #000000;
-  --alpha-row-odd: rgba(0, 0, 0, 0.02);
-  --alpha-row-even: rgba(0, 0, 0, 0.03);
-  --alpha-hover-soft: #f2f2f2;
-  --alpha-overlay: rgba(0, 0, 0, 0.12);
-  --alpha-shadow: 0 18px 42px rgba(0, 0, 0, 0.06);
-  --alpha-shadow-strong: 0 30px 72px rgba(0, 0, 0, 0.1);
+  --alpha-highlight: #111827;
+  --alpha-highlight-soft: rgba(17, 24, 39, 0.08);
+  --alpha-highlight-border: rgba(17, 24, 39, 0.16);
+  --alpha-text: #0f172a;
+  --alpha-text-muted: #475569;
+  --alpha-text-soft: #334155;
+  --alpha-muted: #475569;
+  --alpha-border: rgba(15, 23, 42, 0.08);
+  --alpha-border-strong: rgba(15, 23, 42, 0.14);
+  --alpha-row-selected: rgba(15, 23, 42, 0.06);
+  --alpha-row-selected-text: #0f172a;
+  --alpha-row-odd: rgba(15, 23, 42, 0.03);
+  --alpha-row-even: rgba(15, 23, 42, 0.02);
+  --alpha-hover-soft: #eff2fb;
+  --alpha-overlay: rgba(15, 23, 42, 0.08);
+  --alpha-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+  --alpha-shadow-strong: 0 30px 72px rgba(15, 23, 42, 0.12);
   --alpha-transition: 180ms ease;
   --alpha-shell-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 247, 247, 0.98));
-  --alpha-shell-border: rgba(0, 0, 0, 0.08);
+  --alpha-shell-border: rgba(15, 23, 42, 0.08);
   --alpha-topbar-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 248, 248, 0.88));
   --alpha-topbar-chip-gradient:
     linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0) 44%),
     color-mix(in srgb, var(--alpha-surface) 94%, transparent);
-  --alpha-topbar-chip-border: rgba(0, 0, 0, 0.1);
+  --alpha-topbar-chip-border: rgba(15, 23, 42, 0.12);
 
   --alpha-signal: #111111;
   --alpha-signal-softest: rgba(17, 17, 17, 0.04);
@@ -268,6 +268,8 @@ body {
     var(--alpha-bg-pattern, none),
     var(--alpha-bg);
   color: var(--alpha-text);
+  transition: background-color 220ms ease, color 220ms ease;
+  scroll-behavior: smooth;
 }
 
 html,
@@ -286,6 +288,7 @@ body,
     var(--alpha-bg-pattern, none),
     var(--alpha-bg);
   color: var(--alpha-text);
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
 html.theme-switching,

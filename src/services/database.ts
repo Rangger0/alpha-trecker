@@ -1,7 +1,72 @@
 // ALPHA TRACKER - Supabase Database Service
 
 import { supabase } from "@/lib/supabase";
-import type { Airdrop } from "@/types";
+import type { Airdrop, PriorityLevel } from "@/types";
+
+const AIRDROP_META_PATTERN = /\n*\s*<!--alpha-meta:([^>]*)-->\s*$/;
+
+function isPriorityLevel(value: unknown): value is PriorityLevel {
+  return value === "Low" || value === "Medium" || value === "High";
+}
+
+function parseAirdropNotes(value?: string | null) {
+  const rawNotes = value ?? "";
+  const match = rawNotes.match(AIRDROP_META_PATTERN);
+
+  if (!match) {
+    return {
+      notes: rawNotes,
+      waitlistCount: undefined as number | undefined,
+      funding: undefined as string | undefined,
+      potential: undefined as PriorityLevel | undefined,
+      airdropConfirmed: undefined as boolean | undefined,
+    };
+  }
+
+  try {
+    const parsed = JSON.parse(decodeURIComponent(match[1] ?? "")) as {
+      waitlistCount?: unknown;
+      funding?: unknown;
+      potential?: unknown;
+      airdropConfirmed?: unknown;
+    };
+
+    return {
+      notes: rawNotes.replace(AIRDROP_META_PATTERN, "").trim(),
+      waitlistCount: typeof parsed.waitlistCount === "number" ? parsed.waitlistCount : undefined,
+      funding: typeof parsed.funding === "string" && parsed.funding.trim() ? parsed.funding.trim() : undefined,
+      potential: isPriorityLevel(parsed.potential) ? parsed.potential : undefined,
+      airdropConfirmed: typeof parsed.airdropConfirmed === "boolean" ? parsed.airdropConfirmed : undefined,
+    };
+  } catch {
+    return {
+      notes: rawNotes.replace(AIRDROP_META_PATTERN, "").trim(),
+      waitlistCount: undefined as number | undefined,
+      funding: undefined as string | undefined,
+      potential: undefined as PriorityLevel | undefined,
+      airdropConfirmed: undefined as boolean | undefined,
+    };
+  }
+}
+
+export function buildAirdropNotesWithMeta(data: {
+  notes?: string;
+  waitlistCount?: number;
+  funding?: string;
+  potential?: PriorityLevel;
+  airdropConfirmed?: boolean;
+}) {
+  const baseNotes = parseAirdropNotes(data.notes).notes.trim();
+  const meta = {
+    waitlistCount: typeof data.waitlistCount === "number" ? data.waitlistCount : undefined,
+    funding: data.funding?.trim() || undefined,
+    potential: data.potential,
+    airdropConfirmed: Boolean(data.airdropConfirmed),
+  };
+  const encoded = encodeURIComponent(JSON.stringify(meta));
+
+  return `${baseNotes}${baseNotes ? "\n\n" : ""}<!--alpha-meta:${encoded}-->`;
+}
 
 /* ============================= */
 /*        AIRDROP METHODS        */
@@ -22,7 +87,7 @@ export async function createAirdrop(data: any, userId: string) {
         platform_link: data.platformLink,
         twitter_username: data.twitterUsername,
         wallet_address: data.walletAddress,
-        notes: data.notes,
+        notes: buildAirdropNotesWithMeta(data),
         tasks: data.tasks || [],
         priority: data.priority,
         deadline: data.deadline,
@@ -52,25 +117,33 @@ export async function getAirdropsByUserId(userId: string): Promise<Airdrop[]> {
   if (error) throw error;
 
   // Transformasi snake_case ke camelCase
-  return (data || []).map(item => ({
-    id: item.id,
-    userId: item.user_id,
-    projectName: item.project_name,
-    projectLogo: item.project_logo,
-    type: item.type,
-    status: item.status,
-    platformLink: item.platform_link,
-    twitterUsername: item.twitter_username,
-    walletAddress: item.wallet_address,
-    notes: item.notes,
-    tasks: item.tasks || [],
-    createdAt: item.created_at,
-    updatedAt: item.updated_at,
-    priority: item.priority,
-    deadline: item.deadline,
-    isPriority: item.is_priority,
-    ecosystemId: item.ecosystem_id,  // <-- NEW
-  }));
+  return (data || []).map(item => {
+    const meta = parseAirdropNotes(item.notes);
+
+    return {
+      id: item.id,
+      userId: item.user_id,
+      projectName: item.project_name,
+      projectLogo: item.project_logo,
+      type: item.type,
+      status: item.status,
+      platformLink: item.platform_link,
+      twitterUsername: item.twitter_username,
+      walletAddress: item.wallet_address,
+      notes: meta.notes,
+      tasks: item.tasks || [],
+      createdAt: item.created_at,
+      updatedAt: item.updated_at,
+      priority: item.priority,
+      deadline: item.deadline,
+      waitlistCount: item.waitlist_count ?? meta.waitlistCount,
+      funding: item.funding ?? meta.funding,
+      potential: item.potential ?? meta.potential,
+      airdropConfirmed: item.airdrop_confirmed ?? meta.airdropConfirmed,
+      isPriority: item.is_priority,
+      ecosystemId: item.ecosystem_id,  // <-- NEW
+    };
+  });
 }
 
 export async function deleteAirdrop(id: string) {
@@ -94,7 +167,7 @@ export async function updateAirdrop(id: string, data: any) {
       platform_link: data.platformLink,
       twitter_username: data.twitterUsername,
       wallet_address: data.walletAddress,
-      notes: data.notes,
+      notes: buildAirdropNotesWithMeta(data),
       tasks: data.tasks,
       priority: data.priority,
       deadline: data.deadline,

@@ -12,15 +12,19 @@ export function DashboardLayout({ children, disableMonochrome = true }: Dashboar
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
   const [isDesktop, setIsDesktop] = useState<boolean>(() => {
     if (typeof window === 'undefined') return true;
     return window.innerWidth >= 1024;
   });
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    return false;
+  });
 
   useEffect(() => {
-    const onResize = () => setIsDesktop(window.innerWidth >= 1024);
+    const onResize = () => {
+      const nextIsDesktop = window.innerWidth >= 1024;
+      setIsDesktop(nextIsDesktop);
+    };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
@@ -30,13 +34,18 @@ export function DashboardLayout({ children, disableMonochrome = true }: Dashboar
   const topBarHeight = 56;
   const sidebarTopOffset = topBarHeight + 14;
   const sidebarBottomOffset = 16;
-  const mainTopPadding = topBarHeight;
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+  const toggleSidebar = () => {
+    setSidebarOpen(prev => !prev);
+  };
 
   return (
     <div className={`alpha-theme ${isDark ? 'dark' : 'light'} alpha-bg macos-app-shell min-h-screen`}>
       <Sidebar
         open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        onClose={closeSidebar}
         isDesktop={isDesktop}
         topOffset={sidebarTopOffset}
         bottomOffset={sidebarBottomOffset}
@@ -45,22 +54,19 @@ export function DashboardLayout({ children, disableMonochrome = true }: Dashboar
       />
 
       <TopBar
-        onToggleSidebar={() => setSidebarOpen(prev => !prev)}
+        onToggleSidebar={toggleSidebar}
       />
 
       <main
-        className="w-full"
-        style={{
-          paddingTop: `${mainTopPadding}px`,
-        }}
+        className="alpha-dashboard-main w-full pt-14 sm:pt-[60px] lg:pt-16"
       >
-        <div className="w-full px-2 pb-2 pt-1.5 sm:px-3 sm:pb-3 sm:pt-2 lg:px-4 lg:pb-4">
+        <div className="w-full px-2 pb-2 pt-2 sm:px-3 sm:pb-3 sm:pt-3 lg:px-4 lg:pb-4 lg:pt-4">
           <div
-            className={`macos-panel ${disableMonochrome ? '' : 'macos-theme-monochrome'} macos-window-open overflow-hidden rounded-[1.65rem] border shadow-[var(--alpha-shadow)]`}
+            className={`macos-panel ${disableMonochrome ? '' : 'macos-theme-monochrome'} overflow-hidden rounded-[1.65rem] border shadow-[var(--alpha-shadow)]`}
             style={{
               borderColor: 'var(--alpha-shell-border)',
               background: 'var(--alpha-shell-gradient)',
-              minHeight: `calc(100vh - ${mainTopPadding + 14}px)`,
+              minHeight: 'calc(100dvh - 76px)',
             }}
           >
             <div className="p-3.5 sm:p-4 lg:p-5">

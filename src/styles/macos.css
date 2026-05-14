@@ -359,6 +359,50 @@
   -webkit-backdrop-filter: blur(12px) saturate(132%);
 }
 
+.alpha-app-topbar {
+  position: fixed !important;
+  z-index: 160 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  left: 0 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+.alpha-app-topbar .alpha-topbar-shell {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.alpha-sidebar-panel {
+  position: fixed !important;
+  z-index: 180 !important;
+  bottom: auto;
+  filter: none !important;
+}
+
+.alpha-sidebar-backdrop {
+  z-index: 130;
+  backdrop-filter: blur(16px) saturate(118%);
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+}
+
+.alpha-dashboard-main {
+  min-height: 100dvh;
+  scroll-margin-top: 0;
+}
+
+.alpha-dashboard-main > div {
+  padding-top: 8px !important;
+}
+
+.alpha-dashboard-main .macos-page-shell {
+  transform: none !important;
+  margin-top: 0 !important;
+}
+
 .alpha-topbar-shell::before {
   content: "";
   position: absolute;
@@ -652,7 +696,6 @@
 .macos-panel {
   position: relative;
   border-radius: 1.75rem;
-  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 18px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
   background:
     linear-gradient(180deg, rgba(10, 18, 28, 0.92), rgba(5, 10, 20, 0.92)),
     radial-gradient(circle at 14% 10%, rgba(103,232,249,0.16), transparent 24%),
@@ -796,9 +839,12 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 8px;
-  margin-bottom: 24px;
-  padding: clamp(24px, 2.8vw, 32px);
+  min-height: 0;
+  height: auto;
+  margin-bottom: 16px;
+  padding: clamp(18px, 2vw, 24px);
   border-radius: var(--mac-radius-xl);
   border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
   background:
@@ -812,8 +858,8 @@
   );
   box-shadow: var(--mac-shadow-1);
   overflow: hidden;
-  content-visibility: auto;
-  contain-intrinsic-size: 180px;
+  content-visibility: visible;
+  contain-intrinsic-size: auto;
 }
 
 .macos-page-header::after {
@@ -2989,6 +3035,13 @@ html.light .alpha-landing-hero-atmosphere::after,
   will-change: opacity;
 }
 
+/* Route wrappers must stay geometry-neutral so fixed HUD chrome keeps its viewport anchor. */
+.macos-route-transition {
+  transform: none !important;
+  filter: none !important;
+  will-change: opacity;
+}
+
 .macos-card-entry {
   --mac-delay: 0ms;
   animation: macos-card-entry 160ms linear both;
@@ -3126,4 +3179,315 @@ html.dark .dashboard-clean .macos-page-header {
     linear-gradient(180deg, rgba(255,255,255,0.02), transparent 22%),
     var(--alpha-shell-gradient);
   box-shadow: var(--alpha-shadow);
+}
+
+/* Tactical holographic AI OS skin */
+:root {
+  --hud-cyan: #67E8F9;
+  --hud-glow: #22D3EE;
+  --hud-white: #E2F8FF;
+  --hud-purple: #C084FC;
+  --hud-pink: #F472B6;
+  --hud-muted: #4B6B80;
+  --hud-panel: rgba(10,18,28,0.72);
+  --hud-border: rgba(120,220,255,0.18);
+  --hud-shape: polygon(0 18px, 18px 0, calc(100% - 52px) 0, 100% 52px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 52px 100%, 0 calc(100% - 52px));
+  --hud-shape-soft: polygon(0 12px, 12px 0, calc(100% - 28px) 0, 100% 28px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 28px 100%, 0 calc(100% - 28px));
+}
+
+body {
+  background:
+    radial-gradient(circle at 50% 115%, rgba(34,211,238,0.16), transparent 30%),
+    radial-gradient(circle at 12% 4%, rgba(192,132,252,0.08), transparent 24%),
+    linear-gradient(180deg, #000000 0%, #020617 44%, #04101C 100%) !important;
+}
+
+body::before {
+  z-index: 0;
+  background:
+    linear-gradient(rgba(103,232,249,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103,232,249,0.035) 1px, transparent 1px),
+    radial-gradient(circle at 50% 100%, rgba(34,211,238,0.18), transparent 24%) !important;
+  background-size: 44px 44px, 44px 44px, 100% 100% !important;
+  mask-image: linear-gradient(180deg, transparent 0%, black 12%, black 78%, transparent 100%);
+}
+
+body::after {
+  z-index: 0;
+  opacity: 0.16 !important;
+  background:
+    repeating-linear-gradient(180deg, rgba(226,248,255,0.035) 0 1px, transparent 1px 5px),
+    radial-gradient(circle at 50% 120%, rgba(34,211,238,0.2), transparent 22%) !important;
+  animation: hud-scanlines 9s linear infinite;
+}
+
+.alpha-theme,
+.macos-app-shell,
+.macos-landing-shell {
+  background:
+    radial-gradient(circle at 50% 110%, rgba(34,211,238,0.12), transparent 28%),
+    linear-gradient(180deg, #000000 0%, #020617 48%, #04101C 100%) !important;
+}
+
+.macos-app-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+.macos-app-shell::before {
+  background:
+    linear-gradient(rgba(103,232,249,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103,232,249,0.035) 1px, transparent 1px),
+    radial-gradient(circle at 18% 18%, rgba(192,132,252,0.09), transparent 24%),
+    radial-gradient(circle at 82% 12%, rgba(34,211,238,0.12), transparent 22%) !important;
+  background-size: 64px 64px, 64px 64px, 100% 100%, 100% 100% !important;
+  opacity: 0.78 !important;
+  animation: hud-grid-drift 22s linear infinite;
+}
+
+.macos-app-shell::after {
+  content: "";
+  position: fixed;
+  left: 50%;
+  bottom: -10%;
+  z-index: 0;
+  width: min(620px, 54vw);
+  height: 42vh;
+  pointer-events: none;
+  background:
+    conic-gradient(from 206deg at 50% 100%, transparent 0 20deg, rgba(34,211,238,0.2) 24deg 32deg, transparent 36deg 62deg, rgba(103,232,249,0.13) 66deg 76deg, transparent 82deg 360deg);
+  filter: blur(10px);
+  opacity: 0.52;
+  transform: translateX(-50%);
+  animation: hud-projector-pulse 5.8s ease-in-out infinite;
+}
+
+.macos-panel,
+.macos-card,
+.macos-premium-card,
+.macos-modal,
+.macos-auth-card,
+.macos-empty-state,
+.terminal-card,
+[data-slot="card"] {
+  position: relative;
+  border-radius: 0 !important;
+  clip-path: var(--hud-shape);
+  border: 1px solid var(--hud-border) !important;
+  background:
+    linear-gradient(135deg, rgba(103,232,249,0.085), transparent 18%),
+    linear-gradient(180deg, rgba(10,18,28,0.82), rgba(2,6,23,0.78)),
+    radial-gradient(circle at 78% 14%, rgba(192,132,252,0.09), transparent 28%) !important;
+  box-shadow:
+    0 0 25px rgba(34,211,238,0.08),
+    inset 0 0 0 1px rgba(226,248,255,0.035),
+    inset 0 0 36px rgba(34,211,238,0.035) !important;
+}
+
+.macos-card,
+.macos-premium-card,
+[data-slot="card"] {
+  clip-path: var(--hud-shape-soft);
+}
+
+.macos-panel > *,
+.macos-card > *,
+.macos-premium-card > *,
+.macos-modal > *,
+.macos-auth-card > *,
+[data-slot="card"] > * {
+  position: relative;
+  z-index: 1;
+}
+
+.macos-panel::before,
+.macos-card::before,
+.macos-premium-card::before,
+.macos-modal::before,
+.macos-auth-card::before,
+[data-slot="card"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(226,248,255,0.72) 0 36px, transparent 36px calc(100% - 36px), rgba(226,248,255,0.46) calc(100% - 36px) 100%) top / 100% 1px no-repeat,
+    linear-gradient(90deg, rgba(103,232,249,0.52), transparent 24%, transparent 76%, rgba(103,232,249,0.44)) bottom / 100% 1px no-repeat,
+    linear-gradient(180deg, rgba(103,232,249,0.4), transparent 34%, transparent 66%, rgba(103,232,249,0.28)) left / 1px 100% no-repeat,
+    linear-gradient(180deg, rgba(226,248,255,0.42), transparent 28%, transparent 72%, rgba(226,248,255,0.34)) right / 1px 100% no-repeat;
+  opacity: 0.62;
+}
+
+.macos-panel::after,
+.macos-card::after,
+.macos-premium-card::after,
+[data-slot="card"]::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, rgba(103,232,249,0.24), transparent),
+    linear-gradient(rgba(103,232,249,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103,232,249,0.028) 1px, transparent 1px);
+  background-size: 180% 100%, 28px 28px, 28px 28px;
+  opacity: 0.42;
+  mix-blend-mode: screen;
+  animation: hud-panel-sweep 7.5s ease-in-out infinite;
+}
+
+.alpha-topbar-shell {
+  clip-path: polygon(0 12px, 12px 0, calc(100% - 26px) 0, 100% 26px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 26px 100%, 0 calc(100% - 26px));
+  border-color: rgba(103,232,249,0.28) !important;
+  background:
+    linear-gradient(90deg, rgba(103,232,249,0.1), transparent 18%, transparent 82%, rgba(192,132,252,0.09)),
+    linear-gradient(180deg, rgba(7,18,30,0.92), rgba(2,6,18,0.86)) !important;
+  box-shadow: 0 0 30px rgba(34,211,238,0.12), inset 0 0 0 1px rgba(226,248,255,0.04) !important;
+}
+
+.alpha-topbar-shell::after {
+  content: "";
+  position: absolute;
+  inset: auto 18px 0;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(226,248,255,0.82), rgba(34,211,238,0.72), transparent);
+  transform: translateX(-120%);
+  animation: topbar-scan 4.4s ease-in-out infinite;
+  opacity: 0.86;
+}
+
+.alpha-topbar-chip,
+.macos-section-label,
+.macos-page-kicker,
+.hud-badge {
+  border-radius: 0 !important;
+  clip-path: polygon(0 7px, 7px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 7px), calc(100% - 7px) 100%, 9px 100%, 0 calc(100% - 9px));
+  border: 1px solid rgba(103,232,249,0.24) !important;
+  background:
+    linear-gradient(90deg, rgba(103,232,249,0.1), rgba(10,18,28,0.72), rgba(192,132,252,0.08)) !important;
+  color: var(--hud-white) !important;
+  text-transform: uppercase;
+}
+
+.macos-page-header {
+  clip-path: var(--hud-shape);
+  border-color: rgba(120,220,255,0.2) !important;
+}
+
+.macos-page-title,
+.alpha-landing-section-title,
+h1,
+h2 {
+  color: var(--hud-white);
+  text-shadow: 0 0 18px rgba(34,211,238,0.18);
+}
+
+.macos-btn,
+[data-slot="button"] {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 !important;
+  clip-path: polygon(0 8px, 8px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 12px 100%, 0 calc(100% - 12px));
+  border: 1px solid rgba(103,232,249,0.28) !important;
+  background:
+    linear-gradient(90deg, rgba(103,232,249,0.12), rgba(10,18,28,0.82), rgba(192,132,252,0.09)) !important;
+  color: var(--hud-white) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  box-shadow: inset 0 0 0 1px rgba(226,248,255,0.035), 0 0 18px rgba(34,211,238,0.08) !important;
+}
+
+.macos-btn::after,
+[data-slot="button"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 0 38%, rgba(226,248,255,0.42) 48%, transparent 58% 100%);
+  transform: translateX(-130%);
+  transition: transform 520ms ease;
+}
+
+.macos-btn:hover,
+[data-slot="button"]:hover {
+  filter: brightness(1.16);
+  box-shadow: 0 0 28px rgba(34,211,238,0.18), inset 0 0 0 1px rgba(103,232,249,0.14) !important;
+}
+
+.macos-btn:hover::after,
+[data-slot="button"]:hover::after {
+  transform: translateX(130%);
+}
+
+.macos-input,
+[data-slot="input"],
+textarea,
+select {
+  border-radius: 0 !important;
+  clip-path: polygon(0 8px, 8px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 10px 100%, 0 calc(100% - 10px));
+  border-color: rgba(103,232,249,0.22) !important;
+  background:
+    linear-gradient(180deg, rgba(3,10,22,0.92), rgba(8,18,30,0.76)) !important;
+  color: var(--hud-white) !important;
+}
+
+.macos-table {
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.macos-table thead tr {
+  background: transparent !important;
+}
+
+.macos-table th {
+  color: rgba(226,248,255,0.72) !important;
+  border-bottom: 1px solid rgba(103,232,249,0.22) !important;
+  letter-spacing: 0.22em;
+}
+
+.macos-table tbody tr {
+  position: relative;
+  background:
+    linear-gradient(90deg, rgba(103,232,249,0.075), rgba(10,18,28,0.52), rgba(192,132,252,0.055)) !important;
+  outline: 1px solid rgba(103,232,249,0.13);
+  box-shadow: 0 0 18px rgba(34,211,238,0.035);
+}
+
+.macos-table tbody tr:hover {
+  outline-color: rgba(103,232,249,0.34);
+  box-shadow: 0 0 26px rgba(34,211,238,0.12);
+}
+
+.macos-table td {
+  border-bottom: 0 !important;
+  background: transparent !important;
+}
+
+.hud-badge-dot {
+  box-shadow: 0 0 12px currentColor;
+}
+
+@keyframes hud-grid-drift {
+  from { background-position: 0 0, 0 0, 0 0, 0 0; }
+  to { background-position: 64px 64px, -64px 64px, 0 0, 0 0; }
+}
+
+@keyframes hud-panel-sweep {
+  0%, 100% { background-position: -160% 0, 0 0, 0 0; opacity: 0.28; }
+  45% { opacity: 0.5; }
+  60% { background-position: 160% 0, 0 0, 0 0; opacity: 0.42; }
+}
+
+@keyframes hud-projector-pulse {
+  0%, 100% { opacity: 0.34; transform: translateX(-50%) scaleX(0.92); }
+  50% { opacity: 0.62; transform: translateX(-50%) scaleX(1.06); }
+}
+
+@keyframes hud-scanlines {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 80px, 0 0; }
 }

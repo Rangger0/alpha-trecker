@@ -1,7 +1,7 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { MoonStar, SunMedium } from 'lucide-react';
+import { SunMedium } from 'lucide-react';
 
 const navLinks = [
   { label: 'Workflow', href: '#workflow' },
@@ -10,7 +10,7 @@ const navLinks = [
 ];
 
 export function Navbar() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const isDark = theme === 'dark';
 
   return (
@@ -85,18 +85,17 @@ export function Navbar() {
               </Button>
             </Link>
 
-            <button
-              onClick={toggleTheme}
-              className="flex h-11 w-11 items-center justify-center rounded-[14px] border transition-opacity duration-150 hover:opacity-85"
+            <div
+              className="flex h-11 w-11 items-center justify-center rounded-[14px] border"
               style={{
                 borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
                 color: 'var(--alpha-text-muted)',
                 background: 'color-mix(in srgb, var(--alpha-surface) 88%, transparent)',
               }}
-              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label="Dark mode active"
             >
-              {isDark ? <SunMedium className="h-4 w-4" /> : <MoonStar className="h-4 w-4" />}
-            </button>
+              <SunMedium className="h-4 w-4" />
+            </div>
           </div>
         </div>
       </div>

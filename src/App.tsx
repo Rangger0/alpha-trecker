@@ -64,14 +64,6 @@ const FloatingFeedback = lazyNamed(() => import('@/components/feedback/FloatingF
 
 const LazyDashboard = lazyDefault(() => import('@/pages/Dashboard'));
 
-const APP_ROUTE_WARMUP_BATCHES: Array<Array<PreloadableComponent<ComponentType<unknown>>>> = [
-  [OverviewPage, LazyDashboard, EcosystemPage, PriorityProjectsPage],
-  [FaucetPage, MultipleAccountPage, RewardVaultPage, CalculatorPage],
-  [GasFeesPage, ScreeningAddressPage, CheckEligibilityPage, ToolsPage],
-  [DeployToolsPage, SwapPage, AIToolsPage, FeedbackInboxPage],
-  [AboutPage],
-];
-
 function AppLoader() {
   const { t } = useI18n();
 
@@ -86,16 +78,18 @@ function AppLoader() {
 }
 
 function PageTransition({ children }: { children: ReactNode }) {
-  return (
-    <div className="macos-route-transition">
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }
 
 function RouteViewportManager() {
   const location = useLocation();
   const routeKeyRef = useRef('');
+
+  const scrollToPageTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined' || !('scrollRestoration' in window.history)) {
@@ -104,6 +98,7 @@ function RouteViewportManager() {
 
     const previousValue = window.history.scrollRestoration;
     window.history.scrollRestoration = 'manual';
+    scrollToPageTop();
 
     return () => {
       window.history.scrollRestoration = previousValue;
@@ -124,7 +119,9 @@ function RouteViewportManager() {
 
     let frameId = 0;
     let nextFrameId = 0;
+    let finalFrameId = 0;
 
+    scrollToPageTop();
     frameId = window.requestAnimationFrame(() => {
       nextFrameId = window.requestAnimationFrame(() => {
         if (location.hash) {
@@ -136,68 +133,17 @@ function RouteViewportManager() {
           }
         }
 
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        scrollToPageTop();
+        finalFrameId = window.requestAnimationFrame(scrollToPageTop);
       });
     });
 
     return () => {
       window.cancelAnimationFrame(frameId);
       window.cancelAnimationFrame(nextFrameId);
+      window.cancelAnimationFrame(finalFrameId);
     };
   }, [location.hash, location.pathname, location.search]);
-
-  return null;
-}
-
-function AppRouteWarmup() {
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    let cancelled = false;
-    const cleanups: Array<() => void> = [];
-
-    const scheduleIdle = (callback: () => void) => {
-      if (typeof window.requestIdleCallback === 'function') {
-        const idleId = window.requestIdleCallback(callback, { timeout: 1400 });
-        return () => window.cancelIdleCallback(idleId);
-      }
-
-      const timeoutId = window.setTimeout(callback, 700);
-      return () => window.clearTimeout(timeoutId);
-    };
-
-    const runBatch = (batchIndex: number) => {
-      if (cancelled || batchIndex >= APP_ROUTE_WARMUP_BATCHES.length) {
-        return;
-      }
-
-      const cancelIdle = scheduleIdle(() => {
-        if (cancelled) {
-          return;
-        }
-
-        Promise.allSettled(APP_ROUTE_WARMUP_BATCHES[batchIndex].map((page) => page.preload())).finally(() => {
-          if (cancelled) {
-            return;
-          }
-
-          const delayId = window.setTimeout(() => runBatch(batchIndex + 1), 240);
-          cleanups.push(() => window.clearTimeout(delayId));
-        });
-      });
-
-      cleanups.push(cancelIdle);
-    };
-
-    runBatch(0);
-
-    return () => {
-      cancelled = true;
-      cleanups.forEach((cleanup) => cleanup());
-    };
-  }, []);
 
   return null;
 }
@@ -233,7 +179,6 @@ function AppRuntimeShell() {
   return (
     <AuthProvider>
       <WalletProvider>
-        <AppRouteWarmup />
         <Outlet />
         <Suspense fallback={null}>
           <FloatingFeedback />

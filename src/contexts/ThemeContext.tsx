@@ -1,13 +1,11 @@
 // ALPHA TRECKER - Theme Context
 
-import { createContext, useContext, useState, useLayoutEffect, useMemo, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useLayoutEffect, useMemo, useCallback, type ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -18,9 +16,10 @@ const DEFAULT_THEME: Theme = 'dark';
 const THEME_SWITCH_GUARD_CLASS = 'theme-switching';
 
 const applyThemeToDocument = (theme: Theme) => {
-  document.documentElement.classList.toggle('dark', theme === 'dark');
-  document.documentElement.classList.toggle('light', theme === 'light');
-  document.documentElement.style.colorScheme = theme;
+  const root = document.documentElement;
+  root.classList.remove('dark', 'light');
+  root.classList.add(theme);
+  root.style.colorScheme = theme;
 };
 
 const persistTheme = (theme: Theme) => {
@@ -36,42 +35,16 @@ const guardThemeSwitch = () => {
 };
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return DEFAULT_THEME;
-    const storedTheme =
-      (localStorage.getItem(THEME_KEY) as Theme | null) ??
-      (localStorage.getItem(LEGACY_THEME_KEY) as Theme | null);
-
-    return storedTheme ?? DEFAULT_THEME;
-  });
+  const theme: Theme = DEFAULT_THEME;
 
   useLayoutEffect(() => {
-    applyThemeToDocument(theme);
-    persistTheme(theme);
-  }, [theme]);
-
-  const setTheme = useCallback((newTheme: Theme) => {
-    guardThemeSwitch();
-    applyThemeToDocument(newTheme);
-    persistTheme(newTheme);
-    setThemeState(newTheme);
-  }, []);
-
-  const toggleTheme = useCallback(() => {
-    guardThemeSwitch();
-    setThemeState((prev) => {
-      const nextTheme = prev === 'dark' ? 'light' : 'dark';
-      applyThemeToDocument(nextTheme);
-      persistTheme(nextTheme);
-      return nextTheme;
-    });
+    applyThemeToDocument(DEFAULT_THEME);
+    persistTheme(DEFAULT_THEME);
   }, []);
 
   const value = useMemo(() => ({
     theme,
-    toggleTheme,
-    setTheme,
-  }), [setTheme, theme, toggleTheme]);
+  }), [theme]);
 
   return (
     <ThemeContext.Provider value={value}>

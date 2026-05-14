@@ -11,7 +11,7 @@ interface AuthLayoutProps {
 }
 
 export function AuthLayout({ children, title, subtitle, features }: AuthLayoutProps) {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const location = useLocation();
   const isDark = theme === 'dark';
   const isLoginRoute = location.pathname === '/login';
@@ -114,10 +114,8 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
               </Link>
 
               <div className="flex w-full flex-wrap items-center justify-end gap-2 sm:gap-3 lg:w-auto">
-                <button
-                  type="button"
-                  onClick={toggleTheme}
-                  className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-opacity duration-150 hover:opacity-90 sm:px-4"
+                <div
+                  className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-opacity duration-150 sm:px-4"
                   style={{
                     border: `1px solid ${shellBorder}`,
                     background: 'color-mix(in srgb, var(--alpha-surface) 78%, transparent)',
@@ -125,8 +123,8 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                   }}
                 >
                   <MoonStar className="h-4 w-4" />
-                  {isDark ? 'Light Mode' : 'Dark Mode'}
-                </button>
+                  Dark Mode
+                </div>
 
                 <div className="flex items-center gap-2">
                   <Link

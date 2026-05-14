@@ -27,7 +27,7 @@ import { generateId } from '@/services/crypto';
 
 const AIRDROP_TYPES: AirdropType[] = [
   'Testnet', 'AI', 'Quest', 'Daily', 'Daily Quest',
-  'Retroactive', 'Waitlist', 'Depin', 'NFT', 'Domain Name',
+  'Retroactive', 'Waitlist', 'Node', 'Depin', 'NFT', 'Domain Name',
   'Deploy SC', 'DeFi', 'Deploy NFT'
 ];
 
@@ -83,6 +83,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
   const [waitlistCount, setWaitlistCount] = useState<number | ''>('');
   const [funding, setFunding] = useState('');
   const [potential, setPotential] = useState<PriorityLevel>('Medium');
+  const [airdropConfirmed, setAirdropConfirmed] = useState(false);
   const [isPriority, setIsPriority] = useState(false);
 
   useEffect(() => {
@@ -103,6 +104,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
       setWaitlistCount(airdrop.waitlistCount ?? '');
       setFunding(airdrop.funding ?? '');
       setPotential(airdrop.potential ?? 'Medium');
+      setAirdropConfirmed(Boolean(airdrop.airdropConfirmed));
       setIsPriority(airdrop.isPriority ?? airdrop.is_priority ?? false);
     } else {
       resetForm();
@@ -125,6 +127,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
     setWaitlistCount('');
     setFunding('');
     setPotential('Medium');
+    setAirdropConfirmed(false);
     setIsPriority(false);
   };
 
@@ -147,6 +150,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
       waitlistCount: typeof waitlistCount === 'number' ? waitlistCount : undefined,
       funding: funding.trim() || undefined,
       potential,
+      airdropConfirmed,
       isPriority,
     };
 
@@ -341,7 +345,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
 
               <div className="space-y-2">
                 <Label htmlFor="potential" className="macos-modal-label">
-                  Potential
+                  Potential Level
                 </Label>
                 <Select value={potential} onValueChange={(v) => setPotential(v as PriorityLevel)}>
                   <SelectTrigger className="macos-input macos-modal-input">
@@ -356,6 +360,17 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
                   </SelectContent>
                 </Select>
               </div>
+            </div>
+
+            <div className="flex items-center gap-3 rounded-2xl border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-3.5 transition-colors">
+              <Checkbox
+                id="airdropConfirmed"
+                checked={airdropConfirmed}
+                onCheckedChange={(checked) => setAirdropConfirmed(Boolean(checked))}
+              />
+              <Label htmlFor="airdropConfirmed" className="macos-modal-label cursor-pointer">
+                Airdrop Confirmed
+              </Label>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 export function Navbar() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [logoError, setLogoError] = useState(false);
 
@@ -72,16 +72,15 @@ export function Navbar() {
                 Sign Up →
               </Button>
             </Link>
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-lg border transition-all duration-300 hover:scale-110 ${
-                isDark 
-                  ? 'border-[var(--alpha-border)] text-gray-400 hover:text-[var(--alpha-signal)] hover:border-[var(--alpha-signal)]' 
-                  : 'border-gray-200 text-gray-600 hover:text-blue-600 hover:border-blue-600'
+            <div
+              className={`p-2 rounded-lg border ${
+                isDark
+                  ? 'border-[var(--alpha-border)] text-gray-400'
+                  : 'border-gray-200 text-gray-600'
               }`}
             >
-              {isDark ? '☀' : '🌙'}
-            </button>
+              ☀
+            </div>
           </div>
         </div>
       </div>

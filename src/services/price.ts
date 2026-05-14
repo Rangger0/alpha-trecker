@@ -131,3 +131,29 @@ export const formatPercentage = (percentage: number): string => {
   const sign = percentage >= 0 ? '+' : '';
   return `${sign}${percentage.toFixed(2)}%`;
 };
+
+// Get exchange rate IDR to USD
+export const getExchangeRateIDRtoUSD = async () => {
+  try {
+    // Use USD to get IDR rate via fiat conversion
+    const url = `${COINGECKO_API}/simple/price?ids=bitcoin&vs_currencies=idr,usd`;
+    const response = await axios.get(url, { timeout: 5000 });
+    
+    const btcUsd = response.data.bitcoin?.usd;
+    const btcIdr = response.data.bitcoin?.idr;
+    
+    if (btcUsd && btcIdr) {
+      const usdToIdr = btcIdr / btcUsd;
+      return {
+        idrToUsd: 1 / usdToIdr,
+        usdToIdr,
+        timestamp: new Date(),
+      };
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Failed to fetch IDR/USD exchange rate:', error);
+    return null;
+  }
+};

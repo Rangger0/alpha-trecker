@@ -82,17 +82,17 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
   return (
     <>
       <header
-        className="fixed inset-x-0 top-0 z-[90] px-2 pt-1.5 sm:px-3 sm:pt-2 lg:px-4"
+        className="alpha-app-topbar fixed inset-x-0 top-0 z-[120] px-2 pt-2 sm:px-3 sm:pt-3 lg:px-4 lg:pt-4"
       >
         <div
-          className="alpha-topbar-shell macos-panel flex h-12 items-center rounded-[1.25rem] px-3.5 lg:px-4"
+          className="alpha-topbar-shell macos-panel grid h-12 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center rounded-[1.25rem] px-3.5 lg:px-4"
           style={{
             borderColor: 'var(--alpha-shell-border)',
             boxShadow: 'var(--alpha-shadow)',
             background: 'var(--alpha-topbar-gradient)',
           }}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 items-center gap-3 justify-self-start">
             <button
               onClick={onToggleSidebar}
               aria-label={t('topbar.openSidebar')}
@@ -112,7 +112,7 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
           </div>
 
           <div
-            className="alpha-topbar-chip absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 px-3.5 py-1.5 text-[11.5px] font-display font-bold tracking-[0.08em] alpha-text lg:flex"
+            className="alpha-topbar-chip hidden items-center gap-2 justify-self-center px-3.5 py-1.5 text-[11.5px] font-display font-bold tracking-[0.08em] alpha-text lg:flex"
             style={{
               borderColor: 'var(--alpha-topbar-chip-border)',
             }}
@@ -121,7 +121,7 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
             {formattedTime}
           </div>
 
-          <div className="ml-auto flex items-center gap-2.5">
+          <div className="flex min-w-0 items-center justify-end gap-2.5 justify-self-end">
             {session?.user ? (
               <button
                 onClick={() => setIsAddModalOpen(true)}

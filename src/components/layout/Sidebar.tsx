@@ -107,13 +107,11 @@ export function Sidebar({
   open,
   onClose,
   isDesktop,
-  topOffset,
-  bottomOffset,
   leftOffset,
   width,
 }: SidebarProps) {
   const { logout, isAuthenticated, session } = useAuth();
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const { language, setLanguage, t } = useI18n();
   const location = useLocation();
   const showFeedbackInbox = isFeedbackInboxOwner(session?.user?.email);
@@ -195,17 +193,18 @@ export function Sidebar({
         top: "50%",
         left: `${leftOffset}px`,
         width: `${width}px`,
-        height: `min(760px, calc(100vh - ${topOffset + bottomOffset}px))`,
+        height: "min(720px, calc(100dvh - 92px))",
         borderColor: "var(--alpha-shell-border)",
-        transform: open ? "translate3d(0, -50%, 0)" : "translate3d(-118%, -50%, 0)",
+        transform: open ? "translate3d(0, -50%, 0) scale(1)" : "translate3d(calc(-100% - 28px), -50%, 0) scale(0.96)",
         opacity: open ? 1 : 0,
       }
     : {
-        top: "0px",
-        left: "0px",
-        width: `${width}px`,
+        top: "50%",
+        left: "12px",
+        width: "min(340px, calc(100vw - 24px))",
+        height: "min(680px, calc(100dvh - 76px))",
         borderColor: "var(--alpha-shell-border)",
-        transform: open ? "translate3d(0, 0, 0)" : "translate3d(-108%, 0, 0)",
+        transform: open ? "translate3d(0, -50%, 0) scale(1)" : "translate3d(calc(-100% - 24px), -50%, 0) scale(0.96)",
         opacity: open ? 1 : 0,
       };
 
@@ -214,16 +213,16 @@ export function Sidebar({
       <div
         aria-hidden={!open}
         onClick={open ? onClose : undefined}
-        className={`fixed inset-0 z-40 transition-opacity duration-150 ease-out ${
+        className={`alpha-sidebar-backdrop fixed inset-0 transition-opacity duration-200 ease-out ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
-        style={{ background: "color-mix(in srgb, var(--alpha-overlay) 84%, transparent)" }}
+        style={{ background: "color-mix(in srgb, var(--alpha-overlay) 72%, transparent)" }}
       />
 
       <aside
-        className={`fixed z-[100] flex flex-col macos-panel will-change-transform transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] ${
-          isDesktop ? "h-auto overflow-hidden rounded-[2rem] border" : "h-screen border-r rounded-none"
-        } ${open ? "pointer-events-auto" : "pointer-events-none"}`}
+        className={`alpha-sidebar-panel fixed flex flex-col macos-panel overflow-hidden rounded-[2rem] border will-change-transform transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] ${
+          open ? "pointer-events-auto" : "pointer-events-none"
+        }`}
         style={{
           ...panelStyle,
           background: "var(--alpha-shell-gradient)",
@@ -391,22 +390,13 @@ export function Sidebar({
               </PreferenceGroup>
 
               <PreferenceGroup
-                icon={theme === "dark" ? Moon : Sun}
+                icon={Moon}
                 label={t("sidebar.preference.themeLabel")}
                 value={currentThemeLabel}
               >
-                <PreferenceButton
-                  active={theme === "dark"}
-                  icon={Moon}
-                  label={t("common.dark")}
-                  onClick={() => setTheme("dark")}
-                />
-                <PreferenceButton
-                  active={theme === "light"}
-                  icon={Sun}
-                  label={t("common.light")}
-                  onClick={() => setTheme("light")}
-                />
+                <div className="rounded-[1.2rem] border border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface)] px-4 py-3 text-sm font-medium text-[var(--alpha-text)]">
+                  {t("common.dark")}
+                </div>
               </PreferenceGroup>
             </div>
           </div>
