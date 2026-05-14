@@ -45,45 +45,47 @@ html.dark,
   --theme-accent-hover: 214 214 214;
   --theme-accent-soft: 229 229 229;
 
-  --alpha-bg: #000000;
+  --alpha-font-stack: 'Rajdhani', 'Orbitron', 'Exo 2', 'Oxanium', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --alpha-display-stack: 'Rajdhani', 'Orbitron', 'Exo 2', 'Oxanium', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --alpha-bg: #020617;
   --alpha-bg-pattern:
-    radial-gradient(circle at 14% 0%, rgba(255, 255, 255, 0.08), transparent 22%),
-    radial-gradient(circle at 88% 10%, rgba(255, 255, 255, 0.05), transparent 18%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 36%);
-  --alpha-panel: #090909;
-  --alpha-surface: #101010;
-  --alpha-surface-soft: #161616;
-  --alpha-surface-strong: #050505;
-  --alpha-accent: #ffffff;
-  --alpha-accent-hover: #d4d4d4;
-  --alpha-accent-from: #ffffff;
-  --alpha-accent-to: #d6d6d6;
-  --alpha-accent-contrast: #000000;
-  --alpha-highlight: #f1f1f1;
-  --alpha-highlight-soft: rgba(255, 255, 255, 0.1);
-  --alpha-highlight-border: rgba(255, 255, 255, 0.22);
-  --alpha-text: #ffffff;
-  --alpha-text-muted: #a3a3a3;
-  --alpha-text-soft: #d4d4d4;
-  --alpha-muted: #a3a3a3;
-  --alpha-border: rgba(255, 255, 255, 0.12);
-  --alpha-border-strong: rgba(255, 255, 255, 0.22);
-  --alpha-row-selected: rgba(255, 255, 255, 0.1);
-  --alpha-row-selected-text: #ffffff;
-  --alpha-row-odd: rgba(255, 255, 255, 0.01);
-  --alpha-row-even: rgba(255, 255, 255, 0.025);
-  --alpha-hover-soft: #111111;
-  --alpha-overlay: rgba(0, 0, 0, 0.72);
-  --alpha-shadow: 0 22px 48px rgba(0, 0, 0, 0.45);
-  --alpha-shadow-strong: 0 34px 88px rgba(0, 0, 0, 0.62);
-  --alpha-transition: 180ms ease;
-  --alpha-shell-gradient: linear-gradient(180deg, rgba(10, 10, 10, 0.98), rgba(0, 0, 0, 0.98));
-  --alpha-shell-border: rgba(255, 255, 255, 0.08);
-  --alpha-topbar-gradient: linear-gradient(180deg, rgba(12, 12, 12, 0.9), rgba(5, 5, 5, 0.82));
+    radial-gradient(circle at 14% 0%, rgba(34, 211, 238, 0.08), transparent 24%),
+    radial-gradient(circle at 88% 10%, rgba(103, 232, 249, 0.05), transparent 18%),
+    linear-gradient(180deg, rgba(34,211,238,0.02), transparent 36%);
+  --alpha-panel: rgba(10, 18, 28, 0.90);
+  --alpha-surface: rgba(10, 18, 28, 0.98);
+  --alpha-surface-soft: rgba(10, 18, 28, 0.72);
+  --alpha-surface-strong: rgba(4, 16, 28, 0.92);
+  --alpha-accent: #67E8F9;
+  --alpha-accent-hover: #22D3EE;
+  --alpha-accent-from: #67E8F9;
+  --alpha-accent-to: #22D3EE;
+  --alpha-accent-contrast: #04101C;
+  --alpha-highlight: #67E8F9;
+  --alpha-highlight-soft: rgba(34,211,238,0.12);
+  --alpha-highlight-border: rgba(34,211,238,0.22);
+  --alpha-text: #E2F8FF;
+  --alpha-text-muted: #8ABED1;
+  --alpha-text-soft: #B8F8FF;
+  --alpha-muted: #7FA8C1;
+  --alpha-border: rgba(103,232,249,0.18);
+  --alpha-border-strong: rgba(103,232,249,0.32);
+  --alpha-row-selected: rgba(34,211,238,0.08);
+  --alpha-row-selected-text: #B8F8FF;
+  --alpha-row-odd: rgba(34,211,238,0.02);
+  --alpha-row-even: rgba(34,211,238,0.03);
+  --alpha-hover-soft: rgba(7, 14, 26, 0.92);
+  --alpha-overlay: rgba(1, 3, 20, 0.84);
+  --alpha-shadow: 0 22px 68px rgba(0, 0, 0, 0.6);
+  --alpha-shadow-strong: 0 38px 96px rgba(0, 0, 0, 0.72);
+  --alpha-transition: 200ms ease;
+  --alpha-shell-gradient: linear-gradient(180deg, rgba(6, 18, 30, 0.98), rgba(3, 10, 22, 0.96));
+  --alpha-shell-border: rgba(103,232,249,0.18);
+  --alpha-topbar-gradient: linear-gradient(180deg, rgba(5, 10, 18, 0.92), rgba(7, 13, 25, 0.82));
   --alpha-topbar-chip-gradient:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 44%),
-    color-mix(in srgb, var(--alpha-surface) 92%, transparent);
-  --alpha-topbar-chip-border: rgba(255, 255, 255, 0.12);
+    linear-gradient(180deg, rgba(34,211,238,0.06), transparent 42%),
+    linear-gradient(180deg, rgba(6, 16, 28, 0.88), rgba(4, 10, 20, 0.92));
+  --alpha-topbar-chip-border: rgba(103,232,249,0.22);
 
   --alpha-signal: #ffffff;
   --alpha-signal-softest: rgba(255, 255, 255, 0.05);

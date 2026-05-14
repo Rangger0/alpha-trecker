@@ -1,5 +1,6 @@
 // (file lengkap dengan perbaikan dropdown clipping)
 import { Suspense, lazy, useEffect, useMemo, useState, type ChangeEvent, type MouseEvent } from "react";
+import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { useI18n } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -34,11 +35,7 @@ import {
   MoreVertical,
   Edit2,
   Trash2,
-  CheckCircle2,
-  Circle,
   ExternalLink,
-  LayoutGrid,
-  List,
   Sparkles,
   Wallet,
   TrendingUp as TrendingUpIcon,
@@ -47,9 +44,10 @@ import {
 import { cn } from "@/lib/utils";
 import { usePrices } from "@/hooks/use-prices";
 import { useAirdropRewards } from "@/hooks/use-airdrop-rewards";
+import { CurrencyConverter } from "@/components/dashboard/CurrencyConverter";
 import { emitAirdropsSync, setCachedAirdrops } from "@/lib/airdrops-store";
 import type { Airdrop, AirdropType, AirdropStatus } from "@/types";
-import { createAirdrop, getAirdropsByUserId } from "@/services/database";
+import { buildAirdropNotesWithMeta, createAirdrop, getAirdropsByUserId } from "@/services/database";
 
 const RewardPerformancePanel = lazy(async () => {
   const module = await import("@/components/rewards/RewardPerformancePanel");
@@ -84,7 +82,7 @@ const EligibilityModal = lazy(async () => {
 /* ---------- constants ---------- */
 const AIRDROP_TYPES: AirdropType[] = [
   'Testnet', 'AI', 'Quest', 'Daily', 'Daily Quest',
-  'Retroactive', 'Waitlist', 'Depin', 'NFT', 'Domain Name',
+  'Retroactive', 'Waitlist', 'Node', 'Depin', 'NFT', 'Domain Name',
   'Deploy SC', 'DeFi', 'Deploy NFT'
 ];
 
@@ -98,6 +96,7 @@ const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
   'Daily Quest': { dark: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]', light: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]' },
   'Retroactive': { dark: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]', light: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]' },
   'Waitlist': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
+  'Node': { dark: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]', light: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]' },
   'Depin': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
   'NFT': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
   'Domain Name': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
@@ -189,6 +188,22 @@ const formatUsdPrice = (value?: number) => {
   }
   return `$${value.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 4 })}`;
 };
+
+const parseFundingAmount = (value?: string) => {
+  if (!value?.trim()) return 0;
+
+  const normalized = value.trim().toLowerCase().replace(/,/g, '');
+  const amount = Number.parseFloat(normalized.replace(/[^0-9.]/g, ''));
+
+  if (!Number.isFinite(amount)) return 0;
+  if (normalized.includes('b')) return amount * 1_000_000_000;
+  if (normalized.includes('m')) return amount * 1_000_000;
+  if (normalized.includes('k')) return amount * 1_000;
+
+  return amount;
+};
+
+const formatWholeUsd = (value: number) => `$${value.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
 
 const formatMarketCardPrice = (value?: number) => {
   if (value == null) return '--';
@@ -335,35 +350,93 @@ function DashboardHero({
     }, 0);
   }, [airdrops]);
   const heroStats = useMemo(
-    () => [
-      {
-        label: "Tracked",
-        value: airdrops.length,
-        meta: `${ongoingCount} ongoing`,
-      },
-      {
-        label: "Priority",
-        value: priorityCount,
-        meta: priorityCount > 0 ? "Pinned projects" : "No pinned project",
-      },
-      {
-        label: "Claimed",
-        value: claimedRewards.length,
-        meta: claimedRewards.length > 0 ? `${formatUsdPrice(totalRealized)} realized` : "Reward vault idle",
-      },
-      {
-        label: "This week",
-        value: weeklyWatchCount,
-        meta: weeklyWatchCount > 0 ? "Deadline within 7 days" : "No urgent deadline",
-      },
-    ],
-    [airdrops.length, claimedRewards.length, ongoingCount, priorityCount, totalRealized, weeklyWatchCount]
+    () => {
+      const totalProjects = airdrops.length;
+      const fundingRaised = airdrops.reduce((sum, airdrop) => sum + parseFundingAmount(airdrop.funding), 0);
+      const fundingFilledCount = airdrops.filter((airdrop) => Boolean(airdrop.funding?.trim())).length;
+      const fundingProgress = totalProjects === 0 ? 0 : Math.round((fundingFilledCount / totalProjects) * 100);
+
+      const waitlistTotalUsers = airdrops.reduce((sum, airdrop) => sum + (airdrop.waitlistCount ?? 0), 0);
+      const waitlistFilledCount = airdrops.filter((airdrop) => airdrop.waitlistCount != null).length;
+      const waitlistProgress = totalProjects === 0 ? 0 : Math.round((waitlistFilledCount / totalProjects) * 100);
+
+      const potentialProjects = airdrops.filter((airdrop) => Boolean(airdrop.potential));
+      const highPotentialCount = potentialProjects.filter((airdrop) => airdrop.potential === 'High').length;
+      const potentialProgress = totalProjects === 0 ? 0 : Math.round((potentialProjects.length / totalProjects) * 100);
+      const potentialTier = highPotentialCount > 0 ? 'High' : potentialProjects.length > 0 ? 'Tracked' : '-';
+
+      return [
+        {
+          label: 'Tracked',
+          value: airdrops.length,
+          meta: `${ongoingCount} ongoing`,
+        },
+        {
+          label: 'Priority',
+          value: priorityCount,
+          meta: priorityCount > 0 ? 'Pinned projects' : 'No pinned project',
+        },
+        {
+          label: 'Claimed',
+          value: claimedRewards.length,
+          meta: claimedRewards.length > 0 ? `${formatUsdPrice(totalRealized)} realized` : 'Reward vault idle',
+        },
+        {
+          label: 'This week',
+          value: weeklyWatchCount,
+          meta: weeklyWatchCount > 0 ? 'Deadline within 7 days' : 'No urgent deadline',
+        },
+        {
+          label: 'Funding',
+          value: fundingRaised > 0 ? formatWholeUsd(fundingRaised) : '--',
+          badge: fundingFilledCount > 0 ? `${fundingFilledCount} filled` : '-',
+          badgeClass: 'text-gold border-gold/20 bg-gold/10',
+          progress: fundingProgress,
+          progressColor: 'rgba(0,255,200,0.6)',
+          meta: fundingFilledCount > 0 ? `${fundingFilledCount}/${totalProjects} projects filled` : 'Belum ada funding',
+        },
+        {
+          label: 'Waitlist',
+          value: waitlistFilledCount > 0 ? waitlistTotalUsers : '--',
+          badge: waitlistFilledCount > 0 ? `${waitlistFilledCount} filled` : '-',
+          badgeClass: waitlistFilledCount > 0 ? 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300' : 'border-slate-400/20 bg-slate-400/10 text-slate-300',
+          progress: waitlistProgress,
+          progressColor: 'rgba(16,185,129,0.55)',
+          meta: waitlistFilledCount > 0 ? `${waitlistFilledCount}/${totalProjects} projects filled` : 'Belum ada waitlist',
+        },
+        {
+          label: 'Potential',
+          value: potentialProjects.length > 0 ? potentialProjects.length : '--',
+          badge: potentialTier,
+          badgeClass:
+            potentialTier === 'High'
+              ? 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300'
+              : potentialTier === 'Tracked'
+                ? 'border-yellow-400/20 bg-yellow-400/10 text-yellow-200'
+                : 'border-slate-400/20 bg-slate-400/10 text-slate-300',
+          progress: potentialProgress,
+          progressColor:
+            potentialTier === 'High'
+              ? 'rgba(16,185,129,0.55)'
+              : potentialTier === 'Tracked'
+                ? 'rgba(234,179,8,0.55)'
+                : 'rgba(100,116,139,0.55)',
+          meta: potentialProjects.length > 0 ? `${highPotentialCount} high potential` : 'Belum ada potential',
+        },
+      ];
+    },
+    [airdrops, claimedRewards.length, ongoingCount, priorityCount, totalRealized, weeklyWatchCount]
   );
 
   return (
-    <section className="macos-card anim-fade p-5 shadow-none sm:p-6">
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_640px] 2xl:grid-cols-[minmax(0,1fr)_700px] xl:items-start">
-        <div>
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.22, ease: "easeOut" }}
+      className="macos-card hud-panel anim-fade p-5 shadow-none sm:p-6"
+    >
+      <div className="grid gap-4 auto-rows-fr xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)_minmax(0,420px)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)_minmax(0,420px)] xl:items-stretch">
+        <div className="flex h-full flex-col justify-between">
           <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
             <Sparkles className="h-3.5 w-3.5 text-gold" />
             Alpha control
@@ -385,6 +458,7 @@ function DashboardHero({
           </div>
         </div>
 
+        <CurrencyConverter isDark={isDark} />
         <PriceTracker isDark={isDark} />
       </div>
 
@@ -392,16 +466,38 @@ function DashboardHero({
         {heroStats.map((card, index) => (
           <div
             key={card.label}
-            className="rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-4 py-3"
+            className="hud-panel rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-4 py-3"
             style={{ animationDelay: `${index * 40}ms` }}
           >
             <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">{card.label}</p>
-            <p className="mt-2 text-[1.45rem] font-semibold tracking-tight alpha-text">{card.value}</p>
-            <p className="mt-1 text-[11px] alpha-text-muted">{card.meta}</p>
+            {'progress' in card ? (
+              <>
+                <div className="mt-2 flex items-center justify-between gap-3">
+                  <p className="text-[1.45rem] font-semibold tracking-tight alpha-text">{card.value}</p>
+                  <span
+                    className={`rounded-full border px-2 py-0.5 text-[9px] font-mono uppercase tracking-[0.12em] ${card.badgeClass}`}
+                  >
+                    {card.badge}
+                  </span>
+                </div>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[color:var(--alpha-hover-soft)] border border-alpha-border/40">
+                  <div
+                    className="h-full rounded-full"
+                    style={{ width: `${card.progress}%`, background: card.progressColor }}
+                  />
+                </div>
+                <p className="mt-1 text-[11px] alpha-text-muted">{card.meta}</p>
+              </>
+            ) : (
+              <>
+                <p className="mt-2 text-[1.45rem] font-semibold tracking-tight alpha-text">{card.value}</p>
+                <p className="mt-1 text-[11px] alpha-text-muted">{card.meta}</p>
+              </>
+            )}
           </div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }
 
@@ -426,40 +522,41 @@ function PriceTracker({ isDark }: { isDark: boolean }) {
   const metaTextColor = 'var(--alpha-text-muted)';
 
   return (
-    <section className={`relative overflow-hidden rounded-[1.1rem] border p-4 shadow-none ${isDark ? 'border-alpha-border bg-[color:var(--alpha-hover-soft)]' : 'border-alpha-border bg-[color:var(--alpha-hover-soft)]'}`}>
+    <section className={`hud-panel relative overflow-hidden rounded-[1.1rem] border p-3 shadow-none h-full ${isDark ? 'border-alpha-border bg-[color:var(--alpha-hover-soft)]' : 'border-alpha-border bg-[color:var(--alpha-hover-soft)]'}`}>
       <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,207,206,0.16),transparent_52%)] opacity-50" />
-      <div className="relative">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-[0.95rem] border border-alpha-border bg-[color:var(--alpha-surface)] text-gold">
-              <TrendingUpIcon className="h-3.5 w-3.5" />
+      <div className="relative h-full flex flex-col">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] text-gold">
+              <TrendingUpIcon className="h-3 w-3" />
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">Market snapshot</p>
-              <h3 className="mt-0.5 text-[14px] font-semibold leading-none alpha-text">Live prices</h3>
-              <p className="mt-1 text-[10px] alpha-text-muted">
-                {lastUpdatedAt ? `Updated ${lastUpdatedLabel}` : lastUpdatedLabel}
-              </p>
+              <p className="text-[9px] uppercase tracking-[0.2em] alpha-text-muted">Market</p>
+              <h3 className="text-[12px] font-semibold leading-none alpha-text">Live prices</h3>
             </div>
           </div>
 
-          <span className="rounded-full border border-gold/20 bg-gold/10 px-2.5 py-1 text-[9px] uppercase tracking-[0.18em] text-gold">
-            {coins.length} assets
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="rounded-full border border-gold/20 bg-gold/10 px-1.5 py-0.5 text-[8px] uppercase tracking-[0.18em] text-gold flex-shrink-0">
+              {coins.length} assets
+            </span>
+            <p className="text-[8px] alpha-text-muted flex-shrink-0">
+              {loading ? 'Loading' : lastUpdatedLabel}
+            </p>
+          </div>
         </div>
 
         {loading ? (
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
+          <div className="mt-2 flex-1 grid grid-cols-5 gap-1.5">
             {coins.map((coin) => (
-              <div key={coin.id} className="min-w-0 rounded-[0.95rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-2.5 py-3 sm:px-3">
-                <div className="h-3 w-10 rounded-full bg-[color:var(--alpha-border)]" />
-                <div className="mt-3 h-4 w-16 rounded-full bg-[color:var(--alpha-border)]" />
-                <div className="mt-2 h-3 w-12 rounded-full bg-[color:var(--alpha-border)]" />
+              <div key={coin.id} className="min-w-0 rounded-lg border border-alpha-border bg-[color:var(--alpha-surface)] px-2 py-2">
+                <div className="h-2 w-8 rounded-full bg-[color:var(--alpha-border)]" />
+                <div className="mt-2 h-4 w-10 rounded-full bg-[color:var(--alpha-border)]" />
               </div>
             ))}
           </div>
         ) : (
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
+          <div className="mt-2 flex-1 grid grid-cols-5 gap-1.5">
             {coins.map((coin) => {
               const price = prices[coin.id];
               const change = price?.usd_24h_change;
@@ -469,38 +566,35 @@ function PriceTracker({ isDark }: { isDark: boolean }) {
               return (
                 <div
                   key={coin.id}
-                  className={`relative min-w-0 overflow-hidden rounded-[0.95rem] border px-2.5 py-3 sm:px-3 ${surfaceClass} border-alpha-border`}
+                  className={`relative min-w-0 overflow-hidden rounded-lg border px-2 py-2 ${surfaceClass} border-alpha-border`}
                 >
                   <span
                     className="absolute inset-x-0 top-0 h-px"
                     style={{ background: `linear-gradient(90deg, transparent, ${coin.accent}, transparent)` }}
                   />
-                  <div className="flex items-center justify-between gap-2">
-                    <div>
-                      <p className="text-[9px] uppercase tracking-[0.18em] alpha-text-muted">{coin.symbol}</p>
-                      <p className="mt-0.5 text-[9px] alpha-text-muted">{coin.name}</p>
-                    </div>
-                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: coin.accent }} />
+                  <div className="flex items-center justify-between gap-1">
+                    <p className="text-[8px] uppercase tracking-[0.18em] alpha-text-muted">{coin.symbol}</p>
+                    <span className="h-1.5 w-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: coin.accent }} />
                   </div>
                   <p
-                    className="mt-3 truncate text-[15px] font-semibold leading-none tracking-tight tabular-nums"
+                    className="mt-1 truncate text-[13px] font-semibold leading-none tracking-tight tabular-nums"
                     style={{ color: priceTextColor }}
                     title={hasPrice ? formatUsdPrice(price?.usd) : 'N/A'}
                   >
                     {hasPrice ? formatMarketCardPrice(price?.usd) : 'N/A'}
                   </p>
                   {hasPrice ? (
-                    <div className={`mt-1.5 inline-flex items-center gap-1 rounded-full border px-1.5 py-0.5 text-[8px] font-medium ${
+                    <div className={`mt-1 inline-flex items-center gap-0.5 rounded-full border px-1 py-0.5 text-[7px] font-medium ${
                       isPositive
                         ? 'border-gold/20 bg-gold/10 text-gold'
                         : 'border-[var(--alpha-danger-border)] bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)]'
                     }`}>
-                      {isPositive ? <ArrowUpRight className="h-2.5 w-2.5" /> : <ArrowDownRight className="h-2.5 w-2.5" />}
+                      {isPositive ? <ArrowUpRight className="h-2 w-2" /> : <ArrowDownRight className="h-2 w-2" />}
                       {formatPriceChange(change)}
                     </div>
                   ) : (
-                    <p className="mt-1.5 text-[9px] font-medium" style={{ color: metaTextColor }}>
-                      {error ? 'Feed unavailable' : 'Waiting for update'}
+                    <p className="mt-1 text-[7px] font-medium" style={{ color: metaTextColor }}>
+                      {error ? 'N/A' : 'Wait'}
                     </p>
                   )}
                 </div>
@@ -731,7 +825,7 @@ function DashboardWorkspacePanel({
   );
 }
 
-/* ---------- ProjectAvatar & TableRow/AirdropCard usage ---------- */
+/* ---------- ProjectAvatar & Tactical List Row ---------- */
 
 function ProjectAvatar({
   airdrop, size = 'md', logoError, setLogoError,
@@ -774,7 +868,7 @@ function ProjectAvatar({
   );
 }
 
-/* TableRow (list) - controlled by parent openMenuId */
+/* TableRow (list-only tactical monitoring board) */
 function TableRow({
   airdrop, index, isDark, onEdit, onDelete, onAddPriority, logoError, setLogoError
 }: {
@@ -839,6 +933,68 @@ function TableRow({
         <Badge variant="outline" className={`font-mono text-xs ${getStatusColor(airdrop.status)}`}>{airdrop.status}</Badge>
       </td>
 
+      {/* Project intelligence metrics */}
+      {(() => {
+        const fundingLabel = airdrop.funding?.trim() || '-';
+        const waitlistLabel = airdrop.waitlistCount != null ? String(airdrop.waitlistCount) : '-';
+        const effectivePotential = airdrop.potential ?? '-';
+        const confirmedLabel = airdrop.airdropConfirmed ? 'Confirmed' : 'Unconfirmed';
+
+        const tierToColor = (tier: string) =>
+          tier === 'High'
+            ? 'text-emerald-300'
+            : tier === 'Medium'
+              ? 'text-yellow-200'
+              : tier === 'Low'
+                ? 'text-rose-200'
+                : 'text-slate-300';
+
+        const tierToDot = (tier: string) =>
+          tier === 'High'
+            ? 'rgba(16,185,129,0.65)'
+            : tier === 'Medium'
+              ? 'rgba(234,179,8,0.65)'
+              : tier === 'Low'
+                ? 'rgba(244,63,94,0.65)'
+                : 'rgba(75,107,128,0.65)';
+
+        const fundingDot = airdrop.funding ? 'rgba(16,185,129,0.65)' : 'rgba(75,107,128,0.65)';
+        const fundingText = airdrop.funding ? 'text-emerald-300' : 'text-slate-300';
+        const waitlistDot = airdrop.waitlistCount != null ? 'rgba(56,189,248,0.65)' : 'rgba(75,107,128,0.65)';
+        const waitlistText = airdrop.waitlistCount != null ? 'text-sky-300' : 'text-slate-300';
+        const confirmedDot = airdrop.airdropConfirmed ? 'rgba(16,185,129,0.75)' : 'rgba(244,114,182,0.5)';
+        const confirmedText = airdrop.airdropConfirmed ? 'text-emerald-300' : 'text-pink-300';
+
+        return (
+          <>
+            <td className="px-4 py-4">
+              <div className="hud-badge">
+                <span className="hud-badge-dot" style={{ background: confirmedDot }} />
+                <span className={`${confirmedText} font-semibold`}>{confirmedLabel}</span>
+              </div>
+            </td>
+            <td className="px-4 py-4">
+              <div className="hud-badge">
+                <span className="hud-badge-dot" style={{ background: fundingDot }} />
+                <span className={`${fundingText} font-semibold`}>{fundingLabel}</span>
+              </div>
+            </td>
+            <td className="px-4 py-4">
+              <div className="hud-badge">
+                <span className="hud-badge-dot" style={{ background: waitlistDot }} />
+                <span className={`${waitlistText} font-semibold`}>{waitlistLabel}</span>
+              </div>
+            </td>
+            <td className="px-4 py-4">
+              <div className="hud-badge">
+                <span className="hud-badge-dot" style={{ background: tierToDot(effectivePotential) }} />
+                <span className={`${tierToColor(effectivePotential)} font-semibold`}>{effectivePotential}</span>
+              </div>
+            </td>
+          </>
+        );
+      })()}
+
       {/* Actions */}
       <td className="px-4 py-4">
         <div className="flex items-center gap-2">
@@ -891,125 +1047,6 @@ function TableRow({
   );
 }
 
-/* AirdropCardInline (grid) - using macos-card */
-interface AirdropCardInlineProps {
-  airdrop: Airdrop;
-  index: number;
-  onEdit: () => void;
-  onDelete: () => void;
-  onToggleTask: (airdropId: string, taskId: string) => void;
-  onAddPriority: () => void;
-  getProgress: (airdrop: Airdrop) => number;
-  logoError: Record<string, boolean>;
-  setLogoError: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
-  isMenuOpen: boolean;
-  onMenuToggle: (event: MouseEvent) => void;
-}
-
-function AirdropCardInline({
-  airdrop, index, onEdit, onDelete, onToggleTask, onAddPriority,
-  getProgress, logoError, setLogoError, isMenuOpen, onMenuToggle,
-}: AirdropCardInlineProps) {
-  const progress = getProgress(airdrop);
-  const completedTasks = airdrop.tasks.filter((task) => task.completed).length;
-
-  return (
-    <div className="relative rounded-[1.1rem] p-4 macos-card macos-card-hover group anim-card shadow-none" style={{ animationDelay: `${index * 50}ms` }}>
-      <div className="relative flex flex-col h-full">
-        <div className="mb-4 flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-              <ProjectAvatar airdrop={airdrop} size="md" logoError={logoError} setLogoError={setLogoError} />
-            <div className="flex-1 min-w-0">
-              <h3 className="truncate text-[15px] font-semibold alpha-text">{airdrop.projectName}</h3>
-              <div className="mt-1.5 flex items-center gap-2 flex-wrap">
-                <Badge variant="outline" className="font-mono text-xs">{airdrop.type}</Badge>
-                <Badge variant="outline" className="font-mono text-xs">{airdrop.status}</Badge>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative">
-            <Button variant="ghost" size="icon" onClick={(e: MouseEvent) => { e.stopPropagation(); onMenuToggle(e); }}
-              className="flex-shrink-0 rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-surface)] transition-[border-color,background-color,color] duration-150 alpha-text-muted hover:border-gold/20 hover:bg-gold/10 hover:text-gold" >
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-            {isMenuOpen && (
-              <div className="macos-popover absolute right-0 top-full mt-2 w-36 z-50" onClick={(e: MouseEvent) => e.stopPropagation()} style={{ borderColor: 'var(--alpha-border)', background: 'var(--alpha-panel)', color: 'var(--alpha-text)', zIndex: 9999 }}>
-                <button onClick={(e: MouseEvent) => { e.stopPropagation(); onEdit(); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm font-mono text-left alpha-text hover:text-gold">
-                  <Edit2 className="h-4 w-4" />EDIT
-                </button>
-                <button onClick={(e: MouseEvent) => { e.stopPropagation(); onDelete(); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm font-mono text-left text-[var(--alpha-danger)]">
-                  <Trash2 className="h-4 w-4" />DELETE
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-          <div className="mb-4">
-            <div className="mb-2 flex items-center justify-between text-xs font-mono alpha-text-muted">
-            <span>PROGRESS_{progress}%</span>
-            <span className="text-gold">[{completedTasks}/{airdrop.tasks.length}]</span>
-          </div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-[color:var(--alpha-hover-soft)]">
-            <div className={`h-full rounded-full transition-[width] duration-500 ease-out bg-gold`} style={{ width: `${progress}%` }} />
-          </div>
-        </div>
-
-        {/* Tasks preview */}
-        {airdrop.tasks?.length > 0 && (
-          <div className="mb-4 flex-1 space-y-2.5">
-            {airdrop.tasks.slice(0, 3).map((task) => (
-              <div key={task.id} className="flex items-center gap-2 cursor-pointer" onClick={() => onToggleTask(airdrop.id, task.id)}>
-                {task.completed
-                  ? <CheckCircle2 className={`h-4 w-4 flex-shrink-0 text-gold`} />
-                  : <Circle className={`h-4 w-4 flex-shrink-0 alpha-text-muted`} />
-                }
-                <span className={`truncate text-[12px] ${task.completed ? 'line-through alpha-text-muted' : 'alpha-text'}`}>{task.title}</span>
-              </div>
-            ))}
-            {airdrop.tasks.length > 3 && (
-              <p className="text-[12px] alpha-text-muted">+{airdrop.tasks.length - 3} more...</p>
-            )}
-          </div>
-        )}
-
-        <div className="mt-auto flex items-center gap-2 border-t border-alpha-border pt-3">
-          {airdrop.platformLink && (
-            <a href={airdrop.platformLink} target="_blank" rel="noopener noreferrer"
-              className="rounded-[0.85rem] border border-alpha-border bg-[color:var(--alpha-surface)] p-1.5 transition-[border-color,background-color,color] duration-150 alpha-text hover:border-gold/25 hover:bg-gold/10 hover:text-gold">
-              <ExternalLink className="h-3.5 w-3.5" />
-            </a>
-          )}
-          {airdrop.twitterUsername && (
-            <a href={`https://twitter.com/${airdrop.twitterUsername.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-              className="rounded-[0.85rem] border border-alpha-border bg-[color:var(--alpha-surface)] p-1.5 transition-[border-color,background-color,color] duration-150 alpha-text hover:border-gold/25 hover:bg-gold/10 hover:text-gold">
-              <svg style={{width:14,height:14}} viewBox="0 0 24 24"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-          )}
-
-          <button
-            onClick={() => onAddPriority()}
-            className={`ml-auto flex items-center gap-1 rounded-[0.85rem] border px-2.5 py-1 text-xs font-mono transition-[border-color,background-color,color] duration-150 ${
-              airdrop.isPriority
-                ? 'bg-gold text-[color:var(--alpha-accent-contrast)] border-gold' 
-                : 'bg-[color:var(--alpha-surface)] alpha-text border-alpha-border hover:border-gold/25 hover:bg-gold/10'
-            }`}
-          >
-            <Star className={`h-3 w-3`} />
-            {airdrop.isPriority ? 'Priority' : '+ Priority'}
-          </button>
-
-          <div className="flex items-center gap-1 text-xs font-mono alpha-text-muted">
-            <CalendarDays className="h-3 w-3" />
-            <span>{formatProjectDate(airdrop.deadline ?? airdrop.createdAt)}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ---------- MAIN DASHBOARD CONTENT ---------- */
 function DashboardContent() {
   const { session } = useAuth();
@@ -1024,9 +1061,7 @@ function DashboardContent() {
   const [deletingAirdrop, setDeletingAirdrop] = useState<Airdrop | null>(null);
   const [priorityAirdrop, setPriorityAirdrop] = useState<Airdrop | null>(null);
   const { theme } = useTheme();
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [isEligibilityModalOpen, setIsEligibilityModalOpen] = useState(false);
   const { rewards } = useAirdropRewards();
@@ -1044,7 +1079,11 @@ function DashboardContent() {
       result = result.filter(a =>
         a.projectName.toLowerCase().includes(q) ||
         (a.twitterUsername || '').toLowerCase().includes(q) ||
-        (a.walletAddress || '').toLowerCase().includes(q)
+        (a.walletAddress || '').toLowerCase().includes(q) ||
+        (a.funding || '').toLowerCase().includes(q) ||
+        (a.potential || '').toLowerCase().includes(q) ||
+        (a.waitlistCount != null && 'waitlist'.includes(q)) ||
+        (a.airdropConfirmed && 'confirmed'.includes(q))
       );
     }
     if (typeFilter   !== 'all') result = result.filter(a => a.type   === typeFilter);
@@ -1052,11 +1091,6 @@ function DashboardContent() {
     if (sortBy === 'newest') result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     return result;
   }, [airdrops, searchQuery, typeFilter, statusFilter, sortBy]);
-
-  useEffect(() => {
-    const close = () => setOpenMenuId(null);
-    if (openMenuId) { document.addEventListener('click', close); return () => document.removeEventListener('click', close); }
-  }, [openMenuId]);
 
   useEffect(() => {
     if (!user) return;
@@ -1090,7 +1124,7 @@ function DashboardContent() {
       project_name: data.projectName, project_logo: data.projectLogo,
       type: data.type, status: data.status, platform_link: data.platformLink,
       twitter_username: data.twitterUsername, wallet_address: data.walletAddress,
-      notes: data.notes, tasks: data.tasks || [], priority: data.priority,
+      notes: buildAirdropNotesWithMeta(data), tasks: data.tasks || [], priority: data.priority,
       deadline: data.deadline, is_priority: data.isPriority,
       updated_at: new Date().toISOString(),
     }).eq('id', editingAirdrop.id);
@@ -1122,20 +1156,6 @@ function DashboardContent() {
     }
     const rows = await getAirdropsByUserId(user.id);
     syncDashboardAirdrops(rows.map((airdropRow) => ({ ...airdropRow, isPriority: Boolean(airdropRow.isPriority || airdropRow.is_priority) })));
-  };
-
-  const handleToggleTask = async (airdropId: string, taskId: string) => {
-    const airdrop = airdrops.find(a => a.id === airdropId);
-    if (!airdrop) return;
-    const updatedTasks = airdrop.tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
-    const { error } = await supabase.from('airdrops').update({ tasks: updatedTasks }).eq('id', airdropId);
-    if (error) return console.error(error);
-    syncDashboardAirdrops(airdrops.map(a => a.id === airdropId ? { ...a, tasks: updatedTasks } : a));
-  };
-
-  const getProgress = (airdrop: Airdrop) => {
-    if (!airdrop.tasks || !airdrop.tasks.length) return 0;
-    return Math.round((airdrop.tasks.filter((task) => task.completed).length / airdrop.tasks.length) * 100);
   };
 
   return (
@@ -1216,18 +1236,6 @@ function DashboardContent() {
                   </SelectContent>
                 </Select>
 
-                {/* View toggle */}
-                <div className={`flex h-11 items-center rounded-[1rem] border border-alpha-border p-1 ${
-                  isDark ? 'bg-[color:var(--alpha-surface-soft)]' : 'bg-[color:var(--alpha-surface)]'
-                }`}>
-                  {(['grid', 'list'] as const).map((mode) => (
-                    <Button key={mode} variant={viewMode === mode ? 'default' : 'ghost'} size="icon"
-                      onClick={() => setViewMode(mode)}
-                      className={`h-9 w-9 rounded-[0.8rem] transition-[background-color,color] duration-150 ${viewMode === mode ? 'bg-gold/90 text-[color:var(--alpha-accent-contrast)]' : 'alpha-text-muted hover:bg-gold/10 hover:text-gold'}`}>
-                      {mode === 'grid' ? <LayoutGrid className="h-4 w-4" /> : <List className="h-4 w-4" />}
-                    </Button>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
@@ -1246,14 +1254,14 @@ function DashboardContent() {
               <Plus className="h-4 w-4 mr-2" />{isDark ? 'INIT_PROJECT()' : 'Add Your First Airdrop'}
             </Button>
           </div>
-        ) : viewMode === 'list' ? (
+        ) : (
           // <<< CHANGE: make card overflow-visible so row popovers can escape the card
           <div className="macos-card overflow-visible rounded-[1.1rem] anim-fade shadow-none">
             <div className="overflow-x-auto">
               <table className="w-full macos-table">
                 <thead>
                   <tr className="border-b border-alpha-border bg-[color:var(--alpha-hover-soft)]">
-                    {['NO','NAME','TYPE','WALLET ADDRESS','OFFICIAL LINK','STATUS','ACTIONS'].map(h => (
+                    {['NO','NAME','TYPE','WALLET ADDRESS','OFFICIAL LINK','STATUS','CONFIRMED','FUNDING','WAITLIST','POTENTIAL','ACTIONS'].map(h => (
                       <th key={h} className={`px-4 py-3 text-left text-xs font-mono font-medium alpha-text-muted`}>{h}</th>
                     ))}
                   </tr>
@@ -1275,25 +1283,6 @@ function DashboardContent() {
                 </tbody>
               </table>
             </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {filteredAirdrops.map((airdrop, index) => (
-              <AirdropCardInline
-                key={airdrop.id}
-                airdrop={airdrop}
-                index={index}
-                onEdit={() => { setEditingAirdrop(airdrop); setOpenMenuId(null); }}
-                onDelete={() => { setDeletingAirdrop(airdrop); setOpenMenuId(null); }}
-                onToggleTask={handleToggleTask}
-                onAddPriority={() => handleAddPriority(airdrop)}
-                getProgress={getProgress}
-                logoError={logoError}
-                setLogoError={setLogoError}
-                isMenuOpen={openMenuId === airdrop.id}
-                onMenuToggle={(e: MouseEvent) => { e.stopPropagation(); setOpenMenuId(openMenuId === airdrop.id ? null : airdrop.id); }}
-              />
-            ))}
           </div>
         )}
       </main>

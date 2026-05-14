@@ -41,6 +41,9 @@ export interface Airdrop {
   updatedAt: string;
   priority?: PriorityLevel;      
   deadline?: string;            
+  waitlistCount?: number;
+  funding?: string;
+  potential?: PriorityLevel;
   is_priority?: boolean;        
   isPriority?: boolean;          
   ecosystemId?: string;

@@ -141,7 +141,7 @@ body {
   @apply antialiased;
 
   font-family:
-  var(--mac-font-stack, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
+  var(--alpha-font-stack, 'Rajdhani', 'Orbitron', 'Exo 2', 'Oxanium', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
   font-weight: 520;
   letter-spacing: -0.01em;
 
@@ -155,15 +155,39 @@ body {
   overscroll-behavior-y: contain;
 
   background:
-    var(--alpha-bg-pattern, none),
-    var(--alpha-bg);
+    radial-gradient(circle at 25% 12%, rgba(103,232,249,0.12), transparent 16%),
+    linear-gradient(180deg, #020617 0%, #04101C 38%, #000000 100%);
   color: var(--alpha-text);
 
 }
 
+body::before {
+  content: '';
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at center, rgba(103,232,249,0.14), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.02), transparent 48%, rgba(0,0,0,0.35));
+}
+
+body::after {
+  content: '';
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+  background-size: 100% 96px, 96px 100%;
+  opacity: 0.04;
+}
+
 h1, h2, h3, h4, h5, h6, button, label, th, .font-display {
   font-family:
-  var(--mac-display-stack, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
+  var(--alpha-display-stack, 'Rajdhani', 'Orbitron', 'Exo 2', 'Oxanium', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
   font-weight: 650;
   letter-spacing: -0.015em;
 }
@@ -279,6 +303,120 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
 
 .border-glow {
   box-shadow: 0 0 20px color-mix(in srgb, var(--alpha-highlight) 18%, transparent);
+}
+
+.hud-panel {
+  position: relative;
+  overflow: hidden;
+  background: rgba(10, 20, 30, 0.62);
+  border: 1px solid rgba(0, 255, 200, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(0, 255, 200, 0.08);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.hud-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.05), transparent 24%), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 100% 1px, 28px 28px;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.hud-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,255,200,0.16), transparent 22%, transparent 78%, rgba(0,255,200,0.12));
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 220ms ease, transform 1.8s ease;
+  pointer-events: none;
+}
+
+.hud-panel {
+  animation: hud-panel-pulse 9s ease-in-out infinite;
+}
+
+.hud-panel:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 255, 200, 0.30);
+  box-shadow: 0 0 35px rgba(0, 255, 200, 0.16);
+}
+
+.hud-panel:hover::after {
+  opacity: 1;
+  transform: translateX(100%);
+}
+
+@keyframes hud-panel-pulse {
+  0%, 100% {
+    box-shadow: 0 0 26px rgba(0, 255, 200, 0.10);
+  }
+  50% {
+    box-shadow: 0 0 34px rgba(0, 255, 200, 0.16);
+  }
+}
+
+.hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid rgba(0, 255, 200, 0.18);
+  background: rgba(0, 255, 200, 0.06);
+  color: #b8fff3;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.69rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.hud-badge-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.hud-metric-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.18rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 255, 200, 0.14);
+  background: rgba(5, 18, 32, 0.75);
+  color: #d4fdfa;
+  min-width: 8rem;
+  text-align: center;
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+.hud-metric-badge strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.hud-metric-badge.low {
+  color: #fda6a6;
+  border-color: rgba(248, 113, 113, 0.18);
+}
+
+.hud-metric-badge.medium {
+  color: #f5d17f;
+  border-color: rgba(234, 179, 8, 0.18);
+}
+
+.hud-metric-badge.high {
+  color: #a0f5b2;
+  border-color: rgba(16, 185, 129, 0.18);
 }
 
 .w-full-screen {

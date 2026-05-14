@@ -80,6 +80,9 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
   
   const [priority, setPriority] = useState<PriorityLevel>('Low');
   const [deadline, setDeadline] = useState<string>(getTodayDateInputValue());
+  const [waitlistCount, setWaitlistCount] = useState<number | ''>('');
+  const [funding, setFunding] = useState('');
+  const [potential, setPotential] = useState<PriorityLevel>('Medium');
   const [isPriority, setIsPriority] = useState(false);
 
   useEffect(() => {
@@ -97,6 +100,9 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
       setTasks(airdrop.tasks ?? []);
       setPriority(airdrop.priority ?? 'Low');
       setDeadline(normalizeDateInputValue(airdrop.deadline ?? airdrop.createdAt));
+      setWaitlistCount(airdrop.waitlistCount ?? '');
+      setFunding(airdrop.funding ?? '');
+      setPotential(airdrop.potential ?? 'Medium');
       setIsPriority(airdrop.isPriority ?? airdrop.is_priority ?? false);
     } else {
       resetForm();
@@ -116,6 +122,9 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
     setNewTaskTitle('');
     setPriority('Low');
     setDeadline(getTodayDateInputValue());
+    setWaitlistCount('');
+    setFunding('');
+    setPotential('Medium');
     setIsPriority(false);
   };
 
@@ -135,6 +144,9 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
       tasks,
       priority,
       deadline: deadline || undefined,
+      waitlistCount: typeof waitlistCount === 'number' ? waitlistCount : undefined,
+      funding: funding.trim() || undefined,
+      potential,
       isPriority,
     };
 
@@ -255,7 +267,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="type" className="macos-modal-label">
                   {t('airdropModal.type')} *
@@ -297,7 +309,55 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
                   </SelectContent>
                 </Select>
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="waitlistCount" className="macos-modal-label">
+                  Waitlist
+                </Label>
+                <Input
+                  id="waitlistCount"
+                  type="number"
+                  placeholder="Enter waitlist count"
+                  value={waitlistCount}
+                  onChange={(e) => setWaitlistCount(e.target.value ? Number(e.target.value) : '')}
+                  className="macos-input macos-modal-input"
+                  min={0}
+                />
+              </div>
             </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div className="space-y-2">
+                <Label htmlFor="funding" className="macos-modal-label">
+                  Funding
+                </Label>
+                <Input
+                  id="funding"
+                  placeholder="$120K"
+                  value={funding}
+                  onChange={(e) => setFunding(e.target.value)}
+                  className="macos-input macos-modal-input"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="potential" className="macos-modal-label">
+                  Potential
+                </Label>
+                <Select value={potential} onValueChange={(v) => setPotential(v as PriorityLevel)}>
+                  <SelectTrigger className="macos-input macos-modal-input">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="macos-popover">
+                    {PRIORITY_LEVELS.map((level) => (
+                      <SelectItem key={level} value={level}>
+                        {level}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="space-y-2">
                 <Label className="macos-modal-label flex items-center gap-2">
