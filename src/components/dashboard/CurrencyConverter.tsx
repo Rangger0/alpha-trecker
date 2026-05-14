@@ -1,5 +1,5 @@
 import { useCurrencyRate } from '@/hooks/use-currency-rate';
-import { ArrowRightLeft, TrendingUp as TrendingUpIcon } from 'lucide-react';
+import { ArrowRightLeft } from 'lucide-react';
 
 interface CurrencyConverterProps {
   isDark: boolean;
@@ -14,13 +14,6 @@ export function CurrencyConverter({ isDark }: CurrencyConverterProps) {
     }
     return value.toFixed(6);
   };
-
-  const lastUpdatedLabel = lastUpdated
-    ? lastUpdated.toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-      })
-    : 'Loading...';
 
   return (
     <section className={`hud-panel relative overflow-hidden rounded-[1.1rem] border p-3 shadow-none h-full ${

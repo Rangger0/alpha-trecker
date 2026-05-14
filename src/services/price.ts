@@ -138,9 +138,9 @@ export const getExchangeRateIDRtoUSD = async () => {
     // Use USD to get IDR rate via fiat conversion
     const url = `${COINGECKO_API}/simple/price?ids=bitcoin&vs_currencies=idr,usd`;
     const response = await axios.get(url, { timeout: 5000 });
-    
-    const btcUsd = response.data.bitcoin?.usd;
-    const btcIdr = response.data.bitcoin?.idr;
+    const payload = response.data as { bitcoin?: { usd?: number; idr?: number } };
+    const btcUsd = payload.bitcoin?.usd;
+    const btcIdr = payload.bitcoin?.idr;
     
     if (btcUsd && btcIdr) {
       const usdToIdr = btcIdr / btcUsd;

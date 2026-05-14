@@ -1,6 +1,6 @@
 // ALPHA TRECKER - Theme Context
 
-import { createContext, useContext, useLayoutEffect, useMemo, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useLayoutEffect, useMemo, type ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -13,7 +13,6 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const THEME_KEY = 'alpha_tracker_theme';
 const LEGACY_THEME_KEY = 'alpha_trecker_theme';
 const DEFAULT_THEME: Theme = 'dark';
-const THEME_SWITCH_GUARD_CLASS = 'theme-switching';
 
 const applyThemeToDocument = (theme: Theme) => {
   const root = document.documentElement;
@@ -25,13 +24,6 @@ const applyThemeToDocument = (theme: Theme) => {
 const persistTheme = (theme: Theme) => {
   localStorage.setItem(THEME_KEY, theme);
   localStorage.removeItem(LEGACY_THEME_KEY);
-};
-
-const guardThemeSwitch = () => {
-  document.documentElement.classList.add(THEME_SWITCH_GUARD_CLASS);
-  window.setTimeout(() => {
-    document.documentElement.classList.remove(THEME_SWITCH_GUARD_CLASS);
-  }, 140);
 };
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

@@ -23,7 +23,6 @@ import {
   Settings2,
   ShieldCheck,
   Star,
-  Sun,
   Trophy,
   Users,
   Wallet,

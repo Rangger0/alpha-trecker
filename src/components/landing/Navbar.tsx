@@ -1,4 +1,3 @@
-import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { SunMedium } from 'lucide-react';
@@ -10,9 +9,6 @@ const navLinks = [
 ];
 
 export function Navbar() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-
   return (
     <nav className="pointer-events-none fixed inset-x-0 top-0 z-[80] px-4 pb-4 pt-4 sm:px-6 lg:px-8">
       <div className="macos-landing-width">
