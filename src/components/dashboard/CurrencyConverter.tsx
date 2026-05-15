@@ -21,12 +21,12 @@ export function CurrencyConverter({ isDark }: CurrencyConverterProps) {
         ? 'border-alpha-border bg-[color:var(--alpha-hover-soft)]' 
         : 'border-alpha-border bg-[color:var(--alpha-hover-soft)]'
     }`}>
-      <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,207,206,0.16),transparent_52%)] opacity-50" />
+      <span className="absolute inset-0 bg-[color:var(--alpha-surface)] opacity-0" />
       
       <div className="relative h-full flex flex-col">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
-            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] text-[#00BFA5]">
+            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] alpha-text-muted">
               <ArrowRightLeft className="h-3 w-3" />
             </div>
             <div className="min-w-0">
@@ -35,7 +35,7 @@ export function CurrencyConverter({ isDark }: CurrencyConverterProps) {
             </div>
           </div>
 
-          <span className="rounded-full border border-[#00BFA5]/20 bg-[#00BFA5]/10 px-2 py-0.5 text-[8px] uppercase tracking-[0.18em] text-[#00BFA5] flex-shrink-0">
+          <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2 py-0.5 text-[8px] uppercase tracking-[0.18em] alpha-text-muted flex-shrink-0">
             Live
           </span>
         </div>

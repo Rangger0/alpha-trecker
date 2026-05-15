@@ -29,9 +29,39 @@ interface Rss2JsonResponse {
   message?: string;
 }
 
-const AIRDROP_ALERT_RSS_URL = "https://airdropalert.com/feed/rssfeed";
-const RSS2JSON_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(AIRDROP_ALERT_RSS_URL)}`;
+const AIRDROPS_IO_RSS_URL = "https://airdrops.io/feed/";
+const RSS2JSON_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(AIRDROPS_IO_RSS_URL)}`;
 const REFRESH_INTERVAL_MS = 1000 * 60 * 15;
+
+const fallbackItems: AirdropNewsItem[] = [
+  {
+    id: "airdrops-io",
+    title: "Airdrops.io",
+    link: "https://airdrops.io/",
+    source: "Airdrops.io",
+    publishedAt: new Date().toISOString(),
+    summary: "Free public airdrop aggregator with confirmed, holder, potential, DeFi, and NFT campaign listings.",
+    tag: "Airdrop",
+  },
+  {
+    id: "airdrops-io-latest",
+    title: "Latest crypto airdrops",
+    link: "https://airdrops.io/latest/",
+    source: "Airdrops.io",
+    publishedAt: new Date().toISOString(),
+    summary: "Latest free airdrop listings and campaign pages from Airdrops.io.",
+    tag: "Live",
+  },
+  {
+    id: "airdrops-io-holder",
+    title: "Holder airdrops",
+    link: "https://airdrops.io/holder/",
+    source: "Airdrops.io",
+    publishedAt: new Date().toISOString(),
+    summary: "Holder and wallet-based airdrop campaigns collected by Airdrops.io.",
+    tag: "Checker",
+  },
+];
 
 let cachedItems: AirdropNewsItem[] | null = null;
 let cachedError: string | null = null;
@@ -74,7 +104,7 @@ export function useAirdropNews() {
           id: item.link,
           title: item.title,
           link: item.link,
-          source: payload.feed?.title || "AirdropAlert",
+          source: payload.feed?.title || "Airdrops.io",
           publishedAt: item.pubDate,
           summary: stripHtml(item.description || "").slice(0, 180),
           image: item.thumbnail,
@@ -93,6 +123,12 @@ export function useAirdropNews() {
         console.error("Failed to load airdrop news:", error);
         const message = error instanceof Error ? error.message : "Failed to load airdrop news";
         cachedError = message;
+        if (!cachedItems) {
+          cachedItems = fallbackItems;
+          setItems(fallbackItems);
+          setError(null);
+          return;
+        }
         setError(message);
       } finally {
         if (isMounted) {
@@ -123,6 +159,6 @@ export function useAirdropNews() {
     items,
     loading,
     error,
-    sourceUrl: AIRDROP_ALERT_RSS_URL,
+    sourceUrl: AIRDROPS_IO_RSS_URL,
   };
 }

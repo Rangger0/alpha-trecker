@@ -71,8 +71,8 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
   );
   const { prices } = usePrices(nativeCoinIds);
   const valueMutedClassName = "alpha-text-muted";
-  const emphasisTextClassName = "text-gold";
-  const emphasisMutedClassName = "text-gold/80";
+  const emphasisTextClassName = "alpha-text";
+  const emphasisMutedClassName = "alpha-text-muted";
   const chipSurfaceClassName = "bg-[color:var(--alpha-surface-soft)]";
   const chipValueTextClassName = "alpha-text";
   const chipMutedTextClassName = "alpha-text-muted";
@@ -92,7 +92,7 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
         <div className="flex flex-col gap-2.5 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-              <Signal className="h-3.5 w-3.5 text-gold" />
+              <Signal className="h-3.5 w-3.5 alpha-text-muted" />
               Watchoor
             </div>
             <h4 className="mt-3 text-[16px] font-semibold alpha-text">Live gas fee</h4>
@@ -101,18 +101,18 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
             </p>
           </div>
 
-          <div className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-gold">
+          <div className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
             {visibleChainsLabel}
           </div>
         </div>
       ) : (
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-            <Signal className="h-3.5 w-3.5 text-gold" />
+            <Signal className="h-3.5 w-3.5 alpha-text-muted" />
             Watchoor board
           </div>
 
-          <div className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-gold">
+          <div className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
             {visibleChainsLabel}
           </div>
         </div>
@@ -222,7 +222,7 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
                     <p className={`mt-1.5 font-mono text-[11px] font-semibold tabular-nums ${chipValueTextClassName}`}>{formatUsdFee(lowUsd)}</p>
                     <p className={`mt-0.5 font-mono text-[9px] tabular-nums ${chipMutedTextClassName}`}>{formatGasValue(item.lowFee)} gwei</p>
                   </div>
-                <div className="rounded-[0.9rem] border border-gold/20 bg-gold/10 px-2.5 py-2 text-center">
+                <div className="rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2.5 py-2 text-center">
                   <p className={`text-[8px] uppercase tracking-[0.16em] ${emphasisTextClassName}`}>Medium</p>
                   <p className={`mt-1.5 font-mono text-[11px] font-semibold tabular-nums ${emphasisTextClassName}`}>{formatUsdFee(mediumUsd)}</p>
                   <p className={`mt-0.5 font-mono text-[9px] tabular-nums ${emphasisMutedClassName}`}>{formatGasValue(mediumGwei)} gwei</p>
@@ -252,7 +252,7 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
           Refresh sekitar tiap 75 detik
         </span>
         <span className="inline-flex items-center gap-2">
-          <Flame className="h-3.5 w-3.5 text-gold" />
+          <Flame className="h-3.5 w-3.5 alpha-text-muted" />
           Update {formatUpdatedAt(lastUpdated)}
         </span>
       </div>

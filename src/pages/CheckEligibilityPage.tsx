@@ -11,12 +11,12 @@ import {
 } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { useAirdropNews } from '@/hooks/use-airdrop-news';
-import { eligibilityDirectory, type EligibilityStatus } from '@/lib/eligibility-directory';
+import { eligibilityDirectory, type EligibilityEntry, type EligibilityStatus } from '@/lib/eligibility-directory';
 
 const statusStyles: Record<EligibilityStatus, string> = {
-  Live: 'border-[color:var(--alpha-signal-border)] bg-[color:var(--alpha-signal-soft)] text-[color:var(--alpha-signal)]',
-  Portal: 'border-[color:var(--alpha-info-border)] bg-[color:var(--alpha-info-soft)] text-[color:var(--alpha-info)]',
-  Claim: 'border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)]',
+  Live: 'border-[color:var(--alpha-border-strong)] bg-[color:var(--alpha-hover-soft)] alpha-text',
+  Portal: 'border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] alpha-text-muted',
+  Claim: 'border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] alpha-text-muted',
   Archive: 'border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] alpha-text-muted',
 };
 
@@ -48,10 +48,29 @@ export function CheckEligibilityPage() {
   const [activeFilter, setActiveFilter] = useState<(typeof filters)[number]>('Live');
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
-  const { items, loading, error } = useAirdropNews();
+  const { items, loading, error, sourceUrl } = useAirdropNews();
+
+  const airdropsIoEntries = useMemo<EligibilityEntry[]>(() => {
+    return items.slice(0, 12).map((item, index) => ({
+      id: `airdrops-io-${index}-${item.id}`,
+      name: item.title.replace(/\s+».*$/, '').replace(/\s+\|\s+.*$/, '').slice(0, 42),
+      chain: 'Airdrops.io',
+      category: item.tag || 'Airdrop',
+      status: 'Live',
+      accent: '#6b7280',
+      logo: '/logos/airdrops.png',
+      portalUrl: item.link,
+      sourceUrl: item.link,
+      summary: item.title,
+      note: item.summary || 'Update gratis dari feed publik Airdrops.io.',
+      verifiedAt: item.publishedAt || new Date().toISOString(),
+    }));
+  }, [items]);
+
+  const directoryEntries = airdropsIoEntries.length > 0 ? airdropsIoEntries : eligibilityDirectory;
 
   const filteredEntries = useMemo(() => {
-    return eligibilityDirectory.filter((entry) => {
+    return directoryEntries.filter((entry) => {
       const matchesFilter = entry.status === activeFilter;
       const matchesQuery =
         deferredQuery.length === 0 ||
@@ -63,17 +82,17 @@ export function CheckEligibilityPage() {
 
       return matchesFilter && matchesQuery;
     });
-  }, [activeFilter, deferredQuery]);
+  }, [activeFilter, deferredQuery, directoryEntries]);
 
   const stats = useMemo(() => {
-    const live = eligibilityDirectory.filter((entry) => entry.status === 'Live').length;
+    const live = directoryEntries.filter((entry) => entry.status === 'Live').length;
 
     return {
-      total: eligibilityDirectory.length,
+      total: directoryEntries.length,
       live,
       active: live,
     };
-  }, []);
+  }, [directoryEntries]);
 
   return (
     <DashboardLayout disableMonochrome>
@@ -145,7 +164,7 @@ export function CheckEligibilityPage() {
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_380px]">
           <section>
             <div className="mb-3 flex items-center gap-2">
-              <BadgeCheck className="h-4 w-4 text-gold" />
+              <BadgeCheck className="h-4 w-4 alpha-text-muted" />
               <h2 className="text-xs font-mono uppercase tracking-[0.24em] alpha-text-muted">
                 Eligibility directory
               </h2>
@@ -165,7 +184,7 @@ export function CheckEligibilityPage() {
                       <div className="flex items-center gap-3">
                         <div
                           className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface-soft)]"
-                          style={{ boxShadow: `inset 0 1px 0 color-mix(in srgb, ${entry.accent} 12%, transparent)` }}
+                          style={{ boxShadow: 'none' }}
                         >
                           {showLogo ? (
                             <img
@@ -192,7 +211,7 @@ export function CheckEligibilityPage() {
                     </div>
 
                     <div className="mt-4 flex items-center gap-2 text-[11px] alpha-text-muted">
-                      <Sparkles className="h-3.5 w-3.5 text-gold" />
+                      <Sparkles className="h-3.5 w-3.5 alpha-text-muted" />
                       <span>{entry.category}</span>
                     </div>
 
@@ -205,7 +224,7 @@ export function CheckEligibilityPage() {
                           <Clock3 className="h-3.5 w-3.5" />
                           Verified {formatDate(entry.verifiedAt)}
                         </span>
-                        <span className="rounded-full border border-[color:var(--alpha-signal-border)] bg-[color:var(--alpha-signal-soft)] px-2 py-0.5 text-[10px] text-[color:var(--alpha-signal)]">
+                        <span className="rounded-full border border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] px-2 py-0.5 text-[10px] alpha-text-muted">
                           Free
                         </span>
                       </div>
@@ -247,7 +266,7 @@ export function CheckEligibilityPage() {
           <aside className="space-y-4">
             <section className="macos-card rounded-[1.7rem] p-4">
               <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] alpha-text-muted">
-                <Sparkles className="h-3.5 w-3.5 text-gold" />
+                <Sparkles className="h-3.5 w-3.5 alpha-text-muted" />
                 More live checker
               </div>
               <h3 className="mt-3 text-lg font-semibold alpha-text">Butuh list yang lebih ramai?</h3>
@@ -269,7 +288,7 @@ export function CheckEligibilityPage() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] alpha-text-muted">
-                    <Newspaper className="h-3.5 w-3.5 text-gold" />
+                    <Newspaper className="h-3.5 w-3.5 alpha-text-muted" />
                     Free updates
                   </div>
                   <h3 className="mt-3 text-lg font-semibold alpha-text">Airdrop update feed</h3>
@@ -278,7 +297,7 @@ export function CheckEligibilityPage() {
                   </p>
                 </div>
 
-                <span className="rounded-full border border-[color:var(--alpha-signal-border)] bg-[color:var(--alpha-signal-soft)] px-2 py-0.5 text-[10px] text-[color:var(--alpha-signal)]">
+                <span className="rounded-full border border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] px-2 py-0.5 text-[10px] alpha-text-muted">
                   RSS
                 </span>
               </div>
@@ -293,7 +312,7 @@ export function CheckEligibilityPage() {
                     </div>
                   ))}
                 </div>
-              ) : error ? (
+              ) : error && items.length === 0 ? (
                 <div className="mt-4 rounded-[1.2rem] border border-[color:var(--alpha-danger-border)] bg-[color:var(--alpha-danger-soft)] px-4 py-4 text-sm text-[color:var(--alpha-danger)]">
                   News feed gratis sedang gagal dimuat. Coba lagi beberapa saat lagi.
                 </div>
@@ -312,7 +331,7 @@ export function CheckEligibilityPage() {
                         <span className="inline-flex rounded-full border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] px-2 py-0.5 text-[10px] text-[color:var(--alpha-highlight)]">
                           {item.tag}
                         </span>
-                        <ArrowUpRight className="h-4 w-4 shrink-0 alpha-text-muted transition-colors group-hover:text-gold" />
+                        <ArrowUpRight className="h-4 w-4 shrink-0 alpha-text-muted transition-colors group-hover:text-[color:var(--alpha-text)]" />
                       </div>
 
                       <h4 className="mt-3 line-clamp-2 text-sm font-semibold leading-5 alpha-text">{item.title}</h4>
@@ -320,7 +339,7 @@ export function CheckEligibilityPage() {
 
                       <div className="mt-3 flex items-center justify-between gap-3 text-[11px] alpha-text-muted">
                         <span>{formatPublishedAt(item.publishedAt)}</span>
-                        <span>{item.source}</span>
+                        <span>{item.source || 'Airdrops.io'}</span>
                       </div>
                     </a>
                   ))}
@@ -332,9 +351,17 @@ export function CheckEligibilityPage() {
               <h3 className="text-sm font-semibold alpha-text">Cara pakai cepat</h3>
               <ul className="mt-3 space-y-2 text-[13px] leading-6 alpha-text-muted">
                 <li>1. Buka menu `Check Eligibility` dari sidebar.</li>
-                <li>2. Klik `Open checker` untuk langsung masuk ke portal resmi.</li>
-                <li>3. Kalau status `Archive`, baca dulu source resminya sebelum connect wallet.</li>
+                <li>2. Data utama sekarang ambil update gratis dari Airdrops.io.</li>
+                <li>3. Klik source dan verifikasi URL resmi sebelum connect wallet.</li>
               </ul>
+              <a
+                href={sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 inline-flex text-xs font-medium alpha-text-muted underline-offset-4 hover:text-[color:var(--alpha-text)] hover:underline"
+              >
+                Source feed: Airdrops.io
+              </a>
             </section>
           </aside>
         </div>

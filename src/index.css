@@ -141,8 +141,8 @@ body {
   @apply antialiased;
 
   font-family:
-  var(--alpha-font-stack, 'Rajdhani', 'Orbitron', 'Exo 2', 'Oxanium', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
-  font-weight: 520;
+  var(--alpha-font-stack, 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
+  font-weight: 400;
   letter-spacing: -0.01em;
 
   overflow-x: hidden;
@@ -150,45 +150,27 @@ body {
   width: 100%;
   min-height: 100vh;
 
-  line-height: 1.38;
+  line-height: 1.5;
   text-rendering: optimizeLegibility;
   overscroll-behavior-y: contain;
 
-  background:
-    radial-gradient(circle at 25% 12%, rgba(103,232,249,0.12), transparent 16%),
-    linear-gradient(180deg, #020617 0%, #04101C 38%, #000000 100%);
+  background: #0E0E0E;
   color: var(--alpha-text);
 
 }
 
 body::before {
-  content: '';
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(circle at center, rgba(103,232,249,0.14), transparent 34%),
-    linear-gradient(180deg, rgba(255,255,255,0.02), transparent 48%, rgba(0,0,0,0.35));
+  display: none;
 }
 
 body::after {
-  content: '';
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
-  background-size: 100% 96px, 96px 100%;
-  opacity: 0.04;
+  display: none;
 }
 
 h1, h2, h3, h4, h5, h6, button, label, th, .font-display {
   font-family:
-  var(--alpha-display-stack, 'Rajdhani', 'Orbitron', 'Exo 2', 'Oxanium', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
-  font-weight: 650;
+  var(--alpha-display-stack, 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
+  font-weight: 600;
   letter-spacing: -0.015em;
 }
 
@@ -243,14 +225,16 @@ body select {
 
   background: var(--alpha-panel);
   border-color: var(--alpha-border);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+  box-shadow: 6px 6px 12px rgba(0,0,0,0.5), -4px -4px 10px rgba(255,255,255,0.03);
+  transition: all 0.2s ease;
 
 }
 
 .terminal-card:hover {
 
-  border-color: var(--alpha-accent);
-  box-shadow: 0 0 20px color-mix(in srgb, var(--alpha-highlight) 16%, transparent);
+  border-color: var(--alpha-border);
+  box-shadow: 8px 8px 16px rgba(0,0,0,0.6), -5px -5px 12px rgba(255,255,255,0.04);
+  transform: translateY(-2px);
 
 }
 
@@ -270,13 +254,13 @@ body select {
 
   @apply rounded;
 
-  background: color-mix(in srgb, var(--alpha-accent) 24%, transparent);
+  background: color-mix(in srgb, var(--alpha-text-muted) 24%, transparent);
 
 }
 
 ::-webkit-scrollbar-thumb:hover {
 
-  background: color-mix(in srgb, var(--alpha-accent) 42%, transparent);
+  background: color-mix(in srgb, var(--alpha-text-muted) 36%, transparent);
 
 }
 
@@ -294,70 +278,59 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
 @layer utilities {
 
 .text-glow {
-  text-shadow: 0 0 10px currentColor;
+  text-shadow: none;
 }
 
 .text-glow-gold {
-  text-shadow: 0 0 20px color-mix(in srgb, var(--alpha-highlight) 36%, transparent);
+  text-shadow: none;
 }
 
 .border-glow {
-  box-shadow: 0 0 20px color-mix(in srgb, var(--alpha-highlight) 18%, transparent);
+  box-shadow: none;
 }
 
 .hud-panel {
   position: relative;
   overflow: hidden;
-  background: rgba(10, 20, 30, 0.62);
-  border: 1px solid rgba(0, 255, 200, 0.18);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 0 30px rgba(0, 255, 200, 0.08);
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  background: var(--alpha-surface);
+  border: 1px solid var(--alpha-border);
+  border-radius: 14px;
+  box-shadow: 6px 6px 12px rgba(0,0,0,0.5), -4px -4px 10px rgba(255,255,255,0.03);
+  transition: all 0.2s ease;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .hud-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(180deg, rgba(255,255,255,0.05), transparent 24%), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 100% 1px, 28px 28px;
-  opacity: 0.16;
-  pointer-events: none;
+  display: none;
 }
 
 .hud-panel::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(0,255,200,0.16), transparent 22%, transparent 78%, rgba(0,255,200,0.12));
-  opacity: 0;
-  transform: translateX(-100%);
-  transition: opacity 220ms ease, transform 1.8s ease;
-  pointer-events: none;
+  display: none;
 }
 
 .hud-panel {
-  animation: hud-panel-pulse 9s ease-in-out infinite;
+  animation: none;
 }
 
 .hud-panel:hover {
   transform: translateY(-2px);
-  border-color: rgba(0, 255, 200, 0.30);
-  box-shadow: 0 0 35px rgba(0, 255, 200, 0.16);
+  border-color: var(--alpha-border-strong);
+  background: var(--alpha-surface-soft);
+  box-shadow: var(--alpha-shadow);
 }
 
 .hud-panel:hover::after {
-  opacity: 1;
-  transform: translateX(100%);
+  opacity: 0;
+  transform: none;
 }
 
 @keyframes hud-panel-pulse {
   0%, 100% {
-    box-shadow: 0 0 26px rgba(0, 255, 200, 0.10);
+    box-shadow: none;
   }
   50% {
-    box-shadow: 0 0 34px rgba(0, 255, 200, 0.16);
+    box-shadow: none;
   }
 }
 
@@ -365,15 +338,16 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  border: 1px solid rgba(0, 255, 200, 0.18);
-  background: rgba(0, 255, 200, 0.06);
-  color: #b8fff3;
-  padding: 0.18rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.69rem;
+  border: 1px solid var(--alpha-border);
+  background: var(--alpha-hover-soft);
+  color: var(--alpha-text-muted);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
   line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
+  font-weight: 500;
 }
 
 .hud-badge-dot {
@@ -387,15 +361,16 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.18rem;
-  padding: 0.55rem 0.75rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(0, 255, 200, 0.14);
-  background: rgba(5, 18, 32, 0.75);
-  color: #d4fdfa;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--alpha-border);
+  background: var(--alpha-surface);
+  color: var(--alpha-text);
   min-width: 8rem;
   text-align: center;
-  transition: border-color 180ms ease, background 180ms ease;
+  transition: all 0.2s ease;
+  box-shadow: var(--alpha-shadow);
 }
 
 .hud-metric-badge strong {
@@ -405,18 +380,18 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
 }
 
 .hud-metric-badge.low {
-  color: #fda6a6;
-  border-color: rgba(248, 113, 113, 0.18);
+  color: var(--alpha-text-muted);
+  border-color: var(--alpha-border);
 }
 
 .hud-metric-badge.medium {
-  color: #f5d17f;
-  border-color: rgba(234, 179, 8, 0.18);
+  color: var(--alpha-text-muted);
+  border-color: var(--alpha-border);
 }
 
 .hud-metric-badge.high {
-  color: #a0f5b2;
-  border-color: rgba(16, 185, 129, 0.18);
+  color: var(--alpha-text);
+  border-color: var(--alpha-border-strong);
 }
 
 .w-full-screen {
@@ -490,7 +465,7 @@ padding-right:2rem;
 }
 
 .alpha-gradient {
-  background: linear-gradient(135deg, var(--alpha-accent-from) 0%, var(--alpha-accent-to) 100%);
+  background: var(--alpha-accent);
 }
 
 .alpha-shadow {

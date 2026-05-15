@@ -87,17 +87,21 @@
 .alpha-premium-flow-pill {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 94%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
-  padding: 0.7rem 0.95rem;
-  font-size: 0.73rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #202020;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--alpha-text-muted);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, white 10%, transparent);
+  color: #9A9A9A;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+}
+
+.alpha-premium-flow-pill:hover {
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.6), -3px -3px 8px rgba(255, 255, 255, 0.05);
 }
 
 .alpha-premium-stat-grid {
@@ -118,11 +122,10 @@
 .alpha-premium-float-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, white 8%, transparent), transparent 28%),
-    linear-gradient(160deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 92%, transparent));
-  box-shadow: var(--alpha-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #181818;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
 }
 
 .alpha-premium-stat-card::before,
@@ -137,11 +140,7 @@
 .alpha-premium-ecosystem-stage::before,
 .alpha-premium-cta-shell::before,
 .alpha-premium-float-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, color-mix(in srgb, white 10%, transparent), transparent 30%);
+  display: none;
 }
 
 .alpha-premium-stat-card {
@@ -193,17 +192,11 @@
   width: min(100%, var(--alpha-orbit-size));
   aspect-ratio: 1;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border-strong) 74%, transparent);
-  background:
-    radial-gradient(circle at 26% 24%, color-mix(in srgb, white 18%, transparent), transparent 18%),
-    radial-gradient(circle at 70% 78%, color-mix(in srgb, var(--alpha-highlight) 18%, transparent), transparent 20%),
-    linear-gradient(160deg, color-mix(in srgb, var(--alpha-surface) 98%, transparent), color-mix(in srgb, var(--alpha-panel) 94%, transparent));
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, white 12%, transparent),
-    inset 0 -48px 84px rgba(0, 0, 0, 0.24),
-    0 40px 90px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #181818;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03), inset 0 1px 2px rgba(255, 255, 255, 0.05);
   isolation: isolate;
-  transition: transform 220ms cubic-bezier(.22,1,.36,1), opacity 220ms cubic-bezier(.22,1,.36,1);
+  transition: transform 0.2s ease, opacity 0.2s ease;
   will-change: transform, opacity;
 }
 
@@ -212,8 +205,8 @@
   position: absolute;
   inset: 6%;
   border-radius: inherit;
-  border: 1px solid color-mix(in srgb, white 10%, transparent);
-  opacity: 0.52;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  opacity: 0.4;
 }
 
 .alpha-premium-orbit-shell::after {
@@ -221,8 +214,8 @@
   position: absolute;
   inset: -6%;
   border-radius: inherit;
-  border: 1px solid color-mix(in srgb, white 8%, transparent);
-  opacity: 0.18;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  opacity: 0.15;
 }
 
 .alpha-premium-orbit-shell .alpha-landing-logo-spin {
@@ -254,10 +247,9 @@
   position: absolute;
   inset: 18%;
   border-radius: inherit;
-  background:
-    radial-gradient(circle at center, color-mix(in srgb, var(--alpha-highlight) 16%, transparent), transparent 56%);
-  filter: blur(18px);
-  opacity: 0.72;
+  background: transparent;
+  filter: none;
+  opacity: 0;
 }
 
 .alpha-premium-orbit-caption {
@@ -266,12 +258,11 @@
   bottom: 8%;
   z-index: 3;
   width: min(18rem, calc(100% - 3rem));
-  border-radius: 1.25rem;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
-  padding: 0.95rem 1rem;
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #181818;
+  padding: 1rem 1.2rem;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
   text-align: left;
 }
 
@@ -300,11 +291,12 @@
   position: absolute;
   z-index: 4;
   width: var(--alpha-float-card-width);
-  border-radius: 1.4rem;
-  padding: 0.95rem;
+  border-radius: 14px;
+  padding: 1rem;
   animation: alpha-premium-float 10s ease-in-out infinite;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
 }
 
 .alpha-premium-float-card--one {
@@ -345,11 +337,11 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 0.9rem;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
-  background: color-mix(in srgb, var(--alpha-surface) 92%, transparent);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #202020;
   color: var(--alpha-text);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, white 10%, transparent);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
 }
 
 .alpha-premium-float-label {
@@ -376,11 +368,9 @@
 .alpha-premium-cta-shell {
   position: relative;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
-  background:
-    radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-highlight) 9%, transparent), transparent 36%),
-    linear-gradient(160deg, color-mix(in srgb, var(--alpha-surface) 98%, transparent), color-mix(in srgb, var(--alpha-panel) 92%, transparent));
-  box-shadow: var(--alpha-shadow-strong);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #181818;
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.6), -4px -4px 10px rgba(255, 255, 255, 0.03);
 }
 
 .alpha-premium-command-board {
@@ -686,13 +676,14 @@
 .alpha-premium-hero-gridline {
   position: absolute;
   pointer-events: none;
+  display: none;
 }
 
 .alpha-premium-hero-haze {
   border-radius: 999px;
-  filter: blur(34px);
-  opacity: 0.46;
-  animation: alpha-premium-haze-drift 18s ease-in-out infinite;
+  filter: none;
+  opacity: 0;
+  animation: none;
 }
 
 .alpha-premium-hero-haze--one {
@@ -700,7 +691,7 @@
   top: 0;
   width: min(30rem, 42vw);
   height: min(30rem, 42vw);
-  background: radial-gradient(circle at center, color-mix(in srgb, var(--alpha-highlight) 24%, transparent), transparent 64%);
+  background: transparent;
 }
 
 .alpha-premium-hero-haze--two {
@@ -708,18 +699,15 @@
   bottom: 8%;
   width: min(24rem, 36vw);
   height: min(24rem, 36vw);
-  background: radial-gradient(circle at center, color-mix(in srgb, var(--alpha-text) 12%, transparent), transparent 64%);
+  background: transparent;
   animation-delay: -7s;
 }
 
 .alpha-premium-hero-gridline {
   inset: 8% 0 auto 0;
   height: 78%;
-  background:
-    linear-gradient(90deg, transparent 0 4%, color-mix(in srgb, var(--alpha-border) 34%, transparent) 4.2%, transparent 4.4%),
-    linear-gradient(transparent 0 18%, color-mix(in srgb, var(--alpha-border) 24%, transparent) 18.2%, transparent 18.4%),
-    linear-gradient(transparent 0 68%, color-mix(in srgb, var(--alpha-border) 18%, transparent) 68.2%, transparent 68.4%);
-  opacity: 0.32;
+  background: transparent;
+  opacity: 0;
 }
 
 @keyframes alpha-premium-orbit-track {

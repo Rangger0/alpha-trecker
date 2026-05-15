@@ -1,11 +1,13 @@
 // ALPHA TRECKER - Theme Context
 
-import { createContext, useContext, useLayoutEffect, useMemo, type ReactNode } from 'react';
+import { createContext, useContext, useLayoutEffect, useMemo, useState, type ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
 interface ThemeContextType {
   theme: Theme;
+  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -13,6 +15,12 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const THEME_KEY = 'alpha_tracker_theme';
 const LEGACY_THEME_KEY = 'alpha_trecker_theme';
 const DEFAULT_THEME: Theme = 'dark';
+
+const readStoredTheme = (): Theme => {
+  if (typeof window === 'undefined') return DEFAULT_THEME;
+  const stored = localStorage.getItem(THEME_KEY) || localStorage.getItem(LEGACY_THEME_KEY);
+  return stored === 'light' || stored === 'dark' ? stored : DEFAULT_THEME;
+};
 
 const applyThemeToDocument = (theme: Theme) => {
   const root = document.documentElement;
@@ -27,15 +35,25 @@ const persistTheme = (theme: Theme) => {
 };
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const theme: Theme = DEFAULT_THEME;
+  const [theme, setThemeState] = useState<Theme>(readStoredTheme);
 
   useLayoutEffect(() => {
-    applyThemeToDocument(DEFAULT_THEME);
-    persistTheme(DEFAULT_THEME);
-  }, []);
+    applyThemeToDocument(theme);
+    persistTheme(theme);
+  }, [theme]);
+
+  const setTheme = (nextTheme: Theme) => {
+    setThemeState(nextTheme);
+  };
+
+  const toggleTheme = () => {
+    setThemeState((current) => (current === 'dark' ? 'light' : 'dark'));
+  };
 
   const value = useMemo(() => ({
     theme,
+    setTheme,
+    toggleTheme,
   }), [theme]);
 
   return (

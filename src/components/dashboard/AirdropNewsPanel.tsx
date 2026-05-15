@@ -19,12 +19,12 @@ const formatPublishedAt = (value: string) => {
 };
 
 const tagStyles: Record<string, string> = {
-  Waitlist: "border-[color:var(--alpha-violet-border)] bg-[color:var(--alpha-violet-soft)] text-[color:var(--alpha-violet)]",
-  Potential: "border-[color:var(--alpha-info-border)] bg-[color:var(--alpha-info-soft)] text-[color:var(--alpha-info)]",
-  "Claim Live": "border-[color:var(--alpha-signal-border)] bg-[color:var(--alpha-signal-soft)] text-[color:var(--alpha-signal)]",
-  Farming: "border-[color:var(--alpha-warning-border)] bg-[color:var(--alpha-warning-soft)] text-gold",
+  Waitlist: "border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] alpha-text-muted",
+  Potential: "border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] alpha-text-muted",
+  "Claim Live": "border-[color:var(--alpha-border-strong)] bg-[color:var(--alpha-hover-soft)] alpha-text",
+  Farming: "border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] alpha-text-muted",
   Guide: "border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] alpha-text-muted",
-  Airdrop: "border-[color:var(--alpha-warning-border)] bg-[color:var(--alpha-warning-soft)] text-gold",
+  Airdrop: "border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] alpha-text-muted",
 };
 
 export function AirdropNewsPanel({ isDark }: AirdropNewsPanelProps) {
@@ -38,13 +38,13 @@ export function AirdropNewsPanel({ isDark }: AirdropNewsPanelProps) {
     <section className="macos-card relative overflow-hidden p-4 shadow-none">
       <span
         className="absolute inset-0 opacity-55"
-        style={{ background: 'radial-gradient(circle at top right, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), transparent 50%)' }}
+        style={{ background: 'transparent' }}
       />
       <div className="relative">
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-              <Newspaper className="h-3.5 w-3.5 text-gold" />
+              <Newspaper className="h-3.5 w-3.5 alpha-text-muted" />
               Airdrop wire
             </div>
             <h3 className="mt-3 text-[16px] font-semibold alpha-text">Live airdrop news</h3>
@@ -53,7 +53,7 @@ export function AirdropNewsPanel({ isDark }: AirdropNewsPanelProps) {
 
           <div className="rounded-full border border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface)] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
             <span className="inline-flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-gold" />
+              <span className="h-2 w-2 rounded-full bg-[color:var(--alpha-text-muted)]" />
               {items.length > 0 ? `${visibleItems.length} stories` : "Live"}
             </span>
           </div>
@@ -95,14 +95,14 @@ export function AirdropNewsPanel({ isDark }: AirdropNewsPanelProps) {
                       </span>
                       <span className="text-[10px] alpha-text-muted">{formatPublishedAt(item.publishedAt)}</span>
                     </div>
-                    <h4 className="mt-2 line-clamp-2 text-[13px] font-semibold leading-5 alpha-text group-hover:text-gold">
+                    <h4 className="mt-2 line-clamp-2 text-[13px] font-semibold leading-5 alpha-text group-hover:text-[color:var(--alpha-text)]">
                       {item.title}
                     </h4>
                     <p className="mt-1.5 line-clamp-2 text-[11px] leading-5 alpha-text-muted">
                       {item.summary}
                     </p>
                   </div>
-                  <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 alpha-text-muted transition-colors group-hover:text-gold" />
+                  <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 alpha-text-muted transition-colors group-hover:text-[color:var(--alpha-text)]" />
                 </a>
               ))
             ) : (

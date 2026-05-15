@@ -44,14 +44,12 @@
 .eco-hero {
   position: relative;
   overflow: hidden;
-  border-radius: 24px;
-  padding: 22px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
-  background:
-    linear-gradient(145deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 94%, transparent)),
-    radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--alpha-text) 5%, transparent), transparent 50%);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.38);
-  backdrop-filter: blur(8px);
+  border-radius: 14px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #181818;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  backdrop-filter: none;
 }
 
 .eco-chip {
@@ -59,34 +57,37 @@
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 10px;
-  letter-spacing: 0.24em;
+  border-radius: 8px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
-  color: var(--alpha-text);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.48);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #202020;
+  color: #9A9A9A;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
+  font-weight: 500;
 }
 
 .eco-chip.subtle {
-  border-color: color-mix(in srgb, var(--alpha-border) 76%, transparent);
-  background: color-mix(in srgb, var(--alpha-surface) 94%, transparent);
+  border-color: rgba(255, 255, 255, 0.06);
+  background: #1A1A1A;
   color: var(--alpha-text-muted);
 }
 
 .eco-pill {
   display: inline-flex;
   align-items: center;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 6px 12px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
-  background: color-mix(in srgb, var(--alpha-hover-soft) 86%, transparent);
-  color: var(--alpha-text);
-  font-size: 10px;
-  letter-spacing: 0.18em;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #202020;
+  color: #EAEAEA;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-family: var(--mac-font-stack);
+  font-weight: 500;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
 }
 
 .eco-logo,
@@ -95,53 +96,46 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-radius: 18px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 98%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
-  box-shadow:
-    0 12px 20px rgba(0,0,0,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.6);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #202020;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
 }
 .eco-logo { width: 44px; height: 44px; }
-.eco-logo-lg { width: 56px; height: 56px; border-radius: 18px; }
+.eco-logo-lg { width: 56px; height: 56px; border-radius: 12px; }
 
 .eco-block {
-  border-radius: 18px;
-  padding: 14px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
-  background:
-    linear-gradient(155deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-panel) 92%, transparent));
-  box-shadow:
-    0 12px 28px rgba(0,0,0,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.4);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #181818;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
 }
 
 .eco-progress {
   position: relative;
   width: 100%;
   height: 8px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 78%, transparent);
-  background: color-mix(in srgb, var(--alpha-surface-strong) 88%, transparent);
+  border-radius: 4px;
+  border: none;
+  background: #202020;
   overflow: hidden;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.6), inset -1px -1px 3px rgba(255, 255, 255, 0.03);
 }
 .eco-progress__bar {
   height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--alpha-text) 74%, var(--alpha-panel)), color-mix(in srgb, var(--alpha-text) 48%, var(--alpha-surface)));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.32),
-    0 8px 18px rgba(0,0,0,0.12);
+  border-radius: 4px;
+  background: var(--alpha-text-muted);
+  box-shadow: none;
   transition: width 300ms ease;
 }
 
 .eco-mini {
-  border-radius: 14px;
-  padding: 10px;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 80%, transparent);
-  background: color-mix(in srgb, var(--alpha-surface) 94%, transparent);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.28);
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #202020;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
 }
 
 .eco-label {
@@ -155,46 +149,27 @@
   position: relative;
   display: block;
   text-align: left;
-  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
-  border-radius: 18px;
-  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 8% 10%, color-mix(in srgb, var(--alpha-border-strong) 18%, transparent), transparent 34%),
-    radial-gradient(circle at 18% 12%, rgba(255,255,255,0.06), transparent 32%),
-    linear-gradient(175deg, color-mix(in srgb, var(--alpha-surface) 97%, transparent), color-mix(in srgb, var(--alpha-panel) 90%, transparent));
-  box-shadow:
-    0 14px 32px rgba(0,0,0,0.14),
-    inset 0 1px 0 rgba(255,255,255,0.46);
-  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease, background-color 140ms ease;
+  background: #181818;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
 }
 .eco-card:hover {
   transform: translateY(-2px);
-  box-shadow:
-    0 18px 38px rgba(0,0,0,0.2),
-    inset 0 1px 0 rgba(255,255,255,0.5);
-  border-color: color-mix(in srgb, var(--alpha-border) 76%, transparent);
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.6), -4px -4px 10px rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 .eco-card::after {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: 16px;
-  pointer-events: none;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 42%, transparent 74%),
-    linear-gradient(180deg, rgba(255,255,255,0.08), transparent 38%);
-  opacity: 0.7;
+  display: none;
 }
 .eco-card__halo {
   position: absolute;
-  inset: 10px;
-  border-radius: 16px;
-  background:
-    radial-gradient(circle at 24% 20%, rgba(255,255,255,0.1), transparent 48%),
-    radial-gradient(circle at 76% 78%, color-mix(in srgb, var(--alpha-text) 12%, transparent), transparent 60%);
-  opacity: 0.3;
-  transition: opacity 180ms ease, transform 180ms ease;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
 }
 .eco-card:hover .eco-card__halo {
   opacity: 0.5;
@@ -351,12 +326,12 @@
 .alpha-topbar-shell {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(103,232,249,0.22);
-  border-radius: 1.6rem;
-  background: var(--alpha-topbar-gradient);
-  box-shadow: 0 0 28px rgba(34,211,238,0.14);
-  backdrop-filter: blur(12px) saturate(132%);
-  -webkit-backdrop-filter: blur(12px) saturate(132%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: #181818;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .alpha-app-topbar {
@@ -385,8 +360,8 @@
 
 .alpha-sidebar-backdrop {
   z-index: 130;
-  backdrop-filter: blur(16px) saturate(118%);
-  -webkit-backdrop-filter: blur(16px) saturate(118%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .alpha-dashboard-main {
@@ -480,14 +455,15 @@
   position: absolute;
   pointer-events: none;
   border-radius: 999px;
-  filter: blur(72px);
-  opacity: 0.42;
+  filter: none;
+  opacity: 0;
+  display: none;
 }
 
 .alpha-shell-ambient--top {
   inset: -140px 18% auto;
   height: 240px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--alpha-highlight) 34%, transparent), transparent 72%);
+  background: transparent;
 }
 
 .alpha-shell-ambient--left {
@@ -495,7 +471,7 @@
   top: 18%;
   width: 240px;
   height: 360px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 20%, transparent), transparent 72%);
+  background: transparent;
 }
 
 .alpha-shell-ambient--right {
@@ -503,25 +479,18 @@
   bottom: 8%;
   width: 260px;
   height: 280px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--alpha-info) 18%, transparent), transparent 72%);
+  background: transparent;
 }
 
 /* Card surface in mac style with tactical HUD contour */
 .macos-card {
   position: relative;
-  border-radius: 1.75rem;
-  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 18px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-  box-shadow: 0 0 28px rgba(34,211,238,0.12), var(--mac-shadow-1);
-  background:
-    linear-gradient(180deg, rgba(14, 28, 46, 0.96), rgba(8, 18, 34, 0.96)),
-    radial-gradient(circle at 18% 14%, rgba(103,232,249,0.12), transparent 26%),
-    radial-gradient(circle at 80% 18%, rgba(255,255,255,0.06), transparent 30%);
-  border: 1px solid rgba(103,232,249,0.18);
-  transition:
-    transform 180ms cubic-bezier(.22,1,.36,1),
-    box-shadow 180ms cubic-bezier(.22,1,.36,1),
-    border-color 180ms cubic-bezier(.22,1,.36,1),
-    background-color 180ms cubic-bezier(.22,1,.36,1);
+  border-radius: 14px;
+  clip-path: none;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
   overflow: hidden;
   content-visibility: auto;
   contain-intrinsic-size: 220px;
@@ -563,9 +532,9 @@
   border-radius: 1.75rem;
   clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 18px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
   background: rgba(10, 18, 28, 0.76);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 0 28px rgba(34,211,238,0.1);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
 }
 
 .hud-panel::before {
@@ -695,26 +664,18 @@
 /* Soft frosted panel for top bars, side panels */
 .macos-panel {
   position: relative;
-  border-radius: 1.75rem;
-  background:
-    linear-gradient(180deg, rgba(10, 18, 28, 0.92), rgba(5, 10, 20, 0.92)),
-    radial-gradient(circle at 14% 10%, rgba(103,232,249,0.16), transparent 24%),
-    radial-gradient(circle at 88% 12%, rgba(255,255,255,0.07), transparent 30%);
-  border: 1px solid rgba(103,232,249,0.18);
-  box-shadow:
-    0 0 28px rgba(34,211,238,0.1),
-    inset 0 0 0 1px rgba(103,232,249,0.05);
+  border-radius: 14px;
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
 }
 
 /* Modal wrapper (centered, mac style) */
 .macos-modal {
-  border-radius: 1.5rem;
-  background:
-    linear-gradient(145deg, rgba(34,211,238,0.08), transparent 28%),
-    radial-gradient(circle at 88% 10%, rgba(103,232,249,0.12), transparent 38%),
-    linear-gradient(180deg, rgba(10, 18, 28, 0.98), rgba(4, 12, 24, 0.96));
-  border: 1px solid rgba(103,232,249,0.18);
-  box-shadow: 0 0 42px rgba(34,211,238,0.12), var(--mac-shadow-2);
+  border-radius: 14px;
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.6), -4px -4px 10px rgba(255, 255, 255, 0.03);
   overflow: hidden;
 }
 
@@ -739,47 +700,46 @@
 
 /* Primary (accent) button — tactical holographic look */
 .macos-btn--primary {
-  background: rgba(34,211,238,0.18);
-  color: #E2F8FF;
-  border: 1px solid rgba(103,232,249,0.32);
-  box-shadow:
-    inset 0 0 0 1px rgba(103,232,249,0.12),
-    0 0 24px rgba(34,211,238,0.12);
+  background: var(--alpha-accent);
+  color: var(--alpha-accent-contrast);
+  border: 1px solid var(--alpha-border);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
 }
 
 .macos-btn--primary:hover {
-  background: rgba(34,211,238,0.24);
-  box-shadow:
-    inset 0 0 0 1px rgba(103,232,249,0.18),
-    0 0 30px rgba(34,211,238,0.18);
+  background: var(--alpha-accent-hover);
+  border-color: var(--alpha-border-strong);
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.6), -3px -3px 8px rgba(255, 255, 255, 0.05);
 }
 
 /* Ghost button (subtle) */
 .macos-btn--ghost {
-  background: rgba(4, 10, 20, 0.84);
-  border: 1px solid rgba(103,232,249,0.18);
-  color: #C8EBFF;
+  background: #202020;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #EAEAEA;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
 }
 
 .macos-btn--ghost:hover {
-  background: rgba(7, 14, 24, 0.92);
-  box-shadow: 0 0 18px rgba(34,211,238,0.08);
+  background: #242424;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
 }
 
 /* Small tweaks for forms / inputs (rounded) */
 .macos-input {
-  border-radius: 1rem;
-  border: 1px solid rgba(103,232,249,0.18);
-  background: rgba(6, 14, 24, 0.92);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #141414;
   min-height: 46px;
   padding: 10px 14px;
   font-size: 0.95rem;
-  color: #E2F8FF;
-  box-shadow: inset 0 0 0 1px rgba(103,232,249,0.06);
+  color: #EAEAEA;
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.6), inset -2px -2px 6px rgba(255, 255, 255, 0.03);
 }
 
 .macos-input:focus {
-  box-shadow: inset 0 0 0 1px rgba(103,232,249,0.18), 0 0 12px rgba(34,211,238,0.14);
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.6), inset -2px -2px 6px rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* Small helper for rounded icon wrappers */
@@ -2273,7 +2233,7 @@ html.light .alpha-landing-hero-atmosphere::after,
   border-radius: 999px;
   background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.92), rgba(255,255,255,0));
   opacity: 0;
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.28));
+  filter: none;
   transform: rotate(-24deg) translate3d(0, 0, 0) scaleX(0.55);
   animation: macos-shooting-star var(--shoot-duration, 12s) linear infinite;
   animation-delay: var(--shoot-delay, 0s);
@@ -3339,12 +3299,10 @@ body::after {
 }
 
 .alpha-topbar-shell {
-  clip-path: polygon(0 12px, 12px 0, calc(100% - 26px) 0, 100% 26px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 26px 100%, 0 calc(100% - 26px));
-  border-color: rgba(103,232,249,0.28) !important;
-  background:
-    linear-gradient(90deg, rgba(103,232,249,0.1), transparent 18%, transparent 82%, rgba(192,132,252,0.09)),
-    linear-gradient(180deg, rgba(7,18,30,0.92), rgba(2,6,18,0.86)) !important;
-  box-shadow: 0 0 30px rgba(34,211,238,0.12), inset 0 0 0 1px rgba(226,248,255,0.04) !important;
+  clip-path: none;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: #181818 !important;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03) !important;
 }
 
 .alpha-topbar-shell::after {
@@ -3382,7 +3340,7 @@ body::after {
 h1,
 h2 {
   color: var(--hud-white);
-  text-shadow: 0 0 18px rgba(34,211,238,0.18);
+  text-shadow: none;
 }
 
 .macos-btn,
@@ -3490,4 +3448,371 @@ select {
 @keyframes hud-scanlines {
   from { background-position: 0 0, 0 0; }
   to { background-position: 0 80px, 0 0; }
+}
+
+/* Minimal black/white dashboard theme */
+body {
+  background: var(--alpha-bg) !important;
+  color: var(--alpha-text);
+}
+
+body::before,
+body::after,
+.macos-app-shell::before,
+.macos-app-shell::after {
+  display: none !important;
+}
+
+.alpha-theme,
+.macos-app-shell {
+  background: var(--alpha-bg) !important;
+}
+
+.dashboard-clean {
+  --alpha-hover-soft: color-mix(in srgb, var(--alpha-text) 5%, var(--alpha-surface));
+  --alpha-surface-soft: color-mix(in srgb, var(--alpha-text) 7%, var(--alpha-surface));
+  --alpha-border-strong: color-mix(in srgb, var(--alpha-text) 12%, var(--alpha-border));
+  line-height: 1.6;
+}
+
+.macos-panel,
+.macos-card,
+.macos-premium-card,
+.macos-modal,
+.macos-auth-card,
+.macos-empty-state,
+.terminal-card,
+[data-slot="card"],
+.hud-panel,
+.alpha-topbar-shell {
+  clip-path: none !important;
+  border-radius: 1rem !important;
+  border: 1px solid var(--alpha-border) !important;
+  background: var(--alpha-surface) !important;
+  box-shadow: var(--alpha-shadow) !important;
+  transition: all 0.2s ease !important;
+}
+
+.macos-card:hover,
+.macos-premium-card:hover,
+.hud-panel:hover,
+.terminal-card:hover,
+[data-slot="card"]:hover {
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-surface-soft) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.macos-panel::before,
+.macos-panel::after,
+.macos-card::before,
+.macos-card::after,
+.macos-premium-card::before,
+.macos-premium-card::after,
+.macos-modal::before,
+.macos-auth-card::before,
+[data-slot="card"]::before,
+[data-slot="card"]::after,
+.hud-panel::before,
+.hud-panel::after,
+.alpha-topbar-shell::after {
+  display: none !important;
+}
+
+.alpha-topbar-chip,
+.macos-section-label,
+.macos-page-kicker,
+.hud-badge {
+  clip-path: none !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--alpha-border) !important;
+  background: var(--alpha-hover-soft) !important;
+  color: var(--alpha-text-muted) !important;
+  box-shadow: none !important;
+}
+
+.macos-btn,
+[data-slot="button"] {
+  clip-path: none !important;
+  border-radius: 0.95rem !important;
+  border: 1px solid var(--alpha-border) !important;
+  background: var(--alpha-accent) !important;
+  color: var(--alpha-accent-contrast) !important;
+  box-shadow: var(--alpha-shadow) !important;
+  transition: all 0.2s ease !important;
+}
+
+.macos-btn:hover,
+[data-slot="button"]:hover {
+  filter: none !important;
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-accent-hover) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.macos-btn::after,
+[data-slot="button"]::after {
+  display: none !important;
+}
+
+.macos-input,
+[data-slot="input"],
+textarea,
+select {
+  clip-path: none !important;
+  border-radius: 0.85rem !important;
+  border-color: var(--alpha-border) !important;
+  background: var(--alpha-surface) !important;
+  color: var(--alpha-text) !important;
+  box-shadow: none !important;
+}
+
+.macos-popover {
+  background: var(--alpha-panel) !important;
+  border-color: var(--alpha-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.macos-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.macos-table thead tr {
+  background: var(--alpha-hover-soft) !important;
+}
+
+.macos-table th {
+  color: var(--alpha-text-muted) !important;
+  border-bottom: 1px solid var(--alpha-border) !important;
+  letter-spacing: 0.12em;
+}
+
+.macos-table tbody tr {
+  background: var(--alpha-surface) !important;
+  outline: 0;
+  box-shadow: none;
+}
+
+.macos-table tbody tr:hover {
+  background: var(--alpha-hover-soft) !important;
+  outline: 0;
+  box-shadow: none;
+}
+
+.macos-table td {
+  border-bottom: 1px solid var(--alpha-border) !important;
+  background: transparent !important;
+}
+
+.hud-badge-dot {
+  box-shadow: none;
+  background: var(--alpha-text-muted) !important;
+}
+
+/* Final dashboard reset: remove the old HUD/gradient skin across authenticated routes. */
+.alpha-theme,
+.alpha-theme .macos-app-shell,
+.alpha-theme .macos-root,
+.alpha-theme .macos-page-shell,
+.alpha-theme .alpha-dashboard-main {
+  background: var(--alpha-bg) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme.light {
+  --alpha-bg: #f3f4f6;
+  --alpha-panel: #ffffff;
+  --alpha-surface: #ffffff;
+  --alpha-surface-soft: #f3f4f6;
+  --alpha-surface-strong: #e5e7eb;
+  --alpha-hover-soft: #f3f4f6;
+  --alpha-text: #111111;
+  --alpha-text-muted: #6b7280;
+  --alpha-border: rgba(0, 0, 0, 0.06);
+  --alpha-border-strong: rgba(0, 0, 0, 0.12);
+  --alpha-accent: #111111;
+  --alpha-accent-hover: #374151;
+  --alpha-accent-contrast: #ffffff;
+  --alpha-highlight: #111111;
+  --alpha-highlight-soft: rgba(0, 0, 0, 0.06);
+  --alpha-highlight-border: rgba(0, 0, 0, 0.12);
+  --alpha-shadow: 4px 4px 10px rgba(0, 0, 0, 0.05), -2px -2px 6px rgba(255, 255, 255, 0.8);
+  --alpha-shell-border: rgba(0, 0, 0, 0.06);
+  --alpha-topbar-chip-border: rgba(0, 0, 0, 0.06);
+}
+
+.alpha-theme.dark {
+  --alpha-bg: #0f1115;
+  --alpha-panel: #181a20;
+  --alpha-surface: #181a20;
+  --alpha-surface-soft: #20232a;
+  --alpha-surface-strong: #111318;
+  --alpha-hover-soft: #20232a;
+  --alpha-text: #ffffff;
+  --alpha-text-muted: #a1a1aa;
+  --alpha-border: rgba(255, 255, 255, 0.05);
+  --alpha-border-strong: rgba(255, 255, 255, 0.1);
+  --alpha-accent: #ffffff;
+  --alpha-accent-hover: #e5e7eb;
+  --alpha-accent-contrast: #111111;
+  --alpha-highlight: #ffffff;
+  --alpha-highlight-soft: rgba(255, 255, 255, 0.08);
+  --alpha-highlight-border: rgba(255, 255, 255, 0.14);
+  --alpha-shadow: 6px 6px 12px rgba(0, 0, 0, 0.4), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  --alpha-shell-border: rgba(255, 255, 255, 0.05);
+  --alpha-topbar-chip-border: rgba(255, 255, 255, 0.05);
+}
+
+.alpha-theme .macos-page-header,
+.alpha-theme .macos-card,
+.alpha-theme .macos-premium-card,
+.alpha-theme .macos-card-entry,
+.alpha-theme .macos-panel,
+.alpha-theme .macos-modal,
+.alpha-theme .macos-empty-state,
+.alpha-theme .eco-card,
+.alpha-theme .eco-block,
+.alpha-theme .eco-mini,
+.alpha-theme .terminal-card,
+.alpha-theme [data-slot="card"],
+.alpha-theme section[class*="border"],
+.alpha-theme article[class*="border"],
+.alpha-theme aside[class*="border"] {
+  clip-path: none !important;
+  border-radius: 1rem !important;
+  border-color: var(--alpha-border) !important;
+  background: var(--alpha-surface) !important;
+  background-image: none !important;
+  box-shadow: var(--alpha-shadow) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.alpha-theme .macos-page-header::before,
+.alpha-theme .macos-page-header::after,
+.alpha-theme .macos-card::before,
+.alpha-theme .macos-card::after,
+.alpha-theme .macos-premium-card::before,
+.alpha-theme .macos-premium-card::after,
+.alpha-theme .macos-card-entry::before,
+.alpha-theme .macos-card-entry::after,
+.alpha-theme .macos-panel::before,
+.alpha-theme .macos-panel::after,
+.alpha-theme .eco-card::before,
+.alpha-theme .eco-card::after,
+.alpha-theme [class*="haze"],
+.alpha-theme [class*="ambient"],
+.alpha-theme [class*="halo"],
+.alpha-theme [class*="gridline"],
+.alpha-theme [class*="scanline"],
+.alpha-theme [class*="sweep"]::before,
+.alpha-theme [class*="sweep"]::after {
+  display: none !important;
+}
+
+.alpha-theme .macos-page-title,
+.alpha-theme h1,
+.alpha-theme h2,
+.alpha-theme h3,
+.alpha-theme h4,
+.alpha-theme p,
+.alpha-theme span,
+.alpha-theme label,
+.alpha-theme th,
+.alpha-theme td {
+  text-shadow: none !important;
+}
+
+.alpha-theme .macos-page-title,
+.alpha-theme h1,
+.alpha-theme h2,
+.alpha-theme h3,
+.alpha-theme h4,
+.alpha-theme .alpha-text {
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme .alpha-text-muted,
+.alpha-theme .alpha-muted,
+.alpha-theme .macos-page-subtitle,
+.alpha-theme .macos-page-kicker,
+.alpha-theme .macos-section-label,
+.alpha-theme th {
+  color: var(--alpha-text-muted) !important;
+}
+
+.alpha-theme .macos-page-kicker,
+.alpha-theme .alpha-topbar-chip,
+.alpha-theme .hud-badge,
+.alpha-theme .badge,
+.alpha-theme .tag,
+.alpha-theme .pill,
+.alpha-theme .status,
+.alpha-theme [class*="rounded-full"][class*="border"] {
+  border-color: var(--alpha-border) !important;
+  background: var(--alpha-hover-soft) !important;
+  color: var(--alpha-text-muted) !important;
+  box-shadow: none !important;
+}
+
+.alpha-theme .macos-btn,
+.alpha-theme [data-slot="button"],
+.alpha-theme button[class*="bg-"],
+.alpha-theme a[class*="macos-btn"] {
+  clip-path: none !important;
+  border-color: var(--alpha-border) !important;
+  background: var(--alpha-accent) !important;
+  background-image: none !important;
+  color: var(--alpha-accent-contrast) !important;
+  box-shadow: var(--alpha-shadow) !important;
+  transition: all 0.2s ease !important;
+}
+
+.alpha-theme .macos-btn:hover,
+.alpha-theme [data-slot="button"]:hover,
+.alpha-theme button[class*="bg-"]:hover,
+.alpha-theme a[class*="macos-btn"]:hover {
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-accent-hover) !important;
+  color: var(--alpha-accent-contrast) !important;
+  filter: none !important;
+}
+
+.alpha-theme input,
+.alpha-theme textarea,
+.alpha-theme select,
+.alpha-theme [data-slot="input"],
+.alpha-theme [data-slot="select-trigger"] {
+  border-color: var(--alpha-border) !important;
+  background: var(--alpha-surface) !important;
+  background-image: none !important;
+  color: var(--alpha-text) !important;
+  box-shadow: none !important;
+}
+
+.alpha-theme .macos-table thead tr,
+.alpha-theme table thead tr {
+  background: var(--alpha-hover-soft) !important;
+}
+
+.alpha-theme .macos-table tbody tr,
+.alpha-theme table tbody tr {
+  background: var(--alpha-surface) !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.alpha-theme .macos-table tbody tr:hover,
+.alpha-theme table tbody tr:hover {
+  background: var(--alpha-hover-soft) !important;
+}
+
+.alpha-theme img,
+.alpha-theme svg {
+  filter: grayscale(1) !important;
+}
+
+.alpha-theme .alpha-brand-logo {
+  filter: grayscale(1) contrast(1.1) !important;
 }

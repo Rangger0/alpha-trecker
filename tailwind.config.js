@@ -92,9 +92,9 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        glow: "0 0 20px rgb(var(--theme-accent) / 0.28)",
-        "glow-lg": "0 0 40px rgb(var(--theme-accent) / 0.38)",
-        gold: "0 0 30px rgb(var(--theme-accent) / 0.18)",
+        neumorphism: "6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03)",
+        "neumorphism-lg": "8px 8px 16px rgba(0, 0, 0, 0.6), -5px -5px 12px rgba(255, 255, 255, 0.04)",
+        "neumorphism-inset": "inset 2px 2px 6px rgba(0, 0, 0, 0.6), inset -2px -2px 6px rgba(255, 255, 255, 0.03)",
       },
       keyframes: {
         "accordion-down": {
@@ -131,8 +131,8 @@ module.exports = {
         shimmer: "shimmer 2s linear infinite",
       },
       backgroundImage: {
-        'gradient-dark': 'linear-gradient(135deg, rgb(var(--theme-dark-bg)) 0%, rgb(var(--theme-dark-secondary)) 100%)',
-        'gradient-gold': 'linear-gradient(135deg, rgb(var(--theme-accent)) 0%, rgb(var(--theme-accent-hover)) 100%)',
+        'gradient-dark': 'transparent',
+        'gradient-gold': 'transparent',
       },
     },
   },

@@ -150,13 +150,13 @@ export function RewardPerformancePanel({
         !embedded && "shadow-none",
         className
       )}
-      style={embedded ? undefined : { backgroundImage: 'radial-gradient(circle at top left, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), transparent 38%)' }}
+      style={embedded ? undefined : { backgroundImage: 'none' }}
     >
       <div className="relative">
         <div className={cn("flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between", compact && "gap-3")}>
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
-              <Sparkles className="h-3.5 w-3.5 text-gold" />
+              <Sparkles className="h-3.5 w-3.5 alpha-text-muted" />
               {t("rewardPanel.badge")}
             </div>
             <h2 className={cn("font-semibold tracking-tight alpha-text", dashboardCompact ? "mt-3 text-[1.1rem]" : compact ? "mt-3 text-[1.5rem]" : "mt-4 text-2xl")}>{resolvedTitle}</h2>
@@ -183,7 +183,7 @@ export function RewardPerformancePanel({
                 <div key={card.label} className="flex min-h-[94px] flex-col justify-between rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] p-3">
                   <div className="flex items-center justify-between">
                     <p className="text-[9px] uppercase tracking-[0.16em] alpha-text-muted">{card.label}</p>
-                    <Icon className="h-3.5 w-3.5 text-gold" />
+                    <Icon className="h-3.5 w-3.5 alpha-text-muted" />
                   </div>
                   <p className="mt-3 text-[1.3rem] font-semibold leading-none alpha-text">{card.value}</p>
                   <p className="mt-1.5 text-[11px] alpha-text-muted">{card.meta}</p>
@@ -196,7 +196,7 @@ export function RewardPerformancePanel({
             <div className={cn("flex min-h-[112px] flex-col justify-between rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)]", compact ? "p-3" : "p-4")}>
               <div className="flex items-center justify-between">
                 <p className="text-[11px] uppercase tracking-[0.24em] alpha-text-muted">{t("rewardPanel.totalRealized")}</p>
-                <Coins className="h-4 w-4 text-gold" />
+                <Coins className="h-4 w-4 alpha-text-muted" />
               </div>
               <p className={cn("mt-3 font-semibold alpha-text", compact ? "text-[1.6rem]" : "text-3xl")}>{formatCompactCurrency(totalEarned)}</p>
             </div>
@@ -204,7 +204,7 @@ export function RewardPerformancePanel({
             <div className={cn("flex min-h-[112px] flex-col justify-between rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)]", compact ? "p-3" : "p-4")}>
               <div className="flex items-center justify-between">
                 <p className="text-[11px] uppercase tracking-[0.24em] alpha-text-muted">{t("rewardPanel.claimedProjects")}</p>
-                <span className="text-xs font-semibold text-gold">{String(claimedRewards.length).padStart(2, "0")}</span>
+                <span className="text-xs font-semibold alpha-text-muted">{String(claimedRewards.length).padStart(2, "0")}</span>
               </div>
               <p className={cn("mt-3 font-semibold alpha-text", compact ? "text-[1.6rem]" : "text-3xl")}>{claimedRewards.length}</p>
             </div>
@@ -212,7 +212,7 @@ export function RewardPerformancePanel({
             <div className={cn("flex min-h-[112px] flex-col justify-between rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)]", compact ? "p-3" : "p-4")}>
               <div className="flex items-center justify-between">
                 <p className="text-[11px] uppercase tracking-[0.24em] alpha-text-muted">{t("rewardPanel.bestPayout")}</p>
-                <Trophy className="h-4 w-4 text-gold" />
+                <Trophy className="h-4 w-4 alpha-text-muted" />
               </div>
               <p className={cn("mt-3 font-semibold alpha-text", compact ? "text-[1.6rem]" : "text-3xl")}>
                 {bestReward ? formatCompactCurrency(bestReward.amountUsd) : formatCompactCurrency(0)}
@@ -228,7 +228,7 @@ export function RewardPerformancePanel({
         <div className={cn("rounded-[1.15rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)]", compact ? "mt-4 p-3.5" : "mt-6 p-4")}>
           {emptyState ? (
             <div className={cn("flex flex-col items-center justify-center text-center", compact ? "h-[154px]" : "h-[220px]")}>
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-dashed border-alpha-border bg-[color:var(--alpha-hover-soft)] text-gold">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-dashed border-alpha-border bg-[color:var(--alpha-hover-soft)] alpha-text-muted">
                 <Coins className="h-6 w-6" />
               </div>
               <p className="mt-4 text-lg font-medium alpha-text">{t("rewardPanel.emptyTitle")}</p>

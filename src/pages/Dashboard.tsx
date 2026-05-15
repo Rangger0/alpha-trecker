@@ -89,27 +89,27 @@ const AIRDROP_TYPES: AirdropType[] = [
 const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
 
 const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
-  'Testnet': { dark: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]', light: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]' },
-  'AI': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
-  'Quest': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
-  'Daily': { dark: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]', light: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]' },
-  'Daily Quest': { dark: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]', light: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]' },
-  'Retroactive': { dark: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]', light: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]' },
-  'Waitlist': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
-  'Node': { dark: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]', light: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]' },
-  'Depin': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
-  'NFT': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
-  'Domain Name': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
-  'Deploy SC': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
-  'DeFi': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
-  'Deploy NFT': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
+  'Testnet': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'AI': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Quest': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Daily': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Daily Quest': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Retroactive': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Waitlist': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Node': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Depin': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'NFT': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Domain Name': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Deploy SC': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'DeFi': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Deploy NFT': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
 };
 
 const STATUS_COLORS: Record<string, { dark: string; light: string }> = {
-  'Planning': { dark: 'bg-light-muted/10 text-light-muted border-light-muted/20', light: 'bg-light-muted/10 text-light-muted border-light-muted/30' },
-  'Ongoing': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
-  'Done': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
-  'Dropped': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
+  'Planning': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
+  'Ongoing': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text)] border-[color:var(--alpha-border-strong)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text)] border-[color:var(--alpha-border-strong)]' },
+  'Done': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text)] border-[color:var(--alpha-border-strong)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text)] border-[color:var(--alpha-border-strong)]' },
+  'Dropped': { dark: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]', light: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]' },
 };
 
 /* ---------- animations ---------- */
@@ -390,18 +390,18 @@ function DashboardHero({
           label: 'Funding',
           value: fundingRaised > 0 ? formatWholeUsd(fundingRaised) : '--',
           badge: fundingFilledCount > 0 ? `${fundingFilledCount} filled` : '-',
-          badgeClass: 'text-gold border-gold/20 bg-gold/10',
+          badgeClass: 'alpha-text-muted border-alpha-border bg-[color:var(--alpha-hover-soft)]',
           progress: fundingProgress,
-          progressColor: 'rgba(0,255,200,0.6)',
+          progressColor: 'var(--alpha-text-muted)',
           meta: fundingFilledCount > 0 ? `${fundingFilledCount}/${totalProjects} projects filled` : 'Belum ada funding',
         },
         {
           label: 'Waitlist',
           value: waitlistFilledCount > 0 ? waitlistTotalUsers : '--',
           badge: waitlistFilledCount > 0 ? `${waitlistFilledCount} filled` : '-',
-          badgeClass: waitlistFilledCount > 0 ? 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300' : 'border-slate-400/20 bg-slate-400/10 text-slate-300',
+          badgeClass: 'alpha-text-muted border-alpha-border bg-[color:var(--alpha-hover-soft)]',
           progress: waitlistProgress,
-          progressColor: 'rgba(16,185,129,0.55)',
+          progressColor: 'var(--alpha-text-muted)',
           meta: waitlistFilledCount > 0 ? `${waitlistFilledCount}/${totalProjects} projects filled` : 'Belum ada waitlist',
         },
         {
@@ -410,17 +410,17 @@ function DashboardHero({
           badge: potentialTier,
           badgeClass:
             potentialTier === 'High'
-              ? 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300'
+              ? 'alpha-text border-alpha-border bg-[color:var(--alpha-hover-soft)]'
               : potentialTier === 'Tracked'
-                ? 'border-yellow-400/20 bg-yellow-400/10 text-yellow-200'
-                : 'border-slate-400/20 bg-slate-400/10 text-slate-300',
+                ? 'alpha-text-muted border-alpha-border bg-[color:var(--alpha-hover-soft)]'
+                : 'alpha-text-muted border-alpha-border bg-[color:var(--alpha-hover-soft)]',
           progress: potentialProgress,
           progressColor:
             potentialTier === 'High'
-              ? 'rgba(16,185,129,0.55)'
+              ? 'var(--alpha-text)'
               : potentialTier === 'Tracked'
-                ? 'rgba(234,179,8,0.55)'
-                : 'rgba(100,116,139,0.55)',
+                ? 'var(--alpha-text-muted)'
+                : 'var(--alpha-text-muted)',
           meta: potentialProjects.length > 0 ? `${highPotentialCount} high potential` : 'Belum ada potential',
         },
       ];
@@ -438,7 +438,7 @@ function DashboardHero({
       <div className="grid gap-4 auto-rows-fr xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)_minmax(0,420px)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)_minmax(0,420px)] xl:items-stretch">
         <div className="flex h-full flex-col justify-between">
           <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-            <Sparkles className="h-3.5 w-3.5 text-gold" />
+            <Sparkles className="h-3.5 w-3.5 alpha-text-muted" />
             Alpha control
           </div>
           <h1 className="mt-3 text-[2.6rem] font-semibold tracking-[-0.04em] alpha-text sm:text-[3.15rem]">
@@ -505,11 +505,11 @@ function DashboardHero({
 function PriceTracker({ isDark }: { isDark: boolean }) {
   const { prices, loading, error, lastUpdatedAt } = usePrices(['bitcoin', 'ethereum', 'solana', 'cardano', 'polkadot']);
   const coins = [
-    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', accent: '#F7931A' },
-    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', accent: '#627EEA' },
-    { id: 'solana', symbol: 'SOL', name: 'Solana', accent: '#14F195' },
-    { id: 'cardano', symbol: 'ADA', name: 'Cardano', accent: '#2A6AF7' },
-    { id: 'polkadot', symbol: 'DOT', name: 'Polkadot', accent: '#E6007A' },
+    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', accent: 'var(--alpha-text-muted)' },
+    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', accent: 'var(--alpha-text-muted)' },
+    { id: 'solana', symbol: 'SOL', name: 'Solana', accent: 'var(--alpha-text-muted)' },
+    { id: 'cardano', symbol: 'ADA', name: 'Cardano', accent: 'var(--alpha-text-muted)' },
+    { id: 'polkadot', symbol: 'DOT', name: 'Polkadot', accent: 'var(--alpha-text-muted)' },
   ];
   const lastUpdatedLabel = lastUpdatedAt
     ? lastUpdatedAt.toLocaleTimeString('en-US', {
@@ -523,11 +523,11 @@ function PriceTracker({ isDark }: { isDark: boolean }) {
 
   return (
     <section className={`hud-panel relative overflow-hidden rounded-[1.1rem] border p-3 shadow-none h-full ${isDark ? 'border-alpha-border bg-[color:var(--alpha-hover-soft)]' : 'border-alpha-border bg-[color:var(--alpha-hover-soft)]'}`}>
-      <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,207,206,0.16),transparent_52%)] opacity-50" />
+      <span className="absolute inset-0 bg-[color:var(--alpha-surface)] opacity-0" />
       <div className="relative h-full flex flex-col">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] text-gold">
+            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] alpha-text-muted">
               <TrendingUpIcon className="h-3 w-3" />
             </div>
             <div>
@@ -537,7 +537,7 @@ function PriceTracker({ isDark }: { isDark: boolean }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="rounded-full border border-gold/20 bg-gold/10 px-1.5 py-0.5 text-[8px] uppercase tracking-[0.18em] text-gold flex-shrink-0">
+            <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-1.5 py-0.5 text-[8px] uppercase tracking-[0.18em] alpha-text-muted flex-shrink-0">
               {coins.length} assets
             </span>
             <p className="text-[8px] alpha-text-muted flex-shrink-0">
@@ -570,7 +570,7 @@ function PriceTracker({ isDark }: { isDark: boolean }) {
                 >
                   <span
                     className="absolute inset-x-0 top-0 h-px"
-                    style={{ background: `linear-gradient(90deg, transparent, ${coin.accent}, transparent)` }}
+                    style={{ background: 'var(--alpha-border)' }}
                   />
                   <div className="flex items-center justify-between gap-1">
                     <p className="text-[8px] uppercase tracking-[0.18em] alpha-text-muted">{coin.symbol}</p>
@@ -586,7 +586,7 @@ function PriceTracker({ isDark }: { isDark: boolean }) {
                   {hasPrice ? (
                     <div className={`mt-1 inline-flex items-center gap-0.5 rounded-full border px-1 py-0.5 text-[7px] font-medium ${
                       isPositive
-                        ? 'border-gold/20 bg-gold/10 text-gold'
+                        ? 'border-alpha-border bg-[color:var(--alpha-hover-soft)] alpha-text-muted'
                         : 'border-[var(--alpha-danger-border)] bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)]'
                     }`}>
                       {isPositive ? <ArrowUpRight className="h-2 w-2" /> : <ArrowDownRight className="h-2 w-2" />}
@@ -638,14 +638,14 @@ function DashboardCalendarPanel({
         : "macos-card p-4 shadow-none"
     )}>
       <span className={cn(
-        "absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,207,206,0.14),transparent_46%)] opacity-90",
+        "absolute inset-0 bg-[color:var(--alpha-surface)] opacity-0",
         embedded && "opacity-55"
       )} />
       <div className="relative">
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
-              <CalendarDays className="h-3.5 w-3.5 text-gold" />
+              <CalendarDays className="h-3.5 w-3.5 alpha-text-muted" />
               Project calendar
             </div>
             <h3 className="mt-3 text-[16px] font-semibold tracking-tight alpha-text">Deadline board</h3>
@@ -668,7 +668,7 @@ function DashboardCalendarPanel({
                 const next = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
                 setCalendarMonth(next);
               }}
-              className="flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-gold/10 hover:text-gold"
+              className="flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-[color:var(--alpha-surface-soft)] hover:text-[color:var(--alpha-text)]"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -684,7 +684,7 @@ function DashboardCalendarPanel({
                 const next = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
                 setCalendarMonth(next);
               }}
-              className="flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-gold/10 hover:text-gold"
+              className="flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-[color:var(--alpha-surface-soft)] hover:text-[color:var(--alpha-text)]"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -719,10 +719,10 @@ function DashboardCalendarPanel({
                     "flex h-9 w-full items-center justify-center rounded-[0.95rem] border text-[12px] font-medium transition-[background-color,border-color,color] duration-150 sm:h-10",
                     inCurrentMonth ? "opacity-100" : "opacity-45",
                     isSelected
-                      ? "border-gold bg-gold text-[color:var(--alpha-accent-contrast)]"
+                      ? "border-[color:var(--alpha-border-strong)] bg-gray-200 text-[#111111] dark:bg-gray-700 dark:text-[#ffffff]"
                       : "border-transparent alpha-text hover:bg-[color:var(--alpha-hover-soft)]",
                     isToday && !isSelected && "border-alpha-border bg-[color:var(--alpha-hover-soft)]",
-                    hasDeadline && !isSelected && "border border-gold/25 bg-gold/10 text-gold hover:bg-gold/15"
+                    hasDeadline && !isSelected && "border border-alpha-border bg-[color:var(--alpha-hover-soft)] alpha-text-muted hover:bg-[color:var(--alpha-surface-soft)]"
                   )}
                 >
                   {date.getDate()}
@@ -910,7 +910,7 @@ function TableRow({
 
       <td className="px-4 py-4">
         {airdrop.walletAddress ? (
-          <div className="flex w-fit items-center gap-2 rounded-[0.9rem] border border-gold/20 bg-gold/10 px-3 py-1.5 text-gold">
+          <div className="flex w-fit items-center gap-2 rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1.5 alpha-text-muted">
             <Wallet className="w-3.5 h-3.5" />
             <span className="font-mono text-xs">{formatWallet(airdrop.walletAddress)}</span>
           </div>
@@ -922,7 +922,7 @@ function TableRow({
       <td className="px-4 py-4">
         {airdrop.platformLink ? (
           <a href={airdrop.platformLink} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs transition-colors duration-150 hover:underline text-gold hover:text-gold-hover">
+            className="flex items-center gap-1.5 text-xs transition-colors duration-150 hover:underline alpha-text-muted hover:text-[color:var(--alpha-text)]">
             <ExternalLink className="w-3.5 h-3.5" />
             {airdrop.platformLink.slice(0, 25)}...
           </a>
@@ -942,28 +942,28 @@ function TableRow({
 
         const tierToColor = (tier: string) =>
           tier === 'High'
-            ? 'text-emerald-300'
+            ? 'alpha-text'
             : tier === 'Medium'
-              ? 'text-yellow-200'
+              ? 'alpha-text-muted'
               : tier === 'Low'
-                ? 'text-rose-200'
-                : 'text-slate-300';
+                ? 'alpha-text-muted'
+                : 'alpha-text-muted';
 
         const tierToDot = (tier: string) =>
           tier === 'High'
-            ? 'rgba(16,185,129,0.65)'
+            ? 'var(--alpha-text)'
             : tier === 'Medium'
-              ? 'rgba(234,179,8,0.65)'
+              ? 'var(--alpha-text-muted)'
               : tier === 'Low'
-                ? 'rgba(244,63,94,0.65)'
-                : 'rgba(75,107,128,0.65)';
+                ? 'var(--alpha-text-muted)'
+                : 'var(--alpha-text-muted)';
 
-        const fundingDot = airdrop.funding ? 'rgba(16,185,129,0.65)' : 'rgba(75,107,128,0.65)';
-        const fundingText = airdrop.funding ? 'text-emerald-300' : 'text-slate-300';
-        const waitlistDot = airdrop.waitlistCount != null ? 'rgba(56,189,248,0.65)' : 'rgba(75,107,128,0.65)';
-        const waitlistText = airdrop.waitlistCount != null ? 'text-sky-300' : 'text-slate-300';
-        const confirmedDot = airdrop.airdropConfirmed ? 'rgba(16,185,129,0.75)' : 'rgba(244,114,182,0.5)';
-        const confirmedText = airdrop.airdropConfirmed ? 'text-emerald-300' : 'text-pink-300';
+        const fundingDot = airdrop.funding ? 'var(--alpha-text)' : 'var(--alpha-text-muted)';
+        const fundingText = airdrop.funding ? 'alpha-text' : 'alpha-text-muted';
+        const waitlistDot = airdrop.waitlistCount != null ? 'var(--alpha-text)' : 'var(--alpha-text-muted)';
+        const waitlistText = airdrop.waitlistCount != null ? 'alpha-text' : 'alpha-text-muted';
+        const confirmedDot = airdrop.airdropConfirmed ? 'var(--alpha-text)' : 'var(--alpha-text-muted)';
+        const confirmedText = airdrop.airdropConfirmed ? 'alpha-text' : 'alpha-text-muted';
 
         return (
           <>
@@ -1003,7 +1003,7 @@ function TableRow({
             variant="ghost"
             size="sm"
             onClick={() => onAddPriority()}
-            className={`h-8 rounded-[0.9rem] border px-3 font-mono text-xs transition-[border-color,background-color,color] duration-150 ${isDark ? 'border-alpha-border bg-[color:var(--alpha-surface)] alpha-text-muted hover:border-gold/25 hover:bg-gold/10 hover:text-gold' : 'border-alpha-border bg-[color:var(--alpha-surface)] alpha-text-muted hover:border-gold/25 hover:bg-gold/10 hover:text-gold'}`}
+            className={`h-8 rounded-[0.9rem] border px-3 font-mono text-xs transition-[border-color,background-color,color] duration-150 ${isDark ? 'border-alpha-border bg-[color:var(--alpha-surface)] alpha-text-muted hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-surface-soft)] hover:text-[color:var(--alpha-text)]' : 'border-alpha-border bg-[color:var(--alpha-surface)] alpha-text-muted hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-surface-soft)] hover:text-[color:var(--alpha-text)]'}`}
           >
             <Star className="w-3 h-3 mr-1" />
             Priority
@@ -1015,7 +1015,7 @@ function TableRow({
                 variant="ghost"
                 size="icon"
                 onClick={(e: MouseEvent) => e.stopPropagation()}
-                className="h-8 w-8 rounded-[0.9rem] border border-transparent bg-[color:var(--alpha-surface)] transition-[background-color,color,border-color] duration-150 alpha-text-muted hover:border-gold/20 hover:bg-gold/10 hover:text-gold"
+                className="h-8 w-8 rounded-[0.9rem] border border-transparent bg-[color:var(--alpha-surface)] transition-[background-color,color,border-color] duration-150 alpha-text-muted hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-surface-soft)] hover:text-[color:var(--alpha-text)]"
               >
                 <MoreVertical className="w-4 h-4" />
               </Button>
@@ -1031,7 +1031,7 @@ function TableRow({
                 zIndex: 9999,
               }}
             >
-              <DropdownMenuItem onSelect={() => onEdit()} className="gap-2 alpha-text hover:text-gold">
+              <DropdownMenuItem onSelect={() => onEdit()} className="gap-2 alpha-text hover:text-[color:var(--alpha-text)]">
                 <Edit2 className="h-4 w-4" />
                 EDIT
               </DropdownMenuItem>
@@ -1068,7 +1068,7 @@ function DashboardContent() {
 
   const isDark = theme === 'dark';
 
-  // UI tokens - Updated to gold theme
+  // UI tokens
   const bg      = 'alpha-bg';
   const text    = 'alpha-text';
 
@@ -1176,7 +1176,7 @@ function DashboardContent() {
         {/* Filters - use macos-card */}
         <div className="mb-3 flex items-center justify-between px-1">
           <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
-            <Filter className="h-3.5 w-3.5 text-gold" />
+            <Filter className="h-3.5 w-3.5 alpha-text-muted" />
             Project radar
           </div>
           <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.16em] alpha-text-muted">
@@ -1250,7 +1250,7 @@ function DashboardContent() {
             <h3 className={`text-xl font-mono font-bold mb-2 alpha-text`}>{isDark ? '> NO_DATA_FOUND' : 'No airdrops found'}</h3>
             <p className={`font-mono text-sm mb-4 alpha-text-muted`}>{isDark ? 'Initialize new project tracking...' : 'Start tracking your first airdrop'}</p>
             <Button onClick={() => setIsAddModalOpen(true)}
-              className={`font-mono macos-btn macos-btn--primary bg-gold text-[color:var(--alpha-accent-contrast)] hover:bg-gold-hover`}>
+              className={`font-mono macos-btn macos-btn--primary bg-[color:var(--alpha-accent)] text-[color:var(--alpha-accent-contrast)] hover:bg-[color:var(--alpha-accent-hover)]`}>
               <Plus className="h-4 w-4 mr-2" />{isDark ? 'INIT_PROJECT()' : 'Add Your First Airdrop'}
             </Button>
           </div>

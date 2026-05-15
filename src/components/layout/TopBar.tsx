@@ -104,8 +104,8 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
 
             <div className="alpha-topbar-chip hidden px-3 py-1.5 text-[11px] font-display font-semibold uppercase tracking-[0.18em] md:flex">
               <span
-                className="h-2 w-2 rounded-full bg-[color:var(--alpha-accent)]"
-                style={{ boxShadow: '0 0 14px color-mix(in srgb, var(--alpha-accent) 45%, transparent)' }}
+                className="h-2 w-2 rounded-full bg-[color:var(--alpha-text-muted)]"
+                style={{ boxShadow: 'none' }}
               />
               {currentSectionLabel}
             </div>
@@ -117,7 +117,7 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
               borderColor: 'var(--alpha-topbar-chip-border)',
             }}
           >
-            <Clock3 className="h-3.5 w-3.5 text-gold" />
+            <Clock3 className="h-3.5 w-3.5 alpha-text-muted" />
             {formattedTime}
           </div>
 

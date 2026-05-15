@@ -110,7 +110,7 @@ export function Sidebar({
   width,
 }: SidebarProps) {
   const { logout, isAuthenticated, session } = useAuth();
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const { language, setLanguage, t } = useI18n();
   const location = useLocation();
   const showFeedbackInbox = isFeedbackInboxOwner(session?.user?.email);
@@ -393,9 +393,8 @@ export function Sidebar({
                 label={t("sidebar.preference.themeLabel")}
                 value={currentThemeLabel}
               >
-                <div className="rounded-[1.2rem] border border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface)] px-4 py-3 text-sm font-medium text-[var(--alpha-text)]">
-                  {t("common.dark")}
-                </div>
+                <PreferenceButton active={theme === "dark"} label={t("common.dark")} onClick={() => setTheme("dark")} />
+                <PreferenceButton active={theme === "light"} label={t("common.light")} onClick={() => setTheme("light")} />
               </PreferenceGroup>
             </div>
           </div>
