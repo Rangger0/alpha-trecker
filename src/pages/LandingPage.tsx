@@ -4,6 +4,7 @@ import { HeroSection } from '@/components/landing/HeroSection';
 import { Footer } from '@/components/landing/Footer';
 import { useDeferredVisibility } from '@/hooks/use-deferred-visibility';
 import { ArrowUp } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const FeaturesSection = lazy(async () => {
   const module = await import('@/components/landing/FeaturesSection');
@@ -163,12 +164,14 @@ function LandingScrollChrome() {
 }
 
 export function LandingPage() {
+  const { theme } = useTheme();
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, []);
 
   return (
-    <div className="macos-root macos-landing-shell min-h-screen alpha-bg">
+    <div className={`alpha-theme ${theme} macos-root macos-landing-shell min-h-screen alpha-bg`}>
       <LandingScrollChrome />
       <Navbar />
       <main>

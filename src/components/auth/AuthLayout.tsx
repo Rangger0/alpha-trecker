@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Check, MoonStar, Sparkles } from 'lucide-react';
+import { Check, MoonStar, Sparkles, SunMedium } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface AuthLayoutProps {
@@ -11,7 +11,7 @@ interface AuthLayoutProps {
 }
 
 export function AuthLayout({ children, title, subtitle, features }: AuthLayoutProps) {
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const isDark = theme === 'dark';
   const isLoginRoute = location.pathname === '/login';
@@ -29,9 +29,11 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
   const featurePanel = 'linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 92%, transparent), color-mix(in srgb, var(--alpha-panel) 74%, transparent))';
   const softAccent = 'color-mix(in srgb, var(--alpha-accent) 18%, transparent)';
   const softAccentStrong = 'color-mix(in srgb, var(--alpha-accent) 28%, transparent)';
+  const ThemeIcon = isDark ? MoonStar : SunMedium;
+  const themeLabel = isDark ? 'Dark Mode' : 'Light Mode';
 
   return (
-    <div className="macos-root macos-auth-shell min-h-screen overflow-hidden" style={{ background: 'var(--alpha-bg)' }}>
+    <div className={`alpha-theme ${theme} macos-root macos-auth-shell min-h-screen overflow-hidden`} style={{ background: 'var(--alpha-bg)' }}>
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
           className="absolute left-[4%] top-[6%] h-36 w-36 rounded-full blur-2xl opacity-60"
@@ -114,17 +116,21 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
               </Link>
 
               <div className="flex w-full flex-wrap items-center justify-end gap-2 sm:gap-3 lg:w-auto">
-                <div
-                  className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-opacity duration-150 sm:px-4"
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-[background-color,border-color,color,opacity] duration-150 hover:opacity-85 sm:px-4"
                   style={{
                     border: `1px solid ${shellBorder}`,
                     background: 'color-mix(in srgb, var(--alpha-surface) 78%, transparent)',
                     color: 'var(--alpha-text)',
                   }}
+                  aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+                  aria-pressed={isDark}
                 >
-                  <MoonStar className="h-4 w-4" />
-                  Dark Mode
-                </div>
+                  <ThemeIcon className="h-4 w-4" />
+                  {themeLabel}
+                </button>
 
                 <div className="flex items-center gap-2">
                   <Link

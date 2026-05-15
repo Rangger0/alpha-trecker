@@ -64,6 +64,7 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
     if (path.startsWith('/ecosystem')) return t('topbar.section.ecosystem');
     if (path.startsWith('/screening')) return t('topbar.section.screening');
     if (path.startsWith('/check-eligibility')) return t('topbar.section.eligibility');
+    if (path.startsWith('/live-airdrop')) return t('topbar.section.liveAirdrop');
     if (path.startsWith('/faucet')) return t('topbar.section.faucet');
     if (path.startsWith('/multiple-account')) return t('topbar.section.multiAccount');
     if (path.startsWith('/reward-vault')) return t('topbar.section.rewardVault');

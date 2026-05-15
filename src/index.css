@@ -30,22 +30,22 @@ input, textarea, [contenteditable] {
 
 /* Light fallback */
 
---background: 0 0% 100%;
+--background: 214 15% 89%;
 --foreground: 0 0% 0%;
 
---card: 0 0% 100%;
+--card: 214 18% 92%;
 --card-foreground: 0 0% 0%;
 
---popover: 0 0% 100%;
+--popover: 214 18% 92%;
 --popover-foreground: 0 0% 0%;
 
 --primary: 0 0% 6%;
 --primary-foreground: 0 0% 100%;
 
---secondary: 0 0% 96%;
+--secondary: 214 14% 87%;
 --secondary-foreground: 0 0% 0%;
 
---muted: 0 0% 96%;
+--muted: 214 14% 87%;
 --muted-foreground: 0 0% 38%;
 
 --accent: 0 0% 6%;
@@ -61,15 +61,15 @@ input, textarea, [contenteditable] {
 --radius: 0.5rem;
 
 /* Custom Alpha Variables */
---alpha-bg: #ffffff;
---alpha-panel: #ffffff;
+--alpha-bg: #dbe0e8;
+--alpha-panel: #e9edf3;
 --alpha-accent: #111111;
 --alpha-accent-hover: #303030;
 --alpha-accent-contrast: #ffffff;
 --alpha-text: #000000;
---alpha-text-muted: #5c5c5c;
+--alpha-text-muted: #475569;
 --alpha-border: rgba(0, 0, 0, 0.12);
---alpha-surface: #f7f7f7;
+--alpha-surface: #e4e9ef;
 
 }
 
@@ -111,7 +111,7 @@ input, textarea, [contenteditable] {
 --alpha-accent-hover: #d4d4d4;
 --alpha-accent-contrast: #000000;
 --alpha-text: #ffffff;
---alpha-text-muted: #a3a3a3;
+--alpha-text-muted: #cbd5e1;
 --alpha-border: rgba(255, 255, 255, 0.12);
 --alpha-surface: #101010;
 

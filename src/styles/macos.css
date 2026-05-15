@@ -1034,9 +1034,10 @@
 .macos-modal-compact {
   border-radius: 1.6rem;
   padding: 0;
-  backdrop-filter: blur(16px);
-  background: rgba(6, 12, 22, 0.92);
-  border: 1px solid rgba(103,232,249,0.18);
+  color: var(--alpha-text);
+  background: var(--alpha-panel);
+  border: 1px solid var(--alpha-border-strong);
+  box-shadow: var(--alpha-shadow-strong);
 }
 
 .macos-modal-header {
@@ -1045,17 +1046,16 @@
   justify-content: space-between;
   gap: 16px;
   padding: 24px 24px 0;
-  border-bottom: 1px solid rgba(103,232,249,0.12);
+  border-bottom: 1px solid var(--alpha-border);
 }
 
 .macos-modal-title {
   margin: 0;
   font-family: var(--alpha-display-stack);
-  text-transform: uppercase;
   font-size: clamp(1.35rem, 2vw, 1.7rem);
   font-weight: 700;
-  letter-spacing: 0.13em;
-  color: #E2F8FF;
+  letter-spacing: 0;
+  color: var(--alpha-text);
 }
 
 .macos-modal-description {
@@ -1063,7 +1063,7 @@
   font-family: var(--mac-font-stack);
   font-size: 13px;
   line-height: 1.55;
-  color: #A8E7F9;
+  color: var(--alpha-text-muted);
 }
 
 .macos-modal-section-label {
@@ -1071,31 +1071,31 @@
   font-family: var(--alpha-display-stack);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(178, 248, 255, 0.75);
+  color: var(--alpha-text-muted);
 }
 
 .macos-modal-label {
   font-family: var(--mac-font-stack);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  color: #C8F6FF;
+  letter-spacing: 0;
+  color: var(--alpha-text);
 }
 
 .macos-modal-input {
   min-height: 48px;
   font-family: var(--mac-font-stack);
   font-size: 14px;
-  color: #E2F8FF;
+  color: var(--alpha-text);
 }
 
 .macos-modal-note {
   font-family: var(--mac-font-stack);
   font-size: 12px;
   line-height: 1.45;
-  color: rgba(178, 248, 255, 0.74);
+  color: var(--alpha-text-muted);
 }
 
 .macos-modal-submit {
@@ -1105,13 +1105,35 @@
   font-family: var(--alpha-display-stack);
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: 1px solid rgba(103,232,249,0.26);
+  border: 1px solid var(--alpha-border-strong);
 }
 
 .macos-modal-block {
   padding-inline: 24px;
+}
+
+.macos-delete-modal {
+  padding: 24px;
+}
+
+.macos-delete-icon {
+  border: 1px solid var(--alpha-danger-border);
+  background: var(--alpha-danger-soft);
+  color: var(--alpha-danger);
+}
+
+.macos-btn--danger {
+  border-color: var(--alpha-danger-border) !important;
+  background: var(--alpha-danger) !important;
+  color: var(--alpha-accent-contrast) !important;
+}
+
+.macos-btn--danger:hover {
+  border-color: var(--alpha-danger-border) !important;
+  background: var(--alpha-danger-press) !important;
+  color: var(--alpha-accent-contrast) !important;
 }
 
 @media (max-width: 640px) {
@@ -3621,14 +3643,14 @@ select {
 }
 
 .alpha-theme.light {
-  --alpha-bg: #f3f4f6;
-  --alpha-panel: #ffffff;
-  --alpha-surface: #ffffff;
-  --alpha-surface-soft: #f3f4f6;
-  --alpha-surface-strong: #e5e7eb;
-  --alpha-hover-soft: #f3f4f6;
+  --alpha-bg: #dbe0e8;
+  --alpha-panel: #e9edf3;
+  --alpha-surface: #e4e9ef;
+  --alpha-surface-soft: #d8dee7;
+  --alpha-surface-strong: #cbd3de;
+  --alpha-hover-soft: #d4dbe4;
   --alpha-text: #111111;
-  --alpha-text-muted: #6b7280;
+  --alpha-text-muted: #475569;
   --alpha-border: rgba(0, 0, 0, 0.06);
   --alpha-border-strong: rgba(0, 0, 0, 0.12);
   --alpha-accent: #111111;
@@ -3637,7 +3659,7 @@ select {
   --alpha-highlight: #111111;
   --alpha-highlight-soft: rgba(0, 0, 0, 0.06);
   --alpha-highlight-border: rgba(0, 0, 0, 0.12);
-  --alpha-shadow: 4px 4px 10px rgba(0, 0, 0, 0.05), -2px -2px 6px rgba(255, 255, 255, 0.8);
+  --alpha-shadow: 4px 4px 10px rgba(24, 32, 44, 0.07), -2px -2px 6px rgba(255, 255, 255, 0.5);
   --alpha-shell-border: rgba(0, 0, 0, 0.06);
   --alpha-topbar-chip-border: rgba(0, 0, 0, 0.06);
 }
@@ -3650,9 +3672,9 @@ select {
   --alpha-surface-strong: #111318;
   --alpha-hover-soft: #20232a;
   --alpha-text: #ffffff;
-  --alpha-text-muted: #a1a1aa;
-  --alpha-border: rgba(255, 255, 255, 0.05);
-  --alpha-border-strong: rgba(255, 255, 255, 0.1);
+  --alpha-text-muted: #cbd5e1;
+  --alpha-border: rgba(255, 255, 255, 0.09);
+  --alpha-border-strong: rgba(255, 255, 255, 0.16);
   --alpha-accent: #ffffff;
   --alpha-accent-hover: #e5e7eb;
   --alpha-accent-contrast: #111111;
@@ -3724,6 +3746,53 @@ select {
   text-shadow: none !important;
 }
 
+.alpha-theme .dashboard-clean {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+.alpha-theme .dashboard-clean p,
+.alpha-theme .dashboard-clean span,
+.alpha-theme .dashboard-clean label,
+.alpha-theme .dashboard-clean th,
+.alpha-theme .dashboard-clean td,
+.alpha-theme .dashboard-clean input,
+.alpha-theme .dashboard-clean button {
+  letter-spacing: 0 !important;
+}
+
+.alpha-theme .dashboard-clean .text-\[7px\],
+.alpha-theme .dashboard-clean .text-\[8px\] {
+  font-size: 10px !important;
+  line-height: 1rem !important;
+}
+
+.alpha-theme .dashboard-clean .text-\[9px\],
+.alpha-theme .dashboard-clean .text-\[10px\] {
+  font-size: 11px !important;
+  line-height: 1.05rem !important;
+}
+
+.alpha-theme .dashboard-clean .text-\[11px\],
+.alpha-theme .dashboard-clean .text-\[12px\],
+.alpha-theme .dashboard-clean .text-xs {
+  font-size: 13px !important;
+  line-height: 1.2rem !important;
+}
+
+.alpha-theme .dashboard-clean .text-\[13px\],
+.alpha-theme .dashboard-clean .text-\[14px\],
+.alpha-theme .dashboard-clean .text-sm {
+  font-size: 15px !important;
+  line-height: 1.45rem !important;
+}
+
+.alpha-theme .dashboard-clean .hud-panel,
+.alpha-theme .dashboard-clean .macos-card {
+  border-color: var(--alpha-border-strong) !important;
+}
+
 .alpha-theme .macos-page-title,
 .alpha-theme h1,
 .alpha-theme h2,
@@ -3779,6 +3848,35 @@ select {
   filter: none !important;
 }
 
+.alpha-theme .macos-btn--ghost,
+.alpha-theme [data-slot="button"].macos-btn--ghost {
+  border-color: var(--alpha-border) !important;
+  background: var(--alpha-surface) !important;
+  color: var(--alpha-text) !important;
+  box-shadow: none !important;
+}
+
+.alpha-theme .macos-btn--ghost:hover,
+.alpha-theme [data-slot="button"].macos-btn--ghost:hover {
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-hover-soft) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme .macos-btn--danger,
+.alpha-theme [data-slot="button"].macos-btn--danger {
+  border-color: var(--alpha-danger-border) !important;
+  background: var(--alpha-danger) !important;
+  color: var(--alpha-accent-contrast) !important;
+}
+
+.alpha-theme .macos-btn--danger:hover,
+.alpha-theme [data-slot="button"].macos-btn--danger:hover {
+  border-color: var(--alpha-danger-border) !important;
+  background: var(--alpha-danger-press) !important;
+  color: var(--alpha-accent-contrast) !important;
+}
+
 .alpha-theme input,
 .alpha-theme textarea,
 .alpha-theme select,
@@ -3808,11 +3906,67 @@ select {
   background: var(--alpha-hover-soft) !important;
 }
 
+.alpha-theme .dashboard-calendar-nav {
+  border-color: var(--alpha-border) !important;
+  background: var(--alpha-hover-soft) !important;
+  color: var(--alpha-text) !important;
+  box-shadow: none !important;
+}
+
+.alpha-theme .dashboard-calendar-nav:hover {
+  border-color: rgba(0, 191, 165, 0.3) !important;
+  background: rgba(0, 191, 165, 0.12) !important;
+  color: #00bfa5 !important;
+}
+
+.alpha-theme .dashboard-calendar-day {
+  border-color: var(--alpha-border) !important;
+  background: var(--alpha-surface) !important;
+  color: var(--alpha-text) !important;
+  box-shadow: none !important;
+}
+
+.alpha-theme .dashboard-calendar-day:hover {
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-hover-soft) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme .dashboard-calendar-day.is-outside {
+  opacity: 0.42;
+  color: var(--alpha-text-muted) !important;
+}
+
+.alpha-theme .dashboard-calendar-day.is-today {
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-hover-soft) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme .dashboard-calendar-day.has-deadline {
+  border-color: rgba(0, 191, 165, 0.28) !important;
+  background: rgba(0, 191, 165, 0.12) !important;
+  color: #00bfa5 !important;
+}
+
+.alpha-theme.light .dashboard-calendar-day.has-deadline {
+  border-color: rgba(0, 121, 107, 0.24) !important;
+  background: rgba(0, 191, 165, 0.14) !important;
+  color: #00796b !important;
+}
+
+.alpha-theme .dashboard-calendar-day.is-selected,
+.alpha-theme .dashboard-calendar-day.is-selected:hover {
+  border-color: #00a991 !important;
+  background: #00bfa5 !important;
+  color: #031b18 !important;
+}
+
 .alpha-theme img,
 .alpha-theme svg {
-  filter: grayscale(1) !important;
+  filter: none !important;
 }
 
 .alpha-theme .alpha-brand-logo {
-  filter: grayscale(1) contrast(1.1) !important;
+  filter: contrast(1.08) !important;
 }

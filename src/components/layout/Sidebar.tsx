@@ -18,6 +18,7 @@ import {
   LogIn,
   LogOut,
   Moon,
+  Radio,
   Rocket,
   Search,
   Settings2,
@@ -132,6 +133,7 @@ export function Sidebar({
       links: [
         { to: "/screening", icon: Search, label: t("sidebar.link.screening") },
         { to: "/check-eligibility", icon: ShieldCheck, label: t("sidebar.link.eligibility") },
+        { to: "/live-airdrop", icon: Radio, label: t("sidebar.link.liveAirdrop") },
         { to: "/faucet", icon: Droplets, label: t("sidebar.link.faucet") },
         { to: "/multiple-account", icon: Users, label: t("sidebar.link.multiAccount") },
         { to: "/reward-vault", icon: Trophy, label: t("sidebar.link.rewardVault") },

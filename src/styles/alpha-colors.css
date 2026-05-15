@@ -68,12 +68,12 @@ html.dark,
   --alpha-highlight-border: rgba(255, 255, 255, 0.14);
   
   --alpha-text: #ffffff;
-  --alpha-text-muted: #a1a1aa;
+  --alpha-text-muted: #cbd5e1;
   --alpha-text-soft: #d4d4d8;
   --alpha-muted: #a1a1aa;
   
-  --alpha-border: rgba(255, 255, 255, 0.05);
-  --alpha-border-strong: rgba(255, 255, 255, 0.1);
+  --alpha-border: rgba(255, 255, 255, 0.09);
+  --alpha-border-strong: rgba(255, 255, 255, 0.16);
   
   --alpha-row-selected: rgba(255, 255, 255, 0.05);
   --alpha-row-selected-text: #EAEAEA;
@@ -144,22 +144,22 @@ html.dark,
 
 html.light,
 .alpha-theme.light {
-  --background: 0 0% 97%;
+  --background: 214 15% 89%;
   --foreground: 0 0% 8%;
 
-  --card: 0 0% 100%;
+  --card: 214 18% 92%;
   --card-foreground: 0 0% 8%;
 
-  --popover: 0 0% 100%;
+  --popover: 214 18% 92%;
   --popover-foreground: 0 0% 8%;
 
   --primary: 0 0% 6%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 0 0% 96%;
+  --secondary: 214 14% 87%;
   --secondary-foreground: 0 0% 8%;
 
-  --muted: 0 0% 96%;
+  --muted: 214 14% 87%;
   --muted-foreground: 0 0% 35%;
 
   --accent: 0 0% 6%;
@@ -172,23 +172,23 @@ html.light,
   --input: 0 0% 92%;
   --ring: 0 0% 18%;
 
-  --theme-dark-bg: 255 255 255;
-  --theme-dark-secondary: 248 248 248;
-  --theme-dark-hover: 242 242 242;
+  --theme-dark-bg: 219 224 232;
+  --theme-dark-secondary: 234 238 244;
+  --theme-dark-hover: 214 220 229;
 
-  --theme-light: 255 255 255;
+  --theme-light: 234 238 244;
   --theme-light-muted: 115 115 115;
 
   --theme-accent: 17 17 17;
   --theme-accent-hover: 48 48 48;
   --theme-accent-soft: 229 229 229;
 
-  --alpha-bg: #f3f4f6;
+  --alpha-bg: #dbe0e8;
   --alpha-bg-pattern: none;
-  --alpha-panel: #ffffff;
-  --alpha-surface: #ffffff;
-  --alpha-surface-soft: #f3f4f6;
-  --alpha-surface-strong: #e5e7eb;
+  --alpha-panel: #e9edf3;
+  --alpha-surface: #e4e9ef;
+  --alpha-surface-soft: #d8dee7;
+  --alpha-surface-strong: #cbd3de;
   --alpha-accent: #111111;
   --alpha-accent-hover: #374151;
   --alpha-accent-from: #111111;
@@ -198,7 +198,7 @@ html.light,
   --alpha-highlight-soft: rgba(0, 0, 0, 0.06);
   --alpha-highlight-border: rgba(0, 0, 0, 0.12);
   --alpha-text: #111111;
-  --alpha-text-muted: #6b7280;
+  --alpha-text-muted: #475569;
   --alpha-text-soft: #374151;
   --alpha-muted: #6b7280;
   --alpha-border: rgba(0, 0, 0, 0.06);
@@ -207,10 +207,10 @@ html.light,
   --alpha-row-selected-text: #0f172a;
   --alpha-row-odd: rgba(15, 23, 42, 0.03);
   --alpha-row-even: rgba(15, 23, 42, 0.02);
-  --alpha-hover-soft: #f3f4f6;
+  --alpha-hover-soft: #d4dbe4;
   --alpha-overlay: rgba(15, 23, 42, 0.08);
-  --alpha-shadow: 4px 4px 10px rgba(0, 0, 0, 0.05), -2px -2px 6px rgba(255, 255, 255, 0.8);
-  --alpha-shadow-strong: 4px 4px 10px rgba(0, 0, 0, 0.05), -2px -2px 6px rgba(255, 255, 255, 0.8);
+  --alpha-shadow: 4px 4px 10px rgba(24, 32, 44, 0.07), -2px -2px 6px rgba(255, 255, 255, 0.5);
+  --alpha-shadow-strong: 4px 4px 12px rgba(24, 32, 44, 0.09), -2px -2px 6px rgba(255, 255, 255, 0.54);
   --alpha-transition: 0.2s ease;
   --alpha-shell-gradient: transparent;
   --alpha-shell-border: rgba(0, 0, 0, 0.06);

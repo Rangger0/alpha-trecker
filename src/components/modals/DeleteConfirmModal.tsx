@@ -1,6 +1,7 @@
 // DeleteConfirmModal.tsx
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -8,12 +9,12 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Loader2, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface DeleteConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: () => Promise<void> | void;
   projectName?: string;
   isDark?: boolean;
   title?: string;
@@ -27,7 +28,6 @@ export function DeleteConfirmModal({
   onClose, 
   onConfirm, 
   projectName, 
-  isDark = false,
   title,
   description,
   confirmLabel,
@@ -35,21 +35,30 @@ export function DeleteConfirmModal({
 }: DeleteConfirmModalProps) {
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setIsLoading(false);
+    }
+  }, [isOpen]);
+
   const handleConfirm = async () => {
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 300));
-    onConfirm();
-    setIsLoading(false);
+    try {
+      await Promise.resolve(onConfirm());
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Default values berdasarkan variant
   const defaultTitle = variant === 'delete' 
-    ? (isDark ? '> DELETE_CONFIRMATION' : 'Delete Airdrop?')
-    : (isDark ? '> REMOVE_FROM_PRIORITY' : 'Remove from Priority?');
+    ? 'Delete Project?'
+    : 'Remove from Priority?';
     
+  const resolvedProjectName = projectName || 'this project';
   const defaultDescription = variant === 'delete'
-    ? `Are you sure you want to delete <strong>${projectName}</strong>? This action cannot be undone.`
-    : `This will remove <strong>${projectName}</strong> from your priority list, but it will remain in your dashboard. You can add it back to priority anytime.`;
+    ? 'This action cannot be undone.'
+    : 'This will remove the project from your priority list, but it will remain in your dashboard. You can add it back anytime.';
     
   const defaultConfirmLabel = variant === 'delete' ? 'DELETE' : 'REMOVE';
   
@@ -58,60 +67,72 @@ export function DeleteConfirmModal({
   const displayConfirmLabel = confirmLabel || defaultConfirmLabel;
 
   const isDeleteVariant = variant === 'delete';
-  const accentColor = isDeleteVariant ? 'var(--alpha-danger)' : 'var(--alpha-warning)';
-  const accentFill = isDeleteVariant
-    ? 'color-mix(in srgb, var(--alpha-danger) 12%, transparent)'
-    : 'color-mix(in srgb, var(--alpha-warning) 12%, transparent)';
-  const emphasizedDescription = displayDescription.replace(
-    /<strong>(.*?)<\/strong>/g,
-    `<strong class="${isDeleteVariant ? 'text-[var(--alpha-danger)]' : 'text-[var(--alpha-warning)]'}">$1</strong>`
-  );
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`max-w-md macos-modal alpha-surface alpha-border`}>
-        <DialogHeader className="text-center">
-          <div
-            className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
-            style={{ background: accentFill }}
-          >
-            {isDeleteVariant ? (
-              <AlertTriangle className="h-8 w-8" style={{ color: accentColor }} />
-            ) : (
-              <X className="h-8 w-8" style={{ color: accentColor }} />
-            )}
-          </div>
-          <DialogTitle className={`text-xl font-mono alpha-text`}>
-            {displayTitle}
-          </DialogTitle>
-          <DialogDescription className={`font-mono alpha-muted`}>
-            <span dangerouslySetInnerHTML={{ __html: emphasizedDescription }} />
-          </DialogDescription>
-        </DialogHeader>
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      if (!open) onClose();
+    }}>
+      <DialogContent
+        showCloseButton={false}
+        className="max-w-md border-0 bg-transparent p-0 shadow-none"
+      >
+        <div className="macos-modal macos-modal-compact macos-delete-modal">
+          <DialogClose asChild>
+            <button
+              type="button"
+              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] alpha-text transition-[background-color,color,border-color] duration-150 hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-hover-soft)]"
+              aria-label="Close delete confirmation"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </DialogClose>
 
-        <div className="flex justify-center gap-3 mt-6">
-          <Button 
-            variant="outline" 
-            onClick={onClose}
-            disabled={isLoading}
-            className={`macos-btn macos-btn--ghost`}
-          >
-            CANCEL
-          </Button>
-          <Button 
-            onClick={handleConfirm}
-            disabled={isLoading}
-            className={`macos-btn ${isDeleteVariant ? 'macos-btn--primary' : 'macos-btn--primary'}`}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {displayConfirmLabel}...
-              </>
+          <DialogHeader className="text-center">
+            <div className="macos-delete-icon mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+            {isDeleteVariant ? (
+              <AlertTriangle className="h-8 w-8" />
             ) : (
-              displayConfirmLabel
+              <X className="h-8 w-8" />
             )}
-          </Button>
+            </div>
+            <DialogTitle className="macos-modal-title text-xl">
+              {displayTitle}
+            </DialogTitle>
+            <DialogDescription className="macos-modal-description">
+              {isDeleteVariant && !description ? (
+                <>
+                  Are you sure you want to delete <strong className="font-semibold text-[color:var(--alpha-danger)]">{resolvedProjectName}</strong>? {displayDescription}
+                </>
+              ) : (
+                displayDescription
+              )}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-6 flex justify-center gap-3">
+            <Button
+              variant="outline"
+              onClick={onClose}
+              disabled={isLoading}
+              className="macos-btn macos-btn--ghost"
+            >
+              CANCEL
+            </Button>
+            <Button
+              onClick={handleConfirm}
+              disabled={isLoading}
+              className={`macos-btn ${isDeleteVariant ? 'macos-btn--danger' : 'macos-btn--primary'}`}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {displayConfirmLabel}...
+                </>
+              ) : (
+                displayConfirmLabel
+              )}
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

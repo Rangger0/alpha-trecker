@@ -52,6 +52,7 @@ const MultipleAccountPage = lazyNamed(() => import('@/pages/MultipleAccountPage'
 const AboutPage = lazyNamed(() => import('@/pages/AboutPage'), 'AboutPage');
 const ScreeningAddressPage = lazyNamed(() => import('@/pages/ScreeningAddressPage'), 'ScreeningAddressPage');
 const CheckEligibilityPage = lazyNamed(() => import('@/pages/CheckEligibilityPage'), 'CheckEligibilityPage');
+const LiveAirdropPage = lazyNamed(() => import('@/pages/LiveAirdropPage'), 'LiveAirdropPage');
 const ToolsPage = lazyNamed(() => import('@/pages/ToolsPage'), 'ToolsPage');
 const DeployToolsPage = lazyNamed(() => import('@/pages/DeployToolsPage'), 'DeployToolsPage');
 const AIToolsPage = lazyNamed(() => import('@/pages/AIToolsPage'), 'AIToolsPage');
@@ -224,6 +225,10 @@ function AppRoutes() {
             <Route
               path="/check-eligibility"
               element={<PageTransition><CheckEligibilityPage /></PageTransition>}
+            />
+            <Route
+              path="/live-airdrop"
+              element={<PageTransition><LiveAirdropPage /></PageTransition>}
             />
             <Route
               path="/faucet"

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { SunMedium } from 'lucide-react';
+import { MoonStar, SunMedium } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const navLinks = [
   { label: 'Workflow', href: '#workflow' },
@@ -9,6 +10,10 @@ const navLinks = [
 ];
 
 export function Navbar() {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
+  const ThemeIcon = isDark ? MoonStar : SunMedium;
+
   return (
     <nav className="pointer-events-none fixed inset-x-0 top-0 z-[80] px-4 pb-4 pt-4 sm:px-6 lg:px-8">
       <div className="macos-landing-width">
@@ -81,17 +86,20 @@ export function Navbar() {
               </Button>
             </Link>
 
-            <div
+            <button
+              type="button"
+              onClick={toggleTheme}
               className="flex h-11 w-11 items-center justify-center rounded-[14px] border"
               style={{
                 borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
                 color: 'var(--alpha-text-muted)',
                 background: 'color-mix(in srgb, var(--alpha-surface) 88%, transparent)',
               }}
-              aria-label="Dark mode active"
+              aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+              aria-pressed={isDark}
             >
-              <SunMedium className="h-4 w-4" />
-            </div>
+              <ThemeIcon className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>
