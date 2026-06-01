@@ -127,8 +127,8 @@ export function RewardPerformancePanel({
   const palette = {
     grid: "var(--alpha-border)",
     axis: "var(--alpha-text-muted)",
-    bar: "var(--alpha-signal)",
-    barSoft: "var(--alpha-signal-soft)",
+    bar: "var(--alpha-highlight)",
+    barSoft: "var(--alpha-highlight-soft)",
     line: "var(--alpha-highlight)",
     badgeBg: "var(--alpha-highlight-soft)",
     badgeText: "var(--alpha-highlight)",

@@ -266,7 +266,7 @@ body {
   margin: 0;
   background: var(--alpha-bg);
   color: var(--alpha-text);
-  transition: background-color 220ms ease, color 220ms ease;
+  transition: none;
   scroll-behavior: smooth;
 }
 
@@ -290,7 +290,7 @@ body,
   background-image: var(--alpha-bg-pattern, none);
   background-size: var(--alpha-bg-size, auto);
   color: var(--alpha-text);
-  transition: background-color 220ms ease, color 220ms ease;
+  transition: none;
 }
 
 html.theme-switching,

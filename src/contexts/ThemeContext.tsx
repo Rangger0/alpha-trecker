@@ -1,6 +1,6 @@
 // ALPHA TRECKER - Theme Context
 
-import { createContext, useContext, useLayoutEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -36,6 +36,23 @@ const persistTheme = (theme: Theme) => {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(readStoredTheme);
+  const switchTimeoutRef = useRef<number | null>(null);
+
+  const beginThemeSwitch = () => {
+    if (typeof window === 'undefined') return;
+
+    const root = document.documentElement;
+    root.classList.add('theme-switching');
+
+    if (switchTimeoutRef.current !== null) {
+      window.clearTimeout(switchTimeoutRef.current);
+    }
+
+    switchTimeoutRef.current = window.setTimeout(() => {
+      root.classList.remove('theme-switching');
+      switchTimeoutRef.current = null;
+    }, 90);
+  };
 
   useLayoutEffect(() => {
     applyThemeToDocument(theme);
@@ -43,10 +60,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme]);
 
   const setTheme = (nextTheme: Theme) => {
+    beginThemeSwitch();
     setThemeState(nextTheme);
   };
 
   const toggleTheme = () => {
+    beginThemeSwitch();
     setThemeState((current) => (current === 'dark' ? 'light' : 'dark'));
   };
 

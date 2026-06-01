@@ -256,9 +256,9 @@ export function RewardVaultPage() {
 
   const summaryCards = [
     { label: t("rewardVault.realizedRevenue"), value: formatCompactCurrency(totalEarned), icon: Coins, tone: "text-gold", accent: "var(--alpha-warning)" },
-    { label: t("rewardVault.capitalDeployed"), value: formatCompactCurrency(totalCapital), icon: Gem, tone: "text-[var(--alpha-signal)]", accent: "var(--alpha-signal)" },
+    { label: t("rewardVault.capitalDeployed"), value: formatCompactCurrency(totalCapital), icon: Gem, tone: "text-gold", accent: "var(--alpha-highlight)" },
     { label: t("rewardVault.netProfit"), value: formatCompactCurrency(netProfit), icon: CheckCircle2, tone: netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]", accent: netProfit >= 0 ? "var(--alpha-warning)" : "var(--alpha-danger)" },
-    { label: t("rewardVault.pendingTge"), value: String(pendingCount).padStart(2, "0"), icon: Hourglass, tone: "text-[var(--alpha-signal)]", accent: "var(--alpha-signal)" },
+    { label: t("rewardVault.pendingTge"), value: String(pendingCount).padStart(2, "0"), icon: Hourglass, tone: "text-gold", accent: "var(--alpha-highlight)" },
   ];
 
   const financePills = [
@@ -384,7 +384,7 @@ export function RewardVaultPage() {
                 {filteredRows.map(({ airdrop, reward }, index) => {
                   let statusColor = "var(--alpha-text-muted)";
                   if (reward?.claimStatus === "Claimed") statusColor = "var(--alpha-warning)";
-                  else if (reward?.claimStatus === "Pending TGE") statusColor = "var(--alpha-signal)";
+                  else if (reward?.claimStatus === "Pending TGE") statusColor = "var(--alpha-highlight)";
                   else if (reward?.claimStatus === "Missed") statusColor = "var(--alpha-danger)";
                   const capital = getRewardCost(reward);
                   const profit = getRewardProfit(reward);

@@ -96,7 +96,7 @@ const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
   'Daily': { dark: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]', light: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]' },
   'Daily Quest': { dark: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]', light: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]' },
   'Retroactive': { dark: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]', light: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]' },
-  'Waitlist': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
+  'Waitlist': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
   'Node': { dark: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]', light: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]' },
   'Depin': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
   'NFT': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
@@ -432,16 +432,16 @@ function DashboardHero({
           badge: fundingFilledCount > 0 ? `${fundingFilledCount} filled` : '-',
           badgeClass: 'text-gold border-gold/20 bg-gold/10',
           progress: fundingProgress,
-          progressColor: 'rgba(0,255,200,0.6)',
+          progressColor: 'rgba(255,137,6,0.65)',
           meta: fundingFilledCount > 0 ? `${fundingFilledCount}/${totalProjects} projects filled` : 'Belum ada funding',
         },
         {
           label: 'Waitlist',
           value: waitlistFilledCount > 0 ? waitlistTotalUsers : '--',
           badge: waitlistFilledCount > 0 ? `${waitlistFilledCount} filled` : '-',
-          badgeClass: waitlistFilledCount > 0 ? 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300' : 'border-slate-400/20 bg-slate-400/10 text-slate-300',
+          badgeClass: waitlistFilledCount > 0 ? 'border-gold/20 bg-gold/10 text-gold' : 'border-slate-400/20 bg-slate-400/10 text-slate-300',
           progress: waitlistProgress,
-          progressColor: 'rgba(16,185,129,0.55)',
+          progressColor: 'rgba(255,137,6,0.65)',
           meta: waitlistFilledCount > 0 ? `${waitlistFilledCount}/${totalProjects} projects filled` : 'Belum ada waitlist',
         },
         {
@@ -450,16 +450,16 @@ function DashboardHero({
           badge: potentialTier,
           badgeClass:
             potentialTier === 'High'
-              ? 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300'
+              ? 'border-gold/20 bg-gold/10 text-gold'
               : potentialTier === 'Tracked'
-                ? 'border-yellow-400/20 bg-yellow-400/10 text-yellow-200'
+                ? 'border-gold/20 bg-gold/10 text-gold'
                 : 'border-slate-400/20 bg-slate-400/10 text-slate-300',
           progress: potentialProgress,
           progressColor:
             potentialTier === 'High'
-              ? 'rgba(16,185,129,0.55)'
+              ? 'rgba(255,137,6,0.65)'
               : potentialTier === 'Tracked'
-                ? 'rgba(234,179,8,0.55)'
+                ? 'rgba(255,137,6,0.55)'
                 : 'rgba(100,116,139,0.55)',
           meta: potentialProjects.length > 0 ? `${highPotentialCount} high potential` : 'Belum ada potential',
         },
@@ -1036,26 +1036,26 @@ function TableRow({
 
         const tierToColor = (tier: string) =>
           tier === 'High'
-            ? 'text-emerald-300'
+            ? 'text-gold'
             : tier === 'Medium'
-              ? 'text-yellow-200'
+              ? 'text-gold'
               : tier === 'Low'
-                ? 'text-rose-200'
+                ? 'text-gold'
                 : 'text-slate-300';
 
         const tierToDot = (tier: string) =>
           tier === 'High'
-            ? 'rgba(16,185,129,0.65)'
+            ? 'rgba(255,137,6,0.75)'
             : tier === 'Medium'
-              ? 'rgba(234,179,8,0.65)'
+              ? 'rgba(255,137,6,0.62)'
               : tier === 'Low'
-                ? 'rgba(244,63,94,0.65)'
+                ? 'rgba(255,137,6,0.48)'
                 : 'rgba(75,107,128,0.65)';
 
-        const fundingDot = airdrop.funding ? 'rgba(16,185,129,0.65)' : 'rgba(75,107,128,0.65)';
-        const fundingText = airdrop.funding ? 'text-emerald-300' : 'text-slate-300';
-        const waitlistDot = airdrop.waitlistCount != null ? 'rgba(56,189,248,0.65)' : 'rgba(75,107,128,0.65)';
-        const waitlistText = airdrop.waitlistCount != null ? 'text-sky-300' : 'text-slate-300';
+        const fundingDot = airdrop.funding ? 'rgba(255,137,6,0.75)' : 'rgba(75,107,128,0.65)';
+        const fundingText = airdrop.funding ? 'text-gold' : 'text-slate-300';
+        const waitlistDot = airdrop.waitlistCount != null ? 'rgba(255,137,6,0.75)' : 'rgba(75,107,128,0.65)';
+        const waitlistText = airdrop.waitlistCount != null ? 'text-gold' : 'text-slate-300';
         const confirmedDot = airdrop.airdropConfirmed ? 'rgba(16,185,129,0.75)' : 'rgba(244,114,182,0.5)';
         const confirmedText = airdrop.airdropConfirmed ? 'text-emerald-300' : 'text-pink-300';
 
