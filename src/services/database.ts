@@ -5,6 +5,8 @@ import type { Airdrop, PriorityLevel } from "@/types";
 
 const AIRDROP_META_PATTERN = /\n*\s*<!--alpha-meta:([^>]*)-->\s*$/;
 
+type AirdropInput = Omit<Airdrop, "id" | "userId" | "createdAt" | "updatedAt">;
+
 function isPriorityLevel(value: unknown): value is PriorityLevel {
   return value === "Low" || value === "Medium" || value === "High";
 }
@@ -20,6 +22,7 @@ function parseAirdropNotes(value?: string | null) {
       funding: undefined as string | undefined,
       potential: undefined as PriorityLevel | undefined,
       airdropConfirmed: undefined as boolean | undefined,
+      email: undefined as string | undefined,
     };
   }
 
@@ -29,6 +32,7 @@ function parseAirdropNotes(value?: string | null) {
       funding?: unknown;
       potential?: unknown;
       airdropConfirmed?: unknown;
+      email?: unknown;
     };
 
     return {
@@ -37,6 +41,7 @@ function parseAirdropNotes(value?: string | null) {
       funding: typeof parsed.funding === "string" && parsed.funding.trim() ? parsed.funding.trim() : undefined,
       potential: isPriorityLevel(parsed.potential) ? parsed.potential : undefined,
       airdropConfirmed: typeof parsed.airdropConfirmed === "boolean" ? parsed.airdropConfirmed : undefined,
+      email: typeof parsed.email === "string" && parsed.email.trim() ? parsed.email.trim() : undefined,
     };
   } catch {
     return {
@@ -45,6 +50,7 @@ function parseAirdropNotes(value?: string | null) {
       funding: undefined as string | undefined,
       potential: undefined as PriorityLevel | undefined,
       airdropConfirmed: undefined as boolean | undefined,
+      email: undefined as string | undefined,
     };
   }
 }
@@ -55,6 +61,7 @@ export function buildAirdropNotesWithMeta(data: {
   funding?: string;
   potential?: PriorityLevel;
   airdropConfirmed?: boolean;
+  email?: string;
 }) {
   const baseNotes = parseAirdropNotes(data.notes).notes.trim();
   const meta = {
@@ -62,48 +69,65 @@ export function buildAirdropNotesWithMeta(data: {
     funding: data.funding?.trim() || undefined,
     potential: data.potential,
     airdropConfirmed: Boolean(data.airdropConfirmed),
+    email: data.email?.trim() || undefined,
   };
   const encoded = encodeURIComponent(JSON.stringify(meta));
 
   return `${baseNotes}${baseNotes ? "\n\n" : ""}<!--alpha-meta:${encoded}-->`;
 }
 
+const isMissingEmailColumnError = (error: unknown) => {
+  if (!error || typeof error !== "object") return false;
+  const record = error as { code?: unknown; message?: unknown };
+  const message = typeof record.message === "string" ? record.message.toLowerCase() : "";
+  return record.code === "PGRST204" && message.includes("email");
+};
+
+const buildAirdropPayload = (data: AirdropInput, userId?: string, includeEmail = true) => ({
+  ...(userId ? { user_id: userId } : {}),
+  project_name: data.projectName,
+  project_logo: data.projectLogo,
+  type: data.type,
+  status: data.status,
+  platform_link: data.platformLink,
+  twitter_username: data.twitterUsername,
+  wallet_address: data.walletAddress,
+  ...(includeEmail ? { email: data.email } : {}),
+  notes: buildAirdropNotesWithMeta(data),
+  tasks: data.tasks || [],
+  priority: data.priority,
+  deadline: data.deadline,
+  is_priority: data.isPriority,
+  ecosystem_id: data.ecosystemId,
+});
+
 /* ============================= */
 /*        AIRDROP METHODS        */
 /* ============================= */
 
-export async function createAirdrop(data: any, userId: string) {
-  console.log('Creating airdrop with data:', data);
-  
+export async function createAirdrop(data: AirdropInput, userId: string) {
   const { data: result, error } = await supabase
     .from("airdrops")
-    .insert([
-      {
-        user_id: userId,
-        project_name: data.projectName,
-        project_logo: data.projectLogo,
-        type: data.type,
-        status: data.status,
-        platform_link: data.platformLink,
-        twitter_username: data.twitterUsername,
-        wallet_address: data.walletAddress,
-        notes: buildAirdropNotesWithMeta(data),
-        tasks: data.tasks || [],
-        priority: data.priority,
-        deadline: data.deadline,
-        is_priority: data.isPriority,
-        ecosystem_id: data.ecosystemId,  // <-- NEW
-      },
-    ])
+    .insert([buildAirdropPayload(data, userId)])
     .select()
     .single();
 
   if (error) {
+    if (isMissingEmailColumnError(error)) {
+      const { data: fallbackResult, error: fallbackError } = await supabase
+        .from("airdrops")
+        .insert([buildAirdropPayload(data, userId, false)])
+        .select()
+        .single();
+
+      if (fallbackError) throw fallbackError;
+      return fallbackResult;
+    }
+
     console.error('Supabase insert error:', error);
     throw error;
   }
 
-  console.log('Created airdrop result:', result);
   return result;
 }
 
@@ -130,6 +154,7 @@ export async function getAirdropsByUserId(userId: string): Promise<Airdrop[]> {
       platformLink: item.platform_link,
       twitterUsername: item.twitter_username,
       walletAddress: item.wallet_address,
+      email: item.email ?? meta.email ?? "",
       notes: meta.notes,
       tasks: item.tasks || [],
       createdAt: item.created_at,
@@ -156,28 +181,31 @@ export async function deleteAirdrop(id: string) {
 }
 
 // Update airdrop lengkap
-export async function updateAirdrop(id: string, data: any) {
+export async function updateAirdrop(id: string, data: AirdropInput) {
   const { data: result, error } = await supabase
     .from("airdrops")
     .update({
-      project_name: data.projectName,
-      project_logo: data.projectLogo,
-      type: data.type,
-      status: data.status,
-      platform_link: data.platformLink,
-      twitter_username: data.twitterUsername,
-      wallet_address: data.walletAddress,
-      notes: buildAirdropNotesWithMeta(data),
-      tasks: data.tasks,
-      priority: data.priority,
-      deadline: data.deadline,
-      is_priority: data.isPriority,
-      ecosystem_id: data.ecosystemId,  // <-- NEW
+      ...buildAirdropPayload(data),
       updated_at: new Date().toISOString(),
     })
     .eq("id", id)
     .select()
     .single();
+
+  if (error && isMissingEmailColumnError(error)) {
+    const { data: fallbackResult, error: fallbackError } = await supabase
+      .from("airdrops")
+      .update({
+        ...buildAirdropPayload(data, undefined, false),
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (fallbackError) throw fallbackError;
+    return fallbackResult;
+  }
 
   if (error) throw error;
   return result;

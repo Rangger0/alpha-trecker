@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AlertCircle, ArrowRight, Eye, EyeOff, Loader2, Lock, Mail } from 'lucide-react';
+import { AlertCircle, ArrowRight, CheckCircle2, Eye, EyeOff, Loader2, Lock, Mail } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -28,6 +29,18 @@ export function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
+
+    if (!email.trim()) {
+      setError('Email is required.');
+      return;
+    }
+
+    if (!password) {
+      setError('Password is required.');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -42,7 +55,8 @@ export function LoginPage() {
         throw new Error('Login failed. Session not created.');
       }
 
-      navigate('/overview');
+      setSuccess('Access verified. Opening your workspace...');
+      window.setTimeout(() => navigate('/overview'), 350);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Authentication failed';
       setError(message);
@@ -55,13 +69,13 @@ export function LoginPage() {
     <div className="macos-auth-card lg:min-h-[548px]">
       <div className="mb-6">
         <h2
-          className="font-[ui-serif,Georgia,serif] text-[2.15rem] font-semibold leading-none sm:text-[2.35rem]"
+          className="text-[2.15rem] font-semibold leading-none tracking-[-0.03em] sm:text-[2.35rem]"
           style={{ color: 'var(--alpha-text)' }}
         >
-          Welcome Back...
+          Institutional access
         </h2>
         <p className="mt-2 text-sm leading-6" style={{ color: 'var(--alpha-text-muted)' }}>
-          Please enter your email and password.
+          Sign in to restore your research desk, execution queue, and reward review flow.
         </p>
       </div>
 
@@ -72,6 +86,13 @@ export function LoginPage() {
         >
           <AlertCircle className="h-4 w-4 text-[var(--alpha-danger)]" />
           <AlertDescription className="text-[var(--alpha-danger)]">{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {success && (
+        <Alert className="mb-4 border-[color:var(--alpha-success-border)] bg-[color:var(--alpha-success-soft)] text-[color:var(--alpha-success)]">
+          <CheckCircle2 className="h-4 w-4 text-[var(--alpha-success)]" />
+          <AlertDescription className="text-[var(--alpha-success)]">{success}</AlertDescription>
         </Alert>
       )}
 

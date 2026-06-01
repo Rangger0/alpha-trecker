@@ -16,34 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-const LOCAL_FEEDBACK_QUEUE_KEY = "alpha_tracker_feedback_queue";
 const MIN_FEEDBACK_MESSAGE_LENGTH = 8;
-
-type LocalFeedbackDraft = {
-  message: string;
-  contact: string;
-  route: string;
-  pageUrl: string;
-  createdAt: string;
-  userEmail: string;
-  userId: string | null;
-};
-
-function storeFeedbackDraft(draft: LocalFeedbackDraft) {
-  const current = localStorage.getItem(LOCAL_FEEDBACK_QUEUE_KEY);
-  let queue: LocalFeedbackDraft[] = [];
-
-  if (current) {
-    try {
-      queue = JSON.parse(current) as LocalFeedbackDraft[];
-    } catch {
-      queue = [];
-    }
-  }
-
-  queue.unshift(draft);
-  localStorage.setItem(LOCAL_FEEDBACK_QUEUE_KEY, JSON.stringify(queue.slice(0, 25)));
-}
 
 export function FloatingFeedback() {
   const location = useLocation();
@@ -105,20 +78,10 @@ export function FloatingFeedback() {
 
       resetForm();
     } catch (error) {
-      storeFeedbackDraft({
-        message: trimmedMessage,
-        contact: trimmedContact,
-        route: currentRoute,
-        pageUrl: currentPageUrl,
-        createdAt: new Date().toISOString(),
-        userEmail,
-        userId,
-      });
-
       const errorMessage =
         error instanceof Error ? error.message : "Feedback gagal dikirim ke server.";
 
-      toast.error(`${errorMessage} Draft disimpan lokal di browser ini.`);
+      toast.error(`${errorMessage} Feedback belum tersimpan. Coba kirim ulang setelah koneksi pulih.`);
     } finally {
       setIsSubmitting(false);
     }

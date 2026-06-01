@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { X, Bell, CheckCircle, AlertTriangle, Info } from 'lucide-react';
 
@@ -10,39 +10,36 @@ interface NotificationItem {
   timestamp: Date;
 }
 
+const MOCK_NOTIFICATIONS: NotificationItem[] = [
+  {
+    id: '1',
+    type: 'success',
+    title: 'Airdrop Claimed',
+    message: 'You successfully claimed 500 TOKEN from Project X',
+    timestamp: new Date()
+  },
+  {
+    id: '2',
+    type: 'warning',
+    title: 'Claim Deadline',
+    message: 'Project Y claim ends in 24 hours',
+    timestamp: new Date(Date.now() - 3600000)
+  },
+  {
+    id: '3',
+    type: 'info',
+    title: 'New Project Added',
+    message: 'LayerZero airdrop added to tracker',
+    timestamp: new Date(Date.now() - 7200000)
+  }
+];
+
 export const Notification: React.FC = () => {
   const { theme } = useTheme();
-  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(() => MOCK_NOTIFICATIONS);
   const [isOpen, setIsOpen] = useState(false);
 
   const isDark = theme === 'dark';
-
-  // Mock notifications
-  useEffect(() => {
-    setNotifications([
-      {
-        id: '1',
-        type: 'success',
-        title: 'Airdrop Claimed',
-        message: 'You successfully claimed 500 TOKEN from Project X',
-        timestamp: new Date()
-      },
-      {
-        id: '2',
-        type: 'warning',
-        title: 'Claim Deadline',
-        message: 'Project Y claim ends in 24 hours',
-        timestamp: new Date(Date.now() - 3600000)
-      },
-      {
-        id: '3',
-        type: 'info',
-        title: 'New Project Added',
-        message: 'LayerZero airdrop added to tracker',
-        timestamp: new Date(Date.now() - 7200000)
-      }
-    ]);
-  }, []);
 
   const removeNotification = (id: string) => {
     setNotifications(prev => prev.filter(n => n.id !== id));

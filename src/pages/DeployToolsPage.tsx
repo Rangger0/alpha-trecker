@@ -13,7 +13,6 @@ import {
 } from '@/lib/deploy-tools-directory';
 import { normalizeLogoUrl } from '@/lib/utils';
 import { cn } from '@/lib/utils';
-import { loadFromStorage, saveToStorage } from '@/utils/helpers';
 
 type AssetFilter = 'All' | DeployAssetType;
 type EnvironmentFilter = 'All' | DeployEnvironment;
@@ -30,8 +29,6 @@ const assetFilters: AssetFilter[] = ['All', 'Token', 'NFT', 'Contract'];
 const environmentFilters: EnvironmentFilter[] = ['All', 'Mainnet', 'Testnet'];
 const deployModes: ModeFilter[] = ['No-code', 'Low-code', 'Builder docs'];
 const deployPricing: PricingFilter[] = ['Free', 'Free tier'];
-const CUSTOM_DEPLOY_TOOLS_STORAGE_KEY = 'alpha-custom-deploy-tools';
-
 const createToolBadge = (name: string) =>
   name
     .trim()
@@ -61,11 +58,7 @@ export function DeployToolsPage() {
   const [environmentFilter, setEnvironmentFilter] = useState<EnvironmentFilter>('All');
   const [chainFilter, setChainFilter] = useState('All');
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
-  const [customTools, setCustomTools] = useState<CustomDeployTool[]>(() =>
-    typeof window === 'undefined'
-      ? []
-      : loadFromStorage<CustomDeployTool[]>(CUSTOM_DEPLOY_TOOLS_STORAGE_KEY, [])
-  );
+  const [customTools, setCustomTools] = useState<CustomDeployTool[]>([]);
   const [manualForm, setManualForm] = useState(defaultManualDeployForm);
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
   const allTools = useMemo(() => [...customTools, ...deployToolsDirectory], [customTools]);
@@ -83,11 +76,6 @@ export function DeployToolsPage() {
     }));
   };
 
-  const persistCustomTools = (nextTools: CustomDeployTool[]) => {
-    setCustomTools(nextTools);
-    saveToStorage(CUSTOM_DEPLOY_TOOLS_STORAGE_KEY, nextTools);
-  };
-
   const handleAddManualTool = () => {
     const trimmedName = manualForm.name.trim();
     const trimmedUrl = manualForm.url.trim();
@@ -101,7 +89,7 @@ export function DeployToolsPage() {
     const customEntry: CustomDeployTool = {
       id: `manual-${Date.now()}`,
       name: trimmedName,
-      accent: selectedChain?.accent ?? '#F97316',
+      accent: selectedChain?.accent ?? 'var(--alpha-highlight)',
       badge: createToolBadge(trimmedName),
       logo: normalizedLogo || selectedChain?.logo,
       description: `${trimmedName} ditambah manual untuk flow deploy ${manualForm.assetType.toLowerCase()} yang belum ada di directory utama.`,
@@ -118,7 +106,7 @@ export function DeployToolsPage() {
       isCustom: true,
     };
 
-    persistCustomTools([customEntry, ...customTools]);
+    setCustomTools([customEntry, ...customTools]);
     setManualForm(defaultManualDeployForm);
   };
 
@@ -128,7 +116,7 @@ export function DeployToolsPage() {
     }
 
     const nextTools = customTools.filter((entry) => entry.id !== toolId);
-    persistCustomTools(nextTools);
+    setCustomTools(nextTools);
   };
 
   const filteredTools = useMemo(() => {

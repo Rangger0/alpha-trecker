@@ -47,7 +47,7 @@
   border-radius: 14px;
   padding: 24px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #181818;
+  background: var(--alpha-panel);
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
   backdrop-filter: none;
 }
@@ -62,15 +62,15 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #202020;
-  color: #9A9A9A;
+  background: var(--alpha-surface-soft);
+  color: var(--alpha-text-muted);
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
   font-weight: 500;
 }
 
 .eco-chip.subtle {
   border-color: rgba(255, 255, 255, 0.06);
-  background: #1A1A1A;
+  background: var(--alpha-surface);
   color: var(--alpha-text-muted);
 }
 
@@ -80,8 +80,8 @@
   border-radius: 8px;
   padding: 6px 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #202020;
-  color: #EAEAEA;
+  background: var(--alpha-surface-soft);
+  color: var(--alpha-text);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -98,7 +98,7 @@
   overflow: hidden;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #202020;
+  background: var(--alpha-surface-soft);
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
 }
 .eco-logo { width: 44px; height: 44px; }
@@ -108,7 +108,7 @@
   border-radius: 12px;
   padding: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #181818;
+  background: var(--alpha-panel);
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
 }
 
@@ -118,7 +118,7 @@
   height: 8px;
   border-radius: 4px;
   border: none;
-  background: #202020;
+  background: var(--alpha-surface-soft);
   overflow: hidden;
   box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.6), inset -1px -1px 3px rgba(255, 255, 255, 0.03);
 }
@@ -134,7 +134,7 @@
   border-radius: 10px;
   padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #202020;
+  background: var(--alpha-surface-soft);
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
 }
 
@@ -153,7 +153,7 @@
   border-radius: 12px;
   padding: 16px;
   overflow: hidden;
-  background: #181818;
+  background: var(--alpha-panel);
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
   transition: all 0.2s ease;
 }
@@ -328,7 +328,7 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  background: #181818;
+  background: var(--alpha-panel);
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -488,7 +488,7 @@
   border-radius: 14px;
   clip-path: none;
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
-  background: #181818;
+  background: var(--alpha-panel);
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.2s ease;
   overflow: hidden;
@@ -528,10 +528,10 @@
 /* ===== HUD mode helpers (lightweight, reusable) ===== */
 .hud-panel {
   position: relative;
-  border: 1px solid rgba(103,232,249,0.18);
+  border: 1px solid var(--alpha-highlight-border);
   border-radius: 1.75rem;
   clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 18px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-  background: rgba(10, 18, 28, 0.76);
+  background: color-mix(in srgb, var(--alpha-panel) 88%, var(--alpha-bg));
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
@@ -665,17 +665,17 @@
 .macos-panel {
   position: relative;
   border-radius: 14px;
-  background: #181818;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  background: var(--alpha-panel);
+  border: 1px solid var(--alpha-border);
+  box-shadow: var(--alpha-shadow);
 }
 
 /* Modal wrapper (centered, mac style) */
 .macos-modal {
   border-radius: 14px;
-  background: #181818;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.6), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  background: var(--alpha-panel);
+  border: 1px solid var(--alpha-border);
+  box-shadow: var(--alpha-shadow-strong);
   overflow: hidden;
 }
 
@@ -702,44 +702,44 @@
 .macos-btn--primary {
   background: var(--alpha-accent);
   color: var(--alpha-accent-contrast);
-  border: 1px solid var(--alpha-border);
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--alpha-highlight-border);
+  box-shadow: var(--alpha-shadow);
 }
 
 .macos-btn--primary:hover {
   background: var(--alpha-accent-hover);
   border-color: var(--alpha-border-strong);
-  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.6), -3px -3px 8px rgba(255, 255, 255, 0.05);
+  box-shadow: var(--alpha-shadow-strong);
 }
 
 /* Ghost button (subtle) */
 .macos-btn--ghost {
-  background: #202020;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #EAEAEA;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
+  background: var(--alpha-surface);
+  border: 1px solid var(--alpha-border);
+  color: var(--alpha-text);
+  box-shadow: var(--alpha-shadow);
 }
 
 .macos-btn--ghost:hover {
-  background: #242424;
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
+  background: var(--alpha-hover-soft);
+  box-shadow: var(--alpha-shadow-strong);
 }
 
 /* Small tweaks for forms / inputs (rounded) */
 .macos-input {
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #141414;
+  border: 1px solid var(--alpha-border);
+  background: var(--alpha-surface);
   min-height: 46px;
   padding: 10px 14px;
   font-size: 0.95rem;
-  color: #EAEAEA;
-  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.6), inset -2px -2px 6px rgba(255, 255, 255, 0.03);
+  color: var(--alpha-text);
+  box-shadow: var(--alpha-shadow-inset);
 }
 
 .macos-input:focus {
-  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.6), inset -2px -2px 6px rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: var(--alpha-shadow-inset);
+  border-color: var(--alpha-border-strong);
 }
 
 /* Small helper for rounded icon wrappers */
@@ -768,16 +768,16 @@
 /* Table tweaks: larger cell padding & subtle row hover */
 .macos-table td, .macos-table th {
   padding: 10px 12px;
-  border-bottom: 1px solid rgba(103,232,249,0.12);
+  border-bottom: 1px solid var(--alpha-border);
 }
 .macos-table th {
-  color: #A7E9FB;
+  color: var(--alpha-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-size: 0.72rem;
 }
 .macos-table tr:hover td {
-  background: rgba(34,211,238,0.05);
+  background: var(--alpha-hover-soft);
 }
 
 /* Nice focus outlines for accessibility */
@@ -2526,6 +2526,8 @@ html.light .alpha-landing-hero-atmosphere::after,
 .macos-scroll-section {
   --section-scroll-shift: 0px;
   --section-scroll-scale: 1;
+  content-visibility: auto;
+  contain-intrinsic-size: 760px;
   opacity: 0;
   transform:
     translate3d(0, calc(18px + var(--section-scroll-shift)), 0)
@@ -2534,7 +2536,6 @@ html.light .alpha-landing-hero-atmosphere::after,
   transition:
     opacity 360ms cubic-bezier(.22,1,.36,1),
     transform 520ms cubic-bezier(.22,1,.36,1);
-  will-change: opacity, transform;
 }
 
 .macos-scroll-section[data-visible="true"] {
@@ -2542,6 +2543,7 @@ html.light .alpha-landing-hero-atmosphere::after,
   transform:
     translate3d(0, var(--section-scroll-shift), 0)
     scale(var(--section-scroll-scale));
+  will-change: opacity, transform;
 }
 
 .macos-scroll-section [data-stagger] {
@@ -3643,47 +3645,47 @@ select {
 }
 
 .alpha-theme.light {
-  --alpha-bg: #dbe0e8;
-  --alpha-panel: #e9edf3;
-  --alpha-surface: #e4e9ef;
-  --alpha-surface-soft: #d8dee7;
-  --alpha-surface-strong: #cbd3de;
-  --alpha-hover-soft: #d4dbe4;
-  --alpha-text: #111111;
-  --alpha-text-muted: #475569;
-  --alpha-border: rgba(0, 0, 0, 0.06);
-  --alpha-border-strong: rgba(0, 0, 0, 0.12);
-  --alpha-accent: #111111;
-  --alpha-accent-hover: #374151;
-  --alpha-accent-contrast: #ffffff;
-  --alpha-highlight: #111111;
-  --alpha-highlight-soft: rgba(0, 0, 0, 0.06);
-  --alpha-highlight-border: rgba(0, 0, 0, 0.12);
-  --alpha-shadow: 4px 4px 10px rgba(24, 32, 44, 0.07), -2px -2px 6px rgba(255, 255, 255, 0.5);
-  --alpha-shell-border: rgba(0, 0, 0, 0.06);
-  --alpha-topbar-chip-border: rgba(0, 0, 0, 0.06);
+  --alpha-bg: #fffffe;
+  --alpha-panel: #fffffe;
+  --alpha-surface: #f5f5f2;
+  --alpha-surface-soft: #ededeb;
+  --alpha-surface-strong: #e2e2de;
+  --alpha-hover-soft: rgba(15, 14, 23, 0.055);
+  --alpha-text: #0f0e17;
+  --alpha-text-muted: #2e2f3e;
+  --alpha-border: rgba(15, 14, 23, 0.12);
+  --alpha-border-strong: rgba(255, 137, 6, 0.5);
+  --alpha-accent: #ff8906;
+  --alpha-accent-hover: #f25f4c;
+  --alpha-accent-contrast: #0f0e17;
+  --alpha-highlight: #ff8906;
+  --alpha-highlight-soft: rgba(255, 137, 6, 0.16);
+  --alpha-highlight-border: rgba(255, 137, 6, 0.4);
+  --alpha-shadow: 0 18px 42px rgba(15, 14, 23, 0.1);
+  --alpha-shell-border: rgba(15, 14, 23, 0.1);
+  --alpha-topbar-chip-border: rgba(15, 14, 23, 0.12);
 }
 
 .alpha-theme.dark {
-  --alpha-bg: #0f1115;
-  --alpha-panel: #181a20;
-  --alpha-surface: #181a20;
-  --alpha-surface-soft: #20232a;
-  --alpha-surface-strong: #111318;
-  --alpha-hover-soft: #20232a;
+  --alpha-bg: #000000;
+  --alpha-panel: #0f0e17;
+  --alpha-surface: #16161f;
+  --alpha-surface-soft: #1c1b27;
+  --alpha-surface-strong: #0b0b10;
+  --alpha-hover-soft: rgba(255, 255, 255, 0.05);
   --alpha-text: #ffffff;
-  --alpha-text-muted: #cbd5e1;
-  --alpha-border: rgba(255, 255, 255, 0.09);
-  --alpha-border-strong: rgba(255, 255, 255, 0.16);
-  --alpha-accent: #ffffff;
-  --alpha-accent-hover: #e5e7eb;
-  --alpha-accent-contrast: #111111;
-  --alpha-highlight: #ffffff;
-  --alpha-highlight-soft: rgba(255, 255, 255, 0.08);
-  --alpha-highlight-border: rgba(255, 255, 255, 0.14);
-  --alpha-shadow: 6px 6px 12px rgba(0, 0, 0, 0.4), -4px -4px 10px rgba(255, 255, 255, 0.03);
-  --alpha-shell-border: rgba(255, 255, 255, 0.05);
-  --alpha-topbar-chip-border: rgba(255, 255, 255, 0.05);
+  --alpha-text-muted: #a7a9be;
+  --alpha-border: rgba(255, 255, 255, 0.08);
+  --alpha-border-strong: rgba(255, 137, 6, 0.42);
+  --alpha-accent: #ff8906;
+  --alpha-accent-hover: #f25f4c;
+  --alpha-accent-contrast: #000000;
+  --alpha-highlight: #ff8906;
+  --alpha-highlight-soft: rgba(255, 137, 6, 0.16);
+  --alpha-highlight-border: rgba(255, 137, 6, 0.38);
+  --alpha-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+  --alpha-shell-border: rgba(255, 255, 255, 0.08);
+  --alpha-topbar-chip-border: rgba(255, 255, 255, 0.1);
 }
 
 .alpha-theme .macos-page-header,
@@ -3914,9 +3916,9 @@ select {
 }
 
 .alpha-theme .dashboard-calendar-nav:hover {
-  border-color: rgba(0, 191, 165, 0.3) !important;
-  background: rgba(0, 191, 165, 0.12) !important;
-  color: #00bfa5 !important;
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-highlight-soft) !important;
+  color: var(--alpha-text) !important;
 }
 
 .alpha-theme .dashboard-calendar-day {
@@ -3944,22 +3946,22 @@ select {
 }
 
 .alpha-theme .dashboard-calendar-day.has-deadline {
-  border-color: rgba(0, 191, 165, 0.28) !important;
-  background: rgba(0, 191, 165, 0.12) !important;
-  color: #00bfa5 !important;
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-highlight-soft) !important;
+  color: var(--alpha-text) !important;
 }
 
 .alpha-theme.light .dashboard-calendar-day.has-deadline {
-  border-color: rgba(0, 121, 107, 0.24) !important;
-  background: rgba(0, 191, 165, 0.14) !important;
-  color: #00796b !important;
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-highlight-soft) !important;
+  color: var(--alpha-text) !important;
 }
 
 .alpha-theme .dashboard-calendar-day.is-selected,
 .alpha-theme .dashboard-calendar-day.is-selected:hover {
-  border-color: #00a991 !important;
-  background: #00bfa5 !important;
-  color: #031b18 !important;
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-highlight) !important;
+  color: var(--alpha-accent-contrast) !important;
 }
 
 .alpha-theme img,

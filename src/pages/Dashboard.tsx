@@ -46,9 +46,9 @@ import { usePrices } from "@/hooks/use-prices";
 import { useCurrencyRate } from "@/hooks/use-currency-rate";
 import { useAirdropRewards } from "@/hooks/use-airdrop-rewards";
 import { CurrencyConverter } from "@/components/dashboard/CurrencyConverter";
-import { emitAirdropsSync, setCachedAirdrops } from "@/lib/airdrops-store";
+import { AIRDROPS_SYNC_EVENT, emitAirdropsSync, setCachedAirdrops } from "@/lib/airdrops-store";
 import type { Airdrop, AirdropType, AirdropStatus } from "@/types";
-import { buildAirdropNotesWithMeta, createAirdrop, getAirdropsByUserId } from "@/services/database";
+import { createAirdrop, getAirdropsByUserId, updateAirdrop } from "@/services/database";
 
 const RewardPerformancePanel = lazy(async () => {
   const module = await import("@/components/rewards/RewardPerformancePanel");
@@ -84,7 +84,7 @@ const EligibilityModal = lazy(async () => {
 const AIRDROP_TYPES: AirdropType[] = [
   'Testnet', 'AI', 'Quest', 'Daily', 'Daily Quest',
   'Retroactive', 'Waitlist', 'Node', 'Depin', 'NFT', 'Domain Name',
-  'Deploy SC', 'DeFi', 'Deploy NFT'
+  'Deploy SC', 'DeFi', 'Deploy NFT', 'GameFi'
 ];
 
 const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
@@ -104,6 +104,7 @@ const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
   'Deploy SC': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
   'DeFi': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
   'Deploy NFT': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
+  'GameFi': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
 };
 
 const STATUS_COLORS: Record<string, { dark: string; light: string }> = {
@@ -992,6 +993,16 @@ function TableRow({
       </td>
 
       <td className="px-4 py-4">
+        {airdrop.email ? (
+          <span className="block max-w-[220px] truncate rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1.5 font-mono text-xs alpha-text">
+            {airdrop.email}
+          </span>
+        ) : (
+          <span className="font-mono text-xs alpha-text-muted">-</span>
+        )}
+      </td>
+
+      <td className="px-4 py-4">
         {airdrop.walletAddress ? (
           <div className="flex w-fit items-center gap-2 rounded-[0.9rem] border border-gold/20 bg-gold/10 px-3 py-1.5 text-gold">
             <Wallet className="w-3.5 h-3.5" />
@@ -1175,6 +1186,7 @@ function DashboardContent() {
         a.projectName.toLowerCase().includes(q) ||
         (a.twitterUsername || '').toLowerCase().includes(q) ||
         (a.walletAddress || '').toLowerCase().includes(q) ||
+        (a.email || '').toLowerCase().includes(q) ||
         (a.funding || '').toLowerCase().includes(q) ||
         (a.potential || '').toLowerCase().includes(q) ||
         (a.waitlistCount != null && 'waitlist'.includes(q)) ||
@@ -1196,6 +1208,24 @@ function DashboardContent() {
     });
   }, [user]);
 
+  useEffect(() => {
+    if (!user || typeof window === 'undefined') return;
+
+    const handleSync = (event: Event) => {
+      const detail = (event as CustomEvent<{ userId?: string }>).detail;
+      if (detail?.userId && detail.userId !== user.id) return;
+
+      getAirdropsByUserId(user.id).then((rows) => {
+        const normalized = (rows || []).map((airdrop) => ({ ...airdrop, isPriority: Boolean(airdrop.isPriority || airdrop.is_priority) }));
+        setAirdrops(normalized);
+        setCachedAirdrops(user.id, normalized);
+      });
+    };
+
+    window.addEventListener(AIRDROPS_SYNC_EVENT, handleSync);
+    return () => window.removeEventListener(AIRDROPS_SYNC_EVENT, handleSync);
+  }, [user]);
+
   const syncDashboardAirdrops = (nextAirdrops: Airdrop[]) => {
     setAirdrops(nextAirdrops);
 
@@ -1215,15 +1245,7 @@ function DashboardContent() {
 
   const handleEditAirdrop = async (data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
     if (!editingAirdrop || !user) return;
-    const { error } = await supabase.from('airdrops').update({
-      project_name: data.projectName, project_logo: data.projectLogo,
-      type: data.type, status: data.status, platform_link: data.platformLink,
-      twitter_username: data.twitterUsername, wallet_address: data.walletAddress,
-      notes: buildAirdropNotesWithMeta(data), tasks: data.tasks || [], priority: data.priority,
-      deadline: data.deadline, is_priority: data.isPriority,
-      updated_at: new Date().toISOString(),
-    }).eq('id', editingAirdrop.id);
-    if (error) return console.error(error);
+    await updateAirdrop(editingAirdrop.id, data);
     const rows = await getAirdropsByUserId(user.id);
     syncDashboardAirdrops(rows.map((airdrop) => ({ ...airdrop, isPriority: Boolean(airdrop.isPriority || airdrop.is_priority) })));
     setEditingAirdrop(null);
@@ -1356,7 +1378,7 @@ function DashboardContent() {
               <table className="w-full macos-table">
                 <thead>
                   <tr className="border-b border-alpha-border bg-[color:var(--alpha-hover-soft)]">
-                    {['NO','NAME','TYPE','WALLET ADDRESS','OFFICIAL LINK','STATUS','CONFIRMED','FUNDING','WAITLIST','POTENTIAL','ACTIONS'].map(h => (
+                    {['NO','NAME','TYPE','EMAIL','WALLET ADDRESS','OFFICIAL LINK','STATUS','CONFIRMED','FUNDING','WAITLIST','POTENTIAL','ACTIONS'].map(h => (
                       <th key={h} className={`px-4 py-3 text-left text-xs font-mono font-medium alpha-text-muted`}>{h}</th>
                     ))}
                   </tr>

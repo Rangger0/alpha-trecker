@@ -56,6 +56,9 @@ const LiveAirdropPage = lazyNamed(() => import('@/pages/LiveAirdropPage'), 'Live
 const ToolsPage = lazyNamed(() => import('@/pages/ToolsPage'), 'ToolsPage');
 const DeployToolsPage = lazyNamed(() => import('@/pages/DeployToolsPage'), 'DeployToolsPage');
 const AIToolsPage = lazyNamed(() => import('@/pages/AIToolsPage'), 'AIToolsPage');
+const ResearchProjectPage = lazyNamed(() => import('@/pages/ResearchProjectPage'), 'ResearchProjectPage');
+const WalletAnalyzerPage = lazyNamed(() => import('@/pages/WalletAnalyzerPage'), 'WalletAnalyzerPage');
+const SybilDetectorPage = lazyNamed(() => import('@/pages/SybilDetectorPage'), 'SybilDetectorPage');
 const SwapPage = lazyNamed(() => import('@/pages/SwapPage'), 'SwapPage');
 const RewardVaultPage = lazyNamed(() => import('@/pages/RewardVaultPage'), 'RewardVaultPage');
 const CalculatorPage = lazyNamed(() => import('@/pages/CalculatorPage'), 'CalculatorPage');
@@ -249,6 +252,18 @@ function AppRoutes() {
             <Route
               path="/ai-tools"
               element={<PageTransition><AIToolsPage /></PageTransition>}
+            />
+            <Route
+              path="/research-project"
+              element={<PageTransition><ResearchProjectPage /></PageTransition>}
+            />
+            <Route
+              path="/wallet-analyzer"
+              element={<PageTransition><WalletAnalyzerPage /></PageTransition>}
+            />
+            <Route
+              path="/sybil-detector"
+              element={<PageTransition><SybilDetectorPage /></PageTransition>}
             />
             <Route
               path="/swap-bridge"

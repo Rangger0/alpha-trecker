@@ -76,6 +76,8 @@ export function DetailedFeatures() {
     direction: 1,
   });
   const viewportRef = useRef<HTMLDivElement>(null);
+  const restartTimeoutRef = useRef<number | null>(null);
+  const [viewportWidth, setViewportWidth] = useState(1);
   const [isCarouselActive, setIsCarouselActive] = useState(false);
   const [dragState, setDragState] = useState({
     isDragging: false,
@@ -89,9 +91,28 @@ export function DetailedFeatures() {
       return undefined;
     }
 
-    if (typeof IntersectionObserver === 'undefined') {
-      setIsCarouselActive(true);
+    const updateViewportWidth = () => setViewportWidth(Math.max(viewport.clientWidth, 1));
+    updateViewportWidth();
+
+    if (typeof ResizeObserver === 'undefined') {
       return undefined;
+    }
+
+    const resizeObserver = new ResizeObserver(updateViewportWidth);
+    resizeObserver.observe(viewport);
+
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) {
+      return undefined;
+    }
+
+    if (typeof IntersectionObserver === 'undefined') {
+      const timeoutId = window.setTimeout(() => setIsCarouselActive(true), 0);
+      return () => window.clearTimeout(timeoutId);
     }
 
     const observer = new IntersectionObserver(
@@ -150,13 +171,28 @@ export function DetailedFeatures() {
   const activeSlide = previewSlides[previewState.index];
 
   const setSlide = (nextIndex: number) => {
+    if (restartTimeoutRef.current !== null) {
+      window.clearTimeout(restartTimeoutRef.current);
+    }
+
     setPreviewState((current) => ({
       index: nextIndex,
       direction: nextIndex >= current.index ? 1 : -1,
     }));
     setIsCarouselActive(false);
-    window.setTimeout(() => setIsCarouselActive(true), 50);
+    restartTimeoutRef.current = window.setTimeout(() => {
+      setIsCarouselActive(true);
+      restartTimeoutRef.current = null;
+    }, 50);
   };
+
+  useEffect(() => {
+    return () => {
+      if (restartTimeoutRef.current !== null) {
+        window.clearTimeout(restartTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const changeSlide = (step: number) => {
     const nextIndex = Math.min(Math.max(previewState.index + step, 0), lastIndex);
@@ -194,8 +230,7 @@ export function DetailedFeatures() {
         return state;
       }
 
-      const width = viewportRef.current?.clientWidth ?? 1;
-      const threshold = width * 0.15;
+      const threshold = viewportWidth * 0.15;
       let nextIndex = previewState.index;
 
       if (Math.abs(state.deltaX) > threshold) {
@@ -216,7 +251,6 @@ export function DetailedFeatures() {
     });
   };
 
-  const viewportWidth = viewportRef.current?.clientWidth ?? 1;
   const dragOffsetPercent = dragState.isDragging
     ? (dragState.deltaX / viewportWidth) * 100
     : 0;

@@ -1,249 +1,112 @@
-<p align="center">
-<img src="./public/alpha-banner.png" width="200">
-</p>
+# Alpha Tracker
 
-<h1 align="center">Alpha-Tracker</h1>
+Alpha Tracker is a premium crypto research and execution workspace for operators who track ecosystems, screen wallets, organize tools, and review airdrop rewards from one dashboard.
 
-<p align="center">
-A productivity dashboard for <b>crypto hunters, airdrop farmers, and Web3 researchers</b>.
-</p>
+The product flow is intentionally simple:
 
-<p align="center">
+1. Research
+2. Tracking
+3. Execution
+4. Reward Review
 
-<img src="https://img.shields.io/badge/React-18-blue">
-<img src="https://img.shields.io/badge/TypeScript-5-blue">
-<img src="https://img.shields.io/badge/Vite-fast-purple">
-<img src="https://img.shields.io/badge/Supabase-backend-green">
-<img src="https://img.shields.io/badge/Vercel-deployment-black">
+## Features
 
-</p>
+- Landing page for the Alpha Tracker workspace positioning and workflow.
+- Supabase authentication with dedicated login and register pages.
+- Dashboard, overview, ecosystem, faucet, swap, AI tools, deploy tools, and reward vault surfaces.
+- Wallet screening, eligibility checking, wallet analyzer, sybil detector, and project research pages.
+- Feedback inbox and floating feedback widget backed by Supabase.
+- Theme system with light and dark Alpha Tracker color tokens.
+- Lazy-loaded routes and split vendor chunks for production performance.
 
----
+## Tech Stack
 
-# 🌐 Live Demo
-
-https://alpha-trecker.vercel.app
-
----
-
-# 🖼 Preview
-
-## Dashboard
-
-![dashboard](./preview/dashboard.png)
-
-## AI Tools
-
-![ai-tools](./preview/ai-tools.png)
-
-## Swap & Bridge
-
-![swap](./preview/swap.png)
-
-## Screening Tools
-
-![screening](./preview/screening.png)
-
----
-
-# 📊 Feature Overview
-
-
-            Alpha Tracker
-                  │
- ┌────────────────┼────────────────┐
- │                │                │
- Dashboard Research Tools Management
-│ │ │
-Projects AI Tools Hub Multi Wallet
-Progress Swap & Bridge Faucet Manager
-Analytics Screening Tools Ecosystem Tracker
-
-
----
-
-# ✨ Features
-
-## 📊 Dashboard
-
-Track your overall airdrop and crypto activity.
-
-- Project progress tracking
-- Success rate monitoring
-- Ecosystem participation
-- Task management
-
----
-
-## 🌍 Ecosystem Manager
-
-Manage blockchain ecosystems and projects.
-
-- Track ecosystem participation
-- Monitor projects
-- Organize opportunities
-
----
-
-## 💧 Faucet Manager
-
-Store and manage testnet faucets.
-
-- Add faucet links
-- Track faucet sources
-- Organize testnet resources
-
----
-
-## 🤖 AI Tools Hub
-
-Quick access to powerful AI tools.
-
-Included:
-
-- ChatGPT
-- Claude
-- DeepSeek
-- Perplexity
-- Phind
-- GitHub Copilot
-- Codeium
-- Tabnine
-
----
-
-## 🔄 Swap & Bridge Tools
-
-Access top DEXs and bridges.
-
-DEX
-
-- Uniswap
-- SushiSwap
-- PancakeSwap
-- Curve
-- Balancer
-
-Aggregators
-
-- Matcha
-- ParaSwap
-- OpenOcean
-- LI.FI
-
-Bridges
-
-- Stargate
-- Across
-- Orbiter
-- Hop
-- LayerZero
-
----
-
-## 🔍 Wallet Screening
-
-Multi-chain wallet activity tools.
-
-Supported chains:
-
-- Ethereum
-- Base
-- Arbitrum
-- Polygon
-- BNB Chain
-- Solana
-- Sui
-
----
-
-## 👥 Multi Account Management
-
-Designed for **airdrop farmers managing multiple wallets**.
-
-- Organize wallet activity
-- Track participation
-- Manage strategies
-
----
-
-# 🛠 Tech Stack
-
-Frontend
-
-- React
+- React 19
 - TypeScript
 - Vite
+- Tailwind CSS
+- Radix UI / shadcn-style components
+- Supabase Auth, database, storage, migrations, and edge functions
+- Vercel-ready deployment config
 
-UI
-
-- TailwindCSS
-- Shadcn UI
-
-Backend
-
-- Supabase
-
-Deployment
-
-- Vercel
-
----
-
-# ⚡ Installation
-
-Clone repository
+## Installation
 
 ```bash
-git clone https://github.com/Rangger0/alpha-trecker.git
-
-Enter folder
-
-cd alpha-trecker
-
-Install dependencies
-
 npm install
+```
 
-Run development server
+## Environment Variables
 
+Create a local environment file and provide the Supabase project values:
+
+```bash
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+Optional integrations used by edge functions or service modules should be configured in Supabase function secrets or deployment environment variables as needed.
+
+## Database Setup
+
+Apply the migrations in `supabase/migrations` to your Supabase project. The app expects Supabase to be the source of truth for important user data, including auth, feedback, rewards, wallets, claims, faucets, and ecosystem records.
+
+```bash
+supabase db push
+```
+
+Feedback-related edge functions live in `supabase/functions`.
+
+## Development
+
+```bash
 npm run dev
+```
 
-Open browser
+Open the local URL printed by Vite, usually:
 
+```text
 http://localhost:5173
-📦 Build
+```
 
-Build production
+## Production Build
 
+```bash
 npm run build
+```
 
-Preview
+Preview the compiled output:
 
+```bash
 npm run preview
-🚀 Roadmap
+```
 
-Planned future features
+## Quality Checks
 
-Airdrop eligibility checker
+```bash
+npm run lint
+npm run build
+```
 
-Wallet analytics
+## Deployment
 
-On-chain tracking
+The repository includes `vercel.json` and is ready for Vercel deployment.
 
-AI research assistant
+1. Connect the GitHub repository to Vercel.
+2. Add the required environment variables.
+3. Deploy from the main branch or a reviewed pull request.
+4. Confirm Supabase migrations and edge-function secrets are applied before production use.
 
-Portfolio analytics
+## Screenshots
 
-Auto airdrop discovery
+Preview assets are available in the `preview` directory:
 
-👨‍💻 Author
+- `preview/dashboard.png`
+- `preview/ai-tools.png`
+- `preview/swap.png`
+- `preview/screening.png`
+
+## Author
 
 Rangger
 
-GitHub
-https://github.com/Rangger0
-
-📜 License
-
-MIT License
+GitHub: https://github.com/Rangger0

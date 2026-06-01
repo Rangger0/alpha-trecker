@@ -153,7 +153,12 @@ export function Sidebar({
     {
       id: "ai",
       title: t("sidebar.section.ai"),
-      links: [{ to: "/ai-tools", icon: Bot, label: t("sidebar.link.aiTools") }],
+      links: [
+        { to: "/ai-tools", icon: Bot, label: t("sidebar.link.aiTools") },
+        { to: "/research-project", icon: Search, label: t("sidebar.link.researchProject") },
+        { to: "/wallet-analyzer", icon: Wallet, label: t("sidebar.link.walletAnalyzer") },
+        { to: "/sybil-detector", icon: ShieldCheck, label: t("sidebar.link.sybilDetector") },
+      ],
     },
     ...(showFeedbackInbox
       ? [

@@ -51,7 +51,7 @@ export async function getPublicUrlFromBuckets(path: string, buckets: string[] = 
       const res = await supabase.storage.from(bucket).getPublicUrl(path);
       const publicUrl = (res as any)?.data?.publicUrl ?? (res as any)?.publicURL ?? (res as any)?.public_url;
       if (publicUrl) return publicUrl;
-    } catch (e) {
+    } catch {
       // ignore and try next bucket
       // (we don't throw here because path might exist in another bucket)
     }

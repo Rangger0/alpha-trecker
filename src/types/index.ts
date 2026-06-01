@@ -12,7 +12,8 @@ export type AirdropType =
   | 'Domain Name' 
   | 'Deploy SC' 
   | 'DeFi' 
-  | 'Deploy NFT';
+  | 'Deploy NFT'
+  | 'GameFi';
 
 export type AirdropStatus = 'Planning' | 'Ongoing' | 'Done' | 'Dropped';
 export type PriorityLevel = 'Low' | 'Medium' | 'High';
@@ -34,6 +35,7 @@ export interface Airdrop {
   platformLink: string;
   twitterUsername: string;
   walletAddress: string;
+  email?: string;
   type: AirdropType;
   status: AirdropStatus;
   notes: string;

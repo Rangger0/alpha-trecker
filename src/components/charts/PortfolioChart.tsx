@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
@@ -25,38 +25,29 @@ interface PortfolioData {
   }[];
 }
 
+const MOCK_PORTFOLIO_DATA: PortfolioData = {
+  totalValue: 12500.50,
+  totalChange: 1250.75,
+  changePercentage: 11.12,
+  distribution: [
+    { name: 'Ethereum', value: 5000, percentage: 40, color: '#627eea' },
+    { name: 'BSC', value: 3000, percentage: 24, color: '#f3ba2f' },
+    { name: 'Polygon', value: 2500, percentage: 20, color: '#8247e5' },
+    { name: 'Arbitrum', value: 2000, percentage: 16, color: '#28a0f0' },
+  ],
+  history: [
+    { date: '2024-01', value: 10000 },
+    { date: '2024-02', value: 10500 },
+    { date: '2024-03', value: 11200 },
+    { date: '2024-04', value: 12500 },
+  ]
+};
+
 export const PortfolioChart: React.FC = () => {
   const { theme } = useTheme();
-  const [data, setData] = useState<PortfolioData>({
-    totalValue: 0,
-    totalChange: 0,
-    changePercentage: 0,
-    distribution: [],
-    history: []
-  });
+  const data = MOCK_PORTFOLIO_DATA;
 
   const isDark = theme === 'dark';
-
-  // Mock data - ganti dengan data real dari API
-  useEffect(() => {
-    setData({
-      totalValue: 12500.50,
-      totalChange: 1250.75,
-      changePercentage: 11.12,
-      distribution: [
-        { name: 'Ethereum', value: 5000, percentage: 40, color: '#627eea' },
-        { name: 'BSC', value: 3000, percentage: 24, color: '#f3ba2f' },
-        { name: 'Polygon', value: 2500, percentage: 20, color: '#8247e5' },
-        { name: 'Arbitrum', value: 2000, percentage: 16, color: '#28a0f0' },
-      ],
-      history: [
-        { date: '2024-01', value: 10000 },
-        { date: '2024-02', value: 10500 },
-        { date: '2024-03', value: 11200 },
-        { date: '2024-04', value: 12500 },
-      ]
-    });
-  }, []);
 
   const maxValue = Math.max(...data.history.map(h => h.value));
   const minValue = Math.min(...data.history.map(h => h.value));

@@ -30,46 +30,46 @@ input, textarea, [contenteditable] {
 
 /* Light fallback */
 
---background: 214 15% 89%;
---foreground: 0 0% 0%;
+--background: 60 100% 100%;
+--foreground: 245 24% 7%;
 
---card: 214 18% 92%;
---card-foreground: 0 0% 0%;
+--card: 245 24% 7%;
+--card-foreground: 60 100% 100%;
 
---popover: 214 18% 92%;
---popover-foreground: 0 0% 0%;
+--popover: 60 100% 100%;
+--popover-foreground: 245 24% 7%;
 
---primary: 0 0% 6%;
---primary-foreground: 0 0% 100%;
+--primary: 31 100% 51%;
+--primary-foreground: 245 24% 7%;
 
---secondary: 214 14% 87%;
---secondary-foreground: 0 0% 0%;
+--secondary: 7 87% 62%;
+--secondary-foreground: 245 24% 7%;
 
---muted: 214 14% 87%;
---muted-foreground: 0 0% 38%;
+--muted: 240 12% 93%;
+--muted-foreground: 236 12% 31%;
 
---accent: 0 0% 6%;
---accent-foreground: 0 0% 100%;
+--accent: 31 100% 51%;
+--accent-foreground: 245 24% 7%;
 
---destructive: 0 0% 22%;
---destructive-foreground: 0 0% 100%;
+--destructive: 338 69% 55%;
+--destructive-foreground: 60 100% 100%;
 
---border: 0 0% 86%;
---input: 0 0% 86%;
---ring: 0 0% 18%;
+--border: 245 24% 7% / 0.12;
+--input: 245 24% 7% / 0.16;
+--ring: 31 100% 51%;
 
 --radius: 0.5rem;
 
 /* Custom Alpha Variables */
---alpha-bg: #dbe0e8;
---alpha-panel: #e9edf3;
---alpha-accent: #111111;
---alpha-accent-hover: #303030;
---alpha-accent-contrast: #ffffff;
---alpha-text: #000000;
---alpha-text-muted: #475569;
---alpha-border: rgba(0, 0, 0, 0.12);
---alpha-surface: #e4e9ef;
+--alpha-bg: #fffffe;
+--alpha-panel: #fffffe;
+--alpha-accent: #ff8906;
+--alpha-accent-hover: #f25f4c;
+--alpha-accent-contrast: #0f0e17;
+--alpha-text: #0f0e17;
+--alpha-text-muted: #2e2f3e;
+--alpha-border: rgba(15, 14, 23, 0.12);
+--alpha-surface: #f5f5f2;
 
 }
 
@@ -80,40 +80,40 @@ input, textarea, [contenteditable] {
 --background: 0 0% 0%;
 --foreground: 0 0% 100%;
 
---card: 0 0% 6%;
+--card: 244 26% 9%;
 --card-foreground: 0 0% 100%;
 
---popover: 0 0% 6%;
+--popover: 244 26% 9%;
 --popover-foreground: 0 0% 100%;
 
---primary: 0 0% 100%;
---primary-foreground: 0 0% 0%;
+--primary: 31 100% 51%;
+--primary-foreground: 244 26% 7%;
 
---secondary: 0 0% 10%;
+--secondary: 7 87% 62%;
 --secondary-foreground: 0 0% 100%;
 
---muted: 0 0% 10%;
---muted-foreground: 0 0% 68%;
+--muted: 244 17% 14%;
+--muted-foreground: 236 12% 70%;
 
---accent: 0 0% 100%;
---accent-foreground: 0 0% 0%;
+--accent: 31 100% 51%;
+--accent-foreground: 244 26% 7%;
 
---destructive: 0 0% 56%;
+--destructive: 349 84% 61%;
 --destructive-foreground: 0 0% 100%;
 
---border: 0 0% 18%;
---input: 0 0% 18%;
---ring: 0 0% 82%;
+--border: 0 0% 100% / 0.08;
+--input: 0 0% 100% / 0.12;
+--ring: 31 100% 51%;
 
 --alpha-bg: #000000;
---alpha-panel: #090909;
---alpha-accent: #ffffff;
---alpha-accent-hover: #d4d4d4;
+--alpha-panel: #0f0e17;
+--alpha-accent: #ff8906;
+--alpha-accent-hover: #f25f4c;
 --alpha-accent-contrast: #000000;
 --alpha-text: #ffffff;
---alpha-text-muted: #cbd5e1;
---alpha-border: rgba(255, 255, 255, 0.12);
---alpha-surface: #101010;
+--alpha-text-muted: #a7a9be;
+--alpha-border: rgba(255, 255, 255, 0.08);
+--alpha-surface: #16161f;
 
 }
 
@@ -154,7 +154,7 @@ body {
   text-rendering: optimizeLegibility;
   overscroll-behavior-y: contain;
 
-  background: #0E0E0E;
+  background: var(--alpha-bg);
   color: var(--alpha-text);
 
 }

@@ -34,18 +34,18 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
 
   return (
     <div className={`alpha-theme ${theme} macos-root macos-auth-shell min-h-screen overflow-hidden`} style={{ background: 'var(--alpha-bg)' }}>
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-70">
         <div
-          className="absolute left-[4%] top-[6%] h-36 w-36 rounded-full blur-2xl opacity-60"
-          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 22%, transparent), transparent 68%)' }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,137,6,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,137,6,0.035) 1px, transparent 1px)',
+            backgroundSize: '56px 56px',
+          }}
         />
         <div
-          className="absolute right-[8%] top-[12%] h-40 w-40 rounded-full blur-2xl opacity-55"
-          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-border) 26%, transparent), transparent 72%)' }}
-        />
-        <div
-          className="absolute bottom-[10%] left-[14%] h-36 w-36 rounded-full blur-2xl opacity-55"
-          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 16%, transparent), transparent 70%)' }}
+          className="absolute inset-x-0 top-0 h-px"
+          style={{ background: 'linear-gradient(90deg, transparent, var(--alpha-highlight), transparent)' }}
         />
       </div>
 
@@ -80,8 +80,8 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                 }}
               />
               <div
-                className="absolute left-[28%] top-[18%] hidden h-48 w-48 rounded-full lg:block"
-                style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 66%)' }}
+                className="absolute left-[28%] top-[18%] hidden h-40 w-px lg:block"
+                style={{ background: 'linear-gradient(180deg, transparent, var(--alpha-highlight), transparent)' }}
               />
             </div>
 
@@ -182,12 +182,14 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
                     }}
                   />
                   <div
-                    className="absolute right-[6%] top-[18%] hidden h-56 w-56 rounded-full sm:block"
-                    style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--alpha-accent) 10%, transparent), transparent 64%)' }}
-                  />
-                  <div
-                    className="absolute right-[8%] top-[20%] hidden h-48 w-48 rounded-full lg:block"
-                    style={{ border: `1px dashed ${shellBorder}` }}
+                    className="absolute right-[8%] top-[20%] hidden h-48 w-48 lg:block"
+                    style={{
+                      border: `1px solid ${shellBorder}`,
+                      backgroundImage:
+                        'linear-gradient(var(--alpha-border) 1px, transparent 1px), linear-gradient(90deg, var(--alpha-border) 1px, transparent 1px)',
+                      backgroundSize: '24px 24px',
+                      transform: 'rotate(8deg)',
+                    }}
                   />
                     <img
                       src="/logo.png"

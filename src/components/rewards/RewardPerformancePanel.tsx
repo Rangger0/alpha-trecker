@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { Bar, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Coins, Sparkles, Trophy } from "lucide-react";
 import { useI18n } from "@/contexts/LanguageContext";
@@ -19,7 +19,7 @@ const getRewardTimelineDate = (reward: AirdropReward) => reward.claimedAt || rew
 
 export function RewardPerformancePanel({
   rewards,
-  isDark: _isDark,
+  isDark,
   className,
   title,
   subtitle,
@@ -30,10 +30,10 @@ export function RewardPerformancePanel({
   const resolvedTitle = title ?? t("rewardVault.title");
   const resolvedSubtitle = subtitle ?? t("rewardVault.timelineSubtitle");
 
-  const formatLabelDate = (value?: string | null) => {
+  const formatLabelDate = useCallback((value?: string | null) => {
     if (!value) return t("rewardPanel.noPayoutYet");
     return formatDate(value, { month: "short", day: "numeric" });
-  };
+  }, [formatDate, t]);
 
   const claimedRewards = useMemo(
     () =>
@@ -80,10 +80,11 @@ export function RewardPerformancePanel({
 
       return timeline;
     }, []);
-  }, [claimedRewards, t]);
+  }, [claimedRewards, formatLabelDate, t]);
 
   const emptyState = claimedRewards.length === 0;
   const dashboardCompact = compact && embedded;
+  const panelToneClass = isDark ? "alpha-text" : "alpha-text";
   const compactSummaryCards = [
     {
       label: t("rewardPanel.totalRealized"),
@@ -148,6 +149,7 @@ export function RewardPerformancePanel({
         embedded ? "" : compact ? "p-4 sm:p-5" : "p-6 sm:p-7",
         embedded ? "" : "before:pointer-events-none before:absolute before:inset-0",
         !embedded && "shadow-none",
+        panelToneClass,
         className
       )}
       style={embedded ? undefined : { backgroundImage: 'none' }}

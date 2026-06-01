@@ -28,7 +28,7 @@ import { generateId } from '@/services/crypto';
 const AIRDROP_TYPES: AirdropType[] = [
   'Testnet', 'AI', 'Quest', 'Daily', 'Daily Quest',
   'Retroactive', 'Waitlist', 'Node', 'Depin', 'NFT', 'Domain Name',
-  'Deploy SC', 'DeFi', 'Deploy NFT'
+  'Deploy SC', 'DeFi', 'Deploy NFT', 'GameFi'
 ];
 
 const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
@@ -72,6 +72,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
   const [platformLink, setPlatformLink] = useState('');
   const [twitterUsername, setTwitterUsername] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
+  const [email, setEmail] = useState('');
   const [type, setType] = useState<AirdropType>('Testnet');
   const [status, setStatus] = useState<AirdropStatus>('Planning');
   const [notes, setNotes] = useState('');
@@ -95,6 +96,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
       setPlatformLink(airdrop.platformLink ?? '');
       setTwitterUsername(airdrop.twitterUsername ?? '');
       setWalletAddress(airdrop.walletAddress ?? '');
+      setEmail(airdrop.email ?? '');
       setType(airdrop.type ?? 'Testnet');
       setStatus(airdrop.status ?? 'Planning');
       setNotes(airdrop.notes ?? '');
@@ -117,6 +119,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
     setPlatformLink('');
     setTwitterUsername('');
     setWalletAddress('');
+    setEmail('');
     setType('Testnet');
     setStatus('Planning');
     setNotes('');
@@ -141,6 +144,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
       platformLink: platformLink.trim(),
       twitterUsername: twitterUsername.trim(),
       walletAddress: walletAddress.trim(),
+      email: email.trim(),
       type,
       status,
       notes: notes.trim(),
@@ -470,6 +474,20 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
                   className="macos-input macos-modal-input"
                 />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="projectEmail" className="macos-modal-label">
+                Email
+              </Label>
+              <Input
+                id="projectEmail"
+                type="email"
+                placeholder="Masukkan email yang digunakan project ini"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="macos-input macos-modal-input"
+              />
             </div>
           </div>
 

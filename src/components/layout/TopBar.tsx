@@ -37,12 +37,6 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
     try {
       await createAirdrop(data, session.user.id);
       setIsAddModalOpen(false);
-
-      if (location.pathname === '/dashboard') {
-        window.location.reload();
-        return;
-      }
-
       invalidateAirdropsCache(session.user.id);
       emitAirdropsSync({ userId: session.user.id });
     } catch (error) {

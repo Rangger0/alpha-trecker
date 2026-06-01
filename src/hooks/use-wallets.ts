@@ -106,7 +106,11 @@ export function useWallets() {
   }) => {
     if (!user) throw new Error('Not authenticated');
 
-    const updateData: any = {
+    const updateData: {
+      updated_at: string;
+      wallet_address?: string;
+      label?: string;
+    } = {
       updated_at: new Date().toISOString(),
     };
 

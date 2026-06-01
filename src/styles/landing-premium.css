@@ -886,3 +886,143 @@
     transform: none !important;
   }
 }
+
+/* Final palette guard: keep older Tailwind color classes readable in both modes. */
+.alpha-theme {
+  background: var(--alpha-bg) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme .alpha-premium-flow-pill,
+.alpha-theme .alpha-premium-stat-card,
+.alpha-theme .alpha-premium-workflow-card,
+.alpha-theme .alpha-premium-note-card,
+.alpha-theme .alpha-premium-mini-metric,
+.alpha-theme .alpha-premium-coverage-card,
+.alpha-theme .alpha-premium-cta-promise,
+.alpha-theme .alpha-premium-command-badge,
+.alpha-theme .alpha-premium-float-card,
+.alpha-theme .alpha-premium-orbit-shell,
+.alpha-theme .alpha-premium-preview-frame,
+.alpha-theme .alpha-premium-command-board,
+.alpha-theme :where([class*="bg-white"], [class*="bg-gray-"], [class*="bg-slate-"], [class*="bg-zinc-"], [class*="bg-neutral-"]) {
+  background: var(--alpha-panel) !important;
+  color: var(--alpha-text) !important;
+  border-color: var(--alpha-border) !important;
+}
+
+.alpha-theme :where([class*="text-gray-9"], [class*="text-slate-9"], [class*="text-zinc-9"], [class*="text-neutral-9"]) {
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme :where([class*="text-gray-"], [class*="text-slate-"], [class*="text-zinc-"], [class*="text-neutral-"], [class*="text-stone-"]) {
+  color: var(--alpha-text-muted) !important;
+}
+
+.alpha-theme.dark :where([class*="text-emerald-"], [class*="text-green-"], [class*="text-cyan-"], [class*="text-sky-"], [class*="text-blue-"]) {
+  color: var(--alpha-success) !important;
+}
+
+.alpha-theme.dark :where([class*="text-yellow-"], [class*="text-amber-"], [class*="text-orange-"]) {
+  color: var(--alpha-highlight) !important;
+}
+
+.alpha-theme.dark :where([class*="text-white"]) {
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme.dark :where([class*="bg-[var(--alpha-signal)]"], [class*="bg-[var(--alpha-highlight)]"], [class*="bg-[color:var(--alpha-highlight)]"])[class*="text-white"],
+.alpha-theme.dark :where([class*="bg-[var(--alpha-signal)]"], [class*="bg-[var(--alpha-highlight)]"], [class*="bg-[color:var(--alpha-highlight)]"]) :where([class*="text-white"]) {
+  color: var(--alpha-accent-contrast) !important;
+}
+
+.alpha-theme.dark :where([class*="bg-emerald-"], [class*="bg-green-"], [class*="bg-cyan-"], [class*="bg-sky-"], [class*="bg-blue-"]) {
+  background: var(--alpha-success) !important;
+  color: #0f0e17 !important;
+}
+
+.alpha-theme.dark :where([class*="bg-yellow-"], [class*="bg-amber-"], [class*="bg-orange-"]) {
+  background: var(--alpha-highlight) !important;
+  color: #0f0e17 !important;
+}
+
+.alpha-theme.light :where([class*="text-blue-"], [class*="text-cyan-"], [class*="text-sky-"], [class*="text-emerald-"], [class*="text-green-"], [class*="text-yellow-"], [class*="text-amber-"], [class*="text-orange-"], [class*="text-purple-"]) {
+  color: var(--alpha-highlight) !important;
+}
+
+.alpha-theme.light :where([class*="bg-blue-"], [class*="bg-cyan-"], [class*="bg-sky-"], [class*="bg-emerald-"], [class*="bg-green-"], [class*="bg-yellow-"], [class*="bg-amber-"], [class*="bg-orange-"], [class*="bg-purple-"]) {
+  background: var(--alpha-highlight) !important;
+  color: #0f0e17 !important;
+}
+
+.alpha-theme :where([class*="border-gray-"], [class*="border-slate-"], [class*="border-zinc-"], [class*="border-neutral-"], [class*="border-white"], [class*="border-blue-"], [class*="border-cyan-"], [class*="border-emerald-"], [class*="border-green-"], [class*="border-yellow-"], [class*="border-amber-"], [class*="border-purple-"]) {
+  border-color: var(--alpha-border) !important;
+}
+
+.alpha-theme :where(button, a, [role="button"], svg) {
+  color: inherit;
+}
+
+.alpha-theme .alpha-premium-flow-pill {
+  background: var(--alpha-surface) !important;
+  color: var(--alpha-text-muted) !important;
+  border-color: var(--alpha-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.alpha-theme .alpha-premium-stat-card,
+.alpha-theme .alpha-premium-workflow-card,
+.alpha-theme .alpha-premium-note-card,
+.alpha-theme .alpha-premium-mini-metric,
+.alpha-theme .alpha-premium-coverage-card,
+.alpha-theme .alpha-premium-cta-promise,
+.alpha-theme .alpha-premium-command-badge,
+.alpha-theme .alpha-premium-float-card,
+.alpha-theme .alpha-premium-orbit-shell,
+.alpha-theme .alpha-premium-preview-frame,
+.alpha-theme .alpha-premium-command-board {
+  background: var(--alpha-card, var(--alpha-panel)) !important;
+  color: var(--alpha-card-heading, var(--alpha-text)) !important;
+  border-color: var(--alpha-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.alpha-theme.light .alpha-premium-stat-card,
+.alpha-theme.light .alpha-premium-workflow-card,
+.alpha-theme.light .alpha-premium-note-card,
+.alpha-theme.light .alpha-premium-mini-metric,
+.alpha-theme.light .alpha-premium-coverage-card,
+.alpha-theme.light .alpha-premium-cta-promise,
+.alpha-theme.light .alpha-premium-command-badge,
+.alpha-theme.light .alpha-premium-float-card,
+.alpha-theme.light .alpha-premium-orbit-shell,
+.alpha-theme.light .alpha-premium-preview-frame,
+.alpha-theme.light .alpha-premium-command-board {
+  background: var(--alpha-card) !important;
+}
+
+.alpha-theme .alpha-premium-stat-label,
+.alpha-theme .alpha-premium-note-label,
+.alpha-theme .alpha-premium-mini-metric-label,
+.alpha-theme .alpha-premium-coverage-label,
+.alpha-theme .alpha-premium-command-badge-label,
+.alpha-theme .alpha-premium-workflow-copy,
+.alpha-theme .alpha-premium-preview-frame-copy,
+.alpha-theme .alpha-premium-float-label {
+  color: var(--alpha-card-paragraph, var(--alpha-text-muted)) !important;
+}
+
+.alpha-theme.dark .alpha-landing-hero-section {
+  background-color: #000000;
+}
+
+.alpha-theme .alpha-landing-kicker,
+.alpha-theme .macos-section-label,
+.alpha-theme .alpha-premium-step-pill,
+.alpha-theme .alpha-premium-workflow-icon,
+.alpha-theme .alpha-premium-mini-metric-icon,
+.alpha-theme .alpha-premium-float-icon {
+  color: var(--alpha-highlight) !important;
+  border-color: var(--alpha-highlight-border) !important;
+  background: var(--alpha-highlight-soft) !important;
+}

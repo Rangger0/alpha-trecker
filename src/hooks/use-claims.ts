@@ -1,5 +1,5 @@
 // src/hooks/use-claims.ts
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface Claim {
@@ -28,14 +28,8 @@ const MOCK_CLAIMS: Claim[] = [
 
 export function useClaims() {
   const { session } = useAuth();
-  const [claims, setClaims] = useState<Claim[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Mock data - replace with API call
-    setClaims(MOCK_CLAIMS);
-    setLoading(false);
-  }, [session]);
+  const [claims] = useState<Claim[]>(() => (session ? MOCK_CLAIMS : []));
+  const loading = false;
 
   return { claims, loading };
 }

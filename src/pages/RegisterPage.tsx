@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AlertCircle, ArrowRight, Eye, EyeOff, Loader2, Lock, Mail } from 'lucide-react';
+import { AlertCircle, ArrowRight, CheckCircle2, Eye, EyeOff, Loader2, Lock, Mail } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ export function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -30,14 +31,25 @@ export function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
+
+    if (!email.trim()) {
+      setError('Email is required.');
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+
+    if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+      setError('Password must include at least one letter and one number.');
       return;
     }
 
@@ -55,7 +67,12 @@ export function RegisterPage() {
         throw new Error('Registration failed.');
       }
 
-      navigate('/overview');
+      if (data.session) {
+        setSuccess('Workspace created. Opening dashboard...');
+        window.setTimeout(() => navigate('/overview'), 350);
+      } else {
+        setSuccess('Account created. Check your email if confirmation is enabled.');
+      }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Registration failed';
       setError(message);
@@ -68,13 +85,13 @@ export function RegisterPage() {
     <div className="macos-auth-card lg:min-h-[548px]">
       <div className="mb-6">
         <h2
-          className="font-[ui-serif,Georgia,serif] text-[2.05rem] font-semibold leading-none sm:text-[2.3rem]"
+          className="text-[2.05rem] font-semibold leading-none tracking-[-0.03em] sm:text-[2.3rem]"
           style={{ color: 'var(--alpha-text)' }}
         >
-          Create Account...
+          Create workspace
         </h2>
         <p className="mt-2 text-sm leading-6" style={{ color: 'var(--alpha-text-muted)' }}>
-          Start with your email and set a secure password.
+          Open a private Alpha Tracker desk for research, tracking, execution, and reward review.
         </p>
       </div>
 
@@ -85,6 +102,13 @@ export function RegisterPage() {
         >
           <AlertCircle className="h-4 w-4 text-[var(--alpha-danger)]" />
           <AlertDescription className="text-[var(--alpha-danger)]">{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {success && (
+        <Alert className="mb-4 border-[color:var(--alpha-success-border)] bg-[color:var(--alpha-success-soft)] text-[color:var(--alpha-success)]">
+          <CheckCircle2 className="h-4 w-4 text-[var(--alpha-success)]" />
+          <AlertDescription className="text-[var(--alpha-success)]">{success}</AlertDescription>
         </Alert>
       )}
 
