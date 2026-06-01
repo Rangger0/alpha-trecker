@@ -33,8 +33,8 @@ input, textarea, [contenteditable] {
 --background: 60 100% 100%;
 --foreground: 245 24% 7%;
 
---card: 245 24% 7%;
---card-foreground: 60 100% 100%;
+--card: 60 100% 100%;
+--card-foreground: 245 24% 7%;
 
 --popover: 60 100% 100%;
 --popover-foreground: 245 24% 7%;

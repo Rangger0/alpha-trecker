@@ -54,8 +54,10 @@ export function AboutPage() {
           <h1 className={`text-3xl font-bold font-mono mb-3 ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
             ALPHA_TRACKER
           </h1>
-          <p className={`font-mono text-sm max-w-md mx-auto ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
-            Track and manage your airdrop portfolio. Organize projects, monitor progress, and never miss an opportunity in the Web3 space.
+          <p className={`font-mono text-sm max-w-2xl mx-auto leading-7 ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
+            Alpha Tracker is a disciplined crypto research and execution workspace. It helps you turn project discovery,
+            wallet tracking, airdrop monitoring, and reward review into one focused workflow instead of scattered notes
+            and tabs.
           </p>
         </div>
 

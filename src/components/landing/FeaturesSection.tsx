@@ -1,103 +1,52 @@
 import type { CSSProperties } from 'react';
-import { ArrowLeftRight, LayoutDashboard, ShieldCheck, Trophy } from 'lucide-react';
+import { BarChart3, FileSearch, ShieldCheck } from 'lucide-react';
 
-const workflowItems = [
+const featureItems = [
   {
-    step: '01',
-    icon: LayoutDashboard,
+    icon: FileSearch,
     title: 'Research',
-    description: 'Start with market context, ecosystem coverage, and source discovery before the lane gets busy.',
-    tags: ['Overview', 'Ecosystems', 'AI desk'],
+    description: 'Discover and analyze opportunities with the project context, signals, and notes that matter.',
   },
   {
-    step: '02',
     icon: ShieldCheck,
     title: 'Tracking',
-    description: 'Keep screening, eligibility, and wallet follow-up close to the signal instead of splitting it away.',
-    tags: ['Screening', 'Eligibility', 'Rewards'],
+    description: 'Monitor funding, tasks, wallets, and execution status without splitting the workflow across tabs.',
   },
   {
-    step: '03',
-    icon: ArrowLeftRight,
-    title: 'Execution',
-    description: 'Move directly into tools, deploy flows, and bridge routes while the context is still visible.',
-    tags: ['Deploy', 'Swap', 'Tools'],
-  },
-  {
-    step: '04',
-    icon: Trophy,
+    icon: BarChart3,
     title: 'Review',
-    description: 'Close the loop with reward status, next actions, and a clearer read on what is worth repeating.',
-    tags: ['Outcomes', 'Priority', 'Next actions'],
-  },
-];
-
-const workflowNotes = [
-  {
-    label: 'Readable by default',
-    value: 'The layout stays calm so the signal always wins over decoration.',
-  },
-  {
-    label: 'Designed for repetition',
-    value: 'Built for daily scanning, not just one impressive first impression.',
-  },
-  {
-    label: 'One operating rhythm',
-    value: 'Research, action, and review live inside the same visual language.',
+    description: 'Review outcomes, understand what worked, and improve decision making for the next cycle.',
   },
 ];
 
 export function FeaturesSection() {
   return (
-    <section id="workflow" className="px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+    <section id="features" className="px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
       <div className="macos-landing-width alpha-premium-section-shell">
         <div className="alpha-premium-section-header" data-stagger>
           <div className="space-y-4">
-            <p className="macos-section-label">Product workflow</p>
-            <h2 className="alpha-landing-section-title">
-              The product is shaped like a disciplined workflow, not a pile of disconnected pages.
-            </h2>
+            <p className="macos-section-label">Features</p>
+            <h2 className="alpha-landing-section-title">A premium workflow for disciplined crypto operators.</h2>
           </div>
 
           <p className="alpha-landing-section-copy alpha-premium-section-copy">
-            Alpha Tracker organizes the full alpha loop into four clear lanes so you can scan, act, and review without losing context.
+            Alpha Tracker keeps the research loop simple: understand the opportunity, track the work, then review the outcome.
           </p>
         </div>
 
-        <div className="alpha-premium-workflow-grid">
-          {workflowItems.map((item, index) => (
+        <div className="alpha-core-feature-grid alpha-core-feature-grid--three">
+          {featureItems.map((item, index) => (
             <article
               key={item.title}
-              className="alpha-premium-workflow-card"
+              className="alpha-core-feature-card"
               data-stagger
-              style={{ '--stagger-delay': `${index * 90}ms` } as CSSProperties}
+              style={{ '--stagger-delay': `${index * 70}ms` } as CSSProperties}
             >
-              <div className="alpha-premium-workflow-card-top">
-                <span className="alpha-premium-step-pill">{item.step}</span>
-                <div className="alpha-premium-workflow-icon">
-                  <item.icon className="h-4 w-4" />
-                </div>
+              <div className="alpha-core-feature-icon">
+                <item.icon className="h-5 w-5" />
               </div>
-
-              <h3 className="alpha-premium-workflow-title">{item.title}</h3>
-              <p className="alpha-premium-workflow-copy">{item.description}</p>
-
-              <div className="alpha-premium-chip-row">
-                {item.tags.map((tag) => (
-                  <span key={tag} className="alpha-premium-chip">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="alpha-premium-workflow-rail" data-stagger style={{ '--stagger-delay': '220ms' } as CSSProperties}>
-          {workflowNotes.map((item) => (
-            <article key={item.label} className="alpha-premium-note-card">
-              <p className="alpha-premium-note-label">{item.label}</p>
-              <p className="alpha-premium-note-value">{item.value}</p>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
             </article>
           ))}
         </div>

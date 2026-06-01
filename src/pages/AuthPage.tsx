@@ -3,23 +3,23 @@ import { AuthLayout } from '@/components/auth/AuthLayout';
 
 const authCopy = {
   login: {
-    title: 'Welcome Back!',
+    title: 'Disciplined execution starts here.',
     subtitle:
-      'Sign in to your Alpha Tracker account and continue managing projects, wallets, and ecosystem progress in one calmer workspace.',
+      'Access your research desk, active opportunities, wallet follow-up, and reward review flow from one focused workspace.',
     features: [
-      'Track multiple airdrop projects',
-      'Monitor ecosystem progress in real time',
-      'Keep notes, wallets, and priorities aligned',
+      'Research and execution in one operating layer',
+      'Wallet, eligibility, and reward context stay connected',
+      'Built for daily review, not noisy speculation',
     ],
   },
   register: {
-    title: 'Join Alpha Tracker!',
+    title: 'Build a cleaner crypto workflow.',
     subtitle:
-      'Create your workspace, organize every ecosystem you follow, and keep your dashboard cleaner from day one.',
+      'Create an Alpha Tracker workspace for structured research, tracking, execution, and outcome review.',
     features: [
-      'Manage ecosystems and project boards in one place',
-      'Keep wallet notes, reminders, and priorities together',
-      'Start with a dashboard flow that stays simple on mobile',
+      'Turn project discovery into a repeatable process',
+      'Keep multiple accounts and actions easier to review',
+      'Use one source of truth across the opportunity cycle',
     ],
   },
 } as const;

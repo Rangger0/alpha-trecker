@@ -1,9 +1,11 @@
 import { Suspense, lazy, startTransition, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Navbar } from '@/components/landing/Navbar';
 import { HeroSection } from '@/components/landing/HeroSection';
+import { AuthSection } from '@/components/landing/AuthSection';
 import { Footer } from '@/components/landing/Footer';
 import { useDeferredVisibility } from '@/hooks/use-deferred-visibility';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, BarChart3, Layers3, ShieldCheck } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 const FeaturesSection = lazy(async () => {
@@ -11,20 +13,52 @@ const FeaturesSection = lazy(async () => {
   return { default: module.FeaturesSection };
 });
 
-const DetailedFeatures = lazy(async () => {
-  const module = await import('@/components/landing/DetailedFeatures');
-  return { default: module.DetailedFeatures };
-});
+const benefitItems = [
+  {
+    icon: Layers3,
+    label: 'Single workspace',
+    value: 'Keep project notes, funding context, and execution status inside one operating layer.',
+  },
+  {
+    icon: ShieldCheck,
+    label: 'Cleaner decisions',
+    value: 'Review outcomes and reduce noise before repeating the next workflow.',
+  },
+  {
+    icon: BarChart3,
+    label: 'Execution rhythm',
+    value: 'Move from discovery to tracking to action without rebuilding context every time.',
+  },
+];
 
-const ProjectsMarquee = lazy(async () => {
-  const module = await import('@/components/landing/ProjectsMarquee');
-  return { default: module.ProjectsMarquee };
-});
+function WorkspaceBenefitsSection() {
+  return (
+    <section id="benefits" className="alpha-workspace-benefits px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <div className="macos-landing-width">
+        <div className="alpha-benefit-header">
+          <p className="macos-section-label">Workspace benefits</p>
+          <h2>Built for research discipline, not lucky clicking.</h2>
+          <p>
+            Alpha Tracker helps you slow down the noisy parts of crypto and keep the important decisions visible,
+            repeatable, and reviewable.
+          </p>
+        </div>
 
-const CTASection = lazy(async () => {
-  const module = await import('@/components/landing/CTASection');
-  return { default: module.CTASection };
-});
+        <div className="alpha-benefit-grid">
+          {benefitItems.map((item) => (
+            <article key={item.label} className="alpha-benefit-card">
+              <div>
+                <item.icon className="h-5 w-5" />
+              </div>
+              <h3>{item.label}</h3>
+              <p>{item.value}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function DeferredLandingSection({
   children,
@@ -165,10 +199,15 @@ function LandingScrollChrome() {
 
 export function LandingPage() {
   const { theme } = useTheme();
+  const location = useLocation();
 
   useEffect(() => {
+    if (location.hash) {
+      return;
+    }
+
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, []);
+  }, [location.hash]);
 
   return (
     <div className={`alpha-theme ${theme} macos-root macos-landing-shell min-h-screen alpha-bg`}>
@@ -179,15 +218,8 @@ export function LandingPage() {
         <DeferredLandingSection placeholderHeight={760}>
           <FeaturesSection />
         </DeferredLandingSection>
-        <DeferredLandingSection placeholderHeight={920}>
-          <DetailedFeatures />
-        </DeferredLandingSection>
-        <DeferredLandingSection placeholderHeight={520}>
-          <ProjectsMarquee />
-        </DeferredLandingSection>
-        <DeferredLandingSection placeholderHeight={380}>
-          <CTASection />
-        </DeferredLandingSection>
+        <WorkspaceBenefitsSection />
+        <AuthSection />
       </main>
       <Footer />
     </div>

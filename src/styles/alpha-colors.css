@@ -140,8 +140,8 @@ html.light,
 
   --background: 60 100% 100%;
   --foreground: 245 24% 7%;
-  --card: 245 24% 7%;
-  --card-foreground: 60 100% 100%;
+  --card: 60 100% 100%;
+  --card-foreground: 245 24% 7%;
   --popover: 60 100% 100%;
   --popover-foreground: 245 24% 7%;
   --primary: 31 100% 51%;
@@ -175,9 +175,9 @@ html.light,
   --alpha-surface: #f5f5f2;
   --alpha-surface-soft: #ededeb;
   --alpha-surface-strong: #e2e2de;
-  --alpha-card: #0f0e17;
-  --alpha-card-heading: #fffffe;
-  --alpha-card-paragraph: #a7a9be;
+  --alpha-card: #fffffe;
+  --alpha-card-heading: #0f0e17;
+  --alpha-card-paragraph: #2e2f3e;
   --alpha-hover-soft: rgba(15, 14, 23, 0.055);
   --alpha-overlay: rgba(15, 14, 23, 0.28);
 

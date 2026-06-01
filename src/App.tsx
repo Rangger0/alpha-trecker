@@ -40,9 +40,6 @@ const lazyDefault = <T extends ComponentType<unknown>>(loader: () => Promise<{ d
 };
 
 const LandingPage = lazyNamed(() => import('@/pages/LandingPage'), 'LandingPage');
-const LoginPage = lazyNamed(() => import('@/pages/LoginPage'), 'LoginPage');
-const RegisterPage = lazyNamed(() => import('@/pages/RegisterPage'), 'RegisterPage');
-const AuthPage = lazyNamed(() => import('@/pages/AuthPage'), 'AuthPage');
 const OverviewPage = lazyNamed(() => import('@/pages/OverviewPage'), 'OverviewPage');
 const EcosystemPage = lazyNamed(() => import('@/pages/EcosystemPage'), 'EcosystemPage');
 const EcosystemDetailPage = lazyNamed(() => import('@/pages/EcosystemDetailPage'), 'EcosystemDetailPage');
@@ -152,15 +149,6 @@ function RouteViewportManager() {
   return null;
 }
 
-function GuestAuthShell() {
-  const { isAuthenticated, isLoading } = useAuth();
-  if (isLoading) {
-    return <AppLoader />;
-  }
-
-  return isAuthenticated ? <Navigate to="/overview" replace /> : <AuthPage />;
-}
-
 function RequireAuth() {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -168,7 +156,7 @@ function RequireAuth() {
     return <AppLoader />;
   }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/#auth" replace />;
 }
 
 function GuestRuntimeShell() {
@@ -209,16 +197,14 @@ function AppRoutes() {
 
       <Suspense fallback={<AppLoader />}>
         <Routes>
-          <Route path="/" element={
-            <PageTransition><LandingPage /></PageTransition>
-          } />
-
           <Route element={<GuestRuntimeShell />}>
-            <Route element={<GuestAuthShell />}>
-              <Route path="login" element={<LoginPage />} />
-              <Route path="register" element={<RegisterPage />} />
-            </Route>
+            <Route path="/" element={
+              <PageTransition><LandingPage /></PageTransition>
+            } />
           </Route>
+
+          <Route path="/login" element={<Navigate to="/?mode=login#auth" replace />} />
+          <Route path="/register" element={<Navigate to="/?mode=register#auth" replace />} />
 
           <Route element={<AppRuntimeShell />}>
             <Route

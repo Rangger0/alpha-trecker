@@ -4,9 +4,9 @@ import { MoonStar, SunMedium } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 const navLinks = [
-  { label: 'Workflow', href: '#workflow' },
-  { label: 'Preview', href: '#preview' },
-  { label: 'Ecosystems', href: '#ecosystems' },
+  { label: 'Features', href: '#features' },
+  { label: 'Benefits', href: '#benefits' },
+  { label: 'Sign In', href: '#auth' },
 ];
 
 export function Navbar() {
@@ -63,7 +63,7 @@ export function Navbar() {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <Link to="/login">
+            <a href="#auth">
               <Button
                 variant="ghost"
                 className="rounded-full px-4 text-sm font-medium transition-opacity duration-150 hover:opacity-85"
@@ -71,9 +71,9 @@ export function Navbar() {
               >
                 Sign In
               </Button>
-            </Link>
+            </a>
 
-            <Link to="/register">
+            <a href="#auth">
               <Button
                 className="macos-btn macos-sheen rounded-full px-5 text-sm font-semibold transition-opacity duration-150 hover:opacity-92"
                 style={{
@@ -82,9 +82,9 @@ export function Navbar() {
                   border: '1px solid color-mix(in srgb, var(--alpha-accent-to) 72%, transparent)',
                 }}
               >
-                Start Free
+                Start Tracking
               </Button>
-            </Link>
+            </a>
 
             <button
               type="button"

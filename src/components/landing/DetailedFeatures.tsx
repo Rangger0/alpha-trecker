@@ -4,16 +4,16 @@ import { ArrowLeftRight, ChevronLeft, ChevronRight, Layers3, MousePointer2, Shie
 
 const previewSlides = [
   {
+    src: '/3.webp',
+    alt: 'Alpha Tracker dashboard screen',
+    label: 'Dashboard',
+    note: 'A realistic product view for daily research, tracking, and execution review.',
+  },
+  {
     src: '/2.webp',
     alt: 'Alpha Tracker overview screen',
     label: 'Overview',
     note: 'Keep priorities, ecosystem coverage, and active lanes visible in one frame.',
-  },
-  {
-    src: '/3.webp',
-    alt: 'Alpha Tracker dashboard screen',
-    label: 'Dashboard',
-    note: 'Daily execution starts from a dashboard that still feels calm under load.',
   },
   {
     src: '/4.webp',
@@ -42,9 +42,9 @@ const previewSlides = [
 ];
 
 const previewPoints = [
+  'Actual product screenshots, not placeholder marketing UI.',
   'One view for market context, priorities, and execution readiness.',
-  'Strong visual hierarchy so users know what matters first.',
-  'Calm monochrome styling with motion used only where it improves clarity.',
+  'Calm dark interface that stays consistent with the dashboard.',
 ];
 
 const previewMetrics = [
@@ -260,12 +260,12 @@ export function DetailedFeatures() {
       <div className="macos-landing-width alpha-premium-preview-board">
         <div className="space-y-6">
           <div className="space-y-4" data-stagger>
-            <p className="macos-section-label">Interface preview</p>
+            <p className="macos-section-label">Dashboard preview</p>
             <h2 className="alpha-landing-section-title">
-              The landing experience previews a product that feels intentional, refined, and ready for daily use.
+              See the workspace as a product, not a promise.
             </h2>
             <p className="alpha-landing-section-copy">
-              Instead of shouting for attention, the interface keeps the right surfaces visible and lets the important moments breathe.
+              The landing page uses the real Alpha Tracker interface so the first impression matches the workspace users actually enter.
             </p>
           </div>
 
@@ -302,7 +302,7 @@ export function DetailedFeatures() {
           <div className="alpha-premium-preview-frame">
             <div className="alpha-premium-preview-frame-head">
               <div>
-                <p className="alpha-premium-preview-eyebrow">Live product canvas</p>
+                <p className="alpha-premium-preview-eyebrow">Product showcase</p>
                 <h3 className="alpha-premium-preview-title">{activeSlide.label}</h3>
               </div>
               <p className="alpha-premium-preview-frame-copy">{activeSlide.note}</p>
@@ -318,7 +318,7 @@ export function DetailedFeatures() {
                 onPointerLeave={handlePointerUp}
               >
                 <div className="alpha-landing-preview-toolbar">
-                  <span className="alpha-landing-preview-toolbar-title">Dashboard preview</span>
+                  <span className="alpha-landing-preview-toolbar-title">Alpha Tracker dashboard preview</span>
                   <span className="alpha-landing-preview-toolbar-meta">
                     {previewState.index + 1} / {previewSlides.length}
                   </span>

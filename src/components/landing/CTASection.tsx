@@ -24,10 +24,10 @@ export function CTASection() {
           <div className="space-y-4">
             <p className="macos-section-label">Start</p>
             <h2 className="alpha-landing-section-title">
-              Use one premium workspace for crypto research, disciplined tracking, and cleaner execution.
+              One Workspace. One Workflow. One Source of Truth.
             </h2>
             <p className="alpha-landing-section-copy">
-              Alpha Tracker is designed to feel sharp the first time and reliable every day after that.
+              Alpha Tracker gives disciplined operators a single place to research, track, execute, and review.
             </p>
           </div>
 
@@ -42,7 +42,7 @@ export function CTASection() {
                     border: '1px solid color-mix(in srgb, var(--alpha-accent-to) 72%, transparent)',
                   }}
                 >
-                  Create Account
+                  Start Free
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
