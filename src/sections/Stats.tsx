@@ -53,7 +53,7 @@ export const Stats: React.FC = () => {
         <Card key={idx} className={`border transition-all duration-300 ${
           isDark 
             ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal-border)]' 
-            : 'bg-white border-[var(--alpha-border)] hover:border-[var(--alpha-signal-border)]'
+            : 'bg-[color:var(--alpha-panel)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal-border)]'
         }`}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">

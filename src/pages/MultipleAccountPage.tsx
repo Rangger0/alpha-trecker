@@ -328,13 +328,13 @@ export function MultipleAccountPage() {
             <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px] xl:items-end">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
-                  <BadgeCheck className="h-3.5 w-3.5 text-gold" />
+                  <BadgeCheck className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
                   Focus wallet desk
                 </div>
 
                 <div className="mt-4 flex items-start gap-4">
                   <div
-                    className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                    className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border shadow-[var(--alpha-shadow)]"
                     style={{
                       borderColor: 'var(--alpha-border)',
                       background: 'color-mix(in srgb, var(--alpha-surface-soft) 92%, transparent)',
@@ -616,7 +616,7 @@ export function MultipleAccountPage() {
       {isAddModalOpen && typeof document !== 'undefined' &&
         createPortal(
           <div
-            className="fixed inset-0 z-[140] overflow-y-auto bg-black/45 px-4 py-5 sm:px-6 sm:py-8"
+            className="fixed inset-0 z-[140] overflow-y-auto bg-[color:var(--alpha-overlay)] px-4 py-5 sm:px-6 sm:py-8"
             onClick={() => setIsAddModalOpen(false)}
           >
             <div className="flex min-h-full items-start justify-center sm:items-center">
@@ -807,7 +807,7 @@ export function MultipleAccountPage() {
 
                 <div
                   className="flex flex-shrink-0 justify-end gap-3 border-t border-dashed px-6 py-4"
-                  style={{ borderColor: isDark ? 'var(--alpha-border)' : 'rgba(156, 163, 175, 0.45)' }}
+                  style={{ borderColor: isDark ? 'var(--alpha-border)' : 'color-mix(in srgb, var(--paragraph-hex) 45%, transparent)' }}
                 >
                   <Button 
                     variant="outline" 

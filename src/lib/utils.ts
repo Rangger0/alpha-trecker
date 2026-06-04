@@ -28,7 +28,7 @@ export function hexToRgb(hex: string | undefined): RGB {
 
 export function hexToRgba(hex: string | undefined, alpha = 1): string {
   const rgb = hexToRgb(hex);
-  if (!rgb) return `rgba(0,0,0,${alpha})`;
+  if (!rgb) return `color-mix(in srgb, var(--background-hex) ${Math.round(alpha * 100)}%, transparent)`;
   return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
 }
 
@@ -37,7 +37,7 @@ export function safeCssColor(hex: string | undefined, alphaForFallback = 1): str
   if (rgb) {
     return hex!.startsWith('#') ? hex! : `#${hex}`;
   }
-  return `rgba(0,0,0,${alphaForFallback})`;
+  return `color-mix(in srgb, var(--background-hex) ${Math.round(alphaForFallback * 100)}%, transparent)`;
 }
 
 /**

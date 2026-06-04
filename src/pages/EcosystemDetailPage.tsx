@@ -40,7 +40,7 @@ export function EcosystemDetailPage() {
   // apply per-ecosystem CSS vars + theme class
   useEffect(() => {
     if (!containerRef.current || !ecosystem) return;
-    setEcosystemCssVars(containerRef.current, ecosystem.color || '#00BFA6', isDark);
+    setEcosystemCssVars(containerRef.current, ecosystem.color || '#b8c1ec', isDark);
 
     // ensure only relevant theme classes exist
     containerRef.current.classList.remove('alpha-theme', 'light', 'dark');
@@ -115,7 +115,7 @@ export function EcosystemDetailPage() {
     }, 0) / assignedProjects.length)
     : 0;
 
-  const accentBase = ecosystem.color || '#00BFA6';
+  const accentBase = ecosystem.color || '#b8c1ec';
 
   return (
     <DashboardLayout disableMonochrome>
@@ -190,13 +190,13 @@ export function EcosystemDetailPage() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <div className="px-4 py-3 rounded-xl border" style={{ background: isDark ? 'var(--alpha-surface-strong)' : 'var(--ecosystem-accent-bg, rgba(0,191,166,0.12))', borderColor: isDark ? 'var(--alpha-border)' : 'var(--ecosystem-accent-border, rgba(0,191,166,0.22))' }}>
+              <div className="px-4 py-3 rounded-xl border" style={{ background: isDark ? 'var(--alpha-surface-strong)' : 'var(--ecosystem-accent-bg, color-mix(in srgb, var(--main-hex) 18%, transparent))', borderColor: isDark ? 'var(--alpha-border)' : 'var(--ecosystem-accent-border, color-mix(in srgb, var(--main-hex) 18%, transparent))' }}>
                 <p className={`text-xs font-mono ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>Projects</p>
                 <p className="text-2xl font-bold font-mono" style={{ color: 'var(--ecosystem-accent, ' + accentBase + ')' }}>
                   {assignedProjects.length}
                 </p>
               </div>
-              <div className="px-4 py-3 rounded-xl border" style={{ background: isDark ? 'var(--alpha-surface-strong)' : 'var(--ecosystem-accent-bg, rgba(0,191,166,0.12))', borderColor: isDark ? 'var(--alpha-border)' : 'var(--ecosystem-accent-border, rgba(0,191,166,0.22))' }}>
+              <div className="px-4 py-3 rounded-xl border" style={{ background: isDark ? 'var(--alpha-surface-strong)' : 'var(--ecosystem-accent-bg, color-mix(in srgb, var(--main-hex) 18%, transparent))', borderColor: isDark ? 'var(--alpha-border)' : 'var(--ecosystem-accent-border, color-mix(in srgb, var(--main-hex) 18%, transparent))' }}>
                 <p className={`text-xs font-mono ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>Progress</p>
                 <p className="text-2xl font-bold font-mono" style={{ color: 'var(--ecosystem-accent, ' + accentBase + ')' }}>
                   {progress}%
@@ -291,7 +291,7 @@ export function EcosystemDetailPage() {
                     <div className="flex items-start gap-3 mb-3">
                       <div
                         className="w-12 h-12 rounded-xl overflow-hidden border flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                        style={{ background: isDark ? 'var(--alpha-surface-strong)' : 'var(--ecosystem-accent-bg, rgba(0,191,166,0.12))', borderColor: isDark ? 'var(--alpha-border)' : 'var(--ecosystem-accent-border, rgba(0,191,166,0.22))' }}
+                        style={{ background: isDark ? 'var(--alpha-surface-strong)' : 'var(--ecosystem-accent-bg, color-mix(in srgb, var(--main-hex) 18%, transparent))', borderColor: isDark ? 'var(--alpha-border)' : 'var(--ecosystem-accent-border, color-mix(in srgb, var(--main-hex) 18%, transparent))' }}
                       >
                         {project.projectLogo ? (
                           <img loading="lazy" src={project.projectLogo} alt={project.projectName} className="w-full h-full object-cover" />
@@ -311,7 +311,7 @@ export function EcosystemDetailPage() {
                         </h4>
                         <span
                           className="text-[10px] font-mono px-1.5 py-0.5 rounded border mt-1 inline-block"
-                          style={{ color: 'var(--ecosystem-accent, ' + accentBase + ')', borderColor: 'var(--ecosystem-accent-border, rgba(0,191,166,0.22))', background: 'var(--ecosystem-accent-bg, rgba(0,191,166,0.12))' }}
+                          style={{ color: 'var(--ecosystem-accent, ' + accentBase + ')', borderColor: 'var(--ecosystem-accent-border, color-mix(in srgb, var(--main-hex) 18%, transparent))', background: 'var(--ecosystem-accent-bg, color-mix(in srgb, var(--main-hex) 18%, transparent))' }}
                         >
                           {project.type}
                         </span>
@@ -349,7 +349,7 @@ export function EcosystemDetailPage() {
 
       {/* Add Project Modal (unchanged) */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 macos-modal" role="dialog" aria-modal="true" aria-label="Add projects modal">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[color:var(--alpha-overlay)] macos-modal" role="dialog" aria-modal="true" aria-label="Add projects modal">
           <div className={`w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-xl border-2 ${isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-signal-border)]' : 'bg-[var(--alpha-panel)] border-[var(--alpha-signal-border)]'}`}>
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">

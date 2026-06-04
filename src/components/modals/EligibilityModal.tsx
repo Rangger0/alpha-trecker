@@ -50,7 +50,7 @@ export const EligibilityModal: React.FC<EligibilityModalProps> = ({ isOpen, onCl
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div 
-        className="absolute inset-0 bg-black/45"
+        className="absolute inset-0 bg-[color:var(--alpha-overlay)]"
         onClick={onClose}
       />
       <div className={`relative z-10 w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-lg border shadow-2xl flex flex-col ${

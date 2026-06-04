@@ -16,7 +16,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'ETH',
     family: 'evm',
     logo: '/logos/ethereum.png',
-    accent: '#627EEA',
+    accent: '#b8c1ec',
   },
   {
     id: 'base',
@@ -24,7 +24,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'BASE',
     family: 'evm',
     logo: '/logos/base.png',
-    accent: '#0052FF',
+    accent: '#b8c1ec',
   },
   {
     id: 'arbitrum',
@@ -32,7 +32,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'ARB',
     family: 'evm',
     logo: '/logos/arbitrum.png',
-    accent: '#28A0F0',
+    accent: '#b8c1ec',
   },
   {
     id: 'polygon',
@@ -40,7 +40,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'POL',
     family: 'evm',
     logo: '/logos/polygon.png',
-    accent: '#8247E5',
+    accent: '#eebbc3',
   },
   {
     id: 'bnbchain',
@@ -48,7 +48,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'BNB',
     family: 'evm',
     logo: '/logos/bnbchain.png',
-    accent: '#F3BA2F',
+    accent: '#eebbc3',
   },
   {
     id: 'avalanche',
@@ -56,7 +56,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'AVAX',
     family: 'evm',
     logo: '/logos/avalanche.png',
-    accent: '#E84142',
+    accent: '#eebbc3',
   },
   {
     id: 'berachain',
@@ -64,7 +64,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'BERA',
     family: 'evm',
     logo: '/logos/berachain.png',
-    accent: '#8BCF50',
+    accent: '#b8c1ec',
   },
   {
     id: 'monad',
@@ -72,7 +72,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'MON',
     family: 'evm',
     logo: '/logos/monad.png',
-    accent: '#8B5CF6',
+    accent: '#eebbc3',
   },
   {
     id: 'pharos',
@@ -80,7 +80,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'PHRS',
     family: 'evm',
     logo: '/logos/pharos.png',
-    accent: '#2563EB',
+    accent: '#b8c1ec',
   },
   {
     id: 'solana',
@@ -88,7 +88,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'SOL',
     family: 'solana',
     logo: '/logos/solana.png',
-    accent: '#14F195',
+    accent: '#b8c1ec',
   },
   {
     id: 'sui',
@@ -96,7 +96,7 @@ export const chainDirectory: ChainDirectoryEntry[] = [
     shortName: 'SUI',
     family: 'sui',
     logo: '/logos/sui.png',
-    accent: '#4DA2FF',
+    accent: '#b8c1ec',
   },
 ];
 

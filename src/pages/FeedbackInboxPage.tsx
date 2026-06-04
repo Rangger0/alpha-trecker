@@ -43,7 +43,7 @@ const STATUS_COPY: Record<
   pending: {
     label: "Pending",
     chipClassName:
-      "border-[color:color-mix(in_srgb,var(--alpha-warning)_24%,transparent)] bg-[color:color-mix(in_srgb,var(--alpha-warning)_12%,transparent)] text-gold",
+      "border-[color:color-mix(in_srgb,var(--alpha-warning)_24%,transparent)] bg-[color:color-mix(in_srgb,var(--alpha-warning)_12%,transparent)] text-[color:var(--alpha-highlight)]",
     dotClassName: "bg-gold",
   },
   notified: {
@@ -402,7 +402,7 @@ export function FeedbackInboxPage() {
                           className={cn(
                             "w-full rounded-[1.45rem] border px-4 py-4 text-left transition-[transform,border-color,background-color,box-shadow] duration-200 hover:-translate-y-0.5",
                             isActive
-                              ? "border-[color:var(--alpha-highlight-border)] bg-[color:color-mix(in_srgb,var(--alpha-highlight)_10%,var(--alpha-surface-soft))] shadow-[0_18px_36px_rgba(0,0,0,0.08)]"
+                              ? "border-[color:var(--alpha-highlight-border)] bg-[color:color-mix(in_srgb,var(--alpha-highlight)_10%,var(--alpha-surface-soft))] shadow-[var(--alpha-shadow)]"
                               : "border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface-soft)]",
                           )}
                         >

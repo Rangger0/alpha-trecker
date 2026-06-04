@@ -7,25 +7,25 @@ const features = [
     icon: LayoutDashboard,
     title: 'Multi-Account Dashboard',
     description: 'Manage multiple wallets & projects in one place.',
-    color: 'from-blue-500 to-blue-600',
+    color: 'from-[color:var(--alpha-main)] to-[color:var(--alpha-main)]',
   },
   {
     icon: Zap,
     title: 'Realtime Airdrop Checker',
     description: 'Check airdrop & task status instantly.',
-    color: 'from-purple-500 to-purple-600',
+    color: 'from-[color:var(--alpha-highlight)] to-[color:var(--alpha-highlight)]',
   },
   {
     icon: Users,
     title: 'Team Collaboration',
     description: 'Invite your team, track progress, and assign tasks together.',
-    color: 'from-green-500 to-green-600',
+    color: 'from-[color:var(--alpha-main)] to-[color:var(--alpha-main)]',
   },
   {
     icon: Shield,
     title: 'Data Privacy & Security',
     description: 'Encrypted data, your privacy & security are protected.',
-    color: 'from-orange-500 to-orange-600',
+    color: 'from-[color:var(--alpha-highlight)] to-[color:var(--alpha-highlight)]',
   },
 ];
 
@@ -38,17 +38,17 @@ export function FeaturesSection() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <span className={`inline-block px-4 py-1 rounded-full text-sm font-medium mb-4 ${
-            isDark ? 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)]' : 'bg-blue-100 text-blue-600'
+            isDark ? 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)]' : 'bg-[color:var(--alpha-signal-soft)] text-[color:var(--alpha-signal)]'
           }`}>
             Features
           </span>
           <h2 className={`text-3xl sm:text-4xl font-bold font-mono mb-4 ${
-            isDark ? 'text-white' : 'text-gray-900'
+            isDark ? 'text-[color:var(--alpha-text)]' : 'text-[color:var(--alpha-text)]'
           }`}>
             Why Use Alpha Tracker?
           </h2>
           <p className={`text-lg max-w-2xl mx-auto ${
-            isDark ? 'text-gray-400' : 'text-gray-600'
+            isDark ? 'text-[color:var(--alpha-text-muted)]' : 'text-[color:var(--alpha-text-muted)]'
           }`}>
             Everything you need for efficient airdrop hunting and project management.
           </p>
@@ -61,18 +61,18 @@ export function FeaturesSection() {
               className={`p-6 rounded-xl border transition-all duration-300 hover:scale-105 ${
                 isDark 
                   ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal)]' 
-                  : 'bg-white border-gray-200 hover:border-blue-300 shadow-sm'
+                  : 'bg-[color:var(--alpha-panel)] border-[color:var(--alpha-border)] hover:border-[color:var(--alpha-signal-border)] shadow-sm'
               }`}
             >
               <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4`}>
-                <feature.icon className="w-6 h-6 text-white" />
+                <feature.icon className="w-6 h-6 text-[color:var(--alpha-text)]" />
               </div>
               <h3 className={`text-lg font-bold font-mono mb-2 ${
-                isDark ? 'text-white' : 'text-gray-900'
+                isDark ? 'text-[color:var(--alpha-text)]' : 'text-[color:var(--alpha-text)]'
               }`}>
                 {feature.title}
               </h3>
-              <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-sm ${isDark ? 'text-[color:var(--alpha-text-muted)]' : 'text-[color:var(--alpha-text-muted)]'}`}>
                 {feature.description}
               </p>
             </div>

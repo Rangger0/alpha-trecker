@@ -93,7 +93,7 @@ export function FloatingFeedback() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="pointer-events-auto group relative flex h-16 w-16 items-center justify-center rounded-[1.45rem] border border-[color:var(--alpha-border-strong)] bg-[color:color-mix(in_srgb,var(--alpha-panel)_90%,transparent)] shadow-[0_16px_38px_rgba(0,0,0,0.24)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[color:var(--alpha-highlight-border)]"
+          className="pointer-events-auto group relative flex h-16 w-16 items-center justify-center rounded-[1.45rem] border border-[color:var(--alpha-border-strong)] bg-[color:color-mix(in_srgb,var(--alpha-panel)_90%,transparent)] shadow-[var(--alpha-shadow)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[color:var(--alpha-highlight-border)]"
           aria-label="Open Robot Live feedback"
           title="Robot Live"
         >
@@ -111,7 +111,7 @@ export function FloatingFeedback() {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
-          className="w-[min(480px,calc(100vw-24px))] max-w-[480px] max-h-[85vh] overflow-auto border-[color:var(--alpha-border)] bg-[color:var(--alpha-panel)] p-0 text-[color:var(--alpha-text)] shadow-[0_32px_80px_rgba(0,0,0,0.32)]"
+          className="w-[min(480px,calc(100vw-24px))] max-w-[480px] max-h-[85vh] overflow-auto border-[color:var(--alpha-border)] bg-[color:var(--alpha-panel)] p-0 text-[color:var(--alpha-text)] shadow-[var(--alpha-shadow)]"
           showCloseButton={false}
         >
           <div className="rounded-[inherit] border border-[color:var(--alpha-border)] bg-[linear-gradient(135deg,color-mix(in_srgb,var(--alpha-highlight)_10%,transparent),transparent_42%)] p-5">

@@ -18,7 +18,7 @@ const codingAI: AITool[] = [
     description: "General-purpose copilot for coding, debugging, planning, and quick product thinking.",
     url: "https://chatgpt.com",
     logo: "/logos/chatgpt.png",
-    accent: "#fafafa",
+    accent: "#fffffe",
     tags: ["coding", "reasoning"],
   },
   {
@@ -26,7 +26,7 @@ const codingAI: AITool[] = [
     description: "Strong long-context assistant for refactors, writing specs, and code review.",
     url: "https://claude.ai",
     logo: "/logos/claude.png",
-    accent: "#D97706",
+    accent: "#eebbc3",
     tags: ["context", "review"],
   },
   {
@@ -34,7 +34,7 @@ const codingAI: AITool[] = [
     description: "Fast analysis assistant with strong document digestion for research-heavy work.",
     url: "https://kimi.moonshot.cn",
     logo: "/logos/kimi.png",
-    accent: "#ffffff",
+    accent: "#fffffe",
     tags: ["docs", "analysis"],
   },
   {
@@ -42,7 +42,7 @@ const codingAI: AITool[] = [
     description: "AI-first editor for codebase chat, edits, and workflow inside the IDE.",
     url: "https://cursor.com",
     logo: "/logos/cursor.png",
-    accent: "#ffffff",
+    accent: "#fffffe",
     tags: ["editor", "ide"],
   },
   {
@@ -50,7 +50,7 @@ const codingAI: AITool[] = [
     description: "Pair programmer for inline completion, chat, and everyday coding assist.",
     url: "https://github.com/features/copilot",
     logo: "/logos/github.png",
-    accent: "#ffffff",
+    accent: "#fffffe",
     tags: ["autocomplete", "pairing"],
   },
   {
@@ -58,7 +58,7 @@ const codingAI: AITool[] = [
     description: "Code editor with agent-style flows for planning, edits, and execution loops.",
     url: "https://windsurf.com/editor",
     logo: "/logos/windsurf.png",
-    accent: "#f1f1f1",
+    accent: "#fffffe",
     tags: ["editor", "agentic"],
   },
   {
@@ -66,7 +66,7 @@ const codingAI: AITool[] = [
     description: "Fast free autocomplete and chat assistant for multi-language dev work.",
     url: "https://codeium.com",
     logo: "/logos/code.png",
-    accent: "#ffffff",
+    accent: "#fffffe",
     tags: ["free", "autocomplete"],
   },
   {
@@ -74,7 +74,7 @@ const codingAI: AITool[] = [
     description: "Browser-first coding assistant for prototypes, apps, and quick product shipping.",
     url: "https://replit.com/ai",
     logo: "/logos/replit.png",
-    accent: "#f96800",
+    accent: "#eebbc3",
     tags: ["browser", "prototype"],
   },
 ];
@@ -85,7 +85,7 @@ const researchAI: AITool[] = [
     description: "Useful for dense reasoning, market reading, and rough technical synthesis.",
     url: "https://www.deepseek.com",
     logo: "/logos/deepseek.png",
-    accent: "#265ee0",
+    accent: "#b8c1ec",
     tags: ["reasoning", "market"],
   },
   {
@@ -93,7 +93,7 @@ const researchAI: AITool[] = [
     description: "Research engine with web grounding for fast fact-finding and exploration.",
     url: "https://www.perplexity.ai",
     logo: "/logos/perplexity.png",
-    accent: "#225e37",
+    accent: "#232946",
     tags: ["web", "research"],
   },
   {
@@ -101,7 +101,7 @@ const researchAI: AITool[] = [
     description: "Source-grounded workspace for studying docs, notes, transcripts, and summaries.",
     url: "https://notebooklm.google.com",
     logo: "/logos/note.png",
-    accent: "#ffffff",
+    accent: "#fffffe",
     tags: ["notes", "source-grounded"],
   },
   {
@@ -109,7 +109,7 @@ const researchAI: AITool[] = [
     description: "Fast real-time assistant that is useful for broad search and current-event context.",
     url: "https://grok.com",
     logo: "/logos/grok.png",
-    accent: "#ffffff",
+    accent: "#fffffe",
     tags: ["realtime", "search"],
   },
   {
@@ -125,7 +125,7 @@ const researchAI: AITool[] = [
     description: "Search-centric assistant with privacy angle and multiple answer modes.",
     url: "https://you.com",
     logo: "/logos/you.png",
-    accent: "#bfa2f1",
+    accent: "#eebbc3",
     tags: ["privacy", "search"],
   },
   {
@@ -133,7 +133,7 @@ const researchAI: AITool[] = [
     description: "Search API and research workflow focused on high-signal web retrieval.",
     url: "https://exa.ai",
     logo: "/logos/exa.png",
-    accent: "#22d3ee",
+    accent: "#b8c1ec",
     tags: ["retrieval", "api"],
   },
   {
@@ -141,7 +141,7 @@ const researchAI: AITool[] = [
     description: "Research assistant for reading papers, comparing evidence, and synthesis.",
     url: "https://elicit.com",
     logo: "/logos/elicit.png",
-    accent: "#34d399",
+    accent: "#b8c1ec",
     tags: ["papers", "evidence"],
   },
 ];
@@ -152,7 +152,7 @@ const agentAI: AITool[] = [
     description: "Agent platform for code tasks that can inspect, edit, and iterate on repos.",
     url: "https://openhands.dev",
     logo: "/logos/openhands.png",
-    accent: "#7dd3fc",
+    accent: "#b8c1ec",
     tags: ["coding agent", "automation"],
   },
   {
@@ -160,7 +160,7 @@ const agentAI: AITool[] = [
     description: "Autonomous workflow runner for long-horizon tasks and chained actions.",
     url: "https://agpt.co",
     logo: "/logos/auto.png",
-    accent: "#381b69",
+    accent: "#232946",
     tags: ["autonomous", "task loop"],
   },
   {
@@ -176,7 +176,7 @@ const agentAI: AITool[] = [
     description: "Framework for building LLM applications, tools, memory, and chains.",
     url: "https://www.langchain.com",
     logo: "/logos/langchain.png",
-    accent: "#86cef4",
+    accent: "#b8c1ec",
     tags: ["framework", "llm apps"],
   },
   {
@@ -184,7 +184,7 @@ const agentAI: AITool[] = [
     description: "Graph-based runtime for stateful multi-step and multi-agent execution.",
     url: "https://www.langchain.com/langgraph",
     logo: "/logos/lang.png",
-    accent: "#27beff",
+    accent: "#b8c1ec",
     tags: ["stateful", "graph"],
   },
   {
@@ -192,7 +192,7 @@ const agentAI: AITool[] = [
     description: "Microsoft framework for agent conversations, tooling, and structured execution.",
     url: "https://microsoft.github.io/autogen/stable/",
     logo: "/logos/ag.png",
-    accent: "#999999",
+    accent: "#b8c1ec",
     tags: ["framework", "microsoft"],
   },
   {
@@ -200,7 +200,7 @@ const agentAI: AITool[] = [
     description: "Visual builder for chatflows, agent graphs, and internal AI automation.",
     url: "https://flowiseai.com",
     logo: "/logos/flowise.png",
-    accent: "#0b4cfe",
+    accent: "#b8c1ec",
     tags: ["visual", "builder"],
   },
   {
@@ -208,7 +208,7 @@ const agentAI: AITool[] = [
     description: "Platform to ship AI apps, workflows, agents, and internal copilots faster.",
     url: "https://dify.ai",
     logo: "/logos/dify.png",
-    accent: "#007bff",
+    accent: "#b8c1ec",
     tags: ["workflow", "app platform"],
   },
 ];
@@ -412,7 +412,7 @@ export function AIToolsPage() {
                   </div>
 
                   <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
-                    <Sparkles className="h-3.5 w-3.5 text-gold" />
+                    <Sparkles className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
                     Curated stack
                   </div>
                 </div>
@@ -433,7 +433,7 @@ export function AIToolsPage() {
         <section className="mt-8">
           <div className="macos-card flex flex-col gap-3 rounded-[1.4rem] p-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-gold/20 bg-gold/10 text-gold">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)]">
                 <Bot className="h-4 w-4" />
               </div>
               <div>
@@ -444,7 +444,7 @@ export function AIToolsPage() {
                 </p>
               </div>
             </div>
-            <span className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-gold">
+            <span className="rounded-full border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[color:var(--alpha-highlight)]">
               Ready to use
             </span>
           </div>

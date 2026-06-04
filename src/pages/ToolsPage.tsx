@@ -273,7 +273,7 @@ export function ToolsPage() {
 
             <div className="mt-4 flex items-start gap-4">
               <div
-                className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border shadow-[var(--alpha-shadow)]"
                 style={{
                   borderColor: 'color-mix(in srgb, var(--alpha-border) 82%, transparent)',
                   background: 'color-mix(in srgb, var(--alpha-surface-soft) 92%, transparent)',

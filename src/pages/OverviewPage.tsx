@@ -293,7 +293,7 @@ including active signals, priorities, and execution surfaces.
           <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px] xl:items-end">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] alpha-text-muted">
-                <Sparkles className="h-3.5 w-3.5 text-gold" />
+                <Sparkles className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
                 Command brief
               </div>
 
@@ -314,7 +314,7 @@ including active signals, priorities, and execution surfaces.
                       {focusProject.projectName[0]?.toUpperCase()}
                     </span>
                   ) : (
-                    <Layers3 className="h-6 w-6 text-gold" />
+                    <Layers3 className="h-6 w-6 text-[color:var(--alpha-highlight)]" />
                   )}
                 </div>
 

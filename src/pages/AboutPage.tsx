@@ -39,7 +39,7 @@ export function AboutPage() {
   const cardBaseClasses = `relative p-6 rounded-xl border transition-all duration-300 ease-out overflow-hidden group`;
   
   const cardThemeClasses =
-    'bg-[var(--alpha-panel)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal)] hover:shadow-[0_0_20px_rgba(255,87,51,0.08)]';
+    'bg-[var(--alpha-panel)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal)] hover:shadow-[var(--alpha-shadow)]';
 
   return (
     <DashboardLayout disableMonochrome>

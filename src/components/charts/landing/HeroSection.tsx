@@ -94,31 +94,31 @@ export function HeroSection() {
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute -top-1/2 -right-1/2 w-full h-full rounded-full blur-3xl animate-pulse ${
-          isDark ? 'bg-[var(--alpha-signal-softest)]' : 'bg-blue-500/5'
+          isDark ? 'bg-[var(--alpha-signal-softest)]' : 'bg-[color:var(--alpha-signal-softest)]'
         }`} />
         <div className={`absolute -bottom-1/2 -left-1/2 w-full h-full rounded-full blur-3xl animate-pulse delay-1000 ${
-          isDark ? 'bg-blue-500/5' : 'bg-purple-500/5'
+          isDark ? 'bg-[color:var(--alpha-signal-softest)]' : 'bg-[color:var(--alpha-highlight-soft)]'
         }`} />
       </div>
 
       <div className="max-w-7xl mx-auto text-center relative z-10">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-[var(--alpha-signal-soft)] border border-blue-200 dark:border-[var(--alpha-signal-border)] mb-8 animate-fade-in-up">
-          <Sparkles className={`w-4 h-4 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-blue-600'} animate-pulse`} />
-          <span className={`text-sm font-medium ${isDark ? 'text-[var(--alpha-signal)]' : 'text-blue-600'}`}>
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[color:var(--alpha-signal-soft)] dark:bg-[var(--alpha-signal-soft)] border border-[color:var(--alpha-signal-border)] dark:border-[var(--alpha-signal-border)] mb-8 animate-fade-in-up">
+          <Sparkles className={`w-4 h-4 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[color:var(--alpha-signal)]'} animate-pulse`} />
+          <span className={`text-sm font-medium ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[color:var(--alpha-signal)]'}`}>
             Alpha Tracker 2.10 - Public Beta
           </span>
         </div>
 
         {/* Headline */}
         <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-bold font-mono mb-6 leading-tight animate-fade-in-up delay-100 ${
-          isDark ? 'text-white' : 'text-gray-900'
+          isDark ? 'text-[color:var(--alpha-text)]' : 'text-[color:var(--alpha-text)]'
         }`}>
           The Project Tool For{' '}
           <span className={`bg-gradient-to-r ${
             isDark 
-              ? 'from-[var(--alpha-signal)] to-[#00D4FF]' 
-              : 'from-blue-600 to-purple-600'
+              ? 'from-[var(--alpha-signal)] to-[color:var(--alpha-main)]' 
+              : 'from-[color:var(--alpha-main)] to-[color:var(--alpha-highlight)]'
           } bg-clip-text text-transparent animate-gradient`}>
             Airdroppers
           </span>
@@ -126,7 +126,7 @@ export function HeroSection() {
 
         {/* Subheadline */}
         <p className={`text-lg sm:text-xl max-w-2xl mx-auto mb-10 animate-fade-in-up delay-200 ${
-          isDark ? 'text-gray-400' : 'text-gray-600'
+          isDark ? 'text-[color:var(--alpha-text-muted)]' : 'text-[color:var(--alpha-text-muted)]'
         }`}>
           Explore your data, build your dashboard, bring your team together. 
           Stop hunting, start building your airdrop empire.
@@ -138,7 +138,7 @@ export function HeroSection() {
             <Button className={`h-12 px-8 text-base font-mono group ${
               isDark 
                 ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] hover:bg-[var(--alpha-signal-press)] hover:scale-105' 
-                : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:opacity-90 hover:scale-105'
+                : 'bg-gradient-to-r from-[color:var(--alpha-main)] to-[color:var(--alpha-highlight)] text-[color:var(--alpha-text)] hover:opacity-90 hover:scale-105'
             } transition-all duration-300`}>
               Get Started - It's Free
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -147,8 +147,8 @@ export function HeroSection() {
           <Link to="/login">
             <Button variant="outline" className={`h-12 px-8 text-base font-mono border-2 group ${
               isDark 
-                ? 'border-[var(--alpha-border)] text-gray-300 hover:bg-[var(--alpha-hover-soft)] hover:scale-105' 
-                : 'border-gray-300 text-gray-700 hover:bg-gray-50 hover:scale-105'
+                ? 'border-[var(--alpha-border)] text-[color:var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)] hover:scale-105' 
+                : 'border-[color:var(--alpha-border)] text-[color:var(--alpha-text)] hover:bg-[color:var(--alpha-surface-soft)] hover:scale-105'
             } transition-all duration-300`}>
               Learn More 
               <ChevronDown className="ml-2 w-4 h-4 group-hover:translate-y-1 transition-transform" />
@@ -159,36 +159,36 @@ export function HeroSection() {
         {/* Terminal Preview */}
         <div className="mt-16 relative animate-fade-in-up delay-500">
           <div className={`absolute -inset-1 bg-gradient-to-r ${
-            isDark ? 'from-[var(--alpha-signal-strong)] to-blue-500/20' : 'from-blue-500/20 to-purple-500/20'
+            isDark ? 'from-[var(--alpha-signal-strong)] to-[color:color-mix(in_srgb,var(--alpha-main)_20%,transparent)]' : 'from-[color:color-mix(in_srgb,var(--alpha-main)_20%,transparent)] to-[color:color-mix(in_srgb,var(--alpha-highlight)_20%,transparent)]'
           } rounded-2xl blur-xl animate-pulse`} />
           
           <div className={`relative rounded-xl overflow-hidden border shadow-2xl ${
-            isDark ? 'border-[var(--alpha-border)] bg-[var(--alpha-surface-strong)]' : 'border-gray-200 bg-white'
+            isDark ? 'border-[var(--alpha-border)] bg-[var(--alpha-surface-strong)]' : 'border-[color:var(--alpha-border)] bg-[color:var(--alpha-panel)]'
           }`}>
             <div className={`h-10 flex items-center px-4 border-b ${
-              isDark ? 'border-[var(--alpha-border)] bg-[var(--alpha-surface)]' : 'border-gray-200 bg-gray-50'
+              isDark ? 'border-[var(--alpha-border)] bg-[var(--alpha-surface)]' : 'border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface-soft)]'
             }`}>
               <div className="flex items-center gap-2">
-                <span className={`text-xs font-mono ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                <span className={`text-xs font-mono ${isDark ? 'text-[color:var(--alpha-text-muted)]' : 'text-[color:var(--alpha-text-muted)]'}`}>
                   alpha-tracker
                 </span>
-                <span className={`text-xs ${isDark ? 'text-gray-600' : 'text-gray-300'}`}>—</span>
-                <span className={`text-xs font-mono ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                <span className={`text-xs ${isDark ? 'text-[color:var(--alpha-text-muted)]' : 'text-[color:var(--alpha-text-muted)]'}`}>—</span>
+                <span className={`text-xs font-mono ${isDark ? 'text-[color:var(--alpha-text-muted)]' : 'text-[color:var(--alpha-text-muted)]'}`}>
                   bash
                 </span>
               </div>
             </div>
             
             <div className="p-6 text-left font-mono text-sm">
-              <div className={isDark ? 'text-[var(--alpha-signal)]' : 'text-blue-600'}>
+              <div className={isDark ? 'text-[var(--alpha-signal)]' : 'text-[color:var(--alpha-signal)]'}>
                 {typedText}
                 <span className="animate-blink">_</span>
               </div>
-              <div className={`mt-4 space-y-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              <div className={`mt-4 space-y-1 ${isDark ? 'text-[color:var(--alpha-text-muted)]' : 'text-[color:var(--alpha-text-muted)]'}`}>
                 <div className="animate-fade-in delay-500">{'>'} Initializing dashboard...</div>
                 <div className="animate-fade-in delay-700">{'>'} Loading portfolio data...</div>
                 <div className="animate-fade-in delay-900">{'>'} Syncing 12 wallets...</div>
-                <div className={`animate-fade-in delay-1100 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-green-600'}`}>
+                <div className={`animate-fade-in delay-1100 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[color:var(--alpha-success)]'}`}>
                   {'>'} Ready! Found 3 new airdrop opportunities
                 </div>
               </div>
@@ -208,8 +208,8 @@ export function HeroSection() {
           {/* Glow Background */}
           <div className={`absolute -inset-4 bg-gradient-to-r ${
             isDark 
-              ? 'from-[var(--alpha-signal-strong)] via-blue-500/20 to-purple-500/20' 
-              : 'from-blue-500/20 via-purple-500/20 to-pink-500/20'
+              ? 'from-[var(--alpha-signal-strong)] via-[color:color-mix(in_srgb,var(--alpha-main)_20%,transparent)] to-[color:color-mix(in_srgb,var(--alpha-highlight)_20%,transparent)]' 
+              : 'from-[color:color-mix(in_srgb,var(--alpha-main)_20%,transparent)] via-[color:color-mix(in_srgb,var(--alpha-highlight)_20%,transparent)] to-[color:color-mix(in_srgb,var(--alpha-highlight)_20%,transparent)]'
           } rounded-3xl blur-2xl animate-pulse`} />
 
           {/* Slider Container */}
@@ -220,7 +220,7 @@ export function HeroSection() {
               className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 ${
                 isDark 
                   ? 'bg-[var(--alpha-surface)] border border-[var(--alpha-signal)] text-[var(--alpha-signal)] shadow-[0_0_20px_var(--alpha-signal-glow)]' 
-                  : 'bg-white border border-blue-300 text-blue-600 shadow-lg'
+                  : 'bg-[color:var(--alpha-panel)] border border-[color:var(--alpha-signal-border)] text-[color:var(--alpha-signal)] shadow-lg'
               }`}
             >
               <ChevronLeft className="w-6 h-6" />
@@ -231,7 +231,7 @@ export function HeroSection() {
               className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 ${
                 isDark 
                   ? 'bg-[var(--alpha-surface)] border border-[var(--alpha-signal)] text-[var(--alpha-signal)] shadow-[0_0_20px_var(--alpha-signal-glow)]' 
-                  : 'bg-white border border-blue-300 text-blue-600 shadow-lg'
+                  : 'bg-[color:var(--alpha-panel)] border border-[color:var(--alpha-signal-border)] text-[color:var(--alpha-signal)] shadow-lg'
               }`}
             >
               <ChevronRight className="w-6 h-6" />
@@ -241,7 +241,7 @@ export function HeroSection() {
             <div className={`relative rounded-2xl overflow-hidden border-2 transition-all duration-500 group-hover:shadow-2xl ${
               isDark 
                 ? 'border-[var(--alpha-border)] shadow-[0_0_50px_var(--alpha-signal-glow)]' 
-                : 'border-gray-200 shadow-xl'
+                : 'border-[color:var(--alpha-border)] shadow-xl'
             }`}>
               
               {/* Slider Track */}
@@ -258,8 +258,8 @@ export function HeroSection() {
                       {/* Glow on hover */}
                       <div className={`absolute -inset-1 rounded-xl transition-all duration-500 opacity-0 group-hover/slide:opacity-100 ${
                         isDark 
-                          ? 'bg-gradient-to-r from-[var(--alpha-signal-strong)] to-blue-500/30' 
-                          : 'bg-gradient-to-r from-blue-500/30 to-purple-500/30'
+                          ? 'bg-gradient-to-r from-[var(--alpha-signal-strong)] to-[color:color-mix(in_srgb,var(--alpha-main)_30%,transparent)]' 
+                          : 'bg-gradient-to-r from-[color:color-mix(in_srgb,var(--alpha-main)_30%,transparent)] to-[color:color-mix(in_srgb,var(--alpha-highlight)_30%,transparent)]'
                       } blur-xl`} />
 
                       <div className="relative overflow-hidden rounded-xl">
@@ -277,20 +277,20 @@ export function HeroSection() {
                         
                         {/* Fallback */}
                         <div 
-                          className="hidden w-full aspect-video items-center justify-center bg-[var(--alpha-surface)] text-gray-400 font-mono"
+                          className="hidden w-full aspect-video items-center justify-center bg-[var(--alpha-surface)] text-[color:var(--alpha-text-muted)] font-mono"
                         >
                           <div className="text-center">
                             <div className="text-5xl mb-3">📊</div>
                             <div className="text-sm">{image.label}</div>
-                            <div className="text-xs text-gray-600 mt-1">Add {image.src} to public folder</div>
+                            <div className="text-xs text-[color:var(--alpha-text-muted)] mt-1">Add {image.src} to public folder</div>
                           </div>
                         </div>
 
                         {/* Label */}
                         <div className={`absolute bottom-0 left-0 right-0 p-4 transition-all duration-300 translate-y-full group-hover/slide:translate-y-0 ${
-                          isDark ? 'bg-gradient-to-t from-black/80 to-transparent' : 'bg-gradient-to-t from-white/80 to-transparent'
+                          isDark ? 'bg-gradient-to-t from-[color:var(--alpha-overlay)] to-transparent' : 'bg-gradient-to-t from-[color:color-mix(in_srgb,var(--alpha-card)_80%,transparent)] to-transparent'
                         }`}>
-                          <p className={`font-mono font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                          <p className={`font-mono font-bold ${isDark ? 'text-[color:var(--alpha-text)]' : 'text-[color:var(--alpha-text)]'}`}>
                             {image.label}
                           </p>
                         </div>
@@ -313,10 +313,10 @@ export function HeroSection() {
                       currentSlide === index
                         ? isDark 
                           ? 'bg-[var(--alpha-signal)] w-8 shadow-[0_0_10px_var(--alpha-signal-glow)]' 
-                          : 'bg-blue-600 w-8'
+                          : 'bg-[color:var(--alpha-signal)] w-8'
                         : isDark
-                          ? 'bg-gray-600 hover:bg-gray-500'
-                          : 'bg-gray-300 hover:bg-gray-400'
+                          ? 'bg-[color:var(--alpha-text-muted)] hover:bg-[color:var(--alpha-surface-soft)]0'
+                          : 'bg-[color:var(--alpha-border)] hover:bg-[color:var(--alpha-border-strong)]'
                     }`}
                   />
                 ))}
@@ -326,7 +326,7 @@ export function HeroSection() {
 
           {/* Description */}
           <div className="mt-6 text-center">
-            <p className={`text-sm font-mono ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-sm font-mono ${isDark ? 'text-[color:var(--alpha-text-muted)]' : 'text-[color:var(--alpha-text-muted)]'}`}>
               Preview of your personalized dashboard • Hover to zoom • Click arrows to navigate
             </p>
           </div>

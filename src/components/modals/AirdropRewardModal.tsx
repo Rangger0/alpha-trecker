@@ -152,7 +152,7 @@ export function AirdropRewardModal({
             <div className="flex items-start justify-between gap-4">
               <DialogHeader className="flex-1 border-0 pb-0 text-left">
                 <div className="inline-flex w-fit items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] alpha-text-muted">
-                  <Sparkles className="h-3.5 w-3.5 text-gold" />
+                  <Sparkles className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
                   {t("rewardModal.badge")}
                 </div>
                 <DialogTitle className="mt-4 text-2xl font-semibold alpha-text">
@@ -278,9 +278,9 @@ export function AirdropRewardModal({
                 <div className="rounded-2xl border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4">
                   <div className="flex items-center justify-between">
                     <p className="text-[10px] uppercase tracking-[0.22em] alpha-text-muted">{t("rewardModal.netProfit")}</p>
-                    <TrendingUp className={`h-4 w-4 ${netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]"}`} />
+                    <TrendingUp className={`h-4 w-4 ${netProfit >= 0 ? "text-[color:var(--alpha-highlight)]" : "text-[var(--alpha-danger)]"}`} />
                   </div>
-                  <p className={`mt-2 text-xl font-semibold ${netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]"}`}>
+                  <p className={`mt-2 text-xl font-semibold ${netProfit >= 0 ? "text-[color:var(--alpha-highlight)]" : "text-[var(--alpha-danger)]"}`}>
                     {formatCurrency(netProfit)}
                   </p>
                   <p className="mt-1 text-xs alpha-text-muted">{t("rewardModal.roi", { value: formatPercent(roi) })}</p>

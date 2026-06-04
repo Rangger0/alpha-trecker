@@ -93,20 +93,20 @@
   display: inline-flex;
   align-items: center;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #202020;
+  border: 1px solid color-mix(in srgb, var(--card-hex) 10%, transparent);
+  background: var(--dark-surface-hex);
   padding: 0.75rem 1rem;
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #9A9A9A;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
+  color: var(--muted-4-hex);
+  box-shadow: 4px 4px 8px color-mix(in srgb, var(--background-hex) 52%, transparent), -2px -2px 6px color-mix(in srgb, var(--card-hex) 10%, transparent);
   transition: all 0.2s ease;
 }
 
 .alpha-premium-flow-pill:hover {
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.6), -3px -3px 8px rgba(255, 255, 255, 0.05);
+  box-shadow: 6px 6px 12px color-mix(in srgb, var(--background-hex) 52%, transparent), -3px -3px 8px color-mix(in srgb, var(--card-hex) 10%, transparent);
 }
 
 .alpha-premium-stat-grid {
@@ -135,9 +135,9 @@
   border: 1px solid var(--alpha-border);
   border-radius: 1.35rem;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.055), transparent 28%),
+    linear-gradient(180deg, color-mix(in srgb, var(--card-hex) 10%, transparent), transparent 28%),
     var(--alpha-panel);
-  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.48);
+  box-shadow: 0 34px 90px color-mix(in srgb, var(--background-hex) 52%, transparent);
 }
 
 .alpha-hero-product-toolbar {
@@ -173,7 +173,7 @@
 .alpha-hero-product-image-wrap {
   max-height: clamp(15rem, 40vh, 29rem);
   overflow: hidden;
-  background: #06060a;
+  background: var(--dark-surface-hex);
 }
 
 .alpha-hero-product-image {
@@ -230,9 +230,9 @@
 .alpha-premium-float-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #181818;
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  border: 1px solid color-mix(in srgb, var(--card-hex) 10%, transparent);
+  background: var(--dark-surface-hex);
+  box-shadow: 6px 6px 12px color-mix(in srgb, var(--background-hex) 52%, transparent), -4px -4px 10px color-mix(in srgb, var(--card-hex) 10%, transparent);
   transition: all 0.2s ease;
 }
 
@@ -300,9 +300,9 @@
   width: min(100%, var(--alpha-orbit-size));
   aspect-ratio: 1;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #181818;
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03), inset 0 1px 2px rgba(255, 255, 255, 0.05);
+  border: 1px solid color-mix(in srgb, var(--card-hex) 10%, transparent);
+  background: var(--dark-surface-hex);
+  box-shadow: 6px 6px 12px color-mix(in srgb, var(--background-hex) 52%, transparent), -4px -4px 10px color-mix(in srgb, var(--card-hex) 10%, transparent), inset 0 1px 2px color-mix(in srgb, var(--card-hex) 10%, transparent);
   isolation: isolate;
   transition: transform 0.2s ease, opacity 0.2s ease;
   will-change: transform, opacity;
@@ -313,7 +313,7 @@
   position: absolute;
   inset: 6%;
   border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid color-mix(in srgb, var(--card-hex) 10%, transparent);
   opacity: 0.4;
 }
 
@@ -322,7 +322,7 @@
   position: absolute;
   inset: -6%;
   border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid color-mix(in srgb, var(--card-hex) 10%, transparent);
   opacity: 0.15;
 }
 
@@ -335,7 +335,7 @@
   position: absolute;
   inset: 7%;
   border-radius: inherit;
-  border: 1px solid color-mix(in srgb, white 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--card-hex) 10%, transparent);
   animation: alpha-premium-orbit-track 24s linear infinite;
 }
 
@@ -367,10 +367,10 @@
   z-index: 3;
   width: min(18rem, calc(100% - 3rem));
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #181818;
+  border: 1px solid color-mix(in srgb, var(--card-hex) 10%, transparent);
+  background: var(--dark-surface-hex);
   padding: 1rem 1.2rem;
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  box-shadow: 6px 6px 12px color-mix(in srgb, var(--background-hex) 52%, transparent), -4px -4px 10px color-mix(in srgb, var(--card-hex) 10%, transparent);
   text-align: left;
 }
 
@@ -404,7 +404,7 @@
   animation: alpha-premium-float 10s ease-in-out infinite;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  box-shadow: 6px 6px 12px color-mix(in srgb, var(--background-hex) 52%, transparent), -4px -4px 10px color-mix(in srgb, var(--card-hex) 10%, transparent);
 }
 
 .alpha-premium-float-card--one {
@@ -446,10 +446,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #202020;
+  border: 1px solid color-mix(in srgb, var(--card-hex) 10%, transparent);
+  background: var(--dark-surface-hex);
   color: var(--alpha-text);
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 6px rgba(255, 255, 255, 0.04);
+  box-shadow: 4px 4px 8px color-mix(in srgb, var(--background-hex) 52%, transparent), -2px -2px 6px color-mix(in srgb, var(--card-hex) 10%, transparent);
 }
 
 .alpha-premium-float-label {
@@ -476,9 +476,9 @@
 .alpha-premium-cta-shell {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #181818;
-  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.6), -4px -4px 10px rgba(255, 255, 255, 0.03);
+  border: 1px solid color-mix(in srgb, var(--card-hex) 10%, transparent);
+  background: var(--dark-surface-hex);
+  box-shadow: 8px 8px 16px color-mix(in srgb, var(--background-hex) 52%, transparent), -4px -4px 10px color-mix(in srgb, var(--card-hex) 10%, transparent);
 }
 
 .alpha-premium-command-board {
@@ -683,7 +683,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255,255,255,0.055), transparent 30%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card-hex) 10%, transparent), transparent 30%);
 }
 
 .alpha-core-feature-icon {
@@ -1199,12 +1199,12 @@
 
 .alpha-theme.dark :where([class*="bg-emerald-"], [class*="bg-green-"], [class*="bg-cyan-"], [class*="bg-sky-"], [class*="bg-blue-"]) {
   background: var(--alpha-success) !important;
-  color: #0f0e17 !important;
+  color: var(--alpha-card-heading) !important;
 }
 
 .alpha-theme.dark :where([class*="bg-yellow-"], [class*="bg-amber-"], [class*="bg-orange-"]) {
   background: var(--alpha-highlight) !important;
-  color: #0f0e17 !important;
+  color: var(--alpha-card-heading) !important;
 }
 
 .alpha-theme.light :where([class*="text-blue-"], [class*="text-cyan-"], [class*="text-sky-"], [class*="text-emerald-"], [class*="text-green-"], [class*="text-yellow-"], [class*="text-amber-"], [class*="text-orange-"], [class*="text-purple-"]) {
@@ -1213,7 +1213,7 @@
 
 .alpha-theme.light :where([class*="bg-blue-"], [class*="bg-cyan-"], [class*="bg-sky-"], [class*="bg-emerald-"], [class*="bg-green-"], [class*="bg-yellow-"], [class*="bg-amber-"], [class*="bg-orange-"], [class*="bg-purple-"]) {
   background: var(--alpha-highlight) !important;
-  color: #0f0e17 !important;
+  color: var(--alpha-card-heading) !important;
 }
 
 .alpha-theme :where([class*="border-gray-"], [class*="border-slate-"], [class*="border-zinc-"], [class*="border-neutral-"], [class*="border-white"], [class*="border-blue-"], [class*="border-cyan-"], [class*="border-emerald-"], [class*="border-green-"], [class*="border-yellow-"], [class*="border-amber-"], [class*="border-purple-"]) {
@@ -1280,7 +1280,7 @@
 }
 
 .alpha-theme.dark .alpha-landing-hero-section {
-  background-color: #000000;
+  background-color: var(--background-hex);
 }
 
 .alpha-theme .alpha-landing-kicker,
@@ -1295,6 +1295,113 @@
 }
 
 /* Auth redesign */
+
+/* =============================
+   Final palette guard (spec)
+   Styling-only override to ensure
+   no remaining legacy palette colors
+   on landing premium components.
+   ============================= */
+
+.alpha-premium-hero,
+.alpha-premium-flow-pill,
+.alpha-premium-stat-card,
+.alpha-premium-workflow-card,
+.alpha-premium-note-card,
+.alpha-premium-mini-metric,
+.alpha-premium-coverage-card,
+.alpha-premium-cta-promise,
+.alpha-premium-command-badge,
+.alpha-premium-float-card,
+.alpha-premium-orbit-shell,
+.alpha-premium-orbit-caption,
+.alpha-premium-preview-frame,
+.alpha-premium-ecosystem-stage,
+.alpha-premium-cta-shell,
+.alpha-premium-command-board {
+  border-color: var(--alpha-border) !important;
+  background-color: var(--alpha-panel) !important;
+  color: var(--alpha-text) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.alpha-premium-hero .alpha-window-dot,
+.alpha-window-dot:first-child {
+  background: var(--alpha-accent) !important;
+}
+
+.alpha-premium-command-board,
+.alpha-premium-orbit-shell,
+.alpha-premium-float-card,
+.alpha-premium-preview-frame,
+.alpha-premium-ecosystem-stage,
+.alpha-premium-cta-shell {
+  border: 1px solid var(--alpha-border) !important;
+}
+
+.alpha-premium-flow-pill {
+  background: var(--alpha-surface) !important;
+  border-color: var(--alpha-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+  color: var(--alpha-text-muted) !important;
+}
+
+.alpha-premium-command-board-header,
+.alpha-premium-section-header {
+  border-bottom-color: var(--alpha-border) !important;
+}
+
+.alpha-premium-stat-label,
+.alpha-premium-note-label,
+.alpha-premium-mini-metric-label,
+.alpha-premium-coverage-label,
+.alpha-premium-command-badge-label,
+.alpha-premium-orbit-caption span,
+.alpha-premium-preview-eyebrow,
+.alpha-premium-float-label,
+.alpha-premium-step-pill {
+  color: var(--alpha-text-muted) !important;
+  border-color: var(--alpha-border) !important;
+}
+
+.alpha-theme .alpha-premium-flow-pill,
+.alpha-theme .alpha-premium-stat-card,
+.alpha-theme .alpha-premium-workflow-card,
+.alpha-theme .alpha-premium-note-card,
+.alpha-theme .alpha-premium-mini-metric,
+.alpha-theme .alpha-premium-coverage-card,
+.alpha-theme .alpha-premium-cta-promise,
+.alpha-theme .alpha-premium-command-badge,
+.alpha-theme .alpha-premium-float-card,
+.alpha-theme .alpha-premium-orbit-caption,
+.alpha-theme .alpha-premium-orbit-shell,
+.alpha-theme .alpha-premium-preview-frame,
+.alpha-theme .alpha-premium-command-board,
+.alpha-theme .alpha-premium-ecosystem-stage,
+.alpha-theme .alpha-premium-cta-shell {
+  background: var(--alpha-panel) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme.dark .alpha-premium-hero,
+.alpha-theme.dark .alpha-premium-stat-card,
+.alpha-theme.dark .alpha-premium-workflow-card,
+.alpha-theme.dark .alpha-premium-note-card,
+.alpha-theme.dark .alpha-premium-mini-metric,
+.alpha-theme.dark .alpha-premium-coverage-card,
+.alpha-theme.dark .alpha-premium-cta-promise {
+  background: var(--alpha-panel) !important;
+}
+
+.alpha-theme.light .alpha-premium-hero,
+.alpha-theme.light .alpha-premium-stat-card,
+.alpha-theme.light .alpha-premium-workflow-card,
+.alpha-theme.light .alpha-premium-note-card,
+.alpha-theme.light .alpha-premium-mini-metric,
+.alpha-theme.light .alpha-premium-coverage-card,
+.alpha-theme.light .alpha-premium-cta-promise {
+  background: var(--alpha-card) !important;
+}
 .alpha-auth-redesign {
   position: relative;
   min-height: 100vh;
@@ -1313,7 +1420,7 @@
     linear-gradient(var(--alpha-border) 1px, transparent 1px),
     linear-gradient(90deg, var(--alpha-border) 1px, transparent 1px);
   background-size: 72px 72px;
-  mask-image: linear-gradient(180deg, rgba(0,0,0,0.7), transparent 78%);
+  mask-image: linear-gradient(180deg, color-mix(in srgb, var(--background-hex) 52%, transparent), transparent 78%);
   opacity: 0.26;
 }
 
@@ -1400,9 +1507,9 @@
 .alpha-auth-card {
   border: 1px solid var(--alpha-border);
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.045), transparent 28%),
+    linear-gradient(180deg, color-mix(in srgb, var(--card-hex) 10%, transparent), transparent 28%),
     var(--alpha-panel);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36);
+  box-shadow: 0 28px 70px color-mix(in srgb, var(--background-hex) 52%, transparent);
 }
 
 .alpha-auth-product-panel {

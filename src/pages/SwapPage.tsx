@@ -17,7 +17,7 @@ const dexTools: SwapTool[] = [
     description: "Blue-chip Ethereum DEX for swaps, pools, and common routing.",
     url: "https://app.uniswap.org",
     logo: "/logos/uniswap.png",
-    accent: "#ff2ced",
+    accent: "#eebbc3",
     tags: ["ethereum", "swap"],
   },
   {
@@ -25,7 +25,7 @@ const dexTools: SwapTool[] = [
     description: "Best-known Solana routing layer for fast and efficient token swaps.",
     url: "https://jup.ag",
     logo: "/logos/jupiter.png",
-    accent: "#00fc9f",
+    accent: "#b8c1ec",
     tags: ["solana", "aggregator"],
   },
   {
@@ -33,7 +33,7 @@ const dexTools: SwapTool[] = [
     description: "Realtime DEX analytics for pair discovery, charts, and liquidity checks.",
     url: "https://dexscreener.com",
     logo: "/logos/dex.png",
-    accent: "#000000",
+    accent: "#232946",
     tags: ["analytics", "pairs"],
   },
   {
@@ -41,7 +41,7 @@ const dexTools: SwapTool[] = [
     description: "High-speed onchain trading venue for spot and perps with deep activity.",
     url: "https://app.hyperliquid.xyz",
     logo: "/logos/hyp.png",
-    accent: "#72ffcb",
+    accent: "#b8c1ec",
     tags: ["perps", "trading"],
   },
   {
@@ -49,7 +49,7 @@ const dexTools: SwapTool[] = [
     description: "Next-gen perp DEX aimed at active traders and faster execution.",
     url: "https://www.asterdex.com/en",
     logo: "/logos/aster.png",
-    accent: "#ffd498",
+    accent: "#eebbc3",
     tags: ["perps", "traders"],
   },
   {
@@ -57,7 +57,7 @@ const dexTools: SwapTool[] = [
     description: "Low-latency Ethereum L2 venue with orderbook trading and tight execution.",
     url: "https://lighter.xyz",
     logo: "/logos/light.png",
-    accent: "#000000",
+    accent: "#232946",
     tags: ["orderbook", "l2"],
   },
   {
@@ -65,7 +65,7 @@ const dexTools: SwapTool[] = [
     description: "Widely used routing engine for better prices across multiple DEX venues.",
     url: "https://1inch.io",
     logo: "/logos/1inch.png",
-    accent: "#000000",
+    accent: "#232946",
     tags: ["routing", "aggregator"],
   },
   {
@@ -73,7 +73,7 @@ const dexTools: SwapTool[] = [
     description: "BNB-native DEX with swaps, pools, farms, and multi-chain expansion.",
     url: "https://pancakeswap.finance",
     logo: "/logos/pancake.png",
-    accent: "#1FC7D4",
+    accent: "#b8c1ec",
     tags: ["bnb", "dex"],
   },
   {
@@ -81,7 +81,7 @@ const dexTools: SwapTool[] = [
     description: "Multi-chain DEX suite for swapping and liquidity across several networks.",
     url: "https://www.sushi.com/swap",
     logo: "/logos/sushi.png",
-    accent: "#FA52A0",
+    accent: "#eebbc3",
     tags: ["multi-chain", "swap"],
   },
   {
@@ -89,7 +89,7 @@ const dexTools: SwapTool[] = [
     description: "Stable-focused AMM that still matters for low-slippage stablecoin routing.",
     url: "https://curve.fi",
     logo: "/logos/curve.png",
-    accent: "#FF8C00",
+    accent: "#eebbc3",
     tags: ["stablecoins", "amm"],
   },
   {
@@ -97,7 +97,7 @@ const dexTools: SwapTool[] = [
     description: "AMM and vault-based liquidity venue useful for advanced pool structures.",
     url: "https://balancer.fi",
     logo: "/logos/balancer.png",
-    accent: "#1E1E1E",
+    accent: "#232946",
     tags: ["amm", "pools"],
   },
   {
@@ -105,7 +105,7 @@ const dexTools: SwapTool[] = [
     description: "Avalanche-native trading venue with swaps and liquidity for that ecosystem.",
     url: "https://traderjoexyz.com",
     logo: "/logos/traderjoe.png",
-    accent: "#9151ff",
+    accent: "#eebbc3",
     tags: ["avalanche", "dex"],
   },
   {
@@ -113,7 +113,7 @@ const dexTools: SwapTool[] = [
     description: "Core Solana trading venue for ecosystem tokens and launch-adjacent liquidity.",
     url: "https://raydium.io/swap/",
     logo: "/logos/ray.png",
-    accent: "#7c3aed",
+    accent: "#eebbc3",
     tags: ["solana", "launchpad"],
   },
   {
@@ -121,7 +121,7 @@ const dexTools: SwapTool[] = [
     description: "Base-native liquidity hub for routing, pools, and incentive-heavy volume.",
     url: "https://aerodrome.finance/swap",
     logo: "/logos/aero.png",
-    accent: "#2563eb",
+    accent: "#b8c1ec",
     tags: ["base", "liquidity"],
   },
   {
@@ -129,7 +129,7 @@ const dexTools: SwapTool[] = [
     description: "DEX and routing interface for multi-chain swaps with concentrated routes.",
     url: "https://kyberswap.com/swap",
     logo: "/logos/kyber.png",
-    accent: "#16a34a",
+    accent: "#b8c1ec",
     tags: ["multi-chain", "routing"],
   },
   {
@@ -137,7 +137,7 @@ const dexTools: SwapTool[] = [
     description: "Perp trading venue for onchain leverage, especially on Arbitrum and Avalanche.",
     url: "https://app.gmx.io",
     logo: "/logos/gmx.png",
-    accent: "#38bdf8",
+    accent: "#b8c1ec",
     tags: ["perps", "leverage"],
   },
 ];
@@ -148,7 +148,7 @@ const bridgeTools: SwapTool[] = [
     description: "Liquidity-based bridge for moving assets across supported EVM chains.",
     url: "https://stargate.finance",
     logo: "/logos/stargate.png",
-    accent: "#a7a7a7",
+    accent: "#b8c1ec",
     tags: ["evm", "liquidity"],
   },
   {
@@ -156,7 +156,7 @@ const bridgeTools: SwapTool[] = [
     description: "Fast and cheap bridge with strong reputation for practical day-to-day routes.",
     url: "https://across.to",
     logo: "/logos/across.png",
-    accent: "#00ffea",
+    accent: "#b8c1ec",
     tags: ["fast", "cheap"],
   },
   {
@@ -164,7 +164,7 @@ const bridgeTools: SwapTool[] = [
     description: "Popular L2-focused bridge for moving between Ethereum rollups quickly.",
     url: "https://orbiter.finance",
     logo: "/logos/orbiter.png",
-    accent: "#e4e4e4",
+    accent: "#fffffe",
     tags: ["l2", "bridge"],
   },
   {
@@ -172,7 +172,7 @@ const bridgeTools: SwapTool[] = [
     description: "Classic bridge option for common rollup routes and token movement.",
     url: "https://hop.exchange",
     logo: "/logos/hop.png",
-    accent: "#e48aff",
+    accent: "#eebbc3",
     tags: ["rollups", "tokens"],
   },
   {
@@ -180,14 +180,14 @@ const bridgeTools: SwapTool[] = [
     description: "Cross-chain liquidity network for swaps and token transfers.",
     url: "https://synapseprotocol.com",
     logo: "/logos/synapse.png",
-    accent: "#a200f9",
+    accent: "#eebbc3",
     tags: ["liquidity", "cross-chain"],
   },
   {
     name: "deBridge",
     description: "Bridge stack for moving assets and messages across multiple chains.lagi eror ",
     url: "https://app.debridge.finance",
-    accent: "#f97316",
+    accent: "#eebbc3",
     tags: ["bridge", "messaging"],
   },
   {
@@ -195,7 +195,7 @@ const bridgeTools: SwapTool[] = [
     description: "Socket-powered bridge interface focused on route comparison and convenience.",
     url: "https://www.bungee.exchange",
      logo: "/logos/buge.png",
-    accent: "#8b5cf6",
+    accent: "#eebbc3",
     tags: ["socket", "routes"],
   },
   {
@@ -203,7 +203,7 @@ const bridgeTools: SwapTool[] = [
     description: "Cross-chain swap and bridge flow often used for Solana to EVM routes.",
     url: "https://mayan.finance",
     logo: "/logos/mayan.png",
-    accent: "#14b8a6",
+    accent: "#b8c1ec",
     tags: ["solana", "evm"],
   },
 ];
@@ -214,7 +214,7 @@ const aggregatorTools: SwapTool[] = [
     description: "Clean DEX aggregator from 0x with solid route execution for common swaps.",
     url: "https://matcha.xyz",
     logo: "/logos/matcha.png",
-    accent: "#06f686",
+    accent: "#b8c1ec",
     tags: ["0x", "routing"],
   },
   {
@@ -222,7 +222,7 @@ const aggregatorTools: SwapTool[] = [
     description: "Aggregator for better rates across liquidity sources on major EVM chains.",
     url: "https://www.paraswap.io",
     logo: "/logos/paraswap.png",
-    accent: "#ff9100",
+    accent: "#eebbc3",
     tags: ["evm", "rates"],
   },
   {
@@ -230,7 +230,7 @@ const aggregatorTools: SwapTool[] = [
     description: "Aggregator for swaps across chains and DEX venues in one interface.",
     url: "https://openocean.finance",
     logo: "/logos/openocean.png",
-    accent: "#000000",
+    accent: "#232946",
     tags: ["multi-chain", "aggregator"],
   },
   {
@@ -238,7 +238,7 @@ const aggregatorTools: SwapTool[] = [
     description: "Powerful bridge and swap routing layer for cross-chain user flows.",
     url: "https://li.fi",
     logo: "/logos/lifi.png",
-    accent: "#f0acff",
+    accent: "#eebbc3",
     tags: ["bridge", "routing"],
   },
   {
@@ -246,7 +246,7 @@ const aggregatorTools: SwapTool[] = [
     description: "Intent-based swap venue focused on MEV-aware execution and price quality.",
     url: "https://swap.cow.fi",
      logo: "/logos/caw.png",
-    accent: "#fb7185",
+    accent: "#eebbc3",
     tags: ["intent", "mev aware"],
   },
   {
@@ -254,7 +254,7 @@ const aggregatorTools: SwapTool[] = [
     description: "Smart order router for batching and multi-token swap paths on EVM chains.",
     url: "https://app.odos.xyz",
     logo: "/logos/odos.png",
-    accent: "#22c55e",
+    accent: "#b8c1ec",
     tags: ["router", "batching"],
   },
   {
@@ -262,7 +262,7 @@ const aggregatorTools: SwapTool[] = [
     description: "Cross-chain aggregator for swaps, bridges, and route discovery in one flow.",
     url: "https://app.rango.exchange",
     logo: "/logos/rango.png",
-    accent: "#f59e0b",
+    accent: "#eebbc3",
     tags: ["cross-chain", "routing"],
   },
   {
@@ -270,7 +270,7 @@ const aggregatorTools: SwapTool[] = [
     description: "Bridge and swap aggregator aimed at broad chain coverage and simple execution.",
     url: "https://app.rubic.exchange",
     logo: "/logos/rubic.png",
-    accent: "#35da9d",
+    accent: "#b8c1ec",
     tags: ["bridge", "coverage"],
   },
 ];

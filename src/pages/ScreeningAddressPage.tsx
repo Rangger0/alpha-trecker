@@ -474,7 +474,7 @@ export function ScreeningAddressPage() {
 
             <div>
               <div className="mb-3 flex items-center gap-2">
-                <Wallet className="h-4 w-4 text-gold" />
+                <Wallet className="h-4 w-4 text-[color:var(--alpha-highlight)]" />
                 <h2 className="text-xs font-mono uppercase tracking-[0.24em] alpha-text-muted">Scan results</h2>
               </div>
 
@@ -549,7 +549,7 @@ export function ScreeningAddressPage() {
           <aside className="space-y-4">
             <section className="macos-card rounded-[1.7rem] p-4">
               <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] alpha-text-muted">
-                <RefreshCw className="h-3.5 w-3.5 text-gold" />
+                <RefreshCw className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
                 Scan notes
               </div>
 

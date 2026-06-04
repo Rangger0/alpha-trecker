@@ -29,7 +29,7 @@ export function LiveAirdropPage() {
       chain: item.source || 'Airdrops.io',
       category: item.tag || 'Airdrop',
       status: 'Live',
-      accent: '#6b7280',
+      accent: '#b8c1ec',
       logo: item.image || '/logos/airdrops.png',
       portalUrl: item.link,
       sourceUrl: item.link,

@@ -13,7 +13,7 @@ export function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all duration-300 ${
       isDark 
         ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)]' 
-        : 'bg-white/80 border-gray-200'
+        : 'bg-[color:color-mix(in_srgb,var(--alpha-panel)_80%,transparent)] border-[color:var(--alpha-border)]'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -27,15 +27,15 @@ export function Navbar() {
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <div className="w-10 h-10 rounded flex items-center justify-center bg-white/10">
-                <span className={`font-mono font-bold text-xl ${isDark ? 'text-[var(--alpha-signal)]' : 'text-blue-600'}`}>
+              <div className="w-10 h-10 rounded flex items-center justify-center bg-[color:var(--alpha-hover-soft)]">
+                <span className={`font-mono font-bold text-xl ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[color:var(--alpha-signal)]'}`}>
                   {'>'}_
                 </span>
               </div>
             )}
             
-            <span className={`font-bold text-lg font-mono ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              <span className={isDark ? 'text-[var(--alpha-signal)]' : 'text-blue-600'}>ALPHA</span>_TRACKER
+            <span className={`font-bold text-lg font-mono ${isDark ? 'text-[color:var(--alpha-text)]' : 'text-[color:var(--alpha-text)]'}`}>
+              <span className={isDark ? 'text-[var(--alpha-signal)]' : 'text-[color:var(--alpha-signal)]'}>ALPHA</span>_TRACKER
             </span>
           </Link>
 
@@ -46,7 +46,7 @@ export function Navbar() {
                 key={item}
                 href={`#${item.toLowerCase()}`} 
                 className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                  isDark ? 'text-gray-300 hover:text-[var(--alpha-signal)]' : 'text-gray-600 hover:text-blue-600'
+                  isDark ? 'text-[color:var(--alpha-text-muted)] hover:text-[var(--alpha-signal)]' : 'text-[color:var(--alpha-text-muted)] hover:text-[color:var(--alpha-signal)]'
                 }`}
               >
                 {item}
@@ -58,7 +58,7 @@ export function Navbar() {
           <div className="flex items-center gap-4">
             <Link to="/login">
               <Button variant="ghost" className={`font-mono text-sm transition-all duration-300 hover:scale-105 ${
-                isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                isDark ? 'text-[color:var(--alpha-text-muted)] hover:text-[color:var(--alpha-text)]' : 'text-[color:var(--alpha-text-muted)] hover:text-[color:var(--alpha-text)]'
               }`}>
                 Login
               </Button>
@@ -67,7 +67,7 @@ export function Navbar() {
               <Button className={`font-mono text-sm px-6 transition-all duration-300 hover:scale-105 ${
                 isDark 
                   ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] hover:bg-[var(--alpha-signal-press)] shadow-[0_0_20px_var(--alpha-signal-glow)]' 
-                  : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:opacity-90 shadow-lg'
+                  : 'bg-gradient-to-r from-[color:var(--alpha-main)] to-[color:var(--alpha-highlight)] text-[color:var(--alpha-text)] hover:opacity-90 shadow-lg'
               }`}>
                 Sign Up →
               </Button>
@@ -75,8 +75,8 @@ export function Navbar() {
             <div
               className={`p-2 rounded-lg border ${
                 isDark
-                  ? 'border-[var(--alpha-border)] text-gray-400'
-                  : 'border-gray-200 text-gray-600'
+                  ? 'border-[var(--alpha-border)] text-[color:var(--alpha-text-muted)]'
+                  : 'border-[color:var(--alpha-border)] text-[color:var(--alpha-text-muted)]'
               }`}
             >
               ☀

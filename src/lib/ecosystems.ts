@@ -18,7 +18,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     name: 'Ethereum',
     icon: 'E',
     logo: ECOSYSTEM_LOGOS.eth,
-    color: '#627EEA',
+    color: '#b8c1ec',
     twitterHandle: 'ethereum',
   },
   {
@@ -26,7 +26,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     name: 'Solana',
     icon: 'S',
     logo: ECOSYSTEM_LOGOS.sol,
-    color: '#14F195',
+    color: '#b8c1ec',
     twitterHandle: 'solana',
   },
   {
@@ -34,7 +34,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     name: 'Arbitrum',
     icon: 'A',
     logo: ECOSYSTEM_LOGOS.arb,
-    color: '#28A0F0',
+    color: '#b8c1ec',
     twitterHandle: 'arbitrum',
   },
   {
@@ -42,7 +42,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     name: 'BNB Chain',
     icon: 'B',
     logo: ECOSYSTEM_LOGOS.bnb,
-    color: '#F3BA2F',
+    color: '#eebbc3',
     twitterHandle: 'BNBCHAIN',
   },
   {
@@ -50,7 +50,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     name: 'Base',
     icon: 'B',
     logo: ECOSYSTEM_LOGOS.base,
-    color: '#0052FF',
+    color: '#b8c1ec',
     twitterHandle: 'BuildOnBase',
   },
   {
@@ -58,7 +58,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     name: 'Avalanche',
     icon: 'A',
     logo: ECOSYSTEM_LOGOS.avax,
-    color: '#E84142',
+    color: '#eebbc3',
     twitterHandle: 'avax',
   },
   {
@@ -66,7 +66,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     name: 'Polygon',
     icon: 'P',
     logo: ECOSYSTEM_LOGOS.poly,
-    color: '#8247E5',
+    color: '#eebbc3',
     twitterHandle: '0xPolygon',
   },
   {
@@ -74,7 +74,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     name: 'Fantom',
     icon: 'F',
     logo: ECOSYSTEM_LOGOS.ftm,
-    color: '#1969FF',
+    color: '#b8c1ec',
     twitterHandle: 'FantomFDN',
   },
   {
@@ -82,7 +82,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     name: 'Sui',
     icon: 'S',
     logo: ECOSYSTEM_LOGOS.sui,
-    color: '#4DA2FF',
+    color: '#b8c1ec',
     twitterHandle: 'SuiNetwork',
   },
 ];

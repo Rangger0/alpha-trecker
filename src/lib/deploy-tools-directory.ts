@@ -24,7 +24,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'thirdweb-dashboard',
     name: 'thirdweb Dashboard',
-    accent: '#2563EB',
+    accent: '#b8c1ec',
     badge: 'TW',
     description: 'Deploy ERC-20, ERC-721, ERC-1155, edition contract, dan app contract dari dashboard web.',
     mode: 'No-code',
@@ -39,7 +39,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'openzeppelin-wizard',
     name: 'OpenZeppelin Wizard',
-    accent: '#00A6FF',
+    accent: '#b8c1ec',
     badge: 'OZ',
     description: 'Generator kontrak ERC-20 / ERC-721 / ERC-1155 yang aman untuk dibawa ke Remix atau Foundry.',
     mode: 'Low-code',
@@ -54,7 +54,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'remix-ide',
     name: 'Remix IDE',
-    accent: '#F7C948',
+    accent: '#eebbc3',
     badge: 'RX',
     description: 'IDE browser untuk compile, deploy, dan verify contract langsung dari wallet.',
     mode: 'Low-code',
@@ -69,7 +69,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'zora-create',
     name: 'Zora Create',
-    accent: '#111111',
+    accent: '#232946',
     badge: 'ZR',
     description: 'Create and mint NFT collection / coin-style launch flow di ekosistem Zora dan Base.',
     mode: 'No-code',
@@ -84,7 +84,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'base-token-guide',
     name: 'Base Token Guide',
-    accent: '#0052FF',
+    accent: '#b8c1ec',
     badge: 'BS',
     description: 'Guide resmi Base untuk deploy ERC-20, contract, dan app ke Base mainnet atau Base Sepolia.',
     mode: 'Builder docs',
@@ -99,7 +99,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'solana-token-docs',
     name: 'Solana Token Guide',
-    accent: '#14F195',
+    accent: '#b8c1ec',
     badge: 'SL',
     description: 'Dokumentasi resmi Solana untuk token, metadata, dan flow deploy/testing pada cluster Solana.',
     mode: 'Builder docs',
@@ -114,7 +114,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'sui-package-guide',
     name: 'Sui Publish Guide',
-    accent: '#4DA2FF',
+    accent: '#b8c1ec',
     badge: 'SU',
     description: 'Panduan resmi publish package Move, asset, dan NFT di jaringan Sui.',
     mode: 'Builder docs',

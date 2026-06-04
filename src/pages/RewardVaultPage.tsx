@@ -255,10 +255,10 @@ export function RewardVaultPage() {
   };
 
   const summaryCards = [
-    { label: t("rewardVault.realizedRevenue"), value: formatCompactCurrency(totalEarned), icon: Coins, tone: "text-gold", accent: "var(--alpha-warning)" },
-    { label: t("rewardVault.capitalDeployed"), value: formatCompactCurrency(totalCapital), icon: Gem, tone: "text-gold", accent: "var(--alpha-highlight)" },
-    { label: t("rewardVault.netProfit"), value: formatCompactCurrency(netProfit), icon: CheckCircle2, tone: netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]", accent: netProfit >= 0 ? "var(--alpha-warning)" : "var(--alpha-danger)" },
-    { label: t("rewardVault.pendingTge"), value: String(pendingCount).padStart(2, "0"), icon: Hourglass, tone: "text-gold", accent: "var(--alpha-highlight)" },
+    { label: t("rewardVault.realizedRevenue"), value: formatCompactCurrency(totalEarned), icon: Coins, tone: "text-[color:var(--alpha-highlight)]", accent: "var(--alpha-warning)" },
+    { label: t("rewardVault.capitalDeployed"), value: formatCompactCurrency(totalCapital), icon: Gem, tone: "text-[color:var(--alpha-highlight)]", accent: "var(--alpha-highlight)" },
+    { label: t("rewardVault.netProfit"), value: formatCompactCurrency(netProfit), icon: CheckCircle2, tone: netProfit >= 0 ? "text-[color:var(--alpha-highlight)]" : "text-[var(--alpha-danger)]", accent: netProfit >= 0 ? "var(--alpha-warning)" : "var(--alpha-danger)" },
+    { label: t("rewardVault.pendingTge"), value: String(pendingCount).padStart(2, "0"), icon: Hourglass, tone: "text-[color:var(--alpha-highlight)]", accent: "var(--alpha-highlight)" },
   ];
 
   const financePills = [
@@ -276,7 +276,7 @@ export function RewardVaultPage() {
           <div className="mb-6 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.28em] alpha-text-muted">
-                <Sparkles className="h-3.5 w-3.5 text-gold" />
+                <Sparkles className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
                 {t("rewardVault.badge")}
               </div>
               <h1 className="mt-3 text-[1.9rem] font-semibold tracking-tight alpha-text">{t("rewardVault.title")}</h1>
@@ -373,7 +373,7 @@ export function RewardVaultPage() {
               <div className="px-5 py-12 text-center text-sm alpha-text-muted">{t("rewardVault.loading")}</div>
             ) : filteredRows.length === 0 ? (
               <div className="px-5 py-12 text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-dashed border-alpha-border bg-[color:var(--alpha-hover-soft)] text-gold">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-dashed border-alpha-border bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-highlight)]">
                   <Gem className="h-6 w-6" />
                 </div>
                 <p className="mt-4 text-lg font-medium alpha-text">{t("rewardVault.emptyTitle")}</p>
@@ -431,7 +431,7 @@ export function RewardVaultPage() {
                         </div>
                         <div className="rounded border border-alpha-border/50 bg-[color:var(--alpha-hover-soft)] p-2">
                           <p className="text-[10px] uppercase alpha-text-muted">{t("rewardVault.card.revenue")}</p>
-                          <p className={`font-medium mt-1 ${reward ? "text-gold" : "alpha-text-muted"}`}>{reward ? formatCurrency(reward.amountUsd) : "-"}</p>
+                          <p className={`font-medium mt-1 ${reward ? "text-[color:var(--alpha-highlight)]" : "alpha-text-muted"}`}>{reward ? formatCurrency(reward.amountUsd) : "-"}</p>
                         </div>
                         <div className="rounded border border-alpha-border/50 bg-[color:var(--alpha-hover-soft)] p-2">
                           <p className="text-[10px] uppercase alpha-text-muted">{t("rewardVault.card.capital")}</p>
@@ -439,7 +439,7 @@ export function RewardVaultPage() {
                         </div>
                         <div className="rounded border border-alpha-border/50 bg-[color:var(--alpha-hover-soft)] p-2">
                           <p className="text-[10px] uppercase alpha-text-muted">{t("rewardVault.card.profit")}</p>
-                          <p className={`font-medium mt-1 ${reward ? (profit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]") : "alpha-text-muted"}`}>
+                          <p className={`font-medium mt-1 ${reward ? (profit >= 0 ? "text-[color:var(--alpha-highlight)]" : "text-[var(--alpha-danger)]") : "alpha-text-muted"}`}>
                             {reward ? formatCurrency(profit) : "-"}
                           </p>
                         </div>
@@ -455,7 +455,7 @@ export function RewardVaultPage() {
                               </p>
                             </div>
                             {reward.tokenSymbol ? (
-                              <span className="rounded-full border border-gold/20 bg-gold/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-gold">
+                              <span className="rounded-full border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[color:var(--alpha-highlight)]">
                                 {reward.tokenSymbol}
                               </span>
                             ) : null}

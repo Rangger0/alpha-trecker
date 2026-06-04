@@ -54,7 +54,7 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div 
-        className="absolute inset-0 bg-black/45"
+        className="absolute inset-0 bg-[color:var(--alpha-overlay)]"
         onClick={onClose}
       />
       <div className={`relative z-10 w-full max-w-md rounded-lg border shadow-2xl ${
@@ -207,9 +207,9 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({ isOpen, 
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                        wallet.chain === 'eth' ? 'bg-[#627eea]' :
-                        wallet.chain === 'bsc' ? 'bg-[#f3ba2f]' :
-                        wallet.chain === 'polygon' ? 'bg-[#8247e5]' :
+                        wallet.chain === 'eth' ? 'bg-[color:var(--alpha-main)]' :
+                        wallet.chain === 'bsc' ? 'bg-[color:var(--alpha-highlight)]' :
+                        wallet.chain === 'polygon' ? 'bg-[color:var(--alpha-highlight)]' :
                         'bg-[var(--alpha-signal)]'
                       }`} />
                       <span className={`font-mono text-sm truncate ${

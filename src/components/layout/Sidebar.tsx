@@ -64,7 +64,7 @@ function PreferenceButton({ active, icon: Icon, label, onClick }: PreferenceButt
       aria-pressed={active}
       className={`flex flex-1 items-center justify-center gap-1.5 rounded-full border px-3 py-2 text-[11px] font-display font-semibold transition-all duration-200 ${
         active
-          ? "border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] shadow-[0_10px_22px_rgba(0,0,0,0.12)]"
+          ? "border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] shadow-[var(--alpha-shadow)]"
           : "border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface)] alpha-text hover:bg-[color:var(--alpha-hover-soft)]"
       }`}
     >
@@ -286,7 +286,7 @@ export function Sidebar({
                         open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
                       } ${
                         isActive
-                          ? "translate-x-1 border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[0_12px_24px_rgba(0,0,0,0.12)]"
+                          ? "translate-x-1 border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
                           : "alpha-text hover:translate-x-1 hover:bg-[color:var(--alpha-hover-soft)]"
                       }`}
                     >
@@ -314,7 +314,7 @@ export function Sidebar({
                 open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
               } ${
                 isActive
-                  ? "translate-x-1 border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[0_12px_24px_rgba(0,0,0,0.12)]"
+                  ? "translate-x-1 border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
                   : "alpha-text hover:translate-x-1 hover:bg-[color:var(--alpha-hover-soft)]"
               }`
             }
@@ -345,7 +345,7 @@ export function Sidebar({
                   open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
                 } ${
                   isActive
-                    ? "translate-x-1 border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[0_12px_24px_rgba(0,0,0,0.12)]"
+                    ? "translate-x-1 border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
                     : "alpha-text hover:translate-x-1 hover:bg-[color:var(--alpha-hover-soft)]"
                 }`
               }

@@ -307,14 +307,14 @@ export function CalculatorPage() {
           })
         : t("calculator.state.synced"),
       icon: Sparkles,
-      tone: "text-gold",
+      tone: "text-[color:var(--alpha-highlight)]",
     },
     {
       label: t("calculator.summary.realizedValue"),
       value: formatCurrency(amountValue),
       meta: translateOption("rewardClaimStatus", claimStatus),
       icon: Coins,
-      tone: "text-gold",
+      tone: "text-[color:var(--alpha-highlight)]",
     },
     {
       label: t("calculator.summary.totalCapital"),
@@ -328,7 +328,7 @@ export function CalculatorPage() {
       value: formatCompactCurrency(netProfit),
       meta: `ROI ${formatPercent(roi)}`,
       icon: TrendingUp,
-      tone: netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]",
+      tone: netProfit >= 0 ? "text-[color:var(--alpha-highlight)]" : "text-[var(--alpha-danger)]",
     },
   ];
 
@@ -339,7 +339,7 @@ export function CalculatorPage() {
           <div className="mb-6 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.28em] alpha-text-muted">
-                <Calculator className="h-3.5 w-3.5 text-gold" />
+                <Calculator className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
                 {t("calculator.badge")}
               </div>
               <h1 className="mt-3 text-[1.9rem] font-semibold tracking-tight alpha-text">{t("calculator.title")}</h1>
@@ -415,7 +415,7 @@ export function CalculatorPage() {
                         onClick={() => setSelectedAirdropId(airdrop.id)}
                         className={`w-full rounded-[1.2rem] border p-3 text-left transition-all duration-200 ${
                           isActive
-                            ? "border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] shadow-[0_12px_24px_rgba(0,0,0,0.12)]"
+                            ? "border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] shadow-[var(--alpha-shadow)]"
                             : "border-alpha-border bg-[color:var(--alpha-hover-soft)] alpha-text hover:-translate-y-0.5 hover:bg-[color:var(--alpha-surface)]"
                         }`}
                       >
@@ -453,7 +453,7 @@ export function CalculatorPage() {
                             <p className={`${isActive ? "text-[color:var(--alpha-accent-contrast)]/70" : "alpha-text-muted"}`}>
                               {t("rewardVault.card.profit")}
                             </p>
-                            <p className={`mt-1 font-semibold ${itemProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]"}`}>
+                            <p className={`mt-1 font-semibold ${itemProfit >= 0 ? "text-[color:var(--alpha-highlight)]" : "text-[var(--alpha-danger)]"}`}>
                               {reward ? formatCurrency(itemProfit) : "--"}
                             </p>
                           </div>
@@ -589,9 +589,9 @@ export function CalculatorPage() {
                       <div className="rounded-2xl border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4">
                         <div className="flex items-center justify-between">
                           <p className="text-[10px] uppercase tracking-[0.22em] alpha-text-muted">{t("rewardModal.netProfit")}</p>
-                          <TrendingUp className={`h-4 w-4 ${netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]"}`} />
+                          <TrendingUp className={`h-4 w-4 ${netProfit >= 0 ? "text-[color:var(--alpha-highlight)]" : "text-[var(--alpha-danger)]"}`} />
                         </div>
-                        <p className={`mt-2 text-xl font-semibold ${netProfit >= 0 ? "text-gold" : "text-[var(--alpha-danger)]"}`}>
+                        <p className={`mt-2 text-xl font-semibold ${netProfit >= 0 ? "text-[color:var(--alpha-highlight)]" : "text-[var(--alpha-danger)]"}`}>
                           {formatCurrency(netProfit)}
                         </p>
                         <p className="mt-1 text-xs alpha-text-muted">{t("rewardModal.roi", { value: formatPercent(roi) })}</p>
@@ -749,7 +749,7 @@ export function CalculatorPage() {
 
                     <div className="rounded-2xl border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4">
                       <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">{t("calculator.quick.estimatedNet")}</p>
-                      <p className={`mt-2 text-lg font-semibold ${estimatedNetValue >= 0 ? "text-gold" : "text-[var(--alpha-danger)]"}`}>
+                      <p className={`mt-2 text-lg font-semibold ${estimatedNetValue >= 0 ? "text-[color:var(--alpha-highlight)]" : "text-[var(--alpha-danger)]"}`}>
                         {formatCurrency(estimatedNetValue)}
                       </p>
                     </div>

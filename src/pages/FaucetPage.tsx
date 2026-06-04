@@ -277,7 +277,7 @@ testing, and ecosystem exploration.
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_380px]">
           <section>
             <div className="mb-3 flex items-center gap-2">
-              <BadgeCheck className="h-4 w-4 text-gold" />
+              <BadgeCheck className="h-4 w-4 text-[color:var(--alpha-highlight)]" />
               <h2 className="text-xs font-mono uppercase tracking-[0.24em] alpha-text-muted">
                 Curated faucet deck
               </h2>
@@ -374,7 +374,7 @@ testing, and ecosystem exploration.
           <aside className="space-y-4">
             <section className="macos-card rounded-[1.55rem] p-4">
               <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--alpha-border)] bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] alpha-text-muted">
-                <Plus className="h-3.5 w-3.5 text-gold" />
+                <Plus className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
                 Manual faucet
               </div>
 

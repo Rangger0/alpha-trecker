@@ -53,7 +53,7 @@ export const EligibilityChecker: React.FC = () => {
             className={`font-mono text-sm border-2 transition-all duration-200 ${
               isDark 
                 ? 'bg-transparent border-[var(--alpha-signal)] text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal)] hover:text-[var(--alpha-accent-contrast)]' 
-                : 'bg-transparent border-[var(--alpha-signal)] text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal)] hover:text-white'
+                : 'bg-transparent border-[var(--alpha-signal)] text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal)] hover:text-[color:var(--alpha-text)]'
             }`}
           >
             <Wallet className="h-4 w-4 mr-2" />
@@ -68,7 +68,7 @@ export const EligibilityChecker: React.FC = () => {
                 ? (isDark ? 'opacity-50 cursor-not-allowed' : 'opacity-50 cursor-not-allowed')
                 : (isDark 
                     ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)] hover:shadow-[0_0_20px_var(--alpha-signal-glow)]' 
-                    : 'bg-[var(--alpha-signal)] text-white border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]')
+                    : 'bg-[var(--alpha-signal)] text-[color:var(--alpha-text)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]')
             }`}
           >
             {isChecking ? (
@@ -121,7 +121,7 @@ export const EligibilityChecker: React.FC = () => {
           <Card key={idx} className={`border transition-all duration-300 ${
             isDark 
               ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal-border)]' 
-              : 'bg-white border-[var(--alpha-border)] hover:border-[var(--alpha-signal-border)]'
+              : 'bg-[color:var(--alpha-panel)] border-[var(--alpha-border)] hover:border-[var(--alpha-signal-border)]'
           }`}>
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
@@ -147,7 +147,7 @@ export const EligibilityChecker: React.FC = () => {
         <Card className={`border ${
           isDark 
             ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' 
-            : 'bg-white border-[var(--alpha-border)]'
+            : 'bg-[color:var(--alpha-panel)] border-[var(--alpha-border)]'
         }`}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-4">
@@ -204,8 +204,8 @@ export const EligibilityChecker: React.FC = () => {
                   </div>
                   <Badge className={`font-mono text-xs ${
                     result.isEligible
-                      ? (isDark ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)]' : 'bg-[var(--alpha-signal)] text-white')
-                      : (isDark ? 'bg-[var(--alpha-danger)] text-white' : 'bg-[var(--alpha-danger)] text-white')
+                      ? (isDark ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)]' : 'bg-[var(--alpha-signal)] text-[color:var(--alpha-text)]')
+                      : (isDark ? 'bg-[var(--alpha-danger)] text-[color:var(--alpha-text)]' : 'bg-[var(--alpha-danger)] text-[color:var(--alpha-text)]')
                   }`}>
                     {result.isEligible ? 'ELIGIBLE' : 'NOT ELIGIBLE'}
                   </Badge>
@@ -221,7 +221,7 @@ export const EligibilityChecker: React.FC = () => {
         <Card className={`border ${
           isDark 
             ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' 
-            : 'bg-white border-[var(--alpha-border)]'
+            : 'bg-[color:var(--alpha-panel)] border-[var(--alpha-border)]'
         }`}>
           <CardContent className="p-8 text-center">
             <Shield className={`h-12 w-12 mx-auto mb-4 ${
@@ -244,7 +244,7 @@ export const EligibilityChecker: React.FC = () => {
               className={`font-mono border-2 ${
                 isDark 
                   ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]' 
-                  : 'bg-[var(--alpha-signal)] text-white border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]'
+                  : 'bg-[var(--alpha-signal)] text-[color:var(--alpha-text)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]'
               }`}
             >
               <Plus className="h-4 w-4 mr-2" />

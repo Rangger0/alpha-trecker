@@ -30,10 +30,10 @@ const MOCK_PORTFOLIO_DATA: PortfolioData = {
   totalChange: 1250.75,
   changePercentage: 11.12,
   distribution: [
-    { name: 'Ethereum', value: 5000, percentage: 40, color: '#627eea' },
-    { name: 'BSC', value: 3000, percentage: 24, color: '#f3ba2f' },
-    { name: 'Polygon', value: 2500, percentage: 20, color: '#8247e5' },
-    { name: 'Arbitrum', value: 2000, percentage: 16, color: '#28a0f0' },
+    { name: 'Ethereum', value: 5000, percentage: 40, color: '#b8c1ec' },
+    { name: 'BSC', value: 3000, percentage: 24, color: '#eebbc3' },
+    { name: 'Polygon', value: 2500, percentage: 20, color: '#eebbc3' },
+    { name: 'Arbitrum', value: 2000, percentage: 16, color: '#b8c1ec' },
   ],
   history: [
     { date: '2024-01', value: 10000 },
@@ -57,7 +57,7 @@ export const PortfolioChart: React.FC = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className={`border ${
-          isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
+          isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-[color:var(--alpha-panel)] border-[var(--alpha-border)]'
         }`}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -81,7 +81,7 @@ export const PortfolioChart: React.FC = () => {
         </Card>
 
         <Card className={`border ${
-          isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
+          isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-[color:var(--alpha-panel)] border-[var(--alpha-border)]'
         }`}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -120,7 +120,7 @@ export const PortfolioChart: React.FC = () => {
         </Card>
 
         <Card className={`border ${
-          isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
+          isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-[color:var(--alpha-panel)] border-[var(--alpha-border)]'
         }`}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -148,7 +148,7 @@ export const PortfolioChart: React.FC = () => {
 
       {/* Distribution Chart */}
       <Card className={`border ${
-        isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
+        isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-[color:var(--alpha-panel)] border-[var(--alpha-border)]'
       }`}>
         <CardContent className="p-4">
           <h3 className={`font-mono font-bold mb-4 ${
@@ -195,7 +195,7 @@ export const PortfolioChart: React.FC = () => {
 
       {/* Simple Bar Chart History */}
       <Card className={`border ${
-        isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-white border-[var(--alpha-border)]'
+        isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-[color:var(--alpha-panel)] border-[var(--alpha-border)]'
       }`}>
         <CardContent className="p-4">
           <h3 className={`font-mono font-bold mb-4 ${

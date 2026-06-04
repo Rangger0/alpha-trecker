@@ -90,7 +90,7 @@ export const getStatusColor = (status: string, _isDark: boolean = true): string 
   const colors: Record<string, string> = {
     'Planning': 'text-[var(--alpha-text-muted)]',
     'Ongoing': 'text-[var(--alpha-signal)]',
-    'Done': 'text-gold',
+    'Done': 'text-[color:var(--alpha-highlight)]',
     'Dropped': 'text-[var(--alpha-danger)]'
   };
   return colors[status] || colors['Planning'];
@@ -100,7 +100,7 @@ export const getTypeColor = (type: string, _isDark: boolean = true): string => {
   const colors: Record<string, string> = {
     'Testnet': 'text-[var(--alpha-violet)]',
     'AI': 'text-[var(--alpha-signal)]',
-    'Quest': 'text-gold',
+    'Quest': 'text-[color:var(--alpha-highlight)]',
     'Daily': 'text-[var(--alpha-warning)]',
     'Daily Quest': 'text-[var(--alpha-warning)]',
     'Retro': 'text-[var(--alpha-violet)]',
@@ -109,8 +109,8 @@ export const getTypeColor = (type: string, _isDark: boolean = true): string => {
     'Depin': 'text-[var(--alpha-signal)]',
     'NFT': 'text-[var(--alpha-danger)]',
     'Domain Name': 'text-[var(--alpha-danger)]',
-    'Deploy SC': 'text-gold',
-    'DeFi': 'text-gold',
+    'Deploy SC': 'text-[color:var(--alpha-highlight)]',
+    'DeFi': 'text-[color:var(--alpha-highlight)]',
     'Deploy NFT': 'text-[var(--alpha-danger)]'
   };
   return colors[type] || colors['Quest'];

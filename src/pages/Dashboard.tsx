@@ -92,17 +92,17 @@ const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropp
 const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
   'Testnet': { dark: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]', light: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]' },
   'AI': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
-  'Quest': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
+  'Quest': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
   'Daily': { dark: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]', light: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]' },
   'Daily Quest': { dark: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]', light: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]' },
   'Retroactive': { dark: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]', light: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]' },
-  'Waitlist': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
+  'Waitlist': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
   'Node': { dark: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]', light: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]' },
   'Depin': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
   'NFT': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
   'Domain Name': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
-  'Deploy SC': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
-  'DeFi': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
+  'Deploy SC': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
+  'DeFi': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
   'Deploy NFT': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
   'GameFi': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
 };
@@ -110,7 +110,7 @@ const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
 const STATUS_COLORS: Record<string, { dark: string; light: string }> = {
   'Planning': { dark: 'bg-light-muted/10 text-light-muted border-light-muted/20', light: 'bg-light-muted/10 text-light-muted border-light-muted/30' },
   'Ongoing': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
-  'Done': { dark: 'bg-gold/10 text-gold border-gold/20', light: 'bg-gold/10 text-gold border-gold/30' },
+  'Done': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
   'Dropped': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
 };
 
@@ -430,18 +430,18 @@ function DashboardHero({
           label: 'Funding',
           value: fundingRaised > 0 ? formatWholeUsd(fundingRaised) : '--',
           badge: fundingFilledCount > 0 ? `${fundingFilledCount} filled` : '-',
-          badgeClass: 'text-gold border-gold/20 bg-gold/10',
+          badgeClass: 'text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)]',
           progress: fundingProgress,
-          progressColor: 'rgba(255,137,6,0.65)',
+          progressColor: 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)',
           meta: fundingFilledCount > 0 ? `${fundingFilledCount}/${totalProjects} projects filled` : 'Belum ada funding',
         },
         {
           label: 'Waitlist',
           value: waitlistFilledCount > 0 ? waitlistTotalUsers : '--',
           badge: waitlistFilledCount > 0 ? `${waitlistFilledCount} filled` : '-',
-          badgeClass: waitlistFilledCount > 0 ? 'border-gold/20 bg-gold/10 text-gold' : 'border-slate-400/20 bg-slate-400/10 text-slate-300',
+          badgeClass: waitlistFilledCount > 0 ? 'border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)]' : 'border-[color:var(--alpha-secondary-border)] bg-[color:var(--alpha-secondary-soft)] text-[color:var(--alpha-text-muted)]',
           progress: waitlistProgress,
-          progressColor: 'rgba(255,137,6,0.65)',
+          progressColor: 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)',
           meta: waitlistFilledCount > 0 ? `${waitlistFilledCount}/${totalProjects} projects filled` : 'Belum ada waitlist',
         },
         {
@@ -450,17 +450,17 @@ function DashboardHero({
           badge: potentialTier,
           badgeClass:
             potentialTier === 'High'
-              ? 'border-gold/20 bg-gold/10 text-gold'
+              ? 'border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)]'
               : potentialTier === 'Tracked'
-                ? 'border-gold/20 bg-gold/10 text-gold'
-                : 'border-slate-400/20 bg-slate-400/10 text-slate-300',
+                ? 'border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)]'
+                : 'border-[color:var(--alpha-secondary-border)] bg-[color:var(--alpha-secondary-soft)] text-[color:var(--alpha-text-muted)]',
           progress: potentialProgress,
           progressColor:
             potentialTier === 'High'
-              ? 'rgba(255,137,6,0.65)'
+              ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)'
               : potentialTier === 'Tracked'
-                ? 'rgba(255,137,6,0.55)'
-                : 'rgba(100,116,139,0.55)',
+                ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)'
+                : 'color-mix(in srgb, var(--paragraph-hex) 55%, transparent)',
           meta: potentialProjects.length > 0 ? `${highPotentialCount} high potential` : 'Belum ada potential',
         },
       ];
@@ -478,7 +478,7 @@ function DashboardHero({
       <div className="grid gap-4 auto-rows-fr xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)_minmax(0,420px)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)_minmax(0,420px)] xl:items-stretch">
         <div className="flex h-full flex-col justify-between">
           <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-            <Sparkles className="h-3.5 w-3.5 text-gold" />
+            <Sparkles className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
             Alpha control
           </div>
           <h1 className="mt-3 text-[2.6rem] font-semibold tracking-[-0.04em] alpha-text sm:text-[3.15rem]">
@@ -582,11 +582,11 @@ function DashboardHero({
 function PriceTracker({ isDark }: { isDark: boolean }) {
   const { prices, loading, error, lastUpdatedAt } = usePrices(['bitcoin', 'ethereum', 'solana', 'cardano', 'polkadot']);
   const coins = [
-    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', accent: '#F7931A' },
-    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', accent: '#627EEA' },
-    { id: 'solana', symbol: 'SOL', name: 'Solana', accent: '#14F195' },
-    { id: 'cardano', symbol: 'ADA', name: 'Cardano', accent: '#2A6AF7' },
-    { id: 'polkadot', symbol: 'DOT', name: 'Polkadot', accent: '#E6007A' },
+    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', accent: '#eebbc3' },
+    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', accent: '#b8c1ec' },
+    { id: 'solana', symbol: 'SOL', name: 'Solana', accent: '#b8c1ec' },
+    { id: 'cardano', symbol: 'ADA', name: 'Cardano', accent: '#b8c1ec' },
+    { id: 'polkadot', symbol: 'DOT', name: 'Polkadot', accent: '#eebbc3' },
   ];
   const lastUpdatedLabel = lastUpdatedAt
     ? lastUpdatedAt.toLocaleTimeString('en-US', {
@@ -600,11 +600,11 @@ function PriceTracker({ isDark }: { isDark: boolean }) {
 
   return (
     <section className={`hud-panel relative overflow-hidden rounded-[1.1rem] border p-3 shadow-none h-full ${isDark ? 'border-alpha-border bg-[color:var(--alpha-hover-soft)]' : 'border-alpha-border bg-[color:var(--alpha-hover-soft)]'}`}>
-      <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,207,206,0.16),transparent_52%)] opacity-50" />
+      <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in srgb, var(--main-hex) 16%, transparent),transparent_52%)] opacity-50" />
       <div className="relative h-full flex flex-col">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] text-gold">
+            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] text-[color:var(--alpha-highlight)]">
               <TrendingUpIcon className="h-3 w-3" />
             </div>
             <div>
@@ -614,7 +614,7 @@ function PriceTracker({ isDark }: { isDark: boolean }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="rounded-full border border-gold/20 bg-gold/10 px-1.5 py-0.5 text-[8px] uppercase tracking-[0.18em] text-gold flex-shrink-0">
+            <span className="rounded-full border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] px-1.5 py-0.5 text-[8px] uppercase tracking-[0.18em] text-[color:var(--alpha-highlight)] flex-shrink-0">
               {coins.length} assets
             </span>
             <p className="text-[8px] alpha-text-muted flex-shrink-0">
@@ -663,7 +663,7 @@ function PriceTracker({ isDark }: { isDark: boolean }) {
                   {hasPrice ? (
                     <div className={`mt-1 inline-flex items-center gap-0.5 rounded-full border px-1 py-0.5 text-[7px] font-medium ${
                       isPositive
-                        ? 'border-gold/20 bg-gold/10 text-gold'
+                        ? 'border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)]'
                         : 'border-[var(--alpha-danger-border)] bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)]'
                     }`}>
                       {isPositive ? <ArrowUpRight className="h-2 w-2" /> : <ArrowDownRight className="h-2 w-2" />}
@@ -715,17 +715,17 @@ function DashboardCalendarPanel({
       embedded
         ? "h-full rounded-[1.15rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4 shadow-none"
         : "macos-card p-4 shadow-none",
-      !isDark && !embedded && "bg-slate-100 border-slate-200"
+      !isDark && !embedded && "bg-[color:var(--alpha-surface-soft)] border-[color:var(--alpha-border)]"
     )}>
       <span className={cn(
-        "absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,207,206,0.14),transparent_46%)] opacity-90",
+        "absolute inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in srgb, var(--main-hex) 16%, transparent),transparent_46%)] opacity-90",
         embedded && "opacity-55"
       )} />
       <div className="relative">
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
-              <CalendarDays className="h-3.5 w-3.5 text-gold" />
+              <CalendarDays className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
               Project calendar
             </div>
             <h3 className="mt-3 text-[16px] font-semibold tracking-tight alpha-text">Deadline board</h3>
@@ -748,7 +748,7 @@ function DashboardCalendarPanel({
                 const next = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
                 setCalendarMonth(next);
               }}
-              className="dashboard-calendar-nav flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-gold/10 hover:text-gold"
+              className="dashboard-calendar-nav flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-[color:var(--alpha-highlight-soft)] hover:text-[color:var(--alpha-highlight)]"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -764,7 +764,7 @@ function DashboardCalendarPanel({
                 const next = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
                 setCalendarMonth(next);
               }}
-              className="dashboard-calendar-nav flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-gold/10 hover:text-gold"
+              className="dashboard-calendar-nav flex h-9 w-9 items-center justify-center rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] transition-colors hover:bg-[color:var(--alpha-highlight-soft)] hover:text-[color:var(--alpha-highlight)]"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -1004,7 +1004,7 @@ function TableRow({
 
       <td className="px-4 py-4">
         {airdrop.walletAddress ? (
-          <div className="flex w-fit items-center gap-2 rounded-[0.9rem] border border-gold/20 bg-gold/10 px-3 py-1.5 text-gold">
+          <div className="flex w-fit items-center gap-2 rounded-[0.9rem] border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] px-3 py-1.5 text-[color:var(--alpha-highlight)]">
             <Wallet className="w-3.5 h-3.5" />
             <span className="font-mono text-xs">{formatWallet(airdrop.walletAddress)}</span>
           </div>
@@ -1016,7 +1016,7 @@ function TableRow({
       <td className="px-4 py-4">
         {airdrop.platformLink ? (
           <a href={airdrop.platformLink} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs transition-colors duration-150 hover:underline text-gold hover:text-gold-hover">
+            className="flex items-center gap-1.5 text-xs transition-colors duration-150 hover:underline text-[color:var(--alpha-highlight)] hover:text-[color:var(--alpha-highlight)]-hover">
             <ExternalLink className="w-3.5 h-3.5" />
             {airdrop.platformLink.slice(0, 25)}...
           </a>
@@ -1036,28 +1036,28 @@ function TableRow({
 
         const tierToColor = (tier: string) =>
           tier === 'High'
-            ? 'text-gold'
+            ? 'text-[color:var(--alpha-highlight)]'
             : tier === 'Medium'
-              ? 'text-gold'
+              ? 'text-[color:var(--alpha-highlight)]'
               : tier === 'Low'
-                ? 'text-gold'
-                : 'text-slate-300';
+                ? 'text-[color:var(--alpha-highlight)]'
+                : 'text-[color:var(--alpha-text-muted)]';
 
         const tierToDot = (tier: string) =>
           tier === 'High'
-            ? 'rgba(255,137,6,0.75)'
+            ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)'
             : tier === 'Medium'
-              ? 'rgba(255,137,6,0.62)'
+              ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)'
               : tier === 'Low'
-                ? 'rgba(255,137,6,0.48)'
-                : 'rgba(75,107,128,0.65)';
+                ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)'
+                : 'color-mix(in srgb, var(--paragraph-hex) 55%, transparent)';
 
-        const fundingDot = airdrop.funding ? 'rgba(255,137,6,0.75)' : 'rgba(75,107,128,0.65)';
-        const fundingText = airdrop.funding ? 'text-gold' : 'text-slate-300';
-        const waitlistDot = airdrop.waitlistCount != null ? 'rgba(255,137,6,0.75)' : 'rgba(75,107,128,0.65)';
-        const waitlistText = airdrop.waitlistCount != null ? 'text-gold' : 'text-slate-300';
-        const confirmedDot = airdrop.airdropConfirmed ? 'rgba(16,185,129,0.75)' : 'rgba(244,114,182,0.5)';
-        const confirmedText = airdrop.airdropConfirmed ? 'text-emerald-300' : 'text-pink-300';
+        const fundingDot = airdrop.funding ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)' : 'color-mix(in srgb, var(--paragraph-hex) 55%, transparent)';
+        const fundingText = airdrop.funding ? 'text-[color:var(--alpha-highlight)]' : 'text-[color:var(--alpha-text-muted)]';
+        const waitlistDot = airdrop.waitlistCount != null ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)' : 'color-mix(in srgb, var(--paragraph-hex) 55%, transparent)';
+        const waitlistText = airdrop.waitlistCount != null ? 'text-[color:var(--alpha-highlight)]' : 'text-[color:var(--alpha-text-muted)]';
+        const confirmedDot = airdrop.airdropConfirmed ? 'color-mix(in srgb, var(--main-hex) 62%, transparent)' : 'color-mix(in srgb, var(--highlight-hex) 52%, transparent)';
+        const confirmedText = airdrop.airdropConfirmed ? 'text-[color:var(--alpha-success)]' : 'text-[color:var(--alpha-highlight)]';
 
         return (
           <>
@@ -1293,7 +1293,7 @@ function DashboardContent() {
         {/* Filters - use macos-card */}
         <div className="mb-3 flex items-center justify-between px-1">
           <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
-            <Filter className="h-3.5 w-3.5 text-gold" />
+            <Filter className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
             Project radar
           </div>
           <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.16em] alpha-text-muted">

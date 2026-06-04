@@ -65,7 +65,7 @@ export function ProjectsMarquee() {
             className={`flex-shrink-0 mx-4 w-48 h-24 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 ${
               isDark 
                 ? 'bg-[var(--alpha-surface)] border border-[var(--alpha-border)] hover:border-[var(--alpha-signal)]' 
-                : 'bg-gray-50 border border-gray-200 hover:border-blue-300'
+                : 'bg-[color:var(--alpha-surface-soft)] border border-[color:var(--alpha-border)] hover:border-[color:var(--alpha-signal-border)]'
             }`}
           >
             <div className="flex items-center gap-3 px-4">
@@ -78,7 +78,7 @@ export function ProjectsMarquee() {
                 }}
               />
               <span className={`font-mono font-bold ${
-                isDark ? 'text-white' : 'text-gray-900'
+                isDark ? 'text-[color:var(--alpha-text)]' : 'text-[color:var(--alpha-text)]'
               }`}>
                 {project.name}
               </span>
