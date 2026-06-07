@@ -89,29 +89,57 @@ const AIRDROP_TYPES: AirdropType[] = [
 
 const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
 
+const badgeTone = {
+  amber: 'bg-[color:var(--alpha-warning-soft)] text-[color:var(--alpha-warning)] border-[color:var(--alpha-warning-border)]',
+  cyan: 'bg-[color:var(--alpha-info-soft)] text-[color:var(--alpha-info)] border-[color:var(--alpha-info-border)]',
+  violet: 'bg-[color:var(--alpha-violet-soft)] text-[color:var(--alpha-violet)] border-[color:var(--alpha-violet-border)]',
+  green: 'bg-[color:var(--alpha-success-soft)] text-[color:var(--alpha-success)] border-[color:var(--alpha-success-border)]',
+  red: 'bg-[color:var(--alpha-danger-soft)] text-[color:var(--alpha-danger)] border-[color:var(--alpha-danger-border)]',
+  yellow: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-type)] border-[color:var(--alpha-highlight-border)]',
+  neutral: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]',
+};
+
 const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
-  'Testnet': { dark: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]', light: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]' },
-  'AI': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
-  'Quest': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
-  'Daily': { dark: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]', light: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]' },
-  'Daily Quest': { dark: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]', light: 'bg-[var(--alpha-warning-soft)] text-[var(--alpha-warning)] border-[var(--alpha-warning-border)]' },
-  'Retroactive': { dark: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]', light: 'bg-[var(--alpha-violet-soft)] text-[var(--alpha-violet)] border-[var(--alpha-violet-border)]' },
-  'Waitlist': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
-  'Node': { dark: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]', light: 'bg-[var(--alpha-info-soft)] text-[var(--alpha-info)] border-[var(--alpha-info-border)]' },
-  'Depin': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
-  'NFT': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
-  'Domain Name': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
-  'Deploy SC': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
-  'DeFi': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
-  'Deploy NFT': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
-  'GameFi': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
+  'Testnet': { dark: badgeTone.violet, light: badgeTone.violet },
+  'AI': { dark: badgeTone.yellow, light: badgeTone.yellow },
+  'Quest': { dark: badgeTone.cyan, light: badgeTone.cyan },
+  'Daily': { dark: badgeTone.green, light: badgeTone.green },
+  'Daily Quest': { dark: badgeTone.green, light: badgeTone.green },
+  'Retroactive': { dark: badgeTone.amber, light: badgeTone.amber },
+  'Waitlist': { dark: badgeTone.violet, light: badgeTone.violet },
+  'Node': { dark: badgeTone.cyan, light: badgeTone.cyan },
+  'Depin': { dark: badgeTone.cyan, light: badgeTone.cyan },
+  'NFT': { dark: badgeTone.red, light: badgeTone.red },
+  'Domain Name': { dark: badgeTone.violet, light: badgeTone.violet },
+  'Deploy SC': { dark: badgeTone.amber, light: badgeTone.amber },
+  'DeFi': { dark: badgeTone.green, light: badgeTone.green },
+  'Deploy NFT': { dark: badgeTone.red, light: badgeTone.red },
+  'GameFi': { dark: badgeTone.yellow, light: badgeTone.yellow },
 };
 
 const STATUS_COLORS: Record<string, { dark: string; light: string }> = {
-  'Planning': { dark: 'bg-light-muted/10 text-light-muted border-light-muted/20', light: 'bg-light-muted/10 text-light-muted border-light-muted/30' },
-  'Ongoing': { dark: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]', light: 'bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)] border-[var(--alpha-signal-border)]' },
-  'Done': { dark: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)]', light: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] border-gold/30' },
-  'Dropped': { dark: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]', light: 'bg-[var(--alpha-danger-soft)] text-[var(--alpha-danger)] border-[var(--alpha-danger-border)]' },
+  'Planning': { dark: badgeTone.violet, light: badgeTone.violet },
+  'Ongoing': { dark: badgeTone.cyan, light: badgeTone.cyan },
+  'Done': { dark: badgeTone.green, light: badgeTone.green },
+  'Dropped': { dark: badgeTone.red, light: badgeTone.red },
+};
+
+const getMetricBadgeTone = (kind: string) => {
+  const tones = {
+    email: 'alpha-metric-badge alpha-metric-badge--email',
+    wallet: 'alpha-metric-badge alpha-metric-badge--wallet',
+    link: 'alpha-metric-link alpha-metric-link--official',
+    confirmed: 'alpha-metric-badge alpha-metric-badge--confirmed',
+    unconfirmed: 'alpha-metric-badge alpha-metric-badge--unconfirmed',
+    funding: 'alpha-metric-badge alpha-metric-badge--funding',
+    empty: 'alpha-metric-badge alpha-metric-badge--empty',
+    waitlist: 'alpha-metric-badge alpha-metric-badge--waitlist',
+    low: 'alpha-metric-badge alpha-metric-badge--low',
+    medium: 'alpha-metric-badge alpha-metric-badge--medium',
+    high: 'alpha-metric-badge alpha-metric-badge--high',
+  };
+
+  return tones[kind as keyof typeof tones] ?? tones.empty;
 };
 
 /* ---------- animations ---------- */
@@ -582,11 +610,11 @@ function DashboardHero({
 function PriceTracker({ isDark }: { isDark: boolean }) {
   const { prices, loading, error, lastUpdatedAt } = usePrices(['bitcoin', 'ethereum', 'solana', 'cardano', 'polkadot']);
   const coins = [
-    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', accent: '#eebbc3' },
-    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', accent: '#b8c1ec' },
-    { id: 'solana', symbol: 'SOL', name: 'Solana', accent: '#b8c1ec' },
-    { id: 'cardano', symbol: 'ADA', name: 'Cardano', accent: '#b8c1ec' },
-    { id: 'polkadot', symbol: 'DOT', name: 'Polkadot', accent: '#eebbc3' },
+    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', accent: '#ffd803' },
+    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', accent: '#2dd4bf' },
+    { id: 'solana', symbol: 'SOL', name: 'Solana', accent: '#2dd4bf' },
+    { id: 'cardano', symbol: 'ADA', name: 'Cardano', accent: '#2dd4bf' },
+    { id: 'polkadot', symbol: 'DOT', name: 'Polkadot', accent: '#ffd803' },
   ];
   const lastUpdatedLabel = lastUpdatedAt
     ? lastUpdatedAt.toLocaleTimeString('en-US', {
@@ -994,7 +1022,7 @@ function TableRow({
 
       <td className="px-4 py-4">
         {airdrop.email ? (
-          <span className="block max-w-[220px] truncate rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1.5 font-mono text-xs alpha-text">
+          <span className={`block max-w-[220px] truncate ${getMetricBadgeTone('email')}`}>
             {airdrop.email}
           </span>
         ) : (
@@ -1004,19 +1032,19 @@ function TableRow({
 
       <td className="px-4 py-4">
         {airdrop.walletAddress ? (
-          <div className="flex w-fit items-center gap-2 rounded-[0.9rem] border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] px-3 py-1.5 text-[color:var(--alpha-highlight)]">
+          <div className={`flex w-fit items-center gap-2 ${getMetricBadgeTone('wallet')}`}>
             <Wallet className="w-3.5 h-3.5" />
             <span className="font-mono text-xs">{formatWallet(airdrop.walletAddress)}</span>
           </div>
         ) : (
-          <span className="font-mono text-xs px-3 py-1.5 rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] alpha-text-muted">No address</span>
+          <span className={getMetricBadgeTone('empty')}>No address</span>
         )}
       </td>
 
       <td className="px-4 py-4">
         {airdrop.platformLink ? (
           <a href={airdrop.platformLink} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs transition-colors duration-150 hover:underline text-[color:var(--alpha-highlight)] hover:text-[color:var(--alpha-highlight)]-hover">
+            className={`flex items-center gap-1.5 transition-colors duration-150 hover:underline ${getMetricBadgeTone('link')}`}>
             <ExternalLink className="w-3.5 h-3.5" />
             {airdrop.platformLink.slice(0, 25)}...
           </a>
@@ -1034,55 +1062,42 @@ function TableRow({
         const effectivePotential = airdrop.potential ?? '-';
         const confirmedLabel = airdrop.airdropConfirmed ? 'Confirmed' : 'Unconfirmed';
 
-        const tierToColor = (tier: string) =>
-          tier === 'High'
-            ? 'text-[color:var(--alpha-highlight)]'
-            : tier === 'Medium'
-              ? 'text-[color:var(--alpha-highlight)]'
-              : tier === 'Low'
-                ? 'text-[color:var(--alpha-highlight)]'
-                : 'text-[color:var(--alpha-text-muted)]';
-
-        const tierToDot = (tier: string) =>
-          tier === 'High'
-            ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)'
-            : tier === 'Medium'
-              ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)'
-              : tier === 'Low'
-                ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)'
-                : 'color-mix(in srgb, var(--paragraph-hex) 55%, transparent)';
-
-        const fundingDot = airdrop.funding ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)' : 'color-mix(in srgb, var(--paragraph-hex) 55%, transparent)';
-        const fundingText = airdrop.funding ? 'text-[color:var(--alpha-highlight)]' : 'text-[color:var(--alpha-text-muted)]';
-        const waitlistDot = airdrop.waitlistCount != null ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)' : 'color-mix(in srgb, var(--paragraph-hex) 55%, transparent)';
-        const waitlistText = airdrop.waitlistCount != null ? 'text-[color:var(--alpha-highlight)]' : 'text-[color:var(--alpha-text-muted)]';
-        const confirmedDot = airdrop.airdropConfirmed ? 'color-mix(in srgb, var(--main-hex) 62%, transparent)' : 'color-mix(in srgb, var(--highlight-hex) 52%, transparent)';
-        const confirmedText = airdrop.airdropConfirmed ? 'text-[color:var(--alpha-success)]' : 'text-[color:var(--alpha-highlight)]';
+        const potentialKind =
+          effectivePotential === 'High'
+            ? 'high'
+            : effectivePotential === 'Medium'
+              ? 'medium'
+              : effectivePotential === 'Low'
+                ? 'low'
+                : 'empty';
+        const fundingKind = airdrop.funding ? 'funding' : 'empty';
+        const waitlistKind = airdrop.waitlistCount != null ? 'waitlist' : 'empty';
+        const confirmedKind = airdrop.airdropConfirmed ? 'confirmed' : 'unconfirmed';
 
         return (
           <>
             <td className="px-4 py-4">
-              <div className="hud-badge">
-                <span className="hud-badge-dot" style={{ background: confirmedDot }} />
-                <span className={`${confirmedText} font-semibold`}>{confirmedLabel}</span>
+              <div className={getMetricBadgeTone(confirmedKind)}>
+                <span className="alpha-metric-dot" />
+                <span className="font-semibold">{confirmedLabel}</span>
               </div>
             </td>
             <td className="px-4 py-4">
-              <div className="hud-badge">
-                <span className="hud-badge-dot" style={{ background: fundingDot }} />
-                <span className={`${fundingText} font-semibold`}>{fundingLabel}</span>
+              <div className={getMetricBadgeTone(fundingKind)}>
+                <span className="alpha-metric-dot" />
+                <span className="font-semibold">{fundingLabel}</span>
               </div>
             </td>
             <td className="px-4 py-4">
-              <div className="hud-badge">
-                <span className="hud-badge-dot" style={{ background: waitlistDot }} />
-                <span className={`${waitlistText} font-semibold`}>{waitlistLabel}</span>
+              <div className={getMetricBadgeTone(waitlistKind)}>
+                <span className="alpha-metric-dot" />
+                <span className="font-semibold">{waitlistLabel}</span>
               </div>
             </td>
             <td className="px-4 py-4">
-              <div className="hud-badge">
-                <span className="hud-badge-dot" style={{ background: tierToDot(effectivePotential) }} />
-                <span className={`${tierToColor(effectivePotential)} font-semibold`}>{effectivePotential}</span>
+              <div className={getMetricBadgeTone(potentialKind)}>
+                <span className="alpha-metric-dot" />
+                <span className="font-semibold">{effectivePotential}</span>
               </div>
             </td>
           </>

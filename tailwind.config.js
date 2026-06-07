@@ -18,8 +18,8 @@ module.exports = {
         extrabold: 800,
       },
       colors: {
-        border: "rgb(var(--border) / <alpha-value>)",
-        input: "rgb(var(--input) / <alpha-value>)",
+        border: "var(--alpha-border)",
+        input: "var(--alpha-border)",
         ring: "rgb(var(--main) / <alpha-value>)",
         background: "rgb(var(--background) / <alpha-value>)",
         foreground: "rgb(var(--headline) / <alpha-value>)",
@@ -52,14 +52,14 @@ module.exports = {
           foreground: "rgb(var(--headline) / <alpha-value>)",
         },
         sidebar: {
-          DEFAULT: "rgb(var(--sidebar-background) / <alpha-value>)",
-          foreground: "rgb(var(--sidebar-foreground) / <alpha-value>)",
-          primary: "rgb(var(--sidebar-primary) / <alpha-value>)",
-          "primary-foreground": "rgb(var(--sidebar-primary-foreground) / <alpha-value>)",
-          accent: "rgb(var(--sidebar-accent) / <alpha-value>)",
-          "accent-foreground": "rgb(var(--sidebar-accent-foreground) / <alpha-value>)",
-          border: "rgb(var(--sidebar-border) / <alpha-value>)",
-          ring: "rgb(var(--sidebar-ring) / <alpha-value>)",
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
         },
         // Custom colors - Premium Dark + Monochrome Accent
         dark: {
@@ -92,9 +92,9 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        neumorphism: "6px 6px 12px color-mix(in srgb, var(--background-hex) 52%, transparent), -4px -4px 10px color-mix(in srgb, var(--card-hex) 10%, transparent)",
-        "neumorphism-lg": "8px 8px 16px color-mix(in srgb, var(--background-hex) 52%, transparent), -5px -5px 12px color-mix(in srgb, var(--card-hex) 10%, transparent)",
-        "neumorphism-inset": "inset 2px 2px 6px color-mix(in srgb, var(--background-hex) 52%, transparent), inset -2px -2px 6px color-mix(in srgb, var(--card-hex) 10%, transparent)",
+        neumorphism: "6px 6px 12px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.03)",
+        "neumorphism-lg": "8px 8px 16px rgba(0, 0, 0, 0.6), -5px -5px 12px rgba(255, 255, 255, 0.04)",
+        "neumorphism-inset": "inset 2px 2px 6px rgba(0, 0, 0, 0.6), inset -2px -2px 6px rgba(255, 255, 255, 0.03)",
       },
       keyframes: {
         "accordion-down": {

@@ -26,7 +26,7 @@ const codingAI: AITool[] = [
     description: "Strong long-context assistant for refactors, writing specs, and code review.",
     url: "https://claude.ai",
     logo: "/logos/claude.png",
-    accent: "#eebbc3",
+    accent: "#ffd803",
     tags: ["context", "review"],
   },
   {
@@ -74,7 +74,7 @@ const codingAI: AITool[] = [
     description: "Browser-first coding assistant for prototypes, apps, and quick product shipping.",
     url: "https://replit.com/ai",
     logo: "/logos/replit.png",
-    accent: "#eebbc3",
+    accent: "#ffd803",
     tags: ["browser", "prototype"],
   },
 ];
@@ -85,7 +85,7 @@ const researchAI: AITool[] = [
     description: "Useful for dense reasoning, market reading, and rough technical synthesis.",
     url: "https://www.deepseek.com",
     logo: "/logos/deepseek.png",
-    accent: "#b8c1ec",
+    accent: "#2dd4bf",
     tags: ["reasoning", "market"],
   },
   {
@@ -93,7 +93,7 @@ const researchAI: AITool[] = [
     description: "Research engine with web grounding for fast fact-finding and exploration.",
     url: "https://www.perplexity.ai",
     logo: "/logos/perplexity.png",
-    accent: "#232946",
+    accent: "#272343",
     tags: ["web", "research"],
   },
   {
@@ -125,7 +125,7 @@ const researchAI: AITool[] = [
     description: "Search-centric assistant with privacy angle and multiple answer modes.",
     url: "https://you.com",
     logo: "/logos/you.png",
-    accent: "#eebbc3",
+    accent: "#ffd803",
     tags: ["privacy", "search"],
   },
   {
@@ -133,7 +133,7 @@ const researchAI: AITool[] = [
     description: "Search API and research workflow focused on high-signal web retrieval.",
     url: "https://exa.ai",
     logo: "/logos/exa.png",
-    accent: "#b8c1ec",
+    accent: "#2dd4bf",
     tags: ["retrieval", "api"],
   },
   {
@@ -141,7 +141,7 @@ const researchAI: AITool[] = [
     description: "Research assistant for reading papers, comparing evidence, and synthesis.",
     url: "https://elicit.com",
     logo: "/logos/elicit.png",
-    accent: "#b8c1ec",
+    accent: "#2dd4bf",
     tags: ["papers", "evidence"],
   },
 ];
@@ -152,7 +152,7 @@ const agentAI: AITool[] = [
     description: "Agent platform for code tasks that can inspect, edit, and iterate on repos.",
     url: "https://openhands.dev",
     logo: "/logos/openhands.png",
-    accent: "#b8c1ec",
+    accent: "#2dd4bf",
     tags: ["coding agent", "automation"],
   },
   {
@@ -160,7 +160,7 @@ const agentAI: AITool[] = [
     description: "Autonomous workflow runner for long-horizon tasks and chained actions.",
     url: "https://agpt.co",
     logo: "/logos/auto.png",
-    accent: "#232946",
+    accent: "#272343",
     tags: ["autonomous", "task loop"],
   },
   {
@@ -176,7 +176,7 @@ const agentAI: AITool[] = [
     description: "Framework for building LLM applications, tools, memory, and chains.",
     url: "https://www.langchain.com",
     logo: "/logos/langchain.png",
-    accent: "#b8c1ec",
+    accent: "#2dd4bf",
     tags: ["framework", "llm apps"],
   },
   {
@@ -184,7 +184,7 @@ const agentAI: AITool[] = [
     description: "Graph-based runtime for stateful multi-step and multi-agent execution.",
     url: "https://www.langchain.com/langgraph",
     logo: "/logos/lang.png",
-    accent: "#b8c1ec",
+    accent: "#2dd4bf",
     tags: ["stateful", "graph"],
   },
   {
@@ -192,7 +192,7 @@ const agentAI: AITool[] = [
     description: "Microsoft framework for agent conversations, tooling, and structured execution.",
     url: "https://microsoft.github.io/autogen/stable/",
     logo: "/logos/ag.png",
-    accent: "#b8c1ec",
+    accent: "#2dd4bf",
     tags: ["framework", "microsoft"],
   },
   {
@@ -200,7 +200,7 @@ const agentAI: AITool[] = [
     description: "Visual builder for chatflows, agent graphs, and internal AI automation.",
     url: "https://flowiseai.com",
     logo: "/logos/flowise.png",
-    accent: "#b8c1ec",
+    accent: "#2dd4bf",
     tags: ["visual", "builder"],
   },
   {
@@ -208,7 +208,7 @@ const agentAI: AITool[] = [
     description: "Platform to ship AI apps, workflows, agents, and internal copilots faster.",
     url: "https://dify.ai",
     logo: "/logos/dify.png",
-    accent: "#b8c1ec",
+    accent: "#2dd4bf",
     tags: ["workflow", "app platform"],
   },
 ];

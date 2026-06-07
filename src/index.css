@@ -10,49 +10,41 @@
 
 :root {
 
-/* Light fallback - Design tokens (Light Mode) */
+/* Light fallback - Alpha Tracker palette */
 
 /* RGB triples for Tailwind use (r g b) */
---background: 212 216 240; /* #d4d8f0 */
---card: 255 255 254; /* #fffffe */
---headline: 35 41 70; /* #232946 */
---paragraph: 35 41 70; /* #232946 */
---icon-stroke: 18 22 41; /* #121629 */
---main: 184 193 236; /* #b8c1ec */
---highlight: 238 187 195; /* #eebbc3 */
---secondary: 255 255 254; /* #fffffe */
---tertiary: 238 187 195; /* #eebbc3 */
---border: 35 41 70; /* #232946 */
---input: 35 41 70; /* #232946 */
+--background: 255 255 254; /* #fffffe */
+--card: 227 246 245; /* #e3f6f5 */
+--headline: 39 35 67; /* #272343 */
+--paragraph: 45 51 74; /* #2d334a */
+--icon-stroke: 39 35 67; /* #272343 */
+--main: 255 216 3; /* #ffd803 */
+--highlight: 255 216 3; /* #ffd803 */
+--secondary: 227 246 245; /* #e3f6f5 */
+--tertiary: 186 232 232; /* #bae8e8 */
 
 /* Hex fallbacks for places using hex vars */
---background-hex: #d4d8f0;
---card-hex: #fffffe;
---headline-hex: #232946;
---paragraph-hex: #232946;
---icon-stroke-hex: #121629;
---main-hex: #b8c1ec;
---highlight-hex: #eebbc3;
---secondary-hex: #fffffe;
---tertiary-hex: #eebbc3;
---border-hex: #232946;
---input-hex: #232946;
---card-headline-hex: #232946;
---card-paragraph-hex: #232946;
---card-tag-bg-hex: #232946;
---card-tag-text-hex: #b8c1ec;
+--background-hex: #fffffe;
+--card-hex: #e3f6f5;
+--headline-hex: #272343;
+--paragraph-hex: #2d334a;
+--icon-stroke-hex: #272343;
+--main-hex: #ffd803;
+--highlight-hex: #ffd803;
+--secondary-hex: #e3f6f5;
+--tertiary-hex: #bae8e8;
 
 --radius: 0.5rem;
 
 /* Compatibility: existing alpha-prefixed variables point to tokens */
 --alpha-bg: var(--background-hex);
---alpha-panel: var(--card-hex);
+--alpha-panel: #fffffe;
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: color-mix(in srgb, var(--main-hex) 88%, var(--headline-hex) 12%);
---alpha-border: color-mix(in srgb, var(--border-hex) 12%, transparent);
---alpha-surface: var(--card-hex);
+--alpha-accent-hover: #e6c200;
+--alpha-border: rgba(39,35,67,0.16);
+--alpha-surface: #fffffe;
 
 }
 
@@ -60,46 +52,38 @@
 
 .dark {
 
-/* Dark Mode - Design tokens (Dark Mode) */
+/* Dark Mode - Alpha Tracker palette */
 
---background: 35 41 70; /* #232946 */
---card: 255 255 254; /* Card background remains white per spec */
+--background: 0 0 0; /* #000000 */
+--card: 12 14 18; /* #0c0e12 */
 --headline: 255 255 254; /* #fffffe */
---paragraph: 184 193 236; /* #b8c1ec */
---icon-stroke: 18 22 41; /* #121629 - use lighter variant as needed */
---main: 184 193 236; /* #b8c1ec */
---highlight: 212 147 157; /* #d4939d */
---secondary: 255 255 254; /* #fffffe */
---tertiary: 212 147 157; /* #d4939d */
---border: 255 255 254; /* #fffffe */
---input: 255 255 254; /* #fffffe */
+--paragraph: 222 232 242; /* #dee8f2 */
+--icon-stroke: 255 255 254; /* #fffffe */
+--main: 45 212 191; /* #2dd4bf */
+--highlight: 255 216 3; /* #ffd803 */
+--secondary: 18 23 31; /* #12171f */
+--tertiary: 51 65 85; /* #334155 */
 
 /* Hex fallbacks */
---background-hex: #232946;
---card-hex: #fffffe;
+--background-hex: #000000;
+--card-hex: #0c0e12;
 --headline-hex: #fffffe;
---paragraph-hex: #b8c1ec;
---icon-stroke-hex: #121629;
---main-hex: #b8c1ec;
---highlight-hex: #d4939d;
---secondary-hex: #fffffe;
---tertiary-hex: #d4939d;
---border-hex: #fffffe;
---input-hex: #fffffe;
---card-headline-hex: #232946;
---card-paragraph-hex: #232946;
---card-tag-bg-hex: #232946;
---card-tag-text-hex: #b8c1ec;
+--paragraph-hex: #dee8f2;
+--icon-stroke-hex: #fffffe;
+--main-hex: #2dd4bf;
+--highlight-hex: #ffd803;
+--secondary-hex: #12171f;
+--tertiary-hex: #334155;
 
 /* Compatibility map */
 --alpha-bg: var(--background-hex);
---alpha-panel: color-mix(in srgb, var(--background-hex) 92%, var(--main-hex) 8%);
+--alpha-panel: var(--card-hex);
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: color-mix(in srgb, var(--main-hex) 88%, var(--background-hex) 12%);
---alpha-border: color-mix(in srgb, var(--card-hex) 14%, transparent);
---alpha-surface: var(--background-hex);
+--alpha-accent-hover: #22b8a6;
+--alpha-border: rgba(255,255,254,0.12);
+--alpha-surface: #0c0e12;
 
 }
 
@@ -211,7 +195,7 @@ body select {
 
   background: var(--alpha-panel);
   border-color: var(--alpha-border);
-  box-shadow: 6px 6px 12px color-mix(in srgb, var(--background-hex) 52%, transparent), -4px -4px 10px color-mix(in srgb, var(--card-hex) 10%, transparent);
+  box-shadow: 6px 6px 12px rgba(0,0,0,0.5), -4px -4px 10px rgba(255,255,255,0.03);
   transition: all 0.2s ease;
 
 }
@@ -219,7 +203,7 @@ body select {
 .terminal-card:hover {
 
   border-color: var(--alpha-border);
-  box-shadow: 8px 8px 16px color-mix(in srgb, var(--background-hex) 52%, transparent), -5px -5px 12px color-mix(in srgb, var(--card-hex) 10%, transparent);
+  box-shadow: 8px 8px 16px rgba(0,0,0,0.6), -5px -5px 12px rgba(255,255,255,0.04);
   transform: translateY(-2px);
 
 }
@@ -281,7 +265,7 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
   background: var(--alpha-surface);
   border: 1px solid var(--alpha-border);
   border-radius: 14px;
-  box-shadow: 6px 6px 12px color-mix(in srgb, var(--background-hex) 52%, transparent), -4px -4px 10px color-mix(in srgb, var(--card-hex) 10%, transparent);
+  box-shadow: 6px 6px 12px rgba(0,0,0,0.5), -4px -4px 10px rgba(255,255,255,0.03);
   transition: all 0.2s ease;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;

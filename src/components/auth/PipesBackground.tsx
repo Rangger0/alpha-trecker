@@ -33,11 +33,11 @@ export function PipesBackground() {
     const rootStyles = getComputedStyle(document.documentElement);
     const readColor = (cssVar: string, fallback: string) => rootStyles.getPropertyValue(cssVar).trim() || fallback;
     const colors = [
-      readColor('--alpha-highlight', '#b8c1ec'),
-      readColor('--alpha-signal', '#b8c1ec'),
-      readColor('--alpha-warning', '#eebbc3'),
-      readColor('--alpha-violet', '#b8c1ec'),
-      readColor('--alpha-info', '#b8c1ec'),
+      readColor('--alpha-highlight', '#2dd4bf'),
+      readColor('--alpha-signal', '#2dd4bf'),
+      readColor('--alpha-warning', '#ffd803'),
+      readColor('--alpha-violet', '#2dd4bf'),
+      readColor('--alpha-info', '#2dd4bf'),
     ];
     const packetColor = readColor('--alpha-text', '#fffffe');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

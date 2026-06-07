@@ -30,10 +30,10 @@ const MOCK_PORTFOLIO_DATA: PortfolioData = {
   totalChange: 1250.75,
   changePercentage: 11.12,
   distribution: [
-    { name: 'Ethereum', value: 5000, percentage: 40, color: '#b8c1ec' },
-    { name: 'BSC', value: 3000, percentage: 24, color: '#eebbc3' },
-    { name: 'Polygon', value: 2500, percentage: 20, color: '#eebbc3' },
-    { name: 'Arbitrum', value: 2000, percentage: 16, color: '#b8c1ec' },
+    { name: 'Ethereum', value: 5000, percentage: 40, color: '#2dd4bf' },
+    { name: 'BSC', value: 3000, percentage: 24, color: '#ffd803' },
+    { name: 'Polygon', value: 2500, percentage: 20, color: '#ffd803' },
+    { name: 'Arbitrum', value: 2000, percentage: 16, color: '#2dd4bf' },
   ],
   history: [
     { date: '2024-01', value: 10000 },
