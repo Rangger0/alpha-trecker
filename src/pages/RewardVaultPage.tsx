@@ -416,7 +416,9 @@ export function RewardVaultPage() {
                           </div>
                           <div className="min-w-0">
                             <p className="truncate pr-2 text-[13px] font-semibold alpha-text">{airdrop.projectName}</p>
-                            <p className="truncate text-[10px] alpha-text-muted">{translateOption("airdropType", airdrop.type)}</p>
+                            <p className="truncate text-[10px] alpha-text-muted">
+                              {airdrop.projectCategory ?? "Other"} • {airdrop.farmingStrategy ?? "Unknown"}
+                            </p>
                           </div>
                         </div>
                         <ArrowUpRight className="h-4 w-4 shrink-0 opacity-0 transition-all duration-300 text-alpha-muted group-hover:opacity-100" />

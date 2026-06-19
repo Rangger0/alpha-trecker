@@ -1,15 +1,19 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { MoonStar, SunMedium } from 'lucide-react';
+import { MoonStar, SunMedium, ArrowRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 const navLinks = [
   { label: 'Features', href: '#features' },
-  { label: 'Benefits', href: '#benefits' },
-  { label: 'Sign In', href: '#auth' },
+  { label: 'Preview', href: '#preview' },
+  { label: 'Workspace', href: '#workspace' },
 ];
 
-export function Navbar() {
+interface NavbarProps {
+  onOpenAuth: (mode?: 'login' | 'register') => void;
+}
+
+export function Navbar({ onOpenAuth }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
   const ThemeIcon = isDark ? MoonStar : SunMedium;
@@ -32,7 +36,7 @@ export function Navbar() {
                   Alpha Tracker
                 </p>
                 <p className="alpha-landing-nav-note hidden sm:block">
-                  Disciplined crypto research and execution workspace
+                  Web3 research workspace
                 </p>
               </div>
             </Link>
@@ -63,28 +67,29 @@ export function Navbar() {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <a href="#auth">
-              <Button
-                variant="ghost"
-                className="rounded-full px-4 text-sm font-medium transition-opacity duration-150 hover:opacity-85"
-                style={{ color: 'var(--alpha-text-muted)' }}
-              >
-                Sign In
-              </Button>
-            </a>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => onOpenAuth('login')}
+              className="hidden rounded-full px-4 text-sm font-medium transition-opacity duration-150 hover:opacity-85 sm:inline-flex"
+              style={{ color: 'var(--alpha-text-muted)' }}
+            >
+              Sign In
+            </Button>
 
-            <a href="#auth">
-              <Button
-                className="macos-btn macos-sheen rounded-full px-5 text-sm font-semibold transition-opacity duration-150 hover:opacity-92"
-                style={{
-                  background: 'var(--alpha-accent-to)',
-                  color: 'var(--alpha-accent-contrast)',
-                  border: '1px solid color-mix(in srgb, var(--alpha-accent-to) 72%, transparent)',
-                }}
-              >
-                Start Tracking
-              </Button>
-            </a>
+            <Button
+              type="button"
+              onClick={() => onOpenAuth('register')}
+              className="macos-btn rounded-full px-4 text-sm font-semibold transition-opacity duration-150 hover:opacity-92 sm:px-5"
+              style={{
+                background: 'var(--alpha-accent)',
+                color: 'var(--alpha-accent-contrast)',
+                border: '1px solid color-mix(in srgb, var(--alpha-accent) 72%, transparent)',
+              }}
+            >
+              <span className="hidden sm:inline">Start Tracking</span>
+              <ArrowRight className="h-4 w-4 sm:ml-1" />
+            </Button>
 
             <button
               type="button"

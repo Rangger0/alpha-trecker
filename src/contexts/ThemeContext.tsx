@@ -1,6 +1,6 @@
 // ALPHA TRECKER - Theme Context
 
-import { createContext, useContext, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -38,7 +38,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(readStoredTheme);
   const switchTimeoutRef = useRef<number | null>(null);
 
-  const beginThemeSwitch = () => {
+  const beginThemeSwitch = useCallback(() => {
     if (typeof window === 'undefined') return;
 
     const root = document.documentElement;
@@ -52,28 +52,36 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       root.classList.remove('theme-switching');
       switchTimeoutRef.current = null;
     }, 90);
-  };
+  }, []);
 
   useLayoutEffect(() => {
     applyThemeToDocument(theme);
     persistTheme(theme);
   }, [theme]);
 
-  const setTheme = (nextTheme: Theme) => {
-    beginThemeSwitch();
-    setThemeState(nextTheme);
-  };
+  useEffect(() => {
+    return () => {
+      if (switchTimeoutRef.current !== null) {
+        window.clearTimeout(switchTimeoutRef.current);
+      }
+    };
+  }, []);
 
-  const toggleTheme = () => {
+  const setTheme = useCallback((nextTheme: Theme) => {
+    beginThemeSwitch();
+    setThemeState((current) => (current === nextTheme ? current : nextTheme));
+  }, [beginThemeSwitch]);
+
+  const toggleTheme = useCallback(() => {
     beginThemeSwitch();
     setThemeState((current) => (current === 'dark' ? 'light' : 'dark'));
-  };
+  }, [beginThemeSwitch]);
 
   const value = useMemo(() => ({
     theme,
     setTheme,
     toggleTheme,
-  }), [theme]);
+  }), [setTheme, theme, toggleTheme]);
 
   return (
     <ThemeContext.Provider value={value}>

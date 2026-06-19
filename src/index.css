@@ -10,41 +10,49 @@
 
 :root {
 
-/* Light fallback - Alpha Tracker palette */
+/* Light fallback - Alpha Tracker enterprise palette */
 
 /* RGB triples for Tailwind use (r g b) */
---background: 255 255 254; /* #fffffe */
---card: 227 246 245; /* #e3f6f5 */
---headline: 39 35 67; /* #272343 */
---paragraph: 45 51 74; /* #2d334a */
---icon-stroke: 39 35 67; /* #272343 */
---main: 255 216 3; /* #ffd803 */
---highlight: 255 216 3; /* #ffd803 */
---secondary: 227 246 245; /* #e3f6f5 */
---tertiary: 186 232 232; /* #bae8e8 */
+--background: 245 247 251; /* #F5F7FB */
+--card: 255 255 255; /* #FFFFFF */
+--headline: 30 41 59; /* #1E293B */
+--paragraph: 100 116 139; /* #64748B */
+--icon-stroke: 30 41 59; /* #1E293B */
+--main: 61 217 174; /* #3DD9AE */
+--highlight: 61 217 174; /* #3DD9AE */
+--secondary: 64 72 109; /* #40486D */
+--tertiary: 229 234 242; /* #E5EAF2 */
 
 /* Hex fallbacks for places using hex vars */
---background-hex: #fffffe;
---card-hex: #e3f6f5;
---headline-hex: #272343;
---paragraph-hex: #2d334a;
---icon-stroke-hex: #272343;
---main-hex: #ffd803;
---highlight-hex: #ffd803;
---secondary-hex: #e3f6f5;
---tertiary-hex: #bae8e8;
+--background-hex: #F5F7FB;
+--card-hex: #FFFFFF;
+--headline-hex: #1E293B;
+--paragraph-hex: #64748B;
+--icon-stroke-hex: #1E293B;
+--main-hex: #3DD9AE;
+--highlight-hex: #3DD9AE;
+--secondary-hex: #40486D;
+--tertiary-hex: #E5EAF2;
 
 --radius: 0.5rem;
 
 /* Compatibility: existing alpha-prefixed variables point to tokens */
 --alpha-bg: var(--background-hex);
---alpha-panel: #fffffe;
+--alpha-panel: var(--card-hex);
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: #e6c200;
---alpha-border: rgba(39,35,67,0.16);
---alpha-surface: #fffffe;
+--alpha-accent-hover: #2FC89E;
+--alpha-border: var(--tertiary-hex);
+--alpha-surface: var(--card-hex);
+
+--bg: var(--background-hex);
+--sidebar: var(--secondary-hex);
+--card-token: var(--card-hex);
+--border-token: var(--tertiary-hex);
+--text: var(--headline-hex);
+--text-secondary: var(--paragraph-hex);
+--accent: var(--main-hex);
 
 }
 
@@ -52,28 +60,28 @@
 
 .dark {
 
-/* Dark Mode - Alpha Tracker palette */
+/* Dark Mode - Alpha Tracker premium navy palette */
 
---background: 0 0 0; /* #000000 */
---card: 12 14 18; /* #0c0e12 */
---headline: 255 255 254; /* #fffffe */
---paragraph: 222 232 242; /* #dee8f2 */
---icon-stroke: 255 255 254; /* #fffffe */
---main: 45 212 191; /* #2dd4bf */
---highlight: 255 216 3; /* #ffd803 */
---secondary: 18 23 31; /* #12171f */
---tertiary: 51 65 85; /* #334155 */
+--background: 26 31 54; /* #1A1F36 */
+--card: 43 51 84; /* #2B3354 */
+--headline: 255 255 255; /* #FFFFFF */
+--paragraph: 170 178 213; /* #AAB2D5 */
+--icon-stroke: 255 255 255; /* #FFFFFF */
+--main: 61 217 174; /* #3DD9AE */
+--highlight: 61 217 174; /* #3DD9AE */
+--secondary: 35 42 70; /* #232A46 */
+--tertiary: 58 69 107; /* #3A456B */
 
 /* Hex fallbacks */
---background-hex: #000000;
---card-hex: #0c0e12;
---headline-hex: #fffffe;
---paragraph-hex: #dee8f2;
---icon-stroke-hex: #fffffe;
---main-hex: #2dd4bf;
---highlight-hex: #ffd803;
---secondary-hex: #12171f;
---tertiary-hex: #334155;
+--background-hex: #1A1F36;
+--card-hex: #2B3354;
+--headline-hex: #FFFFFF;
+--paragraph-hex: #AAB2D5;
+--icon-stroke-hex: #FFFFFF;
+--main-hex: #3DD9AE;
+--highlight-hex: #3DD9AE;
+--secondary-hex: #232A46;
+--tertiary-hex: #3A456B;
 
 /* Compatibility map */
 --alpha-bg: var(--background-hex);
@@ -81,9 +89,17 @@
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: #22b8a6;
---alpha-border: rgba(255,255,254,0.12);
---alpha-surface: #0c0e12;
+--alpha-accent-hover: #2FC89E;
+--alpha-border: var(--tertiary-hex);
+--alpha-surface: var(--card-hex);
+
+--bg: var(--background-hex);
+--sidebar: var(--secondary-hex);
+--card-token: var(--card-hex);
+--border-token: var(--tertiary-hex);
+--text: var(--headline-hex);
+--text-secondary: var(--paragraph-hex);
+--accent: var(--main-hex);
 
 }
 
@@ -195,15 +211,15 @@ body select {
 
   background: var(--alpha-panel);
   border-color: var(--alpha-border);
-  box-shadow: 6px 6px 12px rgba(0,0,0,0.5), -4px -4px 10px rgba(255,255,255,0.03);
-  transition: all 0.2s ease;
+  box-shadow: var(--alpha-shadow);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 
 }
 
 .terminal-card:hover {
 
   border-color: var(--alpha-border);
-  box-shadow: 8px 8px 16px rgba(0,0,0,0.6), -5px -5px 12px rgba(255,255,255,0.04);
+  box-shadow: var(--alpha-shadow);
   transform: translateY(-2px);
 
 }
@@ -265,8 +281,8 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
   background: var(--alpha-surface);
   border: 1px solid var(--alpha-border);
   border-radius: 14px;
-  box-shadow: 6px 6px 12px rgba(0,0,0,0.5), -4px -4px 10px rgba(255,255,255,0.03);
-  transition: all 0.2s ease;
+  box-shadow: var(--alpha-shadow);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -339,7 +355,7 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
   color: var(--alpha-text);
   min-width: 8rem;
   text-align: center;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
   box-shadow: var(--alpha-shadow);
 }
 

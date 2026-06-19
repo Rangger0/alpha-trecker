@@ -1,848 +1,787 @@
-// MultipleAccountPage.tsx
-import { useState, useEffect, useMemo, useCallback, type CSSProperties } from 'react';
-import { createPortal } from 'react-dom';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import {
+  Archive,
+  BadgeCheck,
+  Check,
+  ChevronDown,
+  Copy,
+  Edit3,
+  Layers3,
+  Loader2,
+  Network,
+  Plus,
+  Search,
+  Trash2,
+  Wallet,
+  X,
+} from 'lucide-react';
+import { toast } from 'sonner';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { 
-  ArrowUpRight,
-  BadgeCheck,
-  Layers3,
-  Search, 
-  Users, 
-  Plus, 
-  Trash2, 
-  X,
-  ChevronDown,
-  Wallet,
-  Loader2
-} from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { Progress } from '@/components/ui/progress';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useAirdrops } from '@/hooks/use-airdrops';
-import { supabase } from '@/lib/supabase';
+import { useWallets, type Wallet as StoredWallet } from '@/hooks/use-wallets';
 import type { Airdrop } from '@/types';
+import { cn } from '@/lib/utils';
 
-interface WalletEntry {
-  id: string;
-  address: string;
-  label?: string;
-}
+type WalletFilter = 'all' | 'active' | 'archived' | 'testnet' | 'mainnet';
 
-interface AccountEntry {
-  id: string;
+type WalletFormState = {
+  id?: string;
   projectId: string;
-  projectName: string;
-  projectLogo?: string;
-  type: string;
-  status: string;
-  wallets: WalletEntry[];
-  createdAt: string;
+  address: string;
+  label: string;
+  notes: string;
+  network: string;
+  archived: boolean;
+};
+
+const emptyWalletForm: WalletFormState = {
+  projectId: '',
+  address: '',
+  label: '',
+  notes: '',
+  network: 'Testnet',
+  archived: false,
+};
+
+const networkOptions = ['Testnet', 'Mainnet', 'Ethereum', 'Solana', 'Base', 'Arbitrum', 'BSC', 'Polygon'];
+
+const formatCreatedAt = (value?: string) => {
+  if (!value) return '-';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '-';
+  return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+};
+
+const formatWalletCreatedAt = (value?: string) => {
+  if (!value) return '-';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '-';
+  return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+};
+
+const normalize = (value?: string) => value?.toLowerCase().trim() ?? '';
+
+const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error && error.message) return error.message;
+  if (!error || typeof error !== 'object') return '';
+
+  const record = error as { message?: unknown; details?: unknown; hint?: unknown; code?: unknown };
+  return [record.message, record.details, record.hint, record.code]
+    .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+    .join(' ');
+};
+
+const isTestnetWallet = (wallet: StoredWallet, project?: Airdrop) => {
+  const network = normalize(wallet.network);
+  const type = normalize(project?.type ?? wallet.projectName);
+  return network.includes('testnet') || type.includes('testnet');
+};
+
+const isMainnetWallet = (wallet: StoredWallet) => {
+  const network = normalize(wallet.network);
+  return network.includes('mainnet') || (!network.includes('testnet') && network.length > 0);
+};
+
+function ProjectLogo({
+  project,
+  logoError,
+  onLogoError,
+}: {
+  project: Airdrop;
+  logoError: Record<string, boolean>;
+  onLogoError: (id: string) => void;
+}) {
+  return (
+    <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[0.95rem] border border-alpha-border bg-[color:var(--alpha-surface)]">
+      {project.projectLogo && !logoError[project.id] ? (
+        <img
+          src={project.projectLogo}
+          alt={project.projectName}
+          className="h-full w-full object-cover"
+          onError={() => onLogoError(project.id)}
+        />
+      ) : (
+        <span className="text-base font-semibold alpha-text">{project.projectName[0]?.toUpperCase() ?? '?'}</span>
+      )}
+    </div>
+  );
 }
-
-interface MultiAccountRow {
-  id: string;
-  project_id: string;
-  project_name: string;
-  project_logo?: string | null;
-  type: string;
-  status: string;
-  wallet_address: string;
-  wallet_label?: string | null;
-  created_at: string;
-}
-
-type MacDelayStyle = CSSProperties & {
-  '--mac-delay': string;
-};
-
-const formatWallet = (address: string) => {
-  if (!address) return '';
-  if (address.length <= 12) return address;
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-};
-
-const getAccentColor = (index: number) => {
-  const colors = [
-    'var(--alpha-signal)',
-    'var(--alpha-warning)',
-    'var(--alpha-danger)',
-    'var(--alpha-info)',
-    'var(--alpha-signal)',
-    'var(--alpha-warning)',
-    'var(--alpha-danger)',
-    'var(--alpha-info)',
-  ];
-  return colors[index % colors.length];
-};
-
-const formatCreatedAt = (value: string) =>
-  new Date(value).toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
 
 export function MultipleAccountPage() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-  const { airdrops } = useAirdrops();
+  const { airdrops, loading: projectsLoading } = useAirdrops();
+  const { wallets, loading: walletsLoading, addWallet, updateWallet, deleteWallet, refetch } = useWallets();
   const [searchQuery, setSearchQuery] = useState('');
+  const [filter, setFilter] = useState<WalletFilter>('all');
+  const [expandedProjectIds, setExpandedProjectIds] = useState<Set<string>>(new Set());
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-  const [accounts, setAccounts] = useState<AccountEntry[]>([]);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Airdrop | null>(null);
-  const [showProjectDropdown, setShowProjectDropdown] = useState(false);
-  const [walletEntries, setWalletEntries] = useState<{ address: string; label: string }[]>([{ address: '', label: '' }]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [walletDialogOpen, setWalletDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [form, setForm] = useState<WalletFormState>(emptyWalletForm);
+  const [walletToDelete, setWalletToDelete] = useState<StoredWallet | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const projectById = useMemo(() => new Map(airdrops.map((project) => [project.id, project])), [airdrops]);
+
+  const walletsByProject = useMemo(() => {
+    const grouped = new Map<string, StoredWallet[]>();
+    wallets.forEach((wallet) => {
+      if (!wallet.projectId) return;
+      grouped.set(wallet.projectId, [...(grouped.get(wallet.projectId) ?? []), wallet]);
+    });
+    return grouped;
+  }, [wallets]);
+
+  const projects = useMemo(
+    () =>
+      [...airdrops].sort((left, right) => {
+        const leftWallets = walletsByProject.get(left.id)?.length ?? 0;
+        const rightWallets = walletsByProject.get(right.id)?.length ?? 0;
+        if (rightWallets !== leftWallets) return rightWallets - leftWallets;
+        return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
+      }),
+    [airdrops, walletsByProject]
+  );
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) setCurrentUserId(user.id);
-    };
-    getUser();
-  }, []);
+    if (wallets.length === 0) return;
 
-  const fetchAccounts = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const { data, error } = await supabase
-        .from('multi_accounts')
-        .select('*')
-        .eq('user_id', currentUserId)
-        .order('created_at', { ascending: false });
+    setExpandedProjectIds((previous) => {
+      const next = new Set(previous);
+      wallets.forEach((wallet) => {
+        if (wallet.projectId) next.add(wallet.projectId);
+      });
+      return next;
+    });
+  }, [wallets]);
 
-      if (error) throw error;
+  const stats = useMemo(() => {
+    const activeWallets = wallets.filter((wallet) => !wallet.archived);
+    const labels = new Set(wallets.map((wallet) => wallet.label?.trim()).filter(Boolean));
+    const mainnetWallets = wallets.filter(isMainnetWallet);
+    const testnetWallets = wallets.filter((wallet) => isTestnetWallet(wallet, projectById.get(wallet.projectId ?? '')));
 
-      const rows = (data ?? []) as MultiAccountRow[];
-      const grouped = rows.reduce((acc: Record<string, AccountEntry>, item) => {
-        if (!acc[item.project_id]) {
-          acc[item.project_id] = {
-            id: item.project_id,
-            projectId: item.project_id,
-            projectName: item.project_name,
-            projectLogo: item.project_logo ?? undefined,
-            type: item.type,
-            status: item.status,
-            wallets: [],
-            createdAt: item.created_at };
-        }
-        acc[item.project_id].wallets.push({
-          id: item.id,
-          address: item.wallet_address,
-          label: item.wallet_label ?? undefined });
-        return acc;
-      }, {});
+    return [
+      { label: 'Total Wallet', value: wallets.length, icon: Wallet },
+      { label: 'Active Wallet', value: activeWallets.length, icon: BadgeCheck },
+      { label: 'Total Projects', value: projects.length, icon: Layers3 },
+      { label: 'Labels Used', value: labels.size, icon: Check },
+      { label: 'Mainnet Wallet', value: mainnetWallets.length, icon: Network },
+      { label: 'Testnet Wallet', value: testnetWallets.length, icon: Archive },
+    ];
+  }, [projectById, projects.length, wallets]);
 
-      setAccounts(Object.values(grouped));
-    } catch (error) {
-      console.error('Error fetching accounts:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [currentUserId]);
+  const filteredWallets = useMemo(() => {
+    const query = normalize(searchQuery);
 
-  useEffect(() => {
-    if (currentUserId) {
-      fetchAccounts();
-    }
-  }, [currentUserId, fetchAccounts]);
+    return wallets.filter((wallet) => {
+      const project = projectById.get(wallet.projectId ?? '');
+      const haystack = [
+        wallet.address,
+        wallet.label,
+        wallet.notes,
+        wallet.network,
+        project?.projectName,
+        project?.projectCategory,
+        project?.farmingStrategy,
+      ]
+        .map(normalize)
+        .join(' ');
 
-  const handleLogoError = (id: string) => {
-    setLogoError(prev => ({ ...prev, [id]: true }));
-  };
+      const matchesQuery = !query || haystack.includes(query);
+      const matchesFilter =
+        filter === 'all' ||
+        (filter === 'active' && !wallet.archived) ||
+        (filter === 'archived' && wallet.archived) ||
+        (filter === 'testnet' && isTestnetWallet(wallet, project)) ||
+        (filter === 'mainnet' && isMainnetWallet(wallet));
 
-  const filteredAccounts = accounts.filter((account) =>
-    account.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    account.wallets.some(w => 
-      w.address?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      w.label?.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+      return matchesQuery && matchesFilter;
+    });
+  }, [filter, projectById, searchQuery, wallets]);
+
+  const filteredProjectIds = useMemo(
+    () => new Set(filteredWallets.map((wallet) => wallet.projectId).filter(Boolean)),
+    [filteredWallets]
   );
-  const totalWallets = useMemo(
-    () => accounts.reduce((acc, account) => acc + account.wallets.length, 0),
-    [accounts]
-  );
-  const labeledWallets = useMemo(
-    () => accounts.reduce((acc, account) => acc + account.wallets.filter((wallet) => Boolean(wallet.label)).length, 0),
-    [accounts]
-  );
-  const activeTypes = useMemo(
-    () => new Set(accounts.map((account) => account.type).filter(Boolean)).size,
-    [accounts]
-  );
-  const focusAccount = useMemo(() => {
-    return [...filteredAccounts].sort((left, right) => {
-      if (right.wallets.length !== left.wallets.length) {
-        return right.wallets.length - left.wallets.length;
+
+  const visibleProjects = useMemo(() => {
+    const query = normalize(searchQuery);
+    if (!query && filter === 'all') return projects;
+
+    return projects.filter((project) => {
+      const projectMatches = normalize(project.projectName).includes(query);
+      return projectMatches || filteredProjectIds.has(project.id);
+    });
+  }, [filter, filteredProjectIds, projects, searchQuery]);
+
+  const resetForm = () => setForm(emptyWalletForm);
+
+  const toggleProject = (projectId: string) => {
+    setExpandedProjectIds((previous) => {
+      const next = new Set(previous);
+      if (next.has(projectId)) {
+        next.delete(projectId);
+      } else {
+        next.add(projectId);
       }
-      return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
-    })[0] ?? null;
-  }, [filteredAccounts]);
-
-  const addWalletField = () => setWalletEntries([...walletEntries, { address: '', label: '' }]);
-  
-  const removeWalletField = (index: number) => {
-    if (walletEntries.length > 1) setWalletEntries(walletEntries.filter((_, i) => i !== index));
+      return next;
+    });
   };
 
-  const updateWalletField = (index: number, field: 'address' | 'label', value: string) => {
-    const newEntries = [...walletEntries];
-    newEntries[index][field] = value;
-    setWalletEntries(newEntries);
+  const openAddWallet = (projectId = '') => {
+    setForm({ ...emptyWalletForm, projectId });
+    setWalletDialogOpen(true);
   };
 
-  const handleAdd = async () => {
-    if (!selectedProject || !currentUserId) return;
-    const validWallets = walletEntries.filter(w => w.address.trim() !== '');
-    if (validWallets.length === 0) return;
+  const openEditWallet = (wallet: StoredWallet) => {
+    setForm({
+      id: wallet.id,
+      projectId: wallet.projectId ?? '',
+      address: wallet.address,
+      label: wallet.label ?? '',
+      notes: wallet.notes ?? '',
+      network: wallet.network ?? 'Testnet',
+      archived: Boolean(wallet.archived),
+    });
+    setWalletDialogOpen(true);
+  };
 
-    setIsSubmitting(true);
+  const submitWallet = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const project = projectById.get(form.projectId);
+    if (!project) {
+      toast.error('Select a project first.');
+      return;
+    }
+    if (!form.address.trim()) {
+      toast.error('Wallet address is required.');
+      return;
+    }
+
+    setSubmitting(true);
     try {
-      const inserts = validWallets.map(wallet => ({
-        user_id: currentUserId,
-        project_id: selectedProject.id,
-        project_name: selectedProject.projectName,
-        project_logo: selectedProject.projectLogo,
-        type: selectedProject.type,
-        status: selectedProject.status,
-        wallet_address: wallet.address.trim(),
-        wallet_label: wallet.label.trim() || null }));
+      const payload = {
+        projectId: project.id,
+        projectName: project.projectName,
+        walletAddress: form.address.trim(),
+        label: form.label.trim() || undefined,
+        notes: form.notes.trim() || undefined,
+        network: form.network,
+        archived: form.archived,
+      };
 
-      const { error } = await supabase.from('multi_accounts').insert(inserts);
-      if (error) throw error;
+      if (form.id) {
+        await updateWallet(form.id, payload);
+        toast.success('Wallet updated.');
+      } else {
+        await addWallet(payload);
+        toast.success('Wallet added.');
+      }
 
-      await fetchAccounts();
-      setIsAddModalOpen(false);
-      setSelectedProject(null);
-      setWalletEntries([{ address: '', label: '' }]);
+      await refetch();
+      setExpandedProjectIds((previous) => new Set(previous).add(project.id));
+      setWalletDialogOpen(false);
+      resetForm();
     } catch (error) {
-      console.error('Error adding accounts:', error);
+      console.error('Failed to save wallet:', error);
+      const message = getErrorMessage(error);
+      toast.error(message ? `Failed to save wallet: ${message}` : 'Failed to save wallet.');
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
 
-  const handleDelete = async (walletId: string) => {
-    if (!confirm('Delete this wallet?')) return;
+  const requestDeleteWallet = (wallet: StoredWallet) => {
+    setWalletToDelete(wallet);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteWallet = async () => {
+    if (!walletToDelete) return;
     try {
-      const { error } = await supabase
-        .from('multi_accounts')
-        .delete()
-        .eq('id', walletId)
-        .eq('user_id', currentUserId);
-      if (error) throw error;
-      await fetchAccounts();
+      await deleteWallet(walletToDelete.id);
+      await refetch();
+      toast.success('Wallet deleted.');
+      setDeleteDialogOpen(false);
+      setWalletToDelete(null);
     } catch (error) {
-      console.error('Error deleting wallet:', error);
+      console.error('Failed to delete wallet:', error);
+      toast.error('Failed to delete wallet.');
     }
   };
 
-  const handleDeleteProject = async (projectId: string) => {
-    if (!confirm('Delete all wallets for this project?')) return;
+  const copyWallet = async (wallet: StoredWallet) => {
     try {
-      const { error } = await supabase
-        .from('multi_accounts')
-        .delete()
-        .eq('project_id', projectId)
-        .eq('user_id', currentUserId);
-      if (error) throw error;
-      await fetchAccounts();
-    } catch (error) {
-      console.error('Error deleting project:', error);
+      await navigator.clipboard.writeText(wallet.address);
+      setCopiedId(wallet.id);
+      toast.success('Wallet copied');
+      window.setTimeout(() => setCopiedId(null), 1400);
+    } catch {
+      toast.error('Clipboard is not available.');
     }
   };
 
-  if (isLoading) {
-    return (
-      <DashboardLayout disableMonochrome>
-        <div className="flex items-center justify-center h-64">
-          <Loader2 className={`w-8 h-8 animate-spin ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
-        </div>
-      </DashboardLayout>
-    );
-  }
+  const loading = projectsLoading || walletsLoading;
 
   return (
     <DashboardLayout disableMonochrome>
-      <div className="macos-root macos-page-shell">
-        <div className="macos-page-header macos-animate-up">
-          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-end">
+      <main className="macos-root macos-page-shell">
+        <section className="macos-page-header macos-animate-up">
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(380px,0.72fr)] xl:items-end">
             <div>
               <div className="macos-page-kicker">
-                <Users className="h-3.5 w-3.5" />
-                Wallet Matrix
+                <Wallet className="h-3.5 w-3.5" />
+                Multi account
               </div>
-              <h1 className="macos-page-title">Multiple Account Management</h1>
+              <h1 className="macos-page-title">Multi Account Management</h1>
               <p className="macos-page-subtitle">
-               
+                Manage project wallets from the same project and wallet data used across Alpha Tracker.
               </p>
-
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.16em] alpha-text-muted">
-                  {totalWallets} wallets managed
+                  {wallets.length} wallets tracked
                 </span>
                 <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.16em] alpha-text-muted">
-                  {accounts.length} active projects
+                  {projects.length} projects linked
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { label: 'Wallets tracked', value: totalWallets, icon: Wallet },
-                { label: 'Projects linked', value: accounts.length, icon: Layers3 },
-                { label: 'Labeled wallets', value: labeledWallets, icon: BadgeCheck },
-                { label: 'Project types', value: activeTypes, icon: Users },
-              ].map((card, index) => {
-                const Icon = card.icon;
-                return (
-                  <div
-                    key={card.label}
-                    className="macos-card macos-card-entry rounded-[1.2rem] px-4 py-3"
-                    style={{ '--mac-delay': `${index * 40}ms` } as MacDelayStyle}
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-[10px] uppercase tracking-[0.22em] alpha-text-muted">{card.label}</p>
-                      <Icon className="h-4 w-4 alpha-text-muted" />
-                    </div>
-                    <p className="mt-2 text-2xl font-semibold alpha-text">{card.value}</p>
-                  </div>
-                );
-              })}
-            </div>
+            <Button
+              onClick={() => openAddWallet(projects[0]?.id ?? '')}
+              className="h-11 justify-self-start rounded-[0.95rem] border border-[color:var(--alpha-signal)] bg-[color:var(--alpha-signal)] px-4 font-mono text-[color:var(--alpha-accent-contrast)] hover:bg-[color:var(--alpha-signal-press)] xl:justify-self-end"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Add Wallet
+            </Button>
           </div>
-        </div>
+        </section>
 
-        {focusAccount ? (
-          <section
-            className="mb-5 overflow-hidden rounded-[1.55rem] border p-5"
-            style={{
-              borderColor: 'var(--alpha-border)',
-              background: `linear-gradient(135deg, color-mix(in srgb, ${getAccentColor(0)} 12%, var(--alpha-surface)), var(--alpha-surface))`,
-              boxShadow: `0 20px 40px color-mix(in srgb, ${getAccentColor(0)} 10%, transparent)`,
-            }}
-          >
-            <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px] xl:items-end">
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
-                  <BadgeCheck className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
-                  Focus wallet desk
+        <section className="mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          {stats.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.label} className="macos-card rounded-[1.05rem] p-4 shadow-none">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">{item.label}</p>
+                  <Icon className="h-4 w-4 alpha-text-muted" />
                 </div>
-
-                <div className="mt-4 flex items-start gap-4">
-                  <div
-                    className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border shadow-[var(--alpha-shadow)]"
-                    style={{
-                      borderColor: 'var(--alpha-border)',
-                      background: 'color-mix(in srgb, var(--alpha-surface-soft) 92%, transparent)',
-                    }}
-                  >
-                    {focusAccount.projectLogo && !logoError[focusAccount.projectId] ? (
-                      <img
-                        src={focusAccount.projectLogo}
-                        alt={focusAccount.projectName}
-                        className="h-9 w-9 object-cover"
-                        onError={() => handleLogoError(focusAccount.projectId)}
-                      />
-                    ) : (
-                      <span className="text-lg font-semibold" style={{ color: getAccentColor(0) }}>
-                        {focusAccount.projectName[0]?.toUpperCase()}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="text-2xl font-semibold alpha-text">{focusAccount.projectName}</h2>
-                      <span
-                        className="rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-[0.18em]"
-                        style={{
-                          color: getAccentColor(0),
-                          borderColor: `color-mix(in srgb, ${getAccentColor(0)} 38%, var(--alpha-border))`,
-                          background: `color-mix(in srgb, ${getAccentColor(0)} 14%, transparent)`,
-                        }}
-                      >
-                        {focusAccount.type}
-                      </span>
-                    </div>
-                    <p className="mt-1.5 max-w-2xl text-sm leading-6 alpha-text-muted">
-                     
-                    </p>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {focusAccount.wallets.slice(0, 4).map((wallet) => (
-                        <span
-                          key={wallet.id}
-                          className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.16em] alpha-text-muted"
-                        >
-                          {wallet.label || formatWallet(wallet.address)}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <p className="mt-2 text-2xl font-semibold alpha-text">{item.value}</p>
               </div>
+            );
+          })}
+        </section>
 
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { label: 'Wallets', value: focusAccount.wallets.length },
-                  { label: 'Labeled', value: focusAccount.wallets.filter((wallet) => Boolean(wallet.label)).length },
-                  { label: 'Status', value: focusAccount.status || 'Tracked' },
-                  { label: 'Added', value: formatCreatedAt(focusAccount.createdAt) },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className="rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3.5 py-3"
-                  >
-                    <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">{item.label}</p>
-                    <p className="mt-2 text-lg font-semibold alpha-text">{item.value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        ) : null}
-
-        <div className="mb-6 macos-card rounded-[1.35rem] p-4">
-          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-            <label className="relative group flex-1">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 alpha-text-muted transition-colors group-focus-within:text-[var(--alpha-signal)]" />
-              <Input 
-                placeholder="Search projects or wallets..." 
+        <section className="mb-6 macos-card rounded-[1.15rem] p-4 shadow-none">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+            <label className="flex h-11 min-w-0 flex-1 items-center gap-3 rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-4">
+              <Search className="h-4 w-4 shrink-0 alpha-text-muted" />
+              <Input
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-11 rounded-[1rem] border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface)] pl-10 font-mono"
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search address, label, or project..."
+                className="h-auto min-w-0 border-0 bg-transparent p-0 font-mono shadow-none focus-visible:ring-0"
               />
             </label>
 
-            <div className="flex items-center gap-3 xl:min-w-[280px] xl:justify-end">
-              <div className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-                {filteredAccounts.length} project cards
-              </div>
-              <Button
-                onClick={() => setIsAddModalOpen(true)}
-                className={`rounded-[0.95rem] font-mono border-2 transition-all duration-200 ${
-                  isDark 
-                    ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]' 
-                    : 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]'
-                }`}
-              >
-                <Plus className="mr-2 h-4 w-4" />
-                Add Account
-              </Button>
-            </div>
+            <Select value={filter} onValueChange={(value) => setFilter(value as WalletFilter)}>
+              <SelectTrigger className="h-11 w-full rounded-[1rem] border-alpha-border bg-[color:var(--alpha-surface)] alpha-text lg:w-[190px]">
+                <SelectValue placeholder="Filter wallets" />
+              </SelectTrigger>
+              <SelectContent className="macos-popover border-alpha-border bg-[color:var(--alpha-panel)]">
+                <SelectItem value="all">All Wallets</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="archived">Archived</SelectItem>
+                <SelectItem value="testnet">Testnet</SelectItem>
+                <SelectItem value="mainnet">Mainnet</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        </div>
+        </section>
 
-        {filteredAccounts.length === 0 ? (
-          <div className="macos-empty-state py-16 text-center">
-            <Users className={`w-16 h-16 mx-auto mb-4 ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`} />
-            <h3 className={`font-mono font-bold mb-2 ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
-              No accounts found
-            </h3>
-            <p className={`font-mono text-sm mb-4 ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
-              Add your first account to track multiple entries.
-            </p>
-            <Button
-              onClick={() => setIsAddModalOpen(true)}
-              className={`font-mono border-2 ${
-                isDark 
-                  ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)]' 
-                  : 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)]'
-              }`}
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Account
-            </Button>
+        {loading ? (
+          <div className="flex min-h-64 items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-[color:var(--alpha-signal)]" />
           </div>
+        ) : visibleProjects.length === 0 ? (
+          <section className="macos-empty-state rounded-[1.15rem] border border-dashed border-alpha-border py-16 text-center">
+            <Wallet className="mx-auto mb-4 h-12 w-12 alpha-text-muted" />
+            <h2 className="text-lg font-semibold alpha-text">No wallet project found</h2>
+            <p className="mt-2 text-sm alpha-text-muted">
+              Create a project from Dashboard, then add wallets here.
+            </p>
+          </section>
         ) : (
-          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
-            {filteredAccounts.map((account, index) => {
-              const accent = getAccentColor(index);
-              
+          <section className="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
+            {visibleProjects.map((project) => {
+              const projectWallets = (walletsByProject.get(project.id) ?? []).filter((wallet) =>
+                filteredWallets.some((filtered) => filtered.id === wallet.id)
+              );
+              const allProjectWallets = walletsByProject.get(project.id) ?? [];
+              const labelCount = new Set(allProjectWallets.map((wallet) => wallet.label?.trim()).filter(Boolean)).size;
+              const activeCount = allProjectWallets.filter((wallet) => !wallet.archived).length;
+              const progress = allProjectWallets.length === 0 ? 0 : Math.round((activeCount / allProjectWallets.length) * 100);
+              const isExpanded = expandedProjectIds.has(project.id);
+
               return (
-                <div
-                  key={account.projectId}
-                  className="group relative overflow-hidden rounded-[1.45rem] border p-5 transition-all duration-200 hover:-translate-y-0.5"
-                  style={{
-                    borderColor: 'var(--alpha-border)',
-                    background: `linear-gradient(160deg, color-mix(in srgb, ${accent} 11%, var(--alpha-surface)), var(--alpha-surface))`,
-                    boxShadow: `0 18px 34px color-mix(in srgb, ${accent} 10%, transparent)`,
-                    '--mac-delay': `${index * 24}ms`,
-                  } as MacDelayStyle}
+                <article
+                  key={project.id}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => toggleProject(project.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      toggleProject(project.id);
+                    }
+                  }}
+                  className="macos-card flex cursor-pointer flex-col rounded-[1.15rem] p-4 shadow-none transition-colors hover:border-[color:var(--alpha-border-strong)]"
                 >
-                  <div
-                    className="pointer-events-none absolute inset-x-0 top-0 h-24 opacity-70"
-                    style={{
-                      background: `linear-gradient(135deg, color-mix(in srgb, ${accent} 22%, transparent), transparent 74%)`
-                    }}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex min-w-0 items-start gap-3">
+                      <ProjectLogo project={project} logoError={logoError} onLogoError={(id) => setLogoError((prev) => ({ ...prev, [id]: true }))} />
+                      <div className="min-w-0">
+                        <h2 className="truncate text-lg font-semibold alpha-text">{project.projectName}</h2>
+                        <p className="mt-1 text-[11px] uppercase tracking-[0.16em] alpha-text-muted">
+                          Status: {project.status}
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2.5 py-1 text-[9px] uppercase tracking-[0.14em] alpha-text-muted">
+                            Category: {project.projectCategory ?? 'Other'}
+                          </span>
+                          <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2.5 py-1 text-[9px] uppercase tracking-[0.14em] alpha-text-muted">
+                            Strategy: {project.farmingStrategy ?? 'Unknown'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-2">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] alpha-text-muted">
+                        {isExpanded ? 'Collapse' : 'Expand'}
+                        <ChevronDown className={cn('h-3.5 w-3.5 transition-transform', isExpanded && 'rotate-180')} />
+                      </span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          openAddWallet(project.id);
+                        }}
+                        className="h-9 w-9 shrink-0 rounded-[0.85rem] border border-alpha-border bg-[color:var(--alpha-surface)] alpha-text-muted hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
+                        title="Add wallet"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    <div className="rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-2.5">
+                      <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Total Wallet</p>
+                      <p className="mt-1 text-lg font-semibold alpha-text">{allProjectWallets.length}</p>
+                    </div>
+                    <div className="rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-2.5">
+                      <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Active Wallet</p>
+                      <p className="mt-1 text-lg font-semibold alpha-text">{activeCount}</p>
+                    </div>
+                    <div className="rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-2.5">
+                      <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Labels Used</p>
+                      <p className="mt-1 text-lg font-semibold alpha-text">{labelCount}</p>
+                    </div>
+                    <div className="rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-2.5">
+                      <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Created</p>
+                      <p className="mt-1 text-sm font-semibold alpha-text">{formatCreatedAt(project.createdAt)}</p>
+                    </div>
+                    <div className="rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-2.5">
+                      <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Progress</p>
+                      <p className="mt-1 text-sm font-semibold alpha-text">{progress}% active</p>
+                    </div>
+                    <div className="rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-2.5">
+                      <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Wallet List</p>
+                      <p className="mt-1 flex items-center gap-1 text-sm font-semibold alpha-text">
+                        {isExpanded ? 'Expanded' : 'Collapsed'}
+                        <ChevronDown className={cn('h-3.5 w-3.5 transition-transform', isExpanded && 'rotate-180')} />
+                      </p>
+                    </div>
+                  </div>
+
+                  <Progress
+                    value={progress}
+                    className="mt-4 h-2 border border-alpha-border bg-[color:var(--alpha-hover-soft)] [&_[data-slot=progress-indicator]]:bg-[color:var(--alpha-signal)]"
                   />
 
-                  <div className="relative z-10">
-                    <div className="flex items-start gap-4">
-                      <div 
-                        className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border transition-transform duration-300 group-hover:scale-[1.05]"
-                        style={{
-                          background: 'color-mix(in srgb, var(--alpha-surface-soft) 92%, transparent)',
-                          borderColor: 'var(--alpha-border)',
-                        }}
-                      >
-                        {account.projectLogo && !logoError[account.projectId] ? (
-                          <img 
-                            src={account.projectLogo} 
-                            alt={account.projectName}
-                            className="w-full h-full object-cover"
-                            onError={() => handleLogoError(account.projectId)}
-                          />
-                        ) : (
-                          <div 
-                            className="w-full h-full flex items-center justify-center font-bold text-xl"
-                            style={{ color: accent }}
-                          >
-                            {account.projectName[0].toUpperCase()}
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <h3 className="text-xl font-semibold alpha-text">{account.projectName}</h3>
-                          <ArrowUpRight className="h-4 w-4 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style={{ color: accent }} />
-                          <span 
-                            className="rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-[0.18em]"
-                            style={{
-                              color: accent,
-                              borderColor: `color-mix(in srgb, ${accent} 40%, var(--alpha-border))`,
-                              background: `color-mix(in srgb, ${accent} 14%, transparent)`,
-                            }}
-                          >
-                            {account.type}
-                          </span>
-                          <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-                            {account.wallets.length} wallets
-                          </span>
-                        </div>
-
-                        <p className="mt-1 text-[11px] uppercase tracking-[0.18em] alpha-text-muted">
-                          {account.status || 'Tracked'} • added {formatCreatedAt(account.createdAt)}
-                        </p>
-                      </div>
-
-                      <button
-                        onClick={() => handleDeleteProject(account.projectId)}
-                        className={`p-2 rounded-lg transition-colors opacity-0 group-hover:opacity-100 ${
-                          isDark 
-                            ? 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-danger)] hover:bg-[var(--alpha-danger-soft)]' 
-                            : 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-danger)] hover:bg-[var(--alpha-danger-soft)]'
-                        }`}
-                        title="Delete all wallets"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    <div className="mt-4 grid grid-cols-2 gap-3">
-                      <div className="rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-3">
-                        <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Wallet slots</p>
-                        <p className="mt-2 text-lg font-semibold alpha-text">{account.wallets.length}</p>
-                      </div>
-                      <div className="rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-3">
-                        <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">Labels active</p>
-                        <p className="mt-2 text-lg font-semibold alpha-text">
-                          {account.wallets.filter((wallet) => Boolean(wallet.label)).length}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      {account.wallets.map((wallet, idx) => (
-                        <div 
-                          key={wallet.id}
-                          className="group/wallet flex items-center justify-between rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-3 transition-colors duration-150 hover:border-[color:var(--alpha-border-strong)]"
-                        >
-                          <div className="flex items-center gap-2 min-w-0">
-                            <div 
-                              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[0.7rem] text-[10px] font-mono font-bold"
-                              style={{
-                                background: `color-mix(in srgb, ${accent} 16%, transparent)`,
-                                color: accent,
-                              }}
-                            >
-                              #{idx + 1}
-                            </div>
-                            <div className="min-w-0">
-                              {wallet.label && (
-                                <p className="text-[10px] uppercase tracking-[0.16em]" style={{ color: accent }}>
-                                  {wallet.label}
-                                </p>
-                              )}
-                              <p className="font-mono text-sm alpha-text truncate">
-                                {formatWallet(wallet.address)}
-                              </p>
-                            </div>
-                          </div>
-                          
-                          <button
-                            onClick={() => handleDelete(wallet.id)}
-                            className={`p-1.5 rounded-lg transition-colors opacity-0 group-hover/wallet:opacity-100 ${
-                              isDark 
-                                ? 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-danger)] hover:bg-[var(--alpha-danger-soft)]' 
-                                : 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-danger)] hover:bg-[var(--alpha-danger-soft)]'
-                            }`}
-                            title="Delete wallet"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-4 flex items-center justify-between gap-3 text-[11px] alpha-text-muted">
-                      <span>{account.wallets.length > 1 ? 'Split wallet setup' : 'Single wallet setup'}</span>
-                      <span style={{ color: accent }}>Project cluster</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Add Account Modal */}
-      {isAddModalOpen && typeof document !== 'undefined' &&
-        createPortal(
-          <div
-            className="fixed inset-0 z-[140] overflow-y-auto bg-[color:var(--alpha-overlay)] px-4 py-5 sm:px-6 sm:py-8"
-            onClick={() => setIsAddModalOpen(false)}
-          >
-            <div className="flex min-h-full items-start justify-center sm:items-center">
-              <div
-                className={`flex w-full max-w-lg flex-col overflow-hidden rounded-[2rem] border shadow-2xl ${
-                  isDark
-                    ? 'bg-[color:color-mix(in_srgb,var(--alpha-panel)_96%,transparent)] border-[var(--alpha-signal-border)]'
-                    : 'bg-[color:color-mix(in_srgb,var(--alpha-panel)_96%,transparent)] border-[var(--alpha-border)]'
-                } max-h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-4rem)]`}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="flex flex-shrink-0 items-center justify-between border-b px-6 py-5"
-                  style={{ borderColor: 'var(--alpha-border)' }}
-                >
-                  <h2 className="text-xl font-mono font-bold text-[var(--alpha-signal)]">
-                    Add Account
-                  </h2>
-                  <button
-                    onClick={() => setIsAddModalOpen(false)}
-                    className="rounded p-1 text-[var(--alpha-text-muted)] hover:text-[var(--alpha-signal)]"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <div className="flex-1 space-y-4 overflow-y-auto px-6 py-5">
-                  {/* Project Selector */}
-                  <div className="space-y-2">
-                    <label className="font-mono text-sm text-[var(--alpha-signal)]">
-                      Select Project *
-                    </label>
-                    <div className="relative">
-                      <button
-                        onClick={() => setShowProjectDropdown(!showProjectDropdown)}
-                        className={`w-full flex items-center justify-between p-3 rounded border-2 font-mono ${
-                          isDark 
-                            ? 'bg-[var(--alpha-surface)] border-[var(--alpha-signal-border)] text-[var(--alpha-signal)]' 
-                            : 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)]'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          {selectedProject ? (
-                            <>
-                              {selectedProject.projectLogo ? (
-                                <img src={selectedProject.projectLogo} alt="" className="w-6 h-6 rounded object-cover" />
-                              ) : (
-                                <div className="w-6 h-6 rounded bg-[var(--alpha-surface-strong)]" />
-                              )}
-                              <span>{selectedProject.projectName}</span>
-                            </>
-                          ) : (
-                            <span className="text-[var(--alpha-text-muted)]">Choose a project...</span>
-                          )}
-                        </div>
-                        <ChevronDown className={`w-4 h-4 transition-transform ${showProjectDropdown ? 'rotate-180' : ''}`} />
-                      </button>
-
-                      {showProjectDropdown && (
-                        <div className={`absolute top-full left-0 right-0 mt-1 max-h-60 overflow-y-auto rounded border-2 z-50 ${
-                          isDark
-                            ? 'bg-[var(--alpha-surface)] border-[var(--alpha-signal-border)]'
-                            : 'bg-[var(--alpha-panel)] border-[var(--alpha-border)]'
-                        }`}>
-                          {airdrops.length === 0 ? (
-                            <div className="p-3 text-center font-mono text-sm text-[var(--alpha-text-muted)]">
-                              No projects available
-                            </div>
-                          ) : (
-                            airdrops.map(project => (
-                              <button
-                                key={project.id}
-                                onClick={() => {
-                                  setSelectedProject(project);
-                                  setShowProjectDropdown(false);
-                                }}
-                                className={`w-full flex items-center gap-3 p-3 text-left transition-colors ${
-                                  isDark 
-                                    ? 'hover:bg-[var(--alpha-signal-soft)] text-[var(--alpha-signal)]' 
-                                    : 'hover:bg-[var(--alpha-hover-soft)] text-[var(--alpha-text)]'
-                                }`}
-                              >
-                                {project.projectLogo ? (
-                                  <img src={project.projectLogo} alt="" className="w-8 h-8 rounded object-cover" />
-                                ) : (
-                                  <div className="w-8 h-8 rounded bg-[var(--alpha-surface-strong)]" />
-                                )}
-                                <div>
-                                  <p className="font-mono font-bold text-sm">{project.projectName}</p>
-                                  <p className="font-mono text-xs text-[var(--alpha-text-muted)]">{project.type}</p>
-                                </div>
-                              </button>
-                            ))
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Multiple  Entries */}
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <label className="font-mono text-sm text-[var(--alpha-signal)]">
-                         Addresses *
-                      </label>
-                      <span className="text-xs font-mono text-[var(--alpha-text-muted)]">
-                        {walletEntries.length} wallet(s)
+                  {isExpanded ? (
+                  <div className="mt-4 flex-1 overflow-hidden rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)]">
+                    <div className="flex items-center justify-between gap-3 border-b border-alpha-border px-3.5 py-3">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] alpha-text-muted">Wallets</p>
+                      <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2 py-0.5 text-[9px] uppercase tracking-[0.14em] alpha-text-muted">
+                        {projectWallets.length} visible
                       </span>
                     </div>
-
-                    <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
-                      {walletEntries.map((entry, index) => (
-                        <div 
-                          key={index} 
-                          className={`p-4 rounded-lg border-2 space-y-3 relative ${
-                            isDark 
-                              ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' 
-                              : 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]'
-                          }`}
+                    {projectWallets.length === 0 ? (
+                      <div className="px-3 py-8 text-center text-sm alpha-text-muted">
+                        No wallet matches this view.
+                      </div>
+                    ) : (
+                      <div className="divide-y divide-[color:var(--alpha-border)]">
+                      {projectWallets.map((wallet) => (
+                        <div
+                          key={wallet.id}
+                          className="p-3.5 transition-colors hover:bg-[color:var(--alpha-hover-soft)]"
                         >
-                          <div className="flex items-center justify-between">
-                            <span className={`text-xs font-mono font-bold ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`}>
-                               #{index + 1}
-                            </span>
-                            {walletEntries.length > 1 && (
-                              <button
-                                onClick={() => removeWalletField(index)}
-                                className={`p-1 rounded transition-colors ${
-                                  isDark 
-                                    ? 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-danger)]' 
-                                    : 'text-[var(--alpha-text-muted)] hover:text-[var(--alpha-danger)]'
-                                }`}
+                          <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+                            <div className="min-w-0 space-y-2">
+                              <p className="truncate text-sm font-semibold alpha-text">
+                                {wallet.label || 'Unlabeled wallet'}
+                              </p>
+                              <p className="break-all font-mono text-xs leading-5 alpha-text" title={wallet.address}>
+                                {wallet.address}
+                              </p>
+                              <div className="flex flex-wrap items-center gap-2">
+                                {wallet.network ? (
+                                  <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2.5 py-1 text-[9px] uppercase tracking-[0.14em] alpha-text-muted">
+                                    {wallet.network}
+                                  </span>
+                                ) : (
+                                  <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2.5 py-1 text-[9px] uppercase tracking-[0.14em] alpha-text-muted">
+                                    No network
+                                  </span>
+                                )}
+                                <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2.5 py-1 text-[9px] uppercase tracking-[0.14em] alpha-text-muted">
+                                  Created {formatWalletCreatedAt(wallet.createdAt)}
+                                </span>
+                                <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-2.5 py-1 text-[9px] uppercase tracking-[0.14em] alpha-text-muted">
+                                  {wallet.archived ? 'Archived' : 'Active'}
+                                </span>
+                              </div>
+                              {wallet.notes ? (
+                                <p className="mt-2 line-clamp-2 text-xs leading-5 alpha-text-muted">{wallet.notes}</p>
+                              ) : null}
+                            </div>
+
+                            <div className="flex shrink-0 flex-wrap items-center gap-2 lg:justify-end">
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  copyWallet(wallet);
+                                }}
+                                className="h-8 rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-2.5 text-xs alpha-text-muted hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
+                                title="Copy address"
                               >
-                                <X className="w-4 h-4" />
-                              </button>
-                            )}
-                          </div>
-
-                          <div>
-                            <label className="block text-xs font-mono mb-1 text-[var(--alpha-text-muted)]">
-                              Label (Optional)
-                            </label>
-                            <Input
-                              placeholder="e.g., Main Account, Backup, etc."
-                              value={entry.label}
-                              onChange={(e) => updateWalletField(index, 'label', e.target.value)}
-                              className={`font-mono text-sm border-2 ${
-                                isDark 
-                                  ? 'bg-[var(--alpha-surface)] border-[var(--alpha-signal-border)] text-[var(--alpha-signal)] placeholder:text-[var(--alpha-text-muted)]' 
-                                  : 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)]'
-                              }`}
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-xs font-mono mb-1 text-[var(--alpha-text-muted)]">
-                              Address *
-                            </label>
-                            <Input
-                              placeholder="0x..."
-                              value={entry.address}
-                              onChange={(e) => updateWalletField(index, 'address', e.target.value)}
-                              className={`font-mono text-sm border-2 ${
-                                isDark 
-                                  ? 'bg-[var(--alpha-surface)] border-[var(--alpha-signal-border)] text-[var(--alpha-signal)] placeholder:text-[var(--alpha-text-muted)]' 
-                                  : 'bg-[var(--alpha-surface)] border-[var(--alpha-border)] text-[var(--alpha-text)] placeholder:text-[var(--alpha-text-muted)]'
-                              }`}
-                            />
+                                {copiedId === wallet.id ? <Check className="mr-1.5 h-3.5 w-3.5" /> : <Copy className="mr-1.5 h-3.5 w-3.5" />}
+                                Copy
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  openEditWallet(wallet);
+                                }}
+                                className="h-8 rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-2.5 text-xs alpha-text-muted hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
+                                title="Edit wallet"
+                              >
+                                <Edit3 className="mr-1.5 h-3.5 w-3.5" />
+                                Edit
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  requestDeleteWallet(wallet);
+                                }}
+                                className="h-8 rounded-[0.8rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-2.5 text-xs alpha-text-muted hover:bg-[color:var(--alpha-danger-soft)] hover:text-[color:var(--alpha-danger)]"
+                                title="Delete wallet"
+                              >
+                                <Trash2 className="mr-1.5 h-3.5 w-3.5" />
+                                Delete
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       ))}
-                    </div>
-
-                    <Button
-                      type="button"
-                      onClick={addWalletField}
-                      variant="outline"
-                      className={`w-full font-mono border-2 border-dashed ${
-                        isDark 
-                          ? 'border-[var(--alpha-signal-border)] text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-soft)] hover:border-[var(--alpha-signal)]' 
-                          : 'border-[var(--alpha-border)] text-[var(--alpha-text-muted)] hover:bg-[var(--alpha-hover-soft)] hover:border-[var(--alpha-border-strong)]'
-                      }`}
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Another 
-                    </Button>
-                  </div>
-                </div>
-
-                <div
-                  className="flex flex-shrink-0 justify-end gap-3 border-t border-dashed px-6 py-4"
-                  style={{ borderColor: isDark ? 'var(--alpha-border)' : 'color-mix(in srgb, var(--paragraph-hex) 45%, transparent)' }}
-                >
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setIsAddModalOpen(false)}
-                    disabled={isSubmitting}
-                  className={`font-mono border-2 ${
-                    isDark 
-                      ? 'border-[var(--alpha-signal)] text-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-soft)]' 
-                      : 'border-[var(--alpha-border)] text-[var(--alpha-text)] hover:bg-[var(--alpha-hover-soft)]'
-                    }`}
-                  >
-                    Cancel
-                  </Button>
-                  <Button 
-                    onClick={handleAdd}
-                    disabled={!selectedProject || walletEntries.every(w => !w.address.trim()) || isSubmitting}
-                  className={`font-mono border-2 ${
-                    isDark 
-                        ? 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]' 
-                        : 'bg-[var(--alpha-signal)] text-[var(--alpha-accent-contrast)] border-[var(--alpha-signal)] hover:bg-[var(--alpha-signal-press)]'
-                    }`}
-                  >
-                    {isSubmitting ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <Plus className="w-4 h-4 mr-2" />
+                      </div>
                     )}
-                    Add {walletEntries.filter(w => w.address.trim()).length} Account(s)
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>,
-          document.body
+                  </div>
+                  ) : null}
+                </article>
+              );
+            })}
+          </section>
         )}
+      </main>
+
+      <Dialog open={walletDialogOpen} onOpenChange={(open) => {
+        setWalletDialogOpen(open);
+        if (!open) resetForm();
+      }}>
+        <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-[1.2rem] border-alpha-border bg-[color:var(--alpha-panel)] text-[color:var(--alpha-text)] sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>{form.id ? 'Edit Wallet' : 'Add Wallet'}</DialogTitle>
+            <DialogDescription className="alpha-text-muted">
+              Wallet data is stored in the shared wallets table and updates project statistics automatically.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={submitWallet} className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="space-y-2 sm:col-span-2">
+                <span className="text-xs font-medium uppercase tracking-[0.16em] alpha-text-muted">Project</span>
+                <Select value={form.projectId} onValueChange={(projectId) => setForm((prev) => ({ ...prev, projectId }))}>
+                  <SelectTrigger className="h-11 w-full rounded-[0.9rem] border-alpha-border bg-[color:var(--alpha-surface)] alpha-text">
+                    <SelectValue placeholder="Select project" />
+                  </SelectTrigger>
+                  <SelectContent className="macos-popover border-alpha-border bg-[color:var(--alpha-panel)]">
+                    {projects.map((project) => (
+                      <SelectItem key={project.id} value={project.id}>
+                        {project.projectName}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </label>
+
+              <label className="space-y-2 sm:col-span-2">
+                <span className="text-xs font-medium uppercase tracking-[0.16em] alpha-text-muted">Wallet Address</span>
+                <Input
+                  value={form.address}
+                  onChange={(event) => setForm((prev) => ({ ...prev, address: event.target.value }))}
+                  placeholder="0x..."
+                  className="h-11 rounded-[0.9rem] border-alpha-border bg-[color:var(--alpha-surface)] font-mono"
+                  required
+                />
+              </label>
+
+              <label className="space-y-2">
+                <span className="text-xs font-medium uppercase tracking-[0.16em] alpha-text-muted">Label</span>
+                <Input
+                  value={form.label}
+                  onChange={(event) => setForm((prev) => ({ ...prev, label: event.target.value }))}
+                  placeholder="Main wallet"
+                  className="h-11 rounded-[0.9rem] border-alpha-border bg-[color:var(--alpha-surface)]"
+                />
+              </label>
+
+              <label className="space-y-2">
+                <span className="text-xs font-medium uppercase tracking-[0.16em] alpha-text-muted">Network</span>
+                <Select value={form.network} onValueChange={(network) => setForm((prev) => ({ ...prev, network }))}>
+                  <SelectTrigger className="h-11 w-full rounded-[0.9rem] border-alpha-border bg-[color:var(--alpha-surface)] alpha-text">
+                    <SelectValue placeholder="Select network" />
+                  </SelectTrigger>
+                  <SelectContent className="macos-popover border-alpha-border bg-[color:var(--alpha-panel)]">
+                    {networkOptions.map((network) => (
+                      <SelectItem key={network} value={network}>
+                        {network}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </label>
+
+              <label className="space-y-2 sm:col-span-2">
+                <span className="text-xs font-medium uppercase tracking-[0.16em] alpha-text-muted">Notes</span>
+                <Textarea
+                  value={form.notes}
+                  onChange={(event) => setForm((prev) => ({ ...prev, notes: event.target.value }))}
+                  placeholder="Airdrop role, usage plan, or wallet context..."
+                  className="min-h-24 rounded-[0.9rem] border-alpha-border bg-[color:var(--alpha-surface)]"
+                />
+              </label>
+
+              <button
+                type="button"
+                onClick={() => setForm((prev) => ({ ...prev, archived: !prev.archived }))}
+                className={cn(
+                  'flex items-center justify-between rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-3 text-left transition-colors sm:col-span-2',
+                  form.archived && 'bg-[color:var(--alpha-hover-soft)]'
+                )}
+              >
+                <span>
+                  <span className="block text-sm font-semibold alpha-text">Archive wallet</span>
+                  <span className="block text-xs alpha-text-muted">Archived wallets stay stored but leave the active count.</span>
+                </span>
+                <span className={cn('flex h-5 w-5 items-center justify-center rounded border border-alpha-border', form.archived && 'bg-[color:var(--alpha-signal)] text-[color:var(--alpha-accent-contrast)]')}>
+                  {form.archived ? <Check className="h-3.5 w-3.5" /> : null}
+                </span>
+              </button>
+            </div>
+
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setWalletDialogOpen(false)}
+                className="rounded-[0.9rem] border-alpha-border"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={submitting || !form.projectId || !form.address.trim()}
+                className="rounded-[0.9rem] bg-[color:var(--alpha-signal)] text-[color:var(--alpha-accent-contrast)] hover:bg-[color:var(--alpha-signal-press)]"
+              >
+                {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                {form.id ? 'Save Wallet' : 'Add Wallet'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent className="rounded-[1.15rem] border-alpha-border bg-[color:var(--alpha-panel)] text-[color:var(--alpha-text)]">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete wallet?</AlertDialogTitle>
+            <AlertDialogDescription className="alpha-text-muted">
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="rounded-[0.9rem] border-alpha-border">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDeleteWallet}
+              className="rounded-[0.9rem] bg-[color:var(--alpha-danger)] text-white hover:bg-[color:var(--alpha-danger)]"
+            >
+              <X className="mr-2 h-4 w-4" />
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </DashboardLayout>
   );
 }

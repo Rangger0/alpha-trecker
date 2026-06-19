@@ -192,7 +192,7 @@ export function AirdropRewardModal({
                   <div>
                     <p className="text-lg font-semibold alpha-text">{airdrop.projectName}</p>
                     <p className="text-sm alpha-text-muted">
-                      {translateOption("airdropType", airdrop.type)} • {translateOption("airdropStatus", airdrop.status)}
+                      {airdrop.projectCategory ?? "Other"} • {airdrop.farmingStrategy ?? "Unknown"} • {translateOption("airdropStatus", airdrop.status)}
                     </p>
                   </div>
                 </div>

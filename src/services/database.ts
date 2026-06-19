@@ -1,7 +1,7 @@
 // ALPHA TRACKER - Supabase Database Service
 
 import { supabase } from "@/lib/supabase";
-import type { Airdrop, PriorityLevel } from "@/types";
+import type { Airdrop, FarmingStrategy, PriorityLevel, ProjectCategory } from "@/types";
 
 const AIRDROP_META_PATTERN = /\n*\s*<!--alpha-meta:([^>]*)-->\s*$/;
 
@@ -9,6 +9,14 @@ type AirdropInput = Omit<Airdrop, "id" | "userId" | "createdAt" | "updatedAt">;
 
 function isPriorityLevel(value: unknown): value is PriorityLevel {
   return value === "Low" || value === "Medium" || value === "High";
+}
+
+function isProjectCategory(value: unknown): value is ProjectCategory {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function isFarmingStrategy(value: unknown): value is FarmingStrategy {
+  return typeof value === "string" && value.trim().length > 0;
 }
 
 function parseAirdropNotes(value?: string | null) {
@@ -23,6 +31,8 @@ function parseAirdropNotes(value?: string | null) {
       potential: undefined as PriorityLevel | undefined,
       airdropConfirmed: undefined as boolean | undefined,
       email: undefined as string | undefined,
+      projectCategory: undefined as ProjectCategory | undefined,
+      farmingStrategy: undefined as FarmingStrategy | undefined,
     };
   }
 
@@ -33,6 +43,8 @@ function parseAirdropNotes(value?: string | null) {
       potential?: unknown;
       airdropConfirmed?: unknown;
       email?: unknown;
+      projectCategory?: unknown;
+      farmingStrategy?: unknown;
     };
 
     return {
@@ -42,6 +54,8 @@ function parseAirdropNotes(value?: string | null) {
       potential: isPriorityLevel(parsed.potential) ? parsed.potential : undefined,
       airdropConfirmed: typeof parsed.airdropConfirmed === "boolean" ? parsed.airdropConfirmed : undefined,
       email: typeof parsed.email === "string" && parsed.email.trim() ? parsed.email.trim() : undefined,
+      projectCategory: isProjectCategory(parsed.projectCategory) ? parsed.projectCategory : undefined,
+      farmingStrategy: isFarmingStrategy(parsed.farmingStrategy) ? parsed.farmingStrategy : undefined,
     };
   } catch {
     return {
@@ -51,6 +65,8 @@ function parseAirdropNotes(value?: string | null) {
       potential: undefined as PriorityLevel | undefined,
       airdropConfirmed: undefined as boolean | undefined,
       email: undefined as string | undefined,
+      projectCategory: undefined as ProjectCategory | undefined,
+      farmingStrategy: undefined as FarmingStrategy | undefined,
     };
   }
 }
@@ -62,6 +78,8 @@ export function buildAirdropNotesWithMeta(data: {
   potential?: PriorityLevel;
   airdropConfirmed?: boolean;
   email?: string;
+  projectCategory?: ProjectCategory;
+  farmingStrategy?: FarmingStrategy;
 }) {
   const baseNotes = parseAirdropNotes(data.notes).notes.trim();
   const meta = {
@@ -70,17 +88,41 @@ export function buildAirdropNotesWithMeta(data: {
     potential: data.potential,
     airdropConfirmed: Boolean(data.airdropConfirmed),
     email: data.email?.trim() || undefined,
+    projectCategory: data.projectCategory,
+    farmingStrategy: data.farmingStrategy,
   };
   const encoded = encodeURIComponent(JSON.stringify(meta));
 
   return `${baseNotes}${baseNotes ? "\n\n" : ""}<!--alpha-meta:${encoded}-->`;
 }
 
-const isMissingEmailColumnError = (error: unknown) => {
+const removeProjectTaxonomyColumns = (payload: ReturnType<typeof buildAirdropPayload>) => {
+  const fallbackPayload = { ...payload };
+  delete (fallbackPayload as { project_category?: unknown }).project_category;
+  delete (fallbackPayload as { farming_strategy?: unknown }).farming_strategy;
+  return fallbackPayload;
+};
+
+const removeEmailColumn = (payload: ReturnType<typeof buildAirdropPayload>) => {
+  const fallbackPayload = { ...payload };
+  delete (fallbackPayload as { email?: unknown }).email;
+  return fallbackPayload;
+};
+
+const shouldTryProjectPayloadFallback = (error: unknown) => {
   if (!error || typeof error !== "object") return false;
   const record = error as { code?: unknown; message?: unknown };
   const message = typeof record.message === "string" ? record.message.toLowerCase() : "";
-  return record.code === "PGRST204" && message.includes("email");
+  return record.code === "PGRST204" || message.includes("schema cache") || message.includes("column");
+};
+
+const buildProjectPayloadVariants = (data: AirdropInput, userId?: string) => {
+  const fullPayload = buildAirdropPayload(data, userId);
+  const noTaxonomyPayload = removeProjectTaxonomyColumns(fullPayload);
+  const noEmailPayload = removeEmailColumn(fullPayload);
+  const minimalPayload = removeEmailColumn(noTaxonomyPayload);
+
+  return [fullPayload, noTaxonomyPayload, noEmailPayload, minimalPayload];
 };
 
 const buildAirdropPayload = (data: AirdropInput, userId?: string, includeEmail = true) => ({
@@ -88,6 +130,8 @@ const buildAirdropPayload = (data: AirdropInput, userId?: string, includeEmail =
   project_name: data.projectName,
   project_logo: data.projectLogo,
   type: data.type,
+  project_category: data.projectCategory,
+  farming_strategy: data.farmingStrategy,
   status: data.status,
   platform_link: data.platformLink,
   twitter_username: data.twitterUsername,
@@ -106,29 +150,26 @@ const buildAirdropPayload = (data: AirdropInput, userId?: string, includeEmail =
 /* ============================= */
 
 export async function createAirdrop(data: AirdropInput, userId: string) {
-  const { data: result, error } = await supabase
-    .from("airdrops")
-    .insert([buildAirdropPayload(data, userId)])
-    .select()
-    .single();
+  let lastError: unknown = null;
 
-  if (error) {
-    if (isMissingEmailColumnError(error)) {
-      const { data: fallbackResult, error: fallbackError } = await supabase
-        .from("airdrops")
-        .insert([buildAirdropPayload(data, userId, false)])
-        .select()
-        .single();
+  for (const payload of buildProjectPayloadVariants(data, userId)) {
+    const { data: result, error } = await supabase
+      .from("airdrops")
+      .insert([payload])
+      .select()
+      .single();
 
-      if (fallbackError) throw fallbackError;
-      return fallbackResult;
+    if (!error) return result;
+
+    lastError = error;
+    if (!shouldTryProjectPayloadFallback(error)) {
+      console.error('Supabase insert error:', error);
+      throw error;
     }
-
-    console.error('Supabase insert error:', error);
-    throw error;
   }
 
-  return result;
+  console.error('Supabase insert error:', lastError);
+  throw lastError;
 }
 
 export async function getAirdropsByUserId(userId: string): Promise<Airdrop[]> {
@@ -150,6 +191,8 @@ export async function getAirdropsByUserId(userId: string): Promise<Airdrop[]> {
       projectName: item.project_name,
       projectLogo: item.project_logo,
       type: item.type,
+      projectCategory: item.project_category ?? meta.projectCategory ?? "Other",
+      farmingStrategy: item.farming_strategy ?? meta.farmingStrategy ?? "Unknown",
       status: item.status,
       platformLink: item.platform_link,
       twitterUsername: item.twitter_username,
@@ -182,33 +225,28 @@ export async function deleteAirdrop(id: string) {
 
 // Update airdrop lengkap
 export async function updateAirdrop(id: string, data: AirdropInput) {
-  const { data: result, error } = await supabase
-    .from("airdrops")
-    .update({
-      ...buildAirdropPayload(data),
-      updated_at: new Date().toISOString(),
-    })
-    .eq("id", id)
-    .select()
-    .single();
+  let lastError: unknown = null;
 
-  if (error && isMissingEmailColumnError(error)) {
-    const { data: fallbackResult, error: fallbackError } = await supabase
+  for (const payload of buildProjectPayloadVariants(data)) {
+    const { data: result, error } = await supabase
       .from("airdrops")
       .update({
-        ...buildAirdropPayload(data, undefined, false),
+        ...payload,
         updated_at: new Date().toISOString(),
       })
       .eq("id", id)
       .select()
       .single();
 
-    if (fallbackError) throw fallbackError;
-    return fallbackResult;
+    if (!error) return result;
+
+    lastError = error;
+    if (!shouldTryProjectPayloadFallback(error)) {
+      throw error;
+    }
   }
 
-  if (error) throw error;
-  return result;
+  throw lastError;
 }
 
 // NEW: Update hanya ecosystem_id

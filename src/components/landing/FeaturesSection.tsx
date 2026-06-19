@@ -1,40 +1,45 @@
 import type { CSSProperties } from 'react';
-import { BarChart3, FileSearch, ShieldCheck } from 'lucide-react';
+import { BarChart3, FileSearch, ShieldCheck, WalletCards } from 'lucide-react';
 
 const featureItems = [
   {
     icon: FileSearch,
-    title: 'Research',
-    description: 'Discover and analyze opportunities with the project context, signals, and notes that matter.',
+    title: 'Research Hub',
+    description: 'Collect funding, ecosystem, and project data.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Tracking',
-    description: 'Monitor funding, tasks, wallets, and execution status without splitting the workflow across tabs.',
+    icon: WalletCards,
+    title: 'Wallet Matrix',
+    description: 'Manage multiple wallets across projects.',
   },
   {
     icon: BarChart3,
-    title: 'Review',
-    description: 'Review outcomes, understand what worked, and improve decision making for the next cycle.',
+    title: 'Reward Ledger',
+    description: 'Track rewards, claims, and payouts.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Detect Sybil Risks',
+    description: 'Review wallet behavior before farming.',
   },
 ];
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+    <section id="features" className="alpha-saas-section alpha-mission-section px-4 sm:px-6 lg:px-8">
       <div className="macos-landing-width alpha-premium-section-shell">
         <div className="alpha-premium-section-header" data-stagger>
           <div className="space-y-4">
             <p className="macos-section-label">Features</p>
-            <h2 className="alpha-landing-section-title">A premium workflow for disciplined crypto operators.</h2>
+            <h2 className="alpha-landing-section-title">The core tools, without the noise.</h2>
           </div>
 
           <p className="alpha-landing-section-copy alpha-premium-section-copy">
-            Alpha Tracker keeps the research loop simple: understand the opportunity, track the work, then review the outcome.
+            Alpha Tracker replaces scattered spreadsheets and notes with a focused workflow for airdrop execution.
           </p>
         </div>
 
-        <div className="alpha-core-feature-grid alpha-core-feature-grid--three">
+        <div className="alpha-core-feature-grid alpha-core-feature-grid--four">
           {featureItems.map((item, index) => (
             <article
               key={item.title}

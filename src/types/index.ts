@@ -15,6 +15,94 @@ export type AirdropType =
   | 'Deploy NFT'
   | 'GameFi';
 
+export type ProjectCategory =
+  | 'AI'
+  | 'DeFi'
+  | 'DePIN'
+  | 'GameFi'
+  | 'SocialFi'
+  | 'NFT'
+  | 'RWA'
+  | 'Infrastructure'
+  | 'Layer 1'
+  | 'Layer 2'
+  | 'ZK'
+  | 'Bitcoin Ecosystem'
+  | 'Consumer App'
+  | 'Identity'
+  | 'Storage'
+  | 'Oracle'
+  | 'Marketplace'
+  | 'Wallet'
+  | 'Bridge'
+  | 'DEX'
+  | 'Perpetual DEX'
+  | 'Launchpad'
+  | 'Other';
+
+export type FarmingStrategy =
+  | 'Testnet'
+  | 'Mainnet'
+  | 'Retroactive'
+  | 'Quest'
+  | 'Daily Check-in'
+  | 'Points Program'
+  | 'Waitlist'
+  | 'Node'
+  | 'Validator'
+  | 'Ambassador'
+  | 'Staking'
+  | 'Liquidity Farming'
+  | 'Social Task'
+  | 'Bug Bounty'
+  | 'Early User'
+  | 'Unknown';
+
+export const PROJECT_CATEGORIES: ProjectCategory[] = [
+  'AI',
+  'DeFi',
+  'DePIN',
+  'GameFi',
+  'SocialFi',
+  'NFT',
+  'RWA',
+  'Infrastructure',
+  'Layer 1',
+  'Layer 2',
+  'ZK',
+  'Bitcoin Ecosystem',
+  'Consumer App',
+  'Identity',
+  'Storage',
+  'Oracle',
+  'Marketplace',
+  'Wallet',
+  'Bridge',
+  'DEX',
+  'Perpetual DEX',
+  'Launchpad',
+  'Other',
+];
+
+export const FARMING_STRATEGIES: FarmingStrategy[] = [
+  'Testnet',
+  'Mainnet',
+  'Retroactive',
+  'Quest',
+  'Daily Check-in',
+  'Points Program',
+  'Waitlist',
+  'Node',
+  'Validator',
+  'Ambassador',
+  'Staking',
+  'Liquidity Farming',
+  'Social Task',
+  'Bug Bounty',
+  'Early User',
+  'Unknown',
+];
+
 export type AirdropStatus = 'Planning' | 'Ongoing' | 'Done' | 'Dropped';
 export type PriorityLevel = 'Low' | 'Medium' | 'High';
 export type RewardClaimStatus = 'Pending TGE' | 'Claimed' | 'Missed';
@@ -37,6 +125,8 @@ export interface Airdrop {
   walletAddress: string;
   email?: string;
   type: AirdropType;
+  projectCategory?: ProjectCategory;
+  farmingStrategy?: FarmingStrategy;
   status: AirdropStatus;
   notes: string;
   tasks: Task[];

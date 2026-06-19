@@ -1,11 +1,10 @@
-import { Suspense, lazy, startTransition, useEffect, useRef, useState, type ReactNode } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Navbar } from '@/components/landing/Navbar';
 import { HeroSection } from '@/components/landing/HeroSection';
-import { AuthSection } from '@/components/landing/AuthSection';
+import { AuthModal, type AuthMode } from '@/components/landing/AuthSection';
 import { Footer } from '@/components/landing/Footer';
-import { useDeferredVisibility } from '@/hooks/use-deferred-visibility';
-import { ArrowUp, BarChart3, Layers3, ShieldCheck } from 'lucide-react';
+import { ArrowDown, ArrowUp } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 const FeaturesSection = lazy(async () => {
@@ -13,45 +12,53 @@ const FeaturesSection = lazy(async () => {
   return { default: module.FeaturesSection };
 });
 
-const benefitItems = [
+const previewItems = [
   {
-    icon: Layers3,
-    label: 'Single workspace',
-    value: 'Keep project notes, funding context, and execution status inside one operating layer.',
+    title: 'Dashboard',
+    label: 'Project command center',
+    image: '/3.webp',
   },
   {
-    icon: ShieldCheck,
-    label: 'Cleaner decisions',
-    value: 'Review outcomes and reduce noise before repeating the next workflow.',
+    title: 'Multi Account',
+    label: 'Wallets grouped by project',
+    image: '/4.webp',
   },
   {
-    icon: BarChart3,
-    label: 'Execution rhythm',
-    value: 'Move from discovery to tracking to action without rebuilding context every time.',
+    title: 'Wallet Matrix',
+    label: 'Labels, networks, and notes',
+    image: '/5.webp',
+  },
+  {
+    title: 'Sybil Detector',
+    label: 'Risk review workflow',
+    image: '/6.webp',
   },
 ];
 
-function WorkspaceBenefitsSection() {
+const workflowSteps = ['Research', 'Execute', 'Track', 'Claim', 'Review'];
+
+function WorkspacePreviewSection() {
   return (
-    <section id="benefits" className="alpha-workspace-benefits px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+    <section id="preview" className="alpha-saas-section alpha-mission-section px-4 sm:px-6 lg:px-8">
       <div className="macos-landing-width">
-        <div className="alpha-benefit-header">
-          <p className="macos-section-label">Workspace benefits</p>
-          <h2>Built for research discipline, not lucky clicking.</h2>
+        <div className="alpha-saas-section-header">
+          <p className="macos-section-label">Workspace Preview</p>
+          <h2 className="alpha-landing-section-title">See the workspace in action.</h2>
           <p>
-            Alpha Tracker helps you slow down the noisy parts of crypto and keep the important decisions visible,
-            repeatable, and reviewable.
+            Dashboard, wallets, matrix views, and risk checks are designed to work as one operating layer.
           </p>
         </div>
 
-        <div className="alpha-benefit-grid">
-          {benefitItems.map((item) => (
-            <article key={item.label} className="alpha-benefit-card">
-              <div>
-                <item.icon className="h-5 w-5" />
+        <div className="alpha-workspace-preview-grid">
+          {previewItems.map((item) => (
+            <article key={item.title} className="alpha-workspace-preview-card">
+              <div className="alpha-workspace-preview-frame">
+                <img src={item.image} alt={`${item.title} public demo preview`} loading="lazy" decoding="async" />
               </div>
-              <h3>{item.label}</h3>
-              <p>{item.value}</p>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.label}</p>
+              </div>
             </article>
           ))}
         </div>
@@ -60,102 +67,29 @@ function WorkspaceBenefitsSection() {
   );
 }
 
-function DeferredLandingSection({
-  children,
-  placeholderHeight,
-}: {
-  children: ReactNode;
-  placeholderHeight: number;
-}) {
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const { isVisible } = useDeferredVisibility<HTMLDivElement>({
-    minDelay: 0,
-    rootMargin: '280px 0px',
-    threshold: 0.08,
-    once: false,
-    targetRef: sectionRef,
-  });
-  const [shouldRender, setShouldRender] = useState(false);
-
-  useEffect(() => {
-    if (!isVisible || shouldRender) {
-      return;
-    }
-
-    startTransition(() => {
-      setShouldRender(true);
-    });
-  }, [isVisible, shouldRender]);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) {
-      return undefined;
-    }
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion) {
-      section.style.setProperty('--section-scroll-shift', '0px');
-      section.style.setProperty('--section-scroll-scale', '1');
-      return undefined;
-    }
-
-    let frameId = 0;
-
-    const applyScrollMotion = () => {
-      const rect = section.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || 1;
-      const sectionCenter = rect.top + rect.height / 2;
-      const viewportCenter = viewportHeight / 2;
-      const normalizedOffset = (sectionCenter - viewportCenter) / viewportHeight;
-      const clampedOffset = Math.max(-1, Math.min(1, normalizedOffset));
-      const shift = clampedOffset * -28;
-      const scale = 1 - Math.min(Math.abs(clampedOffset) * 0.04, 0.04);
-
-      section.style.setProperty('--section-scroll-shift', `${shift.toFixed(2)}px`);
-      section.style.setProperty('--section-scroll-scale', scale.toFixed(4));
-    };
-
-    const syncScrollMotion = () => {
-      if (frameId !== 0) {
-        return;
-      }
-
-      frameId = window.requestAnimationFrame(() => {
-        applyScrollMotion();
-        frameId = 0;
-      });
-    };
-
-    applyScrollMotion();
-    window.addEventListener('scroll', syncScrollMotion, { passive: true });
-    window.addEventListener('resize', syncScrollMotion);
-
-    return () => {
-      window.removeEventListener('scroll', syncScrollMotion);
-      window.removeEventListener('resize', syncScrollMotion);
-
-      if (frameId !== 0) {
-        window.cancelAnimationFrame(frameId);
-      }
-    };
-  }, []);
-
+function WorkflowSection() {
   return (
-    <div
-      ref={sectionRef}
-      className="macos-scroll-section"
-      data-visible={shouldRender ? 'true' : 'false'}
-    >
-      {shouldRender ? (
-        <Suspense fallback={<div aria-hidden="true" style={{ minHeight: `${placeholderHeight}px` }} />}>
-          {children}
-        </Suspense>
-      ) : (
-        <div aria-hidden="true" style={{ minHeight: `${placeholderHeight}px` }} />
-      )}
-    </div>
+    <section id="workspace" className="alpha-saas-section alpha-mission-section px-4 sm:px-6 lg:px-8">
+      <div className="macos-landing-width alpha-mission-workflow-panel">
+        <div className="alpha-saas-section-header">
+          <p className="macos-section-label">Workflow</p>
+          <h2 className="alpha-landing-section-title">From research to review, without losing context.</h2>
+          <p>
+            Alpha Tracker gives serious airdrop hunters a repeatable system instead of scattered tabs, notes, and spreadsheets.
+          </p>
+        </div>
+
+        <div className="alpha-mission-workflow">
+          {workflowSteps.map((step, index) => (
+            <div key={step} className="alpha-mission-workflow-item">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <strong>{step}</strong>
+              {index < workflowSteps.length - 1 ? <ArrowDown className="alpha-mission-workflow-arrow h-4 w-4" /> : null}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -200,28 +134,42 @@ function LandingScrollChrome() {
 export function LandingPage() {
   const { theme } = useTheme();
   const location = useLocation();
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<AuthMode>('login');
+
+  const openAuthModal = useCallback((mode: AuthMode = 'login') => {
+    setAuthMode(mode);
+    setAuthOpen(true);
+  }, []);
 
   useEffect(() => {
+    if (location.hash === '#auth') {
+      const params = new URLSearchParams(location.search);
+      openAuthModal(params.get('mode') === 'register' ? 'register' : 'login');
+      return;
+    }
+
     if (location.hash) {
       return;
     }
 
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [location.hash]);
+  }, [location.hash, openAuthModal]);
 
   return (
     <div className={`alpha-theme ${theme} macos-root macos-landing-shell min-h-screen alpha-bg`}>
       <LandingScrollChrome />
-      <Navbar />
+      <Navbar onOpenAuth={openAuthModal} />
       <main>
-        <HeroSection />
-        <DeferredLandingSection placeholderHeight={760}>
+        <HeroSection onOpenAuth={openAuthModal} />
+        <Suspense fallback={null}>
           <FeaturesSection />
-        </DeferredLandingSection>
-        <WorkspaceBenefitsSection />
-        <AuthSection />
+        </Suspense>
+        <WorkspacePreviewSection />
+        <WorkflowSection />
       </main>
       <Footer />
+      <AuthModal isOpen={authOpen} initialMode={authMode} onOpenChange={setAuthOpen} />
     </div>
   );
 }

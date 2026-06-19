@@ -3646,51 +3646,57 @@ select {
 
 .alpha-theme.light {
   --alpha-bg: var(--background-hex);
-  --alpha-panel: var(--background-hex);
-  --alpha-surface: var(--background-hex);
-  --alpha-surface-soft: #f6fbfb;
+  --alpha-panel: var(--card-hex);
+  --alpha-surface: var(--card-hex);
+  --alpha-surface-soft: #F8FAFC;
   --alpha-surface-strong: var(--card-hex);
-  --alpha-card: var(--background-hex);
+  --alpha-card: var(--card-hex);
   --alpha-shell: var(--card-hex);
-  --alpha-shell-soft: color-mix(in srgb, var(--card-hex) 72%, var(--background-hex) 28%);
+  --alpha-shell-soft: #F8FAFC;
   --alpha-card-heading: var(--headline-hex);
   --alpha-card-paragraph: var(--paragraph-hex);
-  --alpha-hover-soft: color-mix(in srgb, var(--tertiary-hex) 36%, var(--background-hex) 64%);
+  --alpha-hover-soft: #F8FAFC;
   --alpha-text: var(--headline-hex);
   --alpha-text-muted: var(--paragraph-hex);
-  --alpha-border: rgba(39, 35, 67, 0.16);
-  --alpha-border-strong: rgba(39, 35, 67, 0.28);
-  --alpha-accent: var(--highlight-hex);
-  --alpha-accent-hover: #e6c200;
-  --alpha-accent-contrast: var(--headline-hex);
+  --alpha-border: var(--tertiary-hex);
+  --alpha-border-strong: color-mix(in srgb, var(--secondary-hex) 34%, var(--tertiary-hex) 66%);
+  --alpha-accent: var(--main-hex);
+  --alpha-accent-hover: #2FC89E;
+  --alpha-accent-contrast: #10201C;
   --alpha-highlight: var(--highlight-hex);
-  --alpha-highlight-soft: color-mix(in srgb, var(--highlight-hex) 22%, transparent);
-  --alpha-highlight-border: color-mix(in srgb, var(--highlight-hex) 54%, var(--headline-hex) 12%);
-  --alpha-shadow: 0 14px 34px rgba(39, 35, 67, 0.08);
-  --alpha-shell-border: rgba(39, 35, 67, 0.12);
-  --alpha-topbar-chip-border: rgba(39, 35, 67, 0.14);
+  --alpha-highlight-soft: color-mix(in srgb, var(--highlight-hex) 13%, var(--card-hex) 87%);
+  --alpha-highlight-border: color-mix(in srgb, var(--highlight-hex) 34%, var(--tertiary-hex) 66%);
+  --alpha-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+  --alpha-shell-border: var(--tertiary-hex);
+  --alpha-topbar-chip-border: var(--tertiary-hex);
+  --alpha-shell-gradient: var(--card-hex);
+  --alpha-topbar-gradient: var(--card-hex);
+  --alpha-topbar-chip-gradient: var(--background-hex);
 }
 
 .alpha-theme.dark {
   --alpha-bg: var(--background-hex);
   --alpha-panel: var(--card-hex);
   --alpha-surface: var(--card-hex);
-  --alpha-surface-soft: color-mix(in srgb, var(--card-hex) 86%, var(--main-hex) 14%);
-  --alpha-surface-strong: color-mix(in srgb, var(--card-hex) 72%, var(--main-hex) 28%);
-  --alpha-hover-soft: rgba(255, 255, 255, 0.05);
+  --alpha-surface-soft: color-mix(in srgb, var(--card-hex) 92%, white 8%);
+  --alpha-surface-strong: color-mix(in srgb, var(--card-hex) 86%, white 14%);
+  --alpha-hover-soft: color-mix(in srgb, var(--main-hex) 12%, var(--card-hex) 88%);
   --alpha-text: var(--headline-hex);
   --alpha-text-muted: var(--paragraph-hex);
-  --alpha-border: rgba(255, 255, 254, 0.12);
-  --alpha-border-strong: color-mix(in srgb, var(--highlight-hex) 52%, var(--main-hex) 48%);
+  --alpha-border: var(--tertiary-hex);
+  --alpha-border-strong: color-mix(in srgb, var(--main-hex) 52%, var(--tertiary-hex) 48%);
   --alpha-accent: var(--main-hex);
-  --alpha-accent-hover: color-mix(in srgb, var(--main-hex) 86%, var(--highlight-hex) 14%);
-  --alpha-accent-contrast: #000000;
+  --alpha-accent-hover: #2FC89E;
+  --alpha-accent-contrast: #10201C;
   --alpha-highlight: var(--highlight-hex);
-  --alpha-highlight-soft: color-mix(in srgb, var(--highlight-hex) 16%, transparent);
-  --alpha-highlight-border: color-mix(in srgb, var(--highlight-hex) 38%, transparent);
-  --alpha-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
-  --alpha-shell-border: rgba(255, 255, 254, 0.1);
-  --alpha-topbar-chip-border: rgba(255, 255, 254, 0.12);
+  --alpha-highlight-soft: color-mix(in srgb, var(--highlight-hex) 12%, var(--card-hex) 88%);
+  --alpha-highlight-border: color-mix(in srgb, var(--highlight-hex) 34%, var(--tertiary-hex) 66%);
+  --alpha-shadow: 0 8px 18px rgba(9, 13, 26, 0.18);
+  --alpha-shell-border: var(--tertiary-hex);
+  --alpha-topbar-chip-border: var(--tertiary-hex);
+  --alpha-shell-gradient: var(--card-hex);
+  --alpha-topbar-gradient: var(--secondary-hex);
+  --alpha-topbar-chip-gradient: color-mix(in srgb, var(--card-hex) 76%, var(--secondary-hex) 24%);
 }
 
 .alpha-theme .macos-page-header,
@@ -3937,14 +3943,14 @@ html.theme-switching *::after {
 .alpha-theme.light.macos-landing-shell,
 .alpha-theme.light .macos-app-shell,
 .alpha-theme.light.macos-app-shell {
-  background: #fffffe !important;
+  background: var(--background-hex) !important;
 }
 
 .alpha-theme.dark .macos-landing-shell,
 .alpha-theme.dark.macos-landing-shell,
 .alpha-theme.dark .macos-app-shell,
 .alpha-theme.dark.macos-app-shell {
-  background: #000000 !important;
+  background: var(--background-hex) !important;
 }
 
 .alpha-theme.light .macos-page-header,
@@ -3952,7 +3958,7 @@ html.theme-switching *::after {
 .alpha-theme.light .macos-modal,
 .alpha-theme.light .eco-block,
 .alpha-theme.light .alpha-topbar-shell {
-  background: #e3f6f5 !important;
+  background: var(--card-hex) !important;
 }
 
 .alpha-theme.light .macos-card,
@@ -3967,14 +3973,14 @@ html.theme-switching *::after {
 .alpha-theme.light [data-slot="card"],
 .alpha-theme.light table tbody tr,
 .alpha-theme.light .macos-table tbody tr {
-  background: #fffffe !important;
+  background: var(--card-hex) !important;
 }
 
 .alpha-theme.light .macos-page-header,
 .alpha-theme.light .macos-panel,
 .alpha-theme.light .macos-modal,
 .alpha-theme.light .alpha-topbar-shell {
-  box-shadow: 0 14px 34px rgba(39, 35, 67, 0.06) !important;
+  box-shadow: var(--alpha-shadow) !important;
 }
 
 .alpha-theme.light .macos-card,
@@ -3982,7 +3988,7 @@ html.theme-switching *::after {
 .alpha-theme.light .macos-card-entry,
 .alpha-theme.light .hud-panel,
 .alpha-theme.light [data-slot="card"] {
-  box-shadow: 0 10px 24px rgba(39, 35, 67, 0.055) !important;
+  box-shadow: var(--alpha-shadow) !important;
 }
 
 .alpha-theme.light input,
@@ -3990,56 +3996,56 @@ html.theme-switching *::after {
 .alpha-theme.light select,
 .alpha-theme.light [data-slot="input"],
 .alpha-theme.light [data-slot="select-trigger"] {
-  background: #fffffe !important;
-  border-color: rgba(39, 35, 67, 0.18) !important;
+  background: var(--card-hex) !important;
+  border-color: var(--alpha-border) !important;
 }
 
 .alpha-theme.light .macos-page-kicker,
 .alpha-theme.light .alpha-topbar-chip,
 .alpha-theme.light .hud-badge,
 .alpha-theme.light [class*="rounded-full"][class*="border"] {
-  background: color-mix(in srgb, #bae8e8 42%, #fffffe 58%) !important;
-  color: #272343 !important;
-  border-color: rgba(39, 35, 67, 0.16) !important;
+  background: var(--background-hex) !important;
+  color: var(--paragraph-hex) !important;
+  border-color: var(--alpha-border) !important;
 }
 
 .alpha-theme.light .macos-btn,
 .alpha-theme.light [data-slot="button"],
 .alpha-theme.light button[class*="bg-"],
 .alpha-theme.light a[class*="macos-btn"] {
-  background: #ffd803 !important;
-  color: #272343 !important;
-  border-color: color-mix(in srgb, #272343 18%, #ffd803 82%) !important;
-  box-shadow: 0 8px 18px rgba(39, 35, 67, 0.08) !important;
+  background: var(--alpha-accent) !important;
+  color: var(--alpha-accent-contrast) !important;
+  border-color: color-mix(in srgb, var(--alpha-accent) 38%, var(--alpha-border) 62%) !important;
+  box-shadow: var(--alpha-shadow) !important;
 }
 
 .alpha-theme.light .macos-btn:hover,
 .alpha-theme.light [data-slot="button"]:hover,
 .alpha-theme.light button[class*="bg-"]:hover,
 .alpha-theme.light a[class*="macos-btn"]:hover {
-  background: #e6c200 !important;
-  border-color: rgba(39, 35, 67, 0.28) !important;
+  background: var(--alpha-accent-hover) !important;
+  border-color: var(--alpha-border-strong) !important;
 }
 
 .alpha-theme.light .macos-btn--ghost,
 .alpha-theme.light [data-slot="button"].macos-btn--ghost {
-  background: #fffffe !important;
-  color: #272343 !important;
+  background: var(--card-hex) !important;
+  color: var(--headline-hex) !important;
 }
 
 .alpha-theme.light table thead tr,
 .alpha-theme.light .macos-table thead tr {
-  background: color-mix(in srgb, #bae8e8 48%, #fffffe 52%) !important;
+  background: var(--background-hex) !important;
 }
 
 .alpha-theme.light table tbody tr:nth-child(even),
 .alpha-theme.light .macos-table tbody tr:nth-child(even) {
-  background: color-mix(in srgb, #e3f6f5 36%, #fffffe 64%) !important;
+  background: #F8FAFC !important;
 }
 
 .alpha-theme.light table tbody tr:hover,
 .alpha-theme.light .macos-table tbody tr:hover {
-  background: color-mix(in srgb, #bae8e8 44%, #fffffe 56%) !important;
+  background: var(--alpha-hover-soft) !important;
 }
 
 .alpha-theme.dark .macos-page-header,
@@ -4055,7 +4061,7 @@ html.theme-switching *::after {
 .alpha-theme.dark .eco-mini,
 .alpha-theme.dark .terminal-card,
 .alpha-theme.dark [data-slot="card"] {
-  background: #0c0e12 !important;
+  background: var(--card-hex) !important;
 }
 
 .alpha-theme .macos-modal-label,
@@ -4261,27 +4267,27 @@ html.theme-switching *::after {
 
 .alpha-theme.light .macos-table th,
 .alpha-theme.light table th {
-  color: color-mix(in srgb, #272343 78%, transparent) !important;
+  color: var(--paragraph-hex) !important;
   font-weight: 800 !important;
 }
 
 .alpha-theme.light .macos-table td,
 .alpha-theme.light table td {
-  color: #272343 !important;
+  color: var(--headline-hex) !important;
 }
 
 .alpha-theme.light .macos-card,
 .alpha-theme.light .macos-premium-card,
 .alpha-theme.light .hud-panel,
 .alpha-theme.light [data-slot="card"] {
-  border-color: rgba(39, 35, 67, 0.14) !important;
+  border-color: var(--alpha-border) !important;
 }
 
 .alpha-theme.light .macos-card:hover,
 .alpha-theme.light .macos-premium-card:hover,
 .alpha-theme.light .hud-panel:hover,
 .alpha-theme.light [data-slot="card"]:hover {
-  border-color: rgba(39, 35, 67, 0.24) !important;
+  border-color: var(--alpha-border-strong) !important;
 }
 
 .alpha-theme .dashboard-calendar-day {
@@ -4334,4 +4340,578 @@ html.theme-switching *::after {
 
 .alpha-theme .alpha-brand-logo {
   filter: contrast(1.08) !important;
+}
+
+/* Alpha Tracker native theme layer: solid, fast surfaces for the app shell. */
+.alpha-theme {
+  --alpha-motion-fast: 160ms;
+  --alpha-motion-normal: 220ms;
+}
+
+.alpha-theme,
+.alpha-theme .macos-app-shell,
+.alpha-theme .macos-root,
+.alpha-theme .macos-page-shell,
+.alpha-theme .alpha-dashboard-main {
+  background: var(--alpha-bg) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme .macos-app-shell::before,
+.alpha-theme .macos-app-shell::after,
+.alpha-theme .macos-root::before,
+.alpha-theme .macos-root::after {
+  display: none !important;
+}
+
+.alpha-theme .alpha-sidebar-panel {
+  background: var(--alpha-sidebar) !important;
+  border-color: var(--alpha-shell-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.alpha-theme .alpha-topbar-shell {
+  background: var(--alpha-topbar-gradient) !important;
+  border: 1px solid var(--alpha-shell-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.alpha-theme .macos-panel,
+.alpha-theme .macos-page-header,
+.alpha-theme .macos-card,
+.alpha-theme .macos-premium-card,
+.alpha-theme .macos-card-entry,
+.alpha-theme .macos-modal,
+.alpha-theme .hud-panel,
+.alpha-theme .eco-card,
+.alpha-theme .eco-block,
+.alpha-theme .eco-mini,
+.alpha-theme .terminal-card,
+.alpha-theme [data-slot="card"] {
+  background: var(--alpha-surface) !important;
+  background-image: none !important;
+  border-color: var(--alpha-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.alpha-theme .macos-card:hover,
+.alpha-theme .macos-premium-card:hover,
+.alpha-theme .macos-card-entry:hover,
+.alpha-theme .hud-panel:hover,
+.alpha-theme [data-slot="card"]:hover {
+  border-color: var(--alpha-border-strong) !important;
+  transform: translate3d(0, -1px, 0);
+}
+
+.alpha-theme input,
+.alpha-theme textarea,
+.alpha-theme select,
+.alpha-theme [data-slot="input"],
+.alpha-theme [data-slot="select-trigger"] {
+  background: var(--alpha-surface) !important;
+  border-color: var(--alpha-border) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme * {
+  transition-duration: var(--alpha-motion-fast);
+}
+
+/* Landing page theme lock: remove the previous black/terminal skin in dark mode. */
+.alpha-theme.macos-landing-shell,
+.alpha-theme .alpha-landing-hero-section,
+.alpha-theme .alpha-landing-auth-section,
+.alpha-theme .alpha-workspace-benefits,
+.alpha-theme .alpha-premium-section-shell,
+.alpha-theme .alpha-premium-preview-board,
+.alpha-theme .alpha-premium-cta-shell {
+  background: var(--alpha-bg) !important;
+  background-color: var(--alpha-bg) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme.macos-landing-shell::before,
+.alpha-theme.macos-landing-shell::after,
+.alpha-theme .alpha-landing-hero-atmosphere,
+.alpha-theme .alpha-landing-hero-atmosphere::before,
+.alpha-theme .alpha-landing-hero-atmosphere::after,
+.alpha-theme .alpha-premium-hero-haze,
+.alpha-theme .alpha-landing-space-glow,
+.alpha-theme .alpha-landing-preview-ambient {
+  display: none !important;
+}
+
+.alpha-theme .macos-nav-shell,
+.alpha-theme .alpha-hero-product-preview,
+.alpha-theme .alpha-premium-flow-pill,
+.alpha-theme .alpha-premium-stat-card,
+.alpha-theme .alpha-benefit-card,
+.alpha-theme .alpha-landing-auth-card,
+.alpha-theme .alpha-auth-card,
+.alpha-theme .alpha-auth-panel,
+.alpha-theme .alpha-landing-preview-shell,
+.alpha-theme .alpha-landing-minimal-card,
+.alpha-theme .alpha-landing-lane-card,
+.alpha-theme .alpha-landing-signal-card,
+.alpha-theme .alpha-landing-ecosystem-card {
+  background: var(--alpha-surface) !important;
+  background-image: none !important;
+  border-color: var(--alpha-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.alpha-theme.dark .alpha-hero-product-toolbar,
+.alpha-theme.dark .alpha-hero-desk-grid,
+.alpha-theme.dark .alpha-auth-proof-grid {
+  background: var(--alpha-border) !important;
+  border-color: var(--alpha-border) !important;
+}
+
+.alpha-theme.dark .alpha-hero-product-image-wrap,
+.alpha-theme.dark .alpha-hero-desk-card,
+.alpha-theme.dark .alpha-auth-proof-grid article,
+.alpha-theme.dark .alpha-auth-input-wrap,
+.alpha-theme.dark .alpha-auth-benefits div {
+  background: color-mix(in srgb, var(--alpha-card) 88%, var(--alpha-sidebar) 12%) !important;
+}
+
+.alpha-theme.dark .alpha-landing-headline,
+.alpha-theme.dark .alpha-landing-section-title,
+.alpha-theme.dark .alpha-benefit-header h2,
+.alpha-theme.dark .alpha-auth-product-copy h1,
+.alpha-theme.dark .alpha-auth-card-header h2 {
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme.dark .alpha-landing-headline-accent,
+.alpha-theme.dark .alpha-landing-headline-line--accent,
+.alpha-theme.dark .alpha-landing-kicker,
+.alpha-theme.dark .macos-section-label {
+  color: var(--alpha-accent) !important;
+}
+
+.alpha-theme.dark .alpha-landing-lead,
+.alpha-theme.dark .alpha-landing-section-copy,
+.alpha-theme.dark .alpha-benefit-header p,
+.alpha-theme.dark .alpha-benefit-card p,
+.alpha-theme.dark .alpha-auth-product-copy > p:last-child,
+.alpha-theme.dark .alpha-auth-card-header span {
+  color: var(--alpha-text-muted) !important;
+}
+
+/* Modern SaaS landing layout */
+.alpha-theme .alpha-saas-hero {
+  min-height: auto !important;
+  height: auto !important;
+  padding-top: clamp(7rem, 12vw, 9.5rem) !important;
+  padding-bottom: clamp(3rem, 7vw, 5.5rem) !important;
+}
+
+.alpha-theme .alpha-saas-hero .alpha-premium-hero-grid {
+  min-height: 0 !important;
+  height: auto !important;
+  grid-template-rows: auto auto auto;
+  gap: clamp(1.8rem, 4vw, 3.4rem);
+  padding-inline: 0;
+}
+
+.alpha-theme .alpha-premium-headline {
+  max-width: min(100%, 12ch);
+  gap: 0.08em;
+  font-size: clamp(3.2rem, 8vw, 6.9rem);
+  letter-spacing: 0 !important;
+}
+
+.alpha-theme .alpha-premium-headline span {
+  display: block;
+}
+
+.alpha-theme .alpha-premium-lead {
+  max-width: 42rem;
+  color: var(--alpha-text-muted) !important;
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  line-height: 1.7;
+}
+
+.alpha-theme .alpha-hero-product-preview {
+  width: min(100%, 74rem);
+  border-radius: 1.25rem;
+  background: var(--alpha-surface) !important;
+  border-color: var(--alpha-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.alpha-theme .alpha-hero-product-image-wrap {
+  background: color-mix(in srgb, var(--alpha-surface) 88%, var(--alpha-sidebar) 12%) !important;
+}
+
+.alpha-theme .alpha-hero-product-image {
+  aspect-ratio: 16 / 8.6;
+  object-fit: cover;
+}
+
+.alpha-theme .alpha-premium-stat-grid--hero {
+  max-width: 64rem;
+}
+
+.alpha-saas-section {
+  background: var(--alpha-bg);
+}
+
+.alpha-saas-section-header {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 48rem;
+  margin-bottom: clamp(1.8rem, 4vw, 3rem);
+}
+
+.alpha-saas-section-header p:not(.macos-section-label) {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--alpha-text-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.alpha-workspace-preview-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.alpha-workspace-preview-card,
+.alpha-saas-workspace-card {
+  border: 1px solid var(--alpha-border);
+  border-radius: 1.2rem;
+  background: var(--alpha-surface);
+  box-shadow: var(--alpha-shadow);
+}
+
+.alpha-workspace-preview-card {
+  display: grid;
+  gap: 1rem;
+  overflow: hidden;
+  padding: 0.85rem;
+}
+
+.alpha-workspace-preview-card h3,
+.alpha-saas-workspace-card h3 {
+  margin: 0;
+  color: var(--alpha-text);
+  font-size: 1rem;
+}
+
+.alpha-workspace-preview-card p,
+.alpha-saas-workspace-card p {
+  margin: 0.25rem 0 0;
+  color: var(--alpha-text-muted);
+  line-height: 1.6;
+}
+
+.alpha-workspace-preview-frame {
+  overflow: hidden;
+  border: 1px solid var(--alpha-border);
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, var(--alpha-surface) 88%, var(--alpha-sidebar) 12%);
+  aspect-ratio: 16 / 9;
+}
+
+.alpha-workspace-preview-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.alpha-saas-workspace-panel {
+  border: 1px solid var(--alpha-border);
+  border-radius: 1.4rem;
+  background: var(--alpha-surface);
+  box-shadow: var(--alpha-shadow);
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.alpha-saas-workspace-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.alpha-saas-workspace-card {
+  padding: 1.1rem;
+  box-shadow: none;
+}
+
+.alpha-saas-workspace-card span {
+  display: inline-flex;
+  width: 2.55rem;
+  height: 2.55rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--alpha-highlight-border);
+  border-radius: 0.85rem;
+  background: var(--alpha-highlight-soft);
+  color: var(--alpha-accent);
+  margin-bottom: 1rem;
+}
+
+.alpha-theme .alpha-core-feature-grid--four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.alpha-theme .alpha-core-feature-card {
+  background: var(--alpha-surface) !important;
+  border-color: var(--alpha-border) !important;
+  box-shadow: var(--alpha-shadow) !important;
+}
+
+.alpha-auth-modal {
+  overflow: hidden;
+  background: var(--alpha-surface) !important;
+  border-color: var(--alpha-border) !important;
+  box-shadow: var(--alpha-shadow-strong) !important;
+  color: var(--alpha-text) !important;
+}
+
+.alpha-auth-modal-inner {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.alpha-auth-modal-title {
+  color: var(--alpha-text);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.alpha-auth-modal-copy {
+  color: var(--alpha-text-muted) !important;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .alpha-workspace-preview-grid,
+  .alpha-saas-workspace-grid,
+  .alpha-theme .alpha-core-feature-grid--four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .alpha-workspace-preview-grid,
+  .alpha-saas-workspace-grid,
+  .alpha-theme .alpha-core-feature-grid--four,
+  .alpha-hero-desk-grid,
+  .alpha-premium-stat-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .alpha-theme .alpha-premium-headline {
+    font-size: clamp(2.7rem, 14vw, 4.1rem);
+  }
+}
+
+/* Landing V2: Web3 Research Mission Control */
+.alpha-theme.light.macos-landing-shell {
+  --alpha-bg: #F6F7FB;
+}
+
+.alpha-theme.macos-landing-shell {
+  background: var(--alpha-bg) !important;
+}
+
+.alpha-theme .macos-nav-shell {
+  min-height: 76px;
+  border-radius: 1.35rem !important;
+  padding-inline: clamp(1rem, 2vw, 1.5rem) !important;
+}
+
+.alpha-theme .macos-nav-shell .alpha-brand-logo {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+}
+
+.alpha-theme .alpha-landing-nav-title {
+  font-size: 1.05rem !important;
+  line-height: 1.15rem;
+}
+
+.alpha-theme .alpha-landing-nav-note {
+  font-size: 0.78rem !important;
+  color: var(--alpha-text-muted) !important;
+}
+
+.alpha-theme .alpha-saas-hero {
+  padding-top: clamp(8.5rem, 13vw, 11.25rem) !important;
+  padding-bottom: clamp(5rem, 9vw, 7.5rem) !important;
+}
+
+.alpha-theme .alpha-mission-hero-grid {
+  justify-items: center;
+  gap: clamp(2.25rem, 5vw, 4.5rem) !important;
+}
+
+.alpha-theme .alpha-mission-hero-grid .alpha-premium-copy {
+  max-width: 68rem;
+}
+
+.alpha-theme .alpha-premium-headline {
+  max-width: min(100%, 15ch);
+  font-size: clamp(3.1rem, 7vw, 6.35rem);
+  line-height: 0.98;
+}
+
+.alpha-theme .alpha-premium-headline span:last-child {
+  max-width: 13ch;
+}
+
+.alpha-theme .alpha-premium-lead {
+  max-width: 38rem;
+}
+
+.alpha-theme .alpha-mission-dashboard-preview {
+  width: min(70vw, 78rem);
+  min-width: min(100%, 58rem);
+}
+
+.alpha-theme .alpha-mission-dashboard-preview .alpha-hero-product-image {
+  aspect-ratio: 16 / 8.4;
+}
+
+.alpha-theme .alpha-mission-section {
+  padding-top: clamp(5rem, 9vw, 7.5rem);
+  padding-bottom: clamp(5rem, 9vw, 7.5rem);
+}
+
+.alpha-theme .alpha-premium-section-shell,
+.alpha-theme .alpha-saas-workspace-panel,
+.alpha-theme .alpha-mission-workflow-panel {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.alpha-theme .alpha-saas-section-header {
+  max-width: 54rem;
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+.alpha-theme .alpha-saas-section-header .alpha-landing-section-title {
+  max-width: 13ch;
+}
+
+.alpha-theme .alpha-core-feature-grid--four {
+  gap: 1rem;
+}
+
+.alpha-theme .alpha-core-feature-card {
+  min-height: 15rem;
+  border-radius: 1.1rem !important;
+  padding: clamp(1.1rem, 2vw, 1.35rem) !important;
+  box-shadow: none !important;
+}
+
+.alpha-theme .alpha-core-feature-card h3 {
+  font-size: 1.05rem;
+}
+
+.alpha-theme .alpha-workspace-preview-grid {
+  gap: 1.2rem;
+}
+
+.alpha-theme .alpha-workspace-preview-card {
+  padding: 0;
+  border-radius: 1.15rem;
+  box-shadow: none;
+}
+
+.alpha-theme .alpha-workspace-preview-card > div:last-child {
+  padding: 0 1rem 1rem;
+}
+
+.alpha-theme .alpha-workspace-preview-frame {
+  border: 0;
+  border-bottom: 1px solid var(--alpha-border);
+  border-radius: 1.15rem 1.15rem 0 0;
+}
+
+.alpha-theme .alpha-workspace-preview-card:first-child {
+  grid-column: span 2;
+}
+
+.alpha-theme .alpha-workspace-preview-card:first-child .alpha-workspace-preview-frame {
+  aspect-ratio: 16 / 7.4;
+}
+
+.alpha-mission-workflow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.85rem;
+}
+
+.alpha-mission-workflow-item {
+  position: relative;
+  min-height: 8rem;
+  border: 1px solid var(--alpha-border);
+  border-radius: 1.1rem;
+  background: var(--alpha-surface);
+  padding: 1rem;
+  color: var(--alpha-text);
+}
+
+.alpha-mission-workflow-item span {
+  display: block;
+  margin-bottom: 1.8rem;
+  color: var(--alpha-accent);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.alpha-mission-workflow-item strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.alpha-mission-workflow-arrow {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  color: var(--alpha-text-muted);
+  transform: rotate(-90deg);
+}
+
+@media (max-width: 1024px) {
+  .alpha-theme .alpha-mission-dashboard-preview {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .alpha-mission-workflow {
+    grid-template-columns: 1fr;
+  }
+
+  .alpha-mission-workflow-arrow {
+    transform: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .alpha-theme .macos-nav-shell .alpha-brand-logo {
+    width: 2.35rem !important;
+    height: 2.35rem !important;
+  }
+
+  .alpha-theme .alpha-workspace-preview-card:first-child {
+    grid-column: span 1;
+  }
+
+  .alpha-theme .alpha-workspace-preview-card:first-child .alpha-workspace-preview-frame {
+    aspect-ratio: 16 / 9;
+  }
 }

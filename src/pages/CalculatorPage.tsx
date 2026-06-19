@@ -113,6 +113,8 @@ export function CalculatorPage() {
       return (
         airdrop.projectName.toLowerCase().includes(query) ||
         airdrop.type.toLowerCase().includes(query) ||
+        (airdrop.projectCategory || "").toLowerCase().includes(query) ||
+        (airdrop.farmingStrategy || "").toLowerCase().includes(query) ||
         airdrop.status.toLowerCase().includes(query) ||
         (reward?.tokenSymbol || "").toLowerCase().includes(query)
       );
@@ -302,7 +304,7 @@ export function CalculatorPage() {
       value: selectedAirdrop?.projectName ?? t("calculator.summary.noProject"),
       meta: selectedAirdrop
         ? t("calculator.state.projectMeta", {
-            type: translateOption("airdropType", selectedAirdrop.type),
+            type: `${selectedAirdrop.projectCategory ?? "Other"} • ${selectedAirdrop.farmingStrategy ?? "Unknown"}`,
             status: translateOption("airdropStatus", selectedAirdrop.status),
           })
         : t("calculator.state.synced"),
@@ -433,7 +435,7 @@ export function CalculatorPage() {
                             </p>
                             <p className={`truncate text-[11px] ${isActive ? "text-[color:var(--alpha-accent-contrast)]/80" : "alpha-text-muted"}`}>
                               {t("calculator.state.projectMeta", {
-                                type: translateOption("airdropType", airdrop.type),
+                                type: `${airdrop.projectCategory ?? "Other"} • ${airdrop.farmingStrategy ?? "Unknown"}`,
                                 status: translateOption("airdropStatus", airdrop.status),
                               })}
                             </p>
@@ -500,7 +502,7 @@ export function CalculatorPage() {
                           <p className="truncate text-lg font-semibold alpha-text">{selectedAirdrop.projectName}</p>
                           <p className="mt-1 text-sm alpha-text-muted">
                             {t("calculator.state.projectMeta", {
-                              type: translateOption("airdropType", selectedAirdrop.type),
+                              type: `${selectedAirdrop.projectCategory ?? "Other"} • ${selectedAirdrop.farmingStrategy ?? "Unknown"}`,
                               status: translateOption("airdropStatus", selectedAirdrop.status),
                             })}
                           </p>

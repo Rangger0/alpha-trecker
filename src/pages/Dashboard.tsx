@@ -47,7 +47,8 @@ import { useCurrencyRate } from "@/hooks/use-currency-rate";
 import { useAirdropRewards } from "@/hooks/use-airdrop-rewards";
 import { CurrencyConverter } from "@/components/dashboard/CurrencyConverter";
 import { AIRDROPS_SYNC_EVENT, emitAirdropsSync, setCachedAirdrops } from "@/lib/airdrops-store";
-import type { Airdrop, AirdropType, AirdropStatus } from "@/types";
+import type { Airdrop, AirdropStatus, FarmingStrategy, ProjectCategory } from "@/types";
+import { FARMING_STRATEGIES, PROJECT_CATEGORIES } from "@/types";
 import { createAirdrop, getAirdropsByUserId, updateAirdrop } from "@/services/database";
 
 const RewardPerformancePanel = lazy(async () => {
@@ -81,12 +82,6 @@ const EligibilityModal = lazy(async () => {
 });
 
 /* ---------- constants ---------- */
-const AIRDROP_TYPES: AirdropType[] = [
-  'Testnet', 'AI', 'Quest', 'Daily', 'Daily Quest',
-  'Retroactive', 'Waitlist', 'Node', 'Depin', 'NFT', 'Domain Name',
-  'Deploy SC', 'DeFi', 'Deploy NFT', 'GameFi'
-];
-
 const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
 
 const badgeTone = {
@@ -97,24 +92,6 @@ const badgeTone = {
   red: 'bg-[color:var(--alpha-danger-soft)] text-[color:var(--alpha-danger)] border-[color:var(--alpha-danger-border)]',
   yellow: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-type)] border-[color:var(--alpha-highlight-border)]',
   neutral: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]',
-};
-
-const TYPE_COLORS: Record<string, { dark: string; light: string }> = {
-  'Testnet': { dark: badgeTone.violet, light: badgeTone.violet },
-  'AI': { dark: badgeTone.yellow, light: badgeTone.yellow },
-  'Quest': { dark: badgeTone.cyan, light: badgeTone.cyan },
-  'Daily': { dark: badgeTone.green, light: badgeTone.green },
-  'Daily Quest': { dark: badgeTone.green, light: badgeTone.green },
-  'Retroactive': { dark: badgeTone.amber, light: badgeTone.amber },
-  'Waitlist': { dark: badgeTone.violet, light: badgeTone.violet },
-  'Node': { dark: badgeTone.cyan, light: badgeTone.cyan },
-  'Depin': { dark: badgeTone.cyan, light: badgeTone.cyan },
-  'NFT': { dark: badgeTone.red, light: badgeTone.red },
-  'Domain Name': { dark: badgeTone.violet, light: badgeTone.violet },
-  'Deploy SC': { dark: badgeTone.amber, light: badgeTone.amber },
-  'DeFi': { dark: badgeTone.green, light: badgeTone.green },
-  'Deploy NFT': { dark: badgeTone.red, light: badgeTone.red },
-  'GameFi': { dark: badgeTone.yellow, light: badgeTone.yellow },
 };
 
 const STATUS_COLORS: Record<string, { dark: string; light: string }> = {
@@ -985,7 +962,6 @@ function TableRow({
   setLogoError: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
 }) {
   const [actionsOpen, setActionsOpen] = useState(false);
-  const getTypeColor   = (t: string) => isDark ? TYPE_COLORS[t]?.dark   || TYPE_COLORS['Quest'].dark   : TYPE_COLORS[t]?.light   || TYPE_COLORS['Quest'].light;
   const getStatusColor = (s: string) => isDark ? STATUS_COLORS[s]?.dark || STATUS_COLORS['Planning'].dark : STATUS_COLORS[s]?.light || STATUS_COLORS['Planning'].light;
   const runDropdownAction = (action: () => void) => {
     setActionsOpen(false);
@@ -1017,7 +993,11 @@ function TableRow({
       </td>
 
       <td className="px-4 py-4">
-        <Badge variant="outline" className={`font-mono text-xs ${getTypeColor(airdrop.type)}`}>{airdrop.type}</Badge>
+        <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.projectCategory ?? 'Other'}</Badge>
+      </td>
+
+      <td className="px-4 py-4">
+        <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.farmingStrategy ?? 'Unknown'}</Badge>
       </td>
 
       <td className="px-4 py-4">
@@ -1174,7 +1154,8 @@ function DashboardContent() {
   const user = session?.user;
   const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [typeFilter, setTypeFilter] = useState<AirdropType | 'all'>('all');
+  const [categoryFilter, setCategoryFilter] = useState<ProjectCategory | 'all'>('all');
+  const [strategyFilter, setStrategyFilter] = useState<FarmingStrategy | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<AirdropStatus | 'all'>('all');
   const [sortBy] = useState<'newest' | 'progress'>('newest');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -1204,15 +1185,18 @@ function DashboardContent() {
         (a.email || '').toLowerCase().includes(q) ||
         (a.funding || '').toLowerCase().includes(q) ||
         (a.potential || '').toLowerCase().includes(q) ||
+        (a.projectCategory || '').toLowerCase().includes(q) ||
+        (a.farmingStrategy || '').toLowerCase().includes(q) ||
         (a.waitlistCount != null && 'waitlist'.includes(q)) ||
         (a.airdropConfirmed && 'confirmed'.includes(q))
       );
     }
-    if (typeFilter   !== 'all') result = result.filter(a => a.type   === typeFilter);
+    if (categoryFilter !== 'all') result = result.filter(a => (a.projectCategory ?? 'Other') === categoryFilter);
+    if (strategyFilter !== 'all') result = result.filter(a => (a.farmingStrategy ?? 'Unknown') === strategyFilter);
     if (statusFilter !== 'all') result = result.filter(a => a.status === statusFilter);
     if (sortBy === 'newest') result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     return result;
-  }, [airdrops, searchQuery, typeFilter, statusFilter, sortBy]);
+  }, [airdrops, searchQuery, categoryFilter, strategyFilter, statusFilter, sortBy]);
 
   useEffect(() => {
     if (!user) return;
@@ -1338,18 +1322,37 @@ function DashboardContent() {
               </label>
 
               <div className="flex flex-wrap gap-2.5 items-center xl:justify-end">
-                <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as AirdropType | 'all')}>
+                <Select value={categoryFilter} onValueChange={(v) => setCategoryFilter(v as ProjectCategory | 'all')}>
                     <SelectTrigger className={`h-11 min-w-[160px] rounded-[1rem] border-alpha-border ${
                       isDark ? 'bg-[color:var(--alpha-surface-soft)] alpha-text' : 'bg-[color:var(--alpha-surface)] alpha-text'
                     }`}>
                     <span className="flex min-w-0 items-center gap-2.5">
                       <Filter className="h-4 w-4 alpha-text-muted" />
-                      <SelectValue placeholder="All types" />
+                      <SelectValue placeholder="All categories" />
                     </span>
                   </SelectTrigger>
                   <SelectContent className={`macos-popover border-alpha-border ${isDark ? 'bg-dark-secondary' : 'bg-[color:var(--alpha-panel)]'}`}>
-                    <SelectItem value="all">All types</SelectItem>
-                    {AIRDROP_TYPES.map(t => <SelectItem key={t} value={t}>{t.toUpperCase()}</SelectItem>)}
+                    <SelectItem value="all">All categories</SelectItem>
+                    {PROJECT_CATEGORIES.map((category) => (
+                      <SelectItem key={category} value={category}>{category}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <Select value={strategyFilter} onValueChange={(v) => setStrategyFilter(v as FarmingStrategy | 'all')}>
+                    <SelectTrigger className={`h-11 min-w-[170px] rounded-[1rem] border-alpha-border ${
+                      isDark ? 'bg-[color:var(--alpha-surface-soft)] alpha-text' : 'bg-[color:var(--alpha-surface)] alpha-text'
+                    }`}>
+                    <span className="flex min-w-0 items-center gap-2.5">
+                      <Filter className="h-4 w-4 alpha-text-muted" />
+                      <SelectValue placeholder="All strategies" />
+                    </span>
+                  </SelectTrigger>
+                  <SelectContent className={`macos-popover border-alpha-border ${isDark ? 'bg-dark-secondary' : 'bg-[color:var(--alpha-panel)]'}`}>
+                    <SelectItem value="all">All strategies</SelectItem>
+                    {FARMING_STRATEGIES.map((strategy) => (
+                      <SelectItem key={strategy} value={strategy}>{strategy}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
 
@@ -1393,7 +1396,7 @@ function DashboardContent() {
               <table className="w-full macos-table">
                 <thead>
                   <tr className="border-b border-alpha-border bg-[color:var(--alpha-hover-soft)]">
-                    {['NO','NAME','TYPE','EMAIL','WALLET ADDRESS','OFFICIAL LINK','STATUS','CONFIRMED','FUNDING','WAITLIST','POTENTIAL','ACTIONS'].map(h => (
+                    {['NO','NAME','CATEGORY','STRATEGY','EMAIL','WALLET ADDRESS','OFFICIAL LINK','STATUS','CONFIRMED','FUNDING','WAITLIST','POTENTIAL','ACTIONS'].map(h => (
                       <th key={h} className={`px-4 py-3 text-left text-xs font-mono font-medium alpha-text-muted`}>{h}</th>
                     ))}
                   </tr>

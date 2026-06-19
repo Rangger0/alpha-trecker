@@ -22,17 +22,51 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { Plus, X, Loader2, Calendar, Flag } from 'lucide-react';
 import { useI18n } from '@/contexts/LanguageContext';
-import type { Airdrop, AirdropType, AirdropStatus, Task, PriorityLevel } from '@/types';
+import type { Airdrop, AirdropType, AirdropStatus, Task, PriorityLevel, ProjectCategory, FarmingStrategy } from '@/types';
+import { FARMING_STRATEGIES, PROJECT_CATEGORIES } from '@/types';
 import { generateId } from '@/services/crypto';
-
-const AIRDROP_TYPES: AirdropType[] = [
-  'Testnet', 'AI', 'Quest', 'Daily', 'Daily Quest',
-  'Retroactive', 'Waitlist', 'Node', 'Depin', 'NFT', 'Domain Name',
-  'Deploy SC', 'DeFi', 'Deploy NFT', 'GameFi'
-];
 
 const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
 const PRIORITY_LEVELS: PriorityLevel[] = ['Low', 'Medium', 'High'];
+
+const LEGACY_TYPE_BY_STRATEGY: Partial<Record<FarmingStrategy, AirdropType>> = {
+  Testnet: 'Testnet',
+  Retroactive: 'Retroactive',
+  Quest: 'Quest',
+  'Daily Check-in': 'Daily',
+  Waitlist: 'Waitlist',
+  Node: 'Node',
+};
+
+const LEGACY_TYPE_BY_CATEGORY: Partial<Record<ProjectCategory, AirdropType>> = {
+  AI: 'AI',
+  DeFi: 'DeFi',
+  DePIN: 'Depin',
+  GameFi: 'GameFi',
+  NFT: 'NFT',
+};
+
+const getLegacyType = (category: ProjectCategory, strategy: FarmingStrategy): AirdropType =>
+  LEGACY_TYPE_BY_STRATEGY[strategy] ?? LEGACY_TYPE_BY_CATEGORY[category] ?? 'Quest';
+
+const getCategoryFromLegacyType = (type?: AirdropType): ProjectCategory => {
+  if (type === 'AI') return 'AI';
+  if (type === 'DeFi') return 'DeFi';
+  if (type === 'Depin') return 'DePIN';
+  if (type === 'GameFi') return 'GameFi';
+  if (type === 'NFT' || type === 'Deploy NFT') return 'NFT';
+  return 'Other';
+};
+
+const getStrategyFromLegacyType = (type?: AirdropType): FarmingStrategy => {
+  if (type === 'Testnet') return 'Testnet';
+  if (type === 'Retroactive') return 'Retroactive';
+  if (type === 'Quest') return 'Quest';
+  if (type === 'Daily' || type === 'Daily Quest') return 'Daily Check-in';
+  if (type === 'Waitlist') return 'Waitlist';
+  if (type === 'Node') return 'Node';
+  return 'Unknown';
+};
 
 interface AirdropModalProps {
   isOpen: boolean;
@@ -73,7 +107,8 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
   const [twitterUsername, setTwitterUsername] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [email, setEmail] = useState('');
-  const [type, setType] = useState<AirdropType>('Testnet');
+  const [projectCategory, setProjectCategory] = useState<ProjectCategory>('Other');
+  const [farmingStrategy, setFarmingStrategy] = useState<FarmingStrategy>('Unknown');
   const [status, setStatus] = useState<AirdropStatus>('Planning');
   const [notes, setNotes] = useState('');
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -97,7 +132,8 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
       setTwitterUsername(airdrop.twitterUsername ?? '');
       setWalletAddress(airdrop.walletAddress ?? '');
       setEmail(airdrop.email ?? '');
-      setType(airdrop.type ?? 'Testnet');
+      setProjectCategory(airdrop.projectCategory ?? getCategoryFromLegacyType(airdrop.type));
+      setFarmingStrategy(airdrop.farmingStrategy ?? getStrategyFromLegacyType(airdrop.type));
       setStatus(airdrop.status ?? 'Planning');
       setNotes(airdrop.notes ?? '');
       setTasks(airdrop.tasks ?? []);
@@ -120,7 +156,8 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
     setTwitterUsername('');
     setWalletAddress('');
     setEmail('');
-    setType('Testnet');
+    setProjectCategory('Other');
+    setFarmingStrategy('Unknown');
     setStatus('Planning');
     setNotes('');
     setTasks([]);
@@ -145,7 +182,9 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
       twitterUsername: twitterUsername.trim(),
       walletAddress: walletAddress.trim(),
       email: email.trim(),
-      type,
+      type: getLegacyType(projectCategory, farmingStrategy),
+      projectCategory,
+      farmingStrategy,
       status,
       notes: notes.trim(),
       tasks,
@@ -277,20 +316,41 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="type" className="macos-modal-label">
-                  {t('airdropModal.type')} *
+                <Label htmlFor="projectCategory" className="macos-modal-label">
+                  Project Category *
                 </Label>
-                <Select value={type} onValueChange={(v) => setType(v as AirdropType)}>
+                <Select value={projectCategory} onValueChange={(v) => setProjectCategory(v as ProjectCategory)}>
                   <SelectTrigger className="macos-input macos-modal-input">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="macos-popover">
-                    {AIRDROP_TYPES.map(t => (
+                    {PROJECT_CATEGORIES.map((category) => (
                       <SelectItem 
-                        key={t} 
-                        value={t}
+                        key={category}
+                        value={category}
                       >
-                        {translateOption('airdropType', t)}
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="farmingStrategy" className="macos-modal-label">
+                  Farming Strategy *
+                </Label>
+                <Select value={farmingStrategy} onValueChange={(v) => setFarmingStrategy(v as FarmingStrategy)}>
+                  <SelectTrigger className="macos-input macos-modal-input">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="macos-popover">
+                    {FARMING_STRATEGIES.map((strategy) => (
+                      <SelectItem
+                        key={strategy}
+                        value={strategy}
+                      >
+                        {strategy}
                       </SelectItem>
                     ))}
                   </SelectContent>

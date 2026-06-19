@@ -1,4 +1,4 @@
-/* Alpha Tracker theme tokens (CANONICAL) - derived strictly from src/index.css palette.
+/* Alpha Tracker theme tokens (CANONICAL) - Premium Navy / Enterprise White.
    This file is a compatibility layer: existing components consume --alpha-* / --hud-* vars.
    No business logic, routing, or component structure is changed.
 */
@@ -9,23 +9,52 @@ html.dark,
 .alpha-theme.dark {
   color-scheme: dark;
 
-  /* Palette from spec */
-  --background-rgb: 0 0 0;        /* #000000 */
-  --headline-rgb: 255 255 254;    /* #fffffe */
-  --paragraph-rgb: 222 232 242;   /* #dee8f2 */
-  --card-rgb: 12 14 18;           /* #0c0e12 */
-  --main-rgb: 45 212 191;         /* #2dd4bf */
-  --highlight-rgb: 255 216 3;     /* #ffd803 */
-  --secondary-rgb: 18 23 31;      /* #12171f */
-  --tertiary-rgb: 51 65 85;       /* #334155 */
+  --background-hex: #1A1F36;
+  --card-hex: #2B3354;
+  --headline-hex: #FFFFFF;
+  --paragraph-hex: #AAB2D5;
+  --icon-stroke-hex: #FFFFFF;
+  --main-hex: #3DD9AE;
+  --highlight-hex: #3DD9AE;
+  --secondary-hex: #232A46;
+  --tertiary-hex: #3A456B;
+
+  --background: 26 31 54;
+  --card: 43 51 84;
+  --headline: 255 255 255;
+  --paragraph: 170 178 213;
+  --main: 61 217 174;
+  --highlight: 61 217 174;
+  --secondary: 35 42 70;
+  --tertiary: 58 69 107;
+
+  --background-rgb: 26 31 54;
+  --headline-rgb: 255 255 255;
+  --paragraph-rgb: 170 178 213;
+  --card-rgb: 43 51 84;
+  --main-rgb: 61 217 174;
+  --highlight-rgb: 61 217 174;
+  --secondary-rgb: 35 42 70;
+  --tertiary-rgb: 58 69 107;
+
+  --bg: var(--background-hex);
+  --sidebar: var(--secondary-hex);
+  --card-token: var(--card-hex);
+  --border-token: var(--tertiary-hex);
+  --text: var(--headline-hex);
+  --text-secondary: var(--paragraph-hex);
+  --accent: var(--main-hex);
 
   /* Core tokens (used by components & Tailwind config) */
   --alpha-bg: var(--background-hex);
   --alpha-panel: var(--card-hex);
   --alpha-card: var(--card-hex);
-  --alpha-surface: var(--background-hex);
-  --alpha-surface-soft: color-mix(in srgb, var(--card-hex) 86%, var(--main-hex) 14%);
-  --alpha-surface-strong: color-mix(in srgb, var(--card-hex) 72%, var(--main-hex) 28%);
+  --alpha-surface: var(--card-hex);
+  --alpha-surface-soft: color-mix(in srgb, var(--card-hex) 92%, white 8%);
+  --alpha-surface-strong: color-mix(in srgb, var(--card-hex) 86%, white 14%);
+  --alpha-sidebar: var(--secondary-hex);
+  --alpha-shell: var(--secondary-hex);
+  --alpha-shell-soft: color-mix(in srgb, var(--secondary-hex) 86%, var(--card-hex) 14%);
 
   --alpha-text: var(--headline-hex);
   --alpha-text-muted: var(--paragraph-hex);
@@ -34,36 +63,36 @@ html.dark,
 
   --alpha-accent: var(--main-hex);
   --alpha-main: var(--main-hex);
-  --alpha-accent-hover: color-mix(in srgb, var(--main-hex) 86%, var(--highlight-hex) 14%);
+  --alpha-accent-hover: #2FC89E;
   --alpha-accent-from: var(--main-hex);
   --alpha-accent-to: var(--highlight-hex);
-  --alpha-accent-contrast: #000000;
+  --alpha-accent-contrast: #10201C;
 
   --alpha-highlight: var(--highlight-hex);
   --alpha-card-heading: var(--headline-hex);
   --alpha-card-text: var(--paragraph-hex);
-  --alpha-card-tag-bg: var(--card-tag-bg-hex, #12171f);
-  --alpha-card-tag-text: var(--card-tag-text-hex, #ffd803);
+  --alpha-card-tag-bg: color-mix(in srgb, var(--secondary-hex) 76%, var(--card-hex) 24%);
+  --alpha-card-tag-text: var(--paragraph-hex);
 
   /* Tag/text “secondary/tertiary” intent */
-  --alpha-secondary: #7dd3fc;
-  --alpha-tertiary: #a7f3d0;
+  --alpha-secondary: var(--paragraph-hex);
+  --alpha-tertiary: var(--main-hex);
   --alpha-signal: var(--highlight-hex);
   --alpha-signal-press: color-mix(in srgb, var(--highlight-hex) 88%, var(--background-hex) 12%);
   --alpha-signal-strong: color-mix(in srgb, var(--highlight-hex) 44%, transparent);
   --alpha-signal-soft: color-mix(in srgb, var(--highlight-hex) 16%, transparent);
   --alpha-signal-softest: color-mix(in srgb, var(--highlight-hex) 8%, transparent);
   --alpha-signal-border: color-mix(in srgb, var(--highlight-hex) 38%, transparent);
-  --alpha-info: #7dd3fc;
-  --alpha-violet: #c4b5fd;
+  --alpha-info: #8BB6FF;
+  --alpha-violet: #B8A7FF;
   --alpha-info-soft: color-mix(in srgb, var(--alpha-info) 16%, transparent);
   --alpha-info-border: color-mix(in srgb, var(--alpha-info) 34%, transparent);
   --alpha-violet-soft: color-mix(in srgb, var(--alpha-violet) 16%, transparent);
   --alpha-violet-border: color-mix(in srgb, var(--alpha-violet) 34%, transparent);
 
   /* Status mapping -> spec palette */
-  --alpha-success: #34d399;
-  --alpha-warning: var(--highlight-hex);
+  --alpha-success: var(--main-hex);
+  --alpha-warning: #F2C94C;
   --alpha-danger: #fb7185;
   --alpha-error: #fb7185;
   --alpha-danger-press: #f43f5e;
@@ -99,21 +128,26 @@ html.dark,
   --alpha-danger-strong: color-mix(in srgb, var(--alpha-danger) 22%, transparent);
 
   /* Borders & rows */
-  --alpha-border: color-mix(in srgb, var(--headline-hex) 12%, transparent);
-  --alpha-border-strong: color-mix(in srgb, var(--highlight-hex) 52%, var(--main-hex) 48%);
+  --alpha-border: var(--tertiary-hex);
+  --alpha-border-strong: color-mix(in srgb, var(--main-hex) 52%, var(--tertiary-hex) 48%);
 
-  --alpha-row-selected: color-mix(in srgb, var(--main-hex) 12%, transparent 88%);
+  --alpha-row-selected: color-mix(in srgb, var(--main-hex) 16%, var(--card-hex) 84%);
   --alpha-row-selected-text: var(--headline-hex);
-  --alpha-row-odd: color-mix(in srgb, var(--background-hex) 4%, transparent 96%);
-  --alpha-row-even: color-mix(in srgb, var(--background-hex) 6%, transparent 94%);
+  --alpha-row-odd: var(--card-hex);
+  --alpha-row-even: color-mix(in srgb, var(--card-hex) 92%, var(--secondary-hex) 8%);
 
   /* Non-palette (shadows/overlays) */
-  --alpha-hover-soft: color-mix(in srgb, var(--main-hex) 12%, transparent);
-  --alpha-overlay: color-mix(in srgb, var(--background-hex) 62%, transparent);
+  --alpha-hover-soft: color-mix(in srgb, var(--main-hex) 12%, var(--card-hex) 88%);
+  --alpha-overlay: color-mix(in srgb, var(--background-hex) 74%, transparent);
 
-  --alpha-shadow: 0 18px 46px color-mix(in srgb, var(--background-hex) 52%, transparent);
-  --alpha-shadow-strong: 0 28px 80px color-mix(in srgb, var(--background-hex) 52%, transparent);
-  --alpha-shadow-inset: inset 0 1px 0 color-mix(in srgb, var(--main-hex) 12%, transparent);
+  --alpha-shadow: 0 8px 18px rgba(9, 13, 26, 0.18);
+  --alpha-shadow-strong: 0 14px 28px rgba(9, 13, 26, 0.22);
+  --alpha-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --alpha-shell-border: var(--tertiary-hex);
+  --alpha-topbar-chip-border: var(--tertiary-hex);
+  --alpha-shell-gradient: var(--card-hex);
+  --alpha-topbar-gradient: var(--secondary-hex);
+  --alpha-topbar-chip-gradient: color-mix(in srgb, var(--card-hex) 76%, var(--secondary-hex) 24%);
 
   /* HUD aliases (keep structure, remove legacy hex) */
   --hud-cyan-hex: var(--main-hex);
@@ -134,9 +168,9 @@ html.dark,
   --dark-grad-top: var(--background-hex);
   --dark-grad-mid: var(--background-hex);
   --dark-grad-bottom: var(--background-hex);
-  --dark-surface-hex: var(--background-hex);
+  --dark-surface-hex: var(--card-hex);
 
-  --sidebar-background: var(--background);
+  --sidebar-background: var(--secondary);
   --sidebar-foreground: var(--headline);
   --sidebar-primary: var(--main);
   --sidebar-primary-foreground: var(--headline);
@@ -159,50 +193,87 @@ html.light,
 .alpha-theme.light {
   color-scheme: light;
 
+  --background-hex: #F5F7FB;
+  --card-hex: #FFFFFF;
+  --headline-hex: #1E293B;
+  --paragraph-hex: #64748B;
+  --icon-stroke-hex: #1E293B;
+  --main-hex: #3DD9AE;
+  --highlight-hex: #3DD9AE;
+  --secondary-hex: #40486D;
+  --tertiary-hex: #E5EAF2;
+
+  --background: 245 247 251;
+  --card: 255 255 255;
+  --headline: 30 41 59;
+  --paragraph: 100 116 139;
+  --main: 61 217 174;
+  --highlight: 61 217 174;
+  --secondary: 64 72 109;
+  --tertiary: 229 234 242;
+
+  --background-rgb: 245 247 251;
+  --headline-rgb: 30 41 59;
+  --paragraph-rgb: 100 116 139;
+  --card-rgb: 255 255 255;
+  --main-rgb: 61 217 174;
+  --highlight-rgb: 61 217 174;
+  --secondary-rgb: 64 72 109;
+  --tertiary-rgb: 229 234 242;
+
+  --bg: var(--background-hex);
+  --sidebar: var(--secondary-hex);
+  --card-token: var(--card-hex);
+  --border-token: var(--tertiary-hex);
+  --text: var(--headline-hex);
+  --text-secondary: var(--paragraph-hex);
+  --accent: var(--main-hex);
+
   --alpha-bg: var(--background-hex);
-  --alpha-panel: var(--background-hex);
+  --alpha-panel: var(--card-hex);
   --alpha-card: var(--background-hex);
-  --alpha-surface: var(--background-hex);
-  --alpha-surface-soft: #f6fbfb;
+  --alpha-surface: var(--card-hex);
+  --alpha-surface-soft: #F8FAFC;
   --alpha-surface-strong: var(--card-hex);
+  --alpha-sidebar: var(--secondary-hex);
   --alpha-shell: var(--card-hex);
-  --alpha-shell-soft: color-mix(in srgb, var(--card-hex) 72%, var(--background-hex) 28%);
+  --alpha-shell-soft: #F8FAFC;
 
   --alpha-text: var(--headline-hex);
   --alpha-text-muted: var(--paragraph-hex);
   --alpha-text-soft: var(--headline-hex);
   --alpha-muted: var(--paragraph-hex);
 
-  --alpha-accent: var(--highlight-hex);
-  --alpha-main: var(--highlight-hex);
-  --alpha-accent-hover: #e6c200;
+  --alpha-accent: var(--main-hex);
+  --alpha-main: var(--main-hex);
+  --alpha-accent-hover: #2FC89E;
   --alpha-accent-from: var(--highlight-hex);
   --alpha-accent-to: var(--highlight-hex);
   --alpha-accent-contrast: var(--headline-hex);
 
   --alpha-highlight: var(--highlight-hex);
-  --alpha-card-heading: var(--card-headline-hex, #272343);
-  --alpha-card-text: var(--card-paragraph-hex, #2d334a);
-  --alpha-card-tag-bg: var(--card-tag-bg-hex, #fffffe);
-  --alpha-card-tag-text: var(--card-tag-text-hex, #272343);
+  --alpha-card-heading: var(--headline-hex);
+  --alpha-card-text: var(--paragraph-hex);
+  --alpha-card-tag-bg: var(--background-hex);
+  --alpha-card-tag-text: var(--paragraph-hex);
 
-  --alpha-secondary: var(--card-hex);
+  --alpha-secondary: var(--secondary-hex);
   --alpha-tertiary: var(--tertiary-hex);
   --alpha-signal: var(--highlight-hex);
-  --alpha-signal-press: color-mix(in srgb, var(--highlight-hex) 82%, var(--headline-hex) 18%);
+  --alpha-signal-press: var(--alpha-accent-hover);
   --alpha-signal-strong: color-mix(in srgb, var(--highlight-hex) 44%, transparent);
   --alpha-signal-soft: color-mix(in srgb, var(--highlight-hex) 18%, transparent);
   --alpha-signal-softest: color-mix(in srgb, var(--highlight-hex) 10%, transparent);
   --alpha-signal-border: color-mix(in srgb, var(--highlight-hex) 52%, var(--main-hex) 18%);
-  --alpha-info: #0f766e;
-  --alpha-violet: #6d5bd0;
+  --alpha-info: #2563EB;
+  --alpha-violet: #6D5BD0;
   --alpha-info-soft: color-mix(in srgb, var(--alpha-info) 12%, transparent);
   --alpha-info-border: color-mix(in srgb, var(--alpha-info) 30%, transparent);
   --alpha-violet-soft: color-mix(in srgb, var(--alpha-violet) 12%, transparent);
   --alpha-violet-border: color-mix(in srgb, var(--alpha-violet) 30%, transparent);
 
-  --alpha-success: #12805c;
-  --alpha-warning: #9a6b00;
+  --alpha-success: #12805C;
+  --alpha-warning: #A16207;
   --alpha-danger: #c5283d;
   --alpha-error: #c5283d;
   --alpha-danger-press: #a91f31;
@@ -237,20 +308,25 @@ html.light,
   --alpha-danger-border: color-mix(in srgb, var(--alpha-danger) 34%, transparent);
   --alpha-danger-strong: color-mix(in srgb, var(--alpha-danger) 18%, transparent);
 
-  --alpha-border: color-mix(in srgb, var(--headline-hex) 16%, transparent);
-  --alpha-border-strong: color-mix(in srgb, var(--headline-hex) 24%, var(--tertiary-hex) 26%);
+  --alpha-border: var(--tertiary-hex);
+  --alpha-border-strong: color-mix(in srgb, var(--secondary-hex) 34%, var(--tertiary-hex) 66%);
 
-  --alpha-row-selected: color-mix(in srgb, var(--highlight-hex) 20%, var(--background-hex) 80%);
+  --alpha-row-selected: color-mix(in srgb, var(--main-hex) 14%, var(--card-hex) 86%);
   --alpha-row-selected-text: var(--headline-hex);
   --alpha-row-odd: var(--background-hex);
-  --alpha-row-even: color-mix(in srgb, var(--card-hex) 36%, var(--background-hex) 64%);
+  --alpha-row-even: #F8FAFC;
 
-  --alpha-hover-soft: color-mix(in srgb, var(--tertiary-hex) 36%, var(--background-hex) 64%);
+  --alpha-hover-soft: #F8FAFC;
   --alpha-overlay: color-mix(in srgb, var(--headline-hex) 12%, transparent);
 
-  --alpha-shadow: 0 14px 34px rgba(39, 35, 67, 0.08);
-  --alpha-shadow-strong: 0 22px 54px rgba(39, 35, 67, 0.12);
-  --alpha-shadow-inset: inset 0 1px 0 rgba(255, 255, 254, 0.86);
+  --alpha-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+  --alpha-shadow-strong: 0 12px 26px rgba(15, 23, 42, 0.09);
+  --alpha-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --alpha-shell-border: var(--tertiary-hex);
+  --alpha-topbar-chip-border: var(--tertiary-hex);
+  --alpha-shell-gradient: var(--card-hex);
+  --alpha-topbar-gradient: var(--card-hex);
+  --alpha-topbar-chip-gradient: var(--background-hex);
 
   --hud-cyan-hex: var(--main-hex);
   --hud-glow-hex: var(--main-hex);

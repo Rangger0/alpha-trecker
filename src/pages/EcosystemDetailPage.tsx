@@ -313,7 +313,7 @@ export function EcosystemDetailPage() {
                           className="text-[10px] font-mono px-1.5 py-0.5 rounded border mt-1 inline-block"
                           style={{ color: 'var(--ecosystem-accent, ' + accentBase + ')', borderColor: 'var(--ecosystem-accent-border, color-mix(in srgb, var(--main-hex) 18%, transparent))', background: 'var(--ecosystem-accent-bg, color-mix(in srgb, var(--main-hex) 18%, transparent))' }}
                         >
-                          {project.type}
+                          {project.projectCategory ?? 'Other'} • {project.farmingStrategy ?? 'Unknown'}
                         </span>
                       </div>
                     </div>
@@ -392,7 +392,9 @@ export function EcosystemDetailPage() {
                         </div>
                         <div>
                           <h4 className={`font-mono font-bold ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>{project.projectName}</h4>
-                          <span className={`text-xs font-mono ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>{project.type}</span>
+                          <span className={`text-xs font-mono ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
+                            {project.projectCategory ?? 'Other'} • {project.farmingStrategy ?? 'Unknown'}
+                          </span>
                         </div>
                       </div>
 
