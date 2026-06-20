@@ -137,6 +137,7 @@ export function LandingPage() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>('login');
 
+
   const openAuthModal = useCallback((mode: AuthMode = 'login') => {
     setAuthMode(mode);
     setAuthOpen(true);
@@ -157,19 +158,16 @@ export function LandingPage() {
   }, [location.hash, openAuthModal]);
 
   return (
-    <div className={`alpha-theme ${theme} macos-root macos-landing-shell min-h-screen alpha-bg`}>
-      <LandingScrollChrome />
-      <Navbar onOpenAuth={openAuthModal} />
-      <main>
-        <HeroSection onOpenAuth={openAuthModal} />
-        <Suspense fallback={null}>
-          <FeaturesSection />
-        </Suspense>
-        <WorkspacePreviewSection />
-        <WorkflowSection />
-      </main>
-      <Footer />
-      <AuthModal isOpen={authOpen} initialMode={authMode} onOpenChange={setAuthOpen} />
+    <div
+      style={{
+        color: 'white',
+        fontSize: '50px',
+        padding: '100px',
+        position: 'relative',
+        zIndex: 9999,
+      }}
+    >
+      ALPHA TRACKER TEST
     </div>
   );
 }
