@@ -2,9 +2,11 @@ import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Navbar } from '@/components/landing/Navbar';
 import { HeroSection } from '@/components/landing/HeroSection';
+import { SocialProofSection } from '@/components/landing/SocialProofSection';
+import { StatsSection } from '@/components/landing/StatsSection';
 import { AuthModal, type AuthMode } from '@/components/landing/AuthSection';
 import { Footer } from '@/components/landing/Footer';
-import { ArrowDown, ArrowUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 const FeaturesSection = lazy(async () => {
@@ -12,86 +14,20 @@ const FeaturesSection = lazy(async () => {
   return { default: module.FeaturesSection };
 });
 
-const previewItems = [
-  {
-    title: 'Dashboard',
-    label: 'Project command center',
-    image: '/3.webp',
-  },
-  {
-    title: 'Multi Account',
-    label: 'Wallets grouped by project',
-    image: '/4.webp',
-  },
-  {
-    title: 'Wallet Matrix',
-    label: 'Labels, networks, and notes',
-    image: '/5.webp',
-  },
-  {
-    title: 'Sybil Detector',
-    label: 'Risk review workflow',
-    image: '/6.webp',
-  },
-];
+const ProductShowcaseSection = lazy(async () => {
+  const module = await import('@/components/landing/ProductShowcaseSection');
+  return { default: module.ProductShowcaseSection };
+});
 
-const workflowSteps = ['Research', 'Execute', 'Track', 'Claim', 'Review'];
+const WorkflowTimelineSection = lazy(async () => {
+  const module = await import('@/components/landing/WorkflowTimelineSection');
+  return { default: module.WorkflowTimelineSection };
+});
 
-function WorkspacePreviewSection() {
-  return (
-    <section id="preview" className="alpha-saas-section alpha-mission-section px-4 sm:px-6 lg:px-8">
-      <div className="macos-landing-width">
-        <div className="alpha-saas-section-header">
-          <p className="macos-section-label">Workspace Preview</p>
-          <h2 className="alpha-landing-section-title">See the workspace in action.</h2>
-          <p>
-            Dashboard, wallets, matrix views, and risk checks are designed to work as one operating layer.
-          </p>
-        </div>
-
-        <div className="alpha-workspace-preview-grid">
-          {previewItems.map((item) => (
-            <article key={item.title} className="alpha-workspace-preview-card">
-              <div className="alpha-workspace-preview-frame">
-                <img src={item.image} alt={`${item.title} public demo preview`} loading="lazy" decoding="async" />
-              </div>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.label}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function WorkflowSection() {
-  return (
-    <section id="workspace" className="alpha-saas-section alpha-mission-section px-4 sm:px-6 lg:px-8">
-      <div className="macos-landing-width alpha-mission-workflow-panel">
-        <div className="alpha-saas-section-header">
-          <p className="macos-section-label">Workflow</p>
-          <h2 className="alpha-landing-section-title">From research to review, without losing context.</h2>
-          <p>
-            Alpha Tracker gives serious airdrop hunters a repeatable system instead of scattered tabs, notes, and spreadsheets.
-          </p>
-        </div>
-
-        <div className="alpha-mission-workflow">
-          {workflowSteps.map((step, index) => (
-            <div key={step} className="alpha-mission-workflow-item">
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <strong>{step}</strong>
-              {index < workflowSteps.length - 1 ? <ArrowDown className="alpha-mission-workflow-arrow h-4 w-4" /> : null}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+const CTASection = lazy(async () => {
+  const module = await import('@/components/landing/CTASection');
+  return { default: module.CTASection };
+});
 
 function LandingScrollChrome() {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -162,11 +98,20 @@ export function LandingPage() {
       <Navbar onOpenAuth={openAuthModal} />
       <main>
         <HeroSection onOpenAuth={openAuthModal} />
+        <SocialProofSection />
+        <StatsSection />
         <Suspense fallback={null}>
           <FeaturesSection />
         </Suspense>
-        <WorkspacePreviewSection />
-        <WorkflowSection />
+        <Suspense fallback={null}>
+          <ProductShowcaseSection />
+        </Suspense>
+        <Suspense fallback={null}>
+          <WorkflowTimelineSection />
+        </Suspense>
+        <Suspense fallback={null}>
+          <CTASection onOpenAuth={openAuthModal} />
+        </Suspense>
       </main>
       <Footer />
       <AuthModal isOpen={authOpen} initialMode={authMode} onOpenChange={setAuthOpen} />
