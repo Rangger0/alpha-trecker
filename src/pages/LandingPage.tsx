@@ -12,6 +12,11 @@ const FeaturesSection = lazy(async () => {
   return { default: module.FeaturesSection };
 });
 
+const WorkflowTimelineSection = lazy(async () => {
+  const module = await import('@/components/landing/WorkflowTimelineSection');
+  return { default: module.WorkflowTimelineSection };
+});
+
 const previewItems = [
   {
     title: 'Dashboard',
@@ -166,6 +171,9 @@ export function LandingPage() {
           <FeaturesSection />
         </Suspense>
         <WorkspacePreviewSection />
+        <Suspense fallback={null}>
+          <WorkflowTimelineSection />
+        </Suspense>
         <WorkflowSection />
       </main>
       <Footer />

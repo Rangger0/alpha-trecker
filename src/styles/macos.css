@@ -4886,6 +4886,72 @@ html.theme-switching *::after {
   transform: rotate(-90deg);
 }
 
+.alpha-workflow-timeline {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.85rem;
+}
+
+.alpha-workflow-timeline-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 9rem;
+  border: 1px solid var(--alpha-border);
+  border-radius: 1.1rem;
+  background: var(--alpha-surface);
+  padding: 1.1rem;
+  color: var(--alpha-text);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.alpha-workflow-timeline.is-in-view .alpha-workflow-timeline-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.alpha-workflow-timeline-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--alpha-accent) 14%, transparent);
+  color: var(--alpha-accent);
+}
+
+.alpha-workflow-timeline-index {
+  color: var(--alpha-accent);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.alpha-workflow-timeline-item strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.alpha-workflow-timeline-item p {
+  margin: 0;
+  color: var(--alpha-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alpha-workflow-timeline-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @media (max-width: 1024px) {
   .alpha-theme .alpha-mission-dashboard-preview {
     width: 100%;
@@ -4898,6 +4964,10 @@ html.theme-switching *::after {
 
   .alpha-mission-workflow-arrow {
     transform: none;
+  }
+
+  .alpha-workflow-timeline {
+    grid-template-columns: 1fr;
   }
 }
 
