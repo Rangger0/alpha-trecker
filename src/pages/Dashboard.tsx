@@ -266,6 +266,21 @@ const formatCalendarDate = (date?: Date) => {
   });
 };
 
+/* Table column configuration - single source of truth for header and rows */
+const TABLE_COLUMNS = [
+  { key: 'project', label: 'Project' },
+  { key: 'category', label: 'Category' },
+  { key: 'strategy', label: 'Strategy' },
+  { key: 'status', label: 'Status' },
+  { key: 'funding', label: 'Funding' },
+  { key: 'waitlist', label: 'Waitlist' },
+  { key: 'potential', label: 'Potential' },
+  { key: 'email', label: 'Email' },
+  { key: 'wallet', label: 'Wallet Address' },
+  { key: 'officialLink', label: 'Official Link' },
+  { key: 'actions', label: 'Actions' },
+];
+
 const parseProjectDate = (value?: string) => {
   if (!value) return null;
 
@@ -968,182 +983,202 @@ function TableRow({
     window.setTimeout(action, 0);
   };
 
-  return (
-    <tr className={`border-b transition-colors duration-150 group anim-card ${isDark ? 'border-alpha-border hover:bg-[color:var(--alpha-hover-soft)]' : 'border-alpha-border hover:bg-[color:var(--alpha-hover-soft)]'}`}
-      style={{ animationDelay: `${index * 40}ms` }}>
-      <td className="px-4 py-4">
-        <span className="font-mono text-sm alpha-text-muted">{index + 1}</span>
-      </td>
+  const fundingLabel = airdrop.funding?.trim() || '-';
+  const waitlistLabel = airdrop.waitlistCount != null ? String(airdrop.waitlistCount) : '-';
+  const effectivePotential = airdrop.potential ?? '-';
+const potentialKind =
+    effectivePotential === 'High'
+      ? 'high'
+      : effectivePotential === 'Medium'
+        ? 'medium'
+        : effectivePotential === 'Low'
+          ? 'low'
+          : 'empty';
+  const fundingKind = airdrop.funding ? 'funding' : 'empty';
+  const waitlistKind = airdrop.waitlistCount != null ? 'waitlist' : 'empty';
 
-      {/* Name with Avatar */}
-      <td className="px-4 py-4">
-          <div className="flex items-center gap-3">
-            <ProjectAvatar airdrop={airdrop} size="sm" logoError={logoError} setLogoError={setLogoError} />
-            <div>
-                <p className="text-[14px] font-semibold alpha-text">{airdrop.projectName}</p>
-              {airdrop.twitterUsername && (
-                <p className="text-xs font-mono alpha-text-muted">@{airdrop.twitterUsername.replace('@', '')}</p>
-              )}
-              <p className="mt-1 flex items-center gap-1 text-[11px] font-mono alpha-text-muted">
-                <CalendarDays className="h-3 w-3" />
-                {formatProjectDate(airdrop.deadline ?? airdrop.createdAt)}
-              </p>
-            </div>
-          </div>
-      </td>
-
-      <td className="px-4 py-4">
-        <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.projectCategory ?? 'Other'}</Badge>
-      </td>
-
-      <td className="px-4 py-4">
-        <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.farmingStrategy ?? 'Unknown'}</Badge>
-      </td>
-
-      <td className="px-4 py-4">
-        {airdrop.email ? (
-          <span className={`block max-w-[220px] truncate ${getMetricBadgeTone('email')}`}>
-            {airdrop.email}
-          </span>
-        ) : (
-          <span className="font-mono text-xs alpha-text-muted">-</span>
-        )}
-      </td>
-
-      <td className="px-4 py-4">
-        {airdrop.walletAddress ? (
-          <div className={`flex w-fit items-center gap-2 ${getMetricBadgeTone('wallet')}`}>
-            <Wallet className="w-3.5 h-3.5" />
-            <span className="font-mono text-xs">{formatWallet(airdrop.walletAddress)}</span>
-          </div>
-        ) : (
-          <span className={getMetricBadgeTone('empty')}>No address</span>
-        )}
-      </td>
-
-      <td className="px-4 py-4">
-        {airdrop.platformLink ? (
-          <a href={airdrop.platformLink} target="_blank" rel="noopener noreferrer"
-            className={`flex items-center gap-1.5 transition-colors duration-150 hover:underline ${getMetricBadgeTone('link')}`}>
-            <ExternalLink className="w-3.5 h-3.5" />
-            {airdrop.platformLink.slice(0, 25)}...
-          </a>
-        ) : <span className="font-mono text-xs alpha-text-muted">-</span>}
-      </td>
-
-      <td className="px-4 py-4">
-        <Badge variant="outline" className={`font-mono text-xs ${getStatusColor(airdrop.status)}`}>{airdrop.status}</Badge>
-      </td>
-
-      {/* Project intelligence metrics */}
-      {(() => {
-        const fundingLabel = airdrop.funding?.trim() || '-';
-        const waitlistLabel = airdrop.waitlistCount != null ? String(airdrop.waitlistCount) : '-';
-        const effectivePotential = airdrop.potential ?? '-';
-        const confirmedLabel = airdrop.airdropConfirmed ? 'Confirmed' : 'Unconfirmed';
-
-        const potentialKind =
-          effectivePotential === 'High'
-            ? 'high'
-            : effectivePotential === 'Medium'
-              ? 'medium'
-              : effectivePotential === 'Low'
-                ? 'low'
-                : 'empty';
-        const fundingKind = airdrop.funding ? 'funding' : 'empty';
-        const waitlistKind = airdrop.waitlistCount != null ? 'waitlist' : 'empty';
-        const confirmedKind = airdrop.airdropConfirmed ? 'confirmed' : 'unconfirmed';
-
+  const renderCell = (colKey: string, key: string) => {
+    switch (colKey) {
+      case 'project':
         return (
-          <>
-            <td className="px-4 py-4">
-              <div className={getMetricBadgeTone(confirmedKind)}>
-                <span className="alpha-metric-dot" />
-                <span className="font-semibold">{confirmedLabel}</span>
+          <td key={key} className="px-4 py-4">
+            <div className="flex items-center gap-3">
+              <ProjectAvatar airdrop={airdrop} size="sm" logoError={logoError} setLogoError={setLogoError} />
+              <div>
+                <p className="text-[14px] font-semibold alpha-text">{airdrop.projectName}</p>
+                {airdrop.twitterUsername && (
+                  <p className="text-xs font-mono alpha-text-muted">@{airdrop.twitterUsername.replace('@', '')}</p>
+                )}
+                <p className="mt-1 flex items-center gap-1 text-[11px] font-mono alpha-text-muted">
+                  <CalendarDays className="h-3 w-3" />
+                  {formatProjectDate(airdrop.deadline ?? airdrop.createdAt)}
+                </p>
               </div>
-            </td>
-            <td className="px-4 py-4">
-              <div className={getMetricBadgeTone(fundingKind)}>
-                <span className="alpha-metric-dot" />
-                <span className="font-semibold">{fundingLabel}</span>
-              </div>
-            </td>
-            <td className="px-4 py-4">
-              <div className={getMetricBadgeTone(waitlistKind)}>
-                <span className="alpha-metric-dot" />
-                <span className="font-semibold">{waitlistLabel}</span>
-              </div>
-            </td>
-            <td className="px-4 py-4">
-              <div className={getMetricBadgeTone(potentialKind)}>
-                <span className="alpha-metric-dot" />
-                <span className="font-semibold">{effectivePotential}</span>
-              </div>
-            </td>
-          </>
+            </div>
+          </td>
         );
-      })()}
 
-      {/* Actions */}
-      <td className="px-4 py-4">
-        <div className="flex items-center gap-2">
-          {/* Add Priority */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => onAddPriority()}
-            className="h-8 rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-3 font-mono text-xs alpha-text-muted transition-[border-color,background-color,color] duration-150 hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
-          >
-            <Star className="w-3 h-3 mr-1" />
-            Priority
-          </Button>
+      case 'category':
+        return (
+          <td key={key} className="px-4 py-4">
+            <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.projectCategory ?? 'Other'}</Badge>
+          </td>
+        );
 
-          <DropdownMenu open={actionsOpen} onOpenChange={setActionsOpen}>
-            <DropdownMenuTrigger asChild>
+      case 'strategy':
+        return (
+          <td key={key} className="px-4 py-4">
+            <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.farmingStrategy ?? 'Unknown'}</Badge>
+          </td>
+        );
+
+      case 'status':
+        return (
+          <td key={key} className="px-4 py-4">
+            <Badge variant="outline" className={`font-mono text-xs ${getStatusColor(airdrop.status)}`}>{airdrop.status}</Badge>
+          </td>
+        );
+
+      case 'funding':
+        return (
+          <td key={key} className="px-4 py-4">
+            <div className={getMetricBadgeTone(fundingKind)}>
+              <span className="alpha-metric-dot" />
+              <span className="font-semibold">{fundingLabel}</span>
+            </div>
+          </td>
+        );
+
+      case 'waitlist':
+        return (
+          <td key={key} className="px-4 py-4">
+            <div className={getMetricBadgeTone(waitlistKind)}>
+              <span className="alpha-metric-dot" />
+              <span className="font-semibold">{waitlistLabel}</span>
+            </div>
+          </td>
+        );
+
+      case 'potential':
+        return (
+          <td key={key} className="px-4 py-4">
+            <div className={getMetricBadgeTone(potentialKind)}>
+              <span className="alpha-metric-dot" />
+              <span className="font-semibold">{effectivePotential}</span>
+            </div>
+          </td>
+        );
+
+      case 'email':
+        return (
+          <td key={key} className="px-4 py-4">
+            {airdrop.email ? (
+              <span className={`block max-w-[220px] truncate ${getMetricBadgeTone('email')}`}>
+                {airdrop.email}
+              </span>
+            ) : (
+              <span className="font-mono text-xs alpha-text-muted">-</span>
+            )}
+          </td>
+        );
+
+      case 'wallet':
+        return (
+          <td key={key} className="px-4 py-4">
+            {airdrop.walletAddress ? (
+              <div className={`flex w-fit items-center gap-2 ${getMetricBadgeTone('wallet')}`}>
+                <Wallet className="w-3.5 h-3.5" />
+                <span className="font-mono text-xs">{formatWallet(airdrop.walletAddress)}</span>
+              </div>
+            ) : (
+              <span className={getMetricBadgeTone('empty')}>No address</span>
+            )}
+          </td>
+        );
+
+      case 'officialLink':
+        return (
+          <td key={key} className="px-4 py-4">
+            {airdrop.platformLink ? (
+              <a href={airdrop.platformLink} target="_blank" rel="noopener noreferrer"
+                className={`flex items-center gap-1.5 transition-colors duration-150 hover:underline ${getMetricBadgeTone('link')}`}>
+                <ExternalLink className="w-3.5 h-3.5" />
+                {airdrop.platformLink.slice(0, 25)}...
+              </a>
+            ) : <span className="font-mono text-xs alpha-text-muted">-</span>}
+          </td>
+        );
+
+      case 'actions':
+        return (
+          <td key={key} className="px-4 py-4">
+            <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
-                size="icon"
-                onClick={(e: MouseEvent) => e.stopPropagation()}
-                className="h-8 w-8 rounded-[0.9rem] border border-transparent bg-[color:var(--alpha-surface)] alpha-text-muted transition-[background-color,color,border-color] duration-150 hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
+                size="sm"
+                onClick={() => onAddPriority()}
+                className="h-8 rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-3 font-mono text-xs alpha-text-muted transition-[border-color,background-color,color] duration-150 hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
               >
-                <MoreVertical className="w-4 h-4" />
+                <Star className="w-3 h-3 mr-1" />
+                Priority
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              sideOffset={6}
-              className="macos-popover min-w-[9rem] font-mono"
-              style={{
-                borderColor: 'var(--alpha-border)',
-                background: 'var(--alpha-panel)',
-                color: 'var(--alpha-text)',
-                zIndex: 9999,
-              }}
-            >
-              <DropdownMenuItem
-                onSelect={(event) => {
-                  event.preventDefault();
-                  runDropdownAction(onEdit);
-                }}
-                className="gap-2 alpha-text focus:bg-[color:var(--alpha-hover-soft)] focus:text-[color:var(--alpha-text)]"
-              >
-                <Edit2 className="h-4 w-4" />
-                EDIT
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onSelect={(event) => {
-                  event.preventDefault();
-                  runDropdownAction(onDelete);
-                }}
-                className="gap-2 text-[color:var(--alpha-danger)] focus:bg-[color:var(--alpha-danger-soft)] focus:text-[color:var(--alpha-danger)]"
-              >
-                <Trash2 className="h-4 w-4" />
-                DELETE
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </td>
+
+              <DropdownMenu open={actionsOpen} onOpenChange={setActionsOpen}>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={(e: MouseEvent) => e.stopPropagation()}
+                    className="h-8 w-8 rounded-[0.9rem] border border-transparent bg-[color:var(--alpha-surface)] alpha-text-muted transition-[background-color,color,border-color] duration-150 hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
+                  >
+                    <MoreVertical className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  sideOffset={6}
+                  className="macos-popover min-w-[9rem] font-mono"
+                  style={{
+                    borderColor: 'var(--alpha-border)',
+                    background: 'var(--alpha-panel)',
+                    color: 'var(--alpha-text)',
+                    zIndex: 9999,
+                  }}
+                >
+                  <DropdownMenuItem
+                    onSelect={(event) => {
+                      event.preventDefault();
+                      runDropdownAction(onEdit);
+                    }}
+                    className="gap-2 alpha-text focus:bg-[color:var(--alpha-hover-soft)] focus:text-[color:var(--alpha-text)]"
+                  >
+                    <Edit2 className="h-4 w-4" />
+                    EDIT
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onSelect={(event) => {
+                      event.preventDefault();
+                      runDropdownAction(onDelete);
+                    }}
+                    className="gap-2 text-[color:var(--alpha-danger)] focus:bg-[color:var(--alpha-danger-soft)] focus:text-[color:var(--alpha-danger)]"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    DELETE
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </td>
+        );
+
+      default:
+        return <td className="px-4 py-4">-</td>;
+    }
+  };
+
+  return (
+    <tr className={`border-b transition-colors duration-150 group anim-card ${isDark ? 'border-alpha-border hover:bg-[color:var(--alpha-hover-soft)]' : 'border-alpha-border hover:bg-[color:var(--alpha-hover-soft)]'}`} style={{ animationDelay: `${index * 40}ms` }}>
+      {TABLE_COLUMNS.map((c) => renderCell(c.key, c.key))}
     </tr>
   );
 }
@@ -1396,8 +1431,10 @@ function DashboardContent() {
               <table className="w-full macos-table">
                 <thead>
                   <tr className="border-b border-alpha-border bg-[color:var(--alpha-hover-soft)]">
-                    {['NO','NAME','CATEGORY','STRATEGY','EMAIL','WALLET ADDRESS','OFFICIAL LINK','STATUS','CONFIRMED','FUNDING','WAITLIST','POTENTIAL','ACTIONS'].map(h => (
-                      <th key={h} className={`px-4 py-3 text-left text-xs font-mono font-medium alpha-text-muted`}>{h}</th>
+                    {TABLE_COLUMNS.map((c) => (
+                      <th key={c.key} className={`px-4 py-3 text-left text-xs font-display font-semibold alpha-text-muted`}>
+                        {c.label}
+                      </th>
                     ))}
                   </tr>
                 </thead>
