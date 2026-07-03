@@ -3418,7 +3418,7 @@ select {
 
 .macos-table {
   border-collapse: separate;
-  border-spacing: 0 8px;
+  border-spacing: 0 4px;
 }
 
 .macos-table thead tr {

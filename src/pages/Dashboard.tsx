@@ -281,6 +281,20 @@ const TABLE_COLUMNS = [
   { key: 'actions', label: 'Actions' },
 ];
 
+const TABLE_COLUMN_VISIBILITY: Record<string, string> = {
+  project: 'min-w-[12rem]',
+  category: 'hidden md:table-cell',
+  strategy: 'hidden lg:table-cell',
+  status: 'table-cell',
+  funding: 'hidden xl:table-cell',
+  waitlist: 'table-cell',
+  potential: 'hidden xl:table-cell',
+  email: 'hidden xl:table-cell',
+  wallet: 'hidden xl:table-cell',
+  officialLink: 'hidden xl:table-cell',
+  actions: 'min-w-[8rem]',
+};
+
 const parseProjectDate = (value?: string) => {
   if (!value) return null;
 
@@ -998,11 +1012,14 @@ function TableRow({
   const waitlistKind = airdrop.waitlistCount != null ? 'waitlist' : 'empty';
 
   const renderCell = (colKey: string, key: string) => {
+    const cellPadding = 'px-2 py-1.5 sm:px-2 sm:py-2';
+    const getCellClasses = (col: string) => `${TABLE_COLUMN_VISIBILITY[col] ?? ''} ${cellPadding}`.trim();
+
     switch (colKey) {
       case 'project':
         return (
-          <td key={key} className="px-4 py-4">
-            <div className="flex items-center gap-3">
+          <td key={key} className={getCellClasses(key)}>
+            <div className="flex items-center gap-1.5">
               <ProjectAvatar airdrop={airdrop} size="sm" logoError={logoError} setLogoError={setLogoError} />
               <div>
                 <p className="text-[14px] font-semibold alpha-text">{airdrop.projectName}</p>
@@ -1020,28 +1037,28 @@ function TableRow({
 
       case 'category':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.projectCategory ?? 'Other'}</Badge>
           </td>
         );
 
       case 'strategy':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.farmingStrategy ?? 'Unknown'}</Badge>
           </td>
         );
 
       case 'status':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             <Badge variant="outline" className={`font-mono text-xs ${getStatusColor(airdrop.status)}`}>{airdrop.status}</Badge>
           </td>
         );
 
       case 'funding':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             <div className={getMetricBadgeTone(fundingKind)}>
               <span className="alpha-metric-dot" />
               <span className="font-semibold">{fundingLabel}</span>
@@ -1051,7 +1068,7 @@ function TableRow({
 
       case 'waitlist':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             <div className={getMetricBadgeTone(waitlistKind)}>
               <span className="alpha-metric-dot" />
               <span className="font-semibold">{waitlistLabel}</span>
@@ -1061,7 +1078,7 @@ function TableRow({
 
       case 'potential':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             <div className={getMetricBadgeTone(potentialKind)}>
               <span className="alpha-metric-dot" />
               <span className="font-semibold">{effectivePotential}</span>
@@ -1071,7 +1088,7 @@ function TableRow({
 
       case 'email':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             {airdrop.email ? (
               <span className={`block max-w-[220px] truncate ${getMetricBadgeTone('email')}`}>
                 {airdrop.email}
@@ -1084,9 +1101,9 @@ function TableRow({
 
       case 'wallet':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             {airdrop.walletAddress ? (
-              <div className={`flex w-fit items-center gap-2 ${getMetricBadgeTone('wallet')}`}>
+              <div className={`flex w-fit items-center gap-1.5 ${getMetricBadgeTone('wallet')}`}>
                 <Wallet className="w-3.5 h-3.5" />
                 <span className="font-mono text-xs">{formatWallet(airdrop.walletAddress)}</span>
               </div>
@@ -1098,10 +1115,10 @@ function TableRow({
 
       case 'officialLink':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             {airdrop.platformLink ? (
               <a href={airdrop.platformLink} target="_blank" rel="noopener noreferrer"
-                className={`flex items-center gap-1.5 transition-colors duration-150 hover:underline ${getMetricBadgeTone('link')}`}>
+                className={`flex items-center gap-1 transition-colors duration-150 hover:underline ${getMetricBadgeTone('link')}`}>
                 <ExternalLink className="w-3.5 h-3.5" />
                 {airdrop.platformLink.slice(0, 25)}...
               </a>
@@ -1111,7 +1128,7 @@ function TableRow({
 
       case 'actions':
         return (
-          <td key={key} className="px-4 py-4">
+          <td key={key} className={getCellClasses(key)}>
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -1172,7 +1189,7 @@ function TableRow({
         );
 
       default:
-        return <td className="px-4 py-4">-</td>;
+        return <td className={getCellClasses(key)}> - </td>;
     }
   };
 
@@ -1432,7 +1449,7 @@ function DashboardContent() {
                 <thead>
                   <tr className="border-b border-alpha-border bg-[color:var(--alpha-hover-soft)]">
                     {TABLE_COLUMNS.map((c) => (
-                      <th key={c.key} className={`px-4 py-3 text-left text-xs font-display font-semibold alpha-text-muted`}>
+                      <th key={c.key} className={`${TABLE_COLUMN_VISIBILITY[c.key] ?? ''} px-1.5 py-1.5 sm:px-2 sm:py-2 text-left text-xs font-display font-semibold alpha-text-muted`}>
                         {c.label}
                       </th>
                     ))}
