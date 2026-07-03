@@ -9,33 +9,33 @@ html.dark,
 .alpha-theme.dark {
   color-scheme: dark;
 
-  --background-hex: #1A1F36;
-  --card-hex: #2B3354;
-  --headline-hex: #FFFFFF;
-  --paragraph-hex: #AAB2D5;
-  --icon-stroke-hex: #FFFFFF;
-  --main-hex: #3DD9AE;
-  --highlight-hex: #3DD9AE;
-  --secondary-hex: #232A46;
-  --tertiary-hex: #3A456B;
+  --background-hex: #070707;
+  --card-hex: #101010;
+  --headline-hex: #F5F5F5;
+  --paragraph-hex: #B8B8B8;
+  --icon-stroke-hex: #F5F5F5;
+  --main-hex: #D97706;
+  --highlight-hex: #EA580C;
+  --secondary-hex: #0B0B0B;
+  --tertiary-hex: rgba(255, 255, 255, 0.08);
 
-  --background: 26 31 54;
-  --card: 43 51 84;
-  --headline: 255 255 255;
-  --paragraph: 170 178 213;
-  --main: 61 217 174;
-  --highlight: 61 217 174;
-  --secondary: 35 42 70;
-  --tertiary: 58 69 107;
+  --background: 7 7 7;
+  --card: 16 16 16;
+  --headline: 245 245 245;
+  --paragraph: 184 184 184;
+  --main: 217 119 6;
+  --highlight: 234 88 12;
+  --secondary: 11 11 11;
+  --tertiary: 255 255 255;
 
-  --background-rgb: 26 31 54;
-  --headline-rgb: 255 255 255;
-  --paragraph-rgb: 170 178 213;
-  --card-rgb: 43 51 84;
-  --main-rgb: 61 217 174;
-  --highlight-rgb: 61 217 174;
-  --secondary-rgb: 35 42 70;
-  --tertiary-rgb: 58 69 107;
+  --background-rgb: 7 7 7;
+  --headline-rgb: 245 245 245;
+  --paragraph-rgb: 184 184 184;
+  --card-rgb: 16 16 16;
+  --main-rgb: 217 119 6;
+  --highlight-rgb: 234 88 12;
+  --secondary-rgb: 11 11 11;
+  --tertiary-rgb: 255 255 255;
 
   --bg: var(--background-hex);
   --sidebar: var(--secondary-hex);
@@ -50,11 +50,11 @@ html.dark,
   --alpha-panel: var(--card-hex);
   --alpha-card: var(--card-hex);
   --alpha-surface: var(--card-hex);
-  --alpha-surface-soft: color-mix(in srgb, var(--card-hex) 92%, white 8%);
-  --alpha-surface-strong: color-mix(in srgb, var(--card-hex) 86%, white 14%);
+  --alpha-surface-soft: #141414;
+  --alpha-surface-strong: #0B0B0B;
   --alpha-sidebar: var(--secondary-hex);
   --alpha-shell: var(--secondary-hex);
-  --alpha-shell-soft: color-mix(in srgb, var(--secondary-hex) 86%, var(--card-hex) 14%);
+  --alpha-shell-soft: #0F0F0F;
 
   --alpha-text: var(--headline-hex);
   --alpha-text-muted: var(--paragraph-hex);
@@ -63,15 +63,15 @@ html.dark,
 
   --alpha-accent: var(--main-hex);
   --alpha-main: var(--main-hex);
-  --alpha-accent-hover: #2FC89E;
+  --alpha-accent-hover: #EA580C;
   --alpha-accent-from: var(--main-hex);
   --alpha-accent-to: var(--highlight-hex);
-  --alpha-accent-contrast: #10201C;
+  --alpha-accent-contrast: #F5F5F5;
 
   --alpha-highlight: var(--highlight-hex);
   --alpha-card-heading: var(--headline-hex);
   --alpha-card-text: var(--paragraph-hex);
-  --alpha-card-tag-bg: color-mix(in srgb, var(--secondary-hex) 76%, var(--card-hex) 24%);
+  --alpha-card-tag-bg: color-mix(in srgb, var(--secondary-hex) 60%, var(--card-hex) 40%);
   --alpha-card-tag-text: var(--paragraph-hex);
 
   /* Tag/text “secondary/tertiary” intent */
@@ -80,74 +80,75 @@ html.dark,
   --alpha-signal: var(--highlight-hex);
   --alpha-signal-press: color-mix(in srgb, var(--highlight-hex) 88%, var(--background-hex) 12%);
   --alpha-signal-strong: color-mix(in srgb, var(--highlight-hex) 44%, transparent);
-  --alpha-signal-soft: color-mix(in srgb, var(--highlight-hex) 16%, transparent);
+  --alpha-signal-soft: color-mix(in srgb, var(--highlight-hex) 14%, transparent);
   --alpha-signal-softest: color-mix(in srgb, var(--highlight-hex) 8%, transparent);
-  --alpha-signal-border: color-mix(in srgb, var(--highlight-hex) 38%, transparent);
-  --alpha-info: #8BB6FF;
-  --alpha-violet: #B8A7FF;
+  --alpha-signal-border: color-mix(in srgb, var(--highlight-hex) 28%, transparent);
+  --alpha-info: #22C55E;
+  --alpha-violet: #FFB36B;
   --alpha-info-soft: color-mix(in srgb, var(--alpha-info) 16%, transparent);
   --alpha-info-border: color-mix(in srgb, var(--alpha-info) 34%, transparent);
   --alpha-violet-soft: color-mix(in srgb, var(--alpha-violet) 16%, transparent);
   --alpha-violet-border: color-mix(in srgb, var(--alpha-violet) 34%, transparent);
 
   /* Status mapping -> spec palette */
-  --alpha-success: var(--main-hex);
-  --alpha-warning: #F2C94C;
-  --alpha-danger: #fb7185;
-  --alpha-error: #fb7185;
-  --alpha-danger-press: #f43f5e;
-  --alpha-confirmed: #34d399;
-  --alpha-funding: #7dd3fc;
-  --alpha-waitlist: #c4b5fd;
+  --alpha-success: #22C55E;
+  --alpha-warning: #F59E0B;
+  --alpha-danger: #EF4444;
+  --alpha-error: #EF4444;
+  --alpha-danger-press: #DC2626;
+  --alpha-confirmed: #22C55E;
+  --alpha-funding: var(--highlight-hex);
+  --alpha-waitlist: #737373;
   --alpha-potential: var(--highlight-hex);
-  --alpha-email: #a7f3d0;
-  --alpha-wallet: #7dd3fc;
+  --alpha-email: #22C55E;
+  --alpha-wallet: var(--highlight-hex);
   --alpha-link: var(--main-hex);
   --alpha-type: var(--highlight-hex);
-  --alpha-status: #c4b5fd;
+  --alpha-status: #737373;
 
   --alpha-highlight-soft: color-mix(in srgb, var(--highlight-hex) 16%, transparent);
   --alpha-highlight-border: color-mix(in srgb, var(--highlight-hex) 38%, transparent);
 
-  --alpha-secondary-soft: color-mix(in srgb, var(--main-hex) 14%, transparent);
-  --alpha-secondary-border: color-mix(in srgb, var(--main-hex) 32%, transparent);
+  --alpha-secondary-soft: color-mix(in srgb, var(--main-hex) 10%, transparent);
+  --alpha-secondary-border: color-mix(in srgb, var(--main-hex) 20%, transparent);
 
-  --alpha-tertiary-soft: color-mix(in srgb, var(--main-hex) 14%, transparent);
-  --alpha-tertiary-border: color-mix(in srgb, var(--main-hex) 32%, transparent);
+  --alpha-tertiary-soft: color-mix(in srgb, var(--main-hex) 10%, transparent);
+  --alpha-tertiary-border: color-mix(in srgb, var(--main-hex) 20%, transparent);
 
-  --alpha-success-soft: color-mix(in srgb, var(--main-hex) 14%, transparent);
-  --alpha-success-border: color-mix(in srgb, var(--main-hex) 30%, transparent);
+  --alpha-success-soft: color-mix(in srgb, var(--alpha-success) 14%, transparent);
+  --alpha-success-border: color-mix(in srgb, var(--alpha-success) 30%, transparent);
   --alpha-success-strong: color-mix(in srgb, var(--alpha-success) 24%, transparent);
 
-  --alpha-warning-soft: color-mix(in srgb, var(--highlight-hex) 14%, transparent);
-  --alpha-warning-border: color-mix(in srgb, var(--highlight-hex) 30%, transparent);
+  --alpha-warning-soft: color-mix(in srgb, var(--alpha-warning) 14%, transparent);
+  --alpha-warning-border: color-mix(in srgb, var(--alpha-warning) 30%, transparent);
   --alpha-warning-strong: color-mix(in srgb, var(--alpha-warning) 24%, transparent);
 
-  --alpha-danger-soft: color-mix(in srgb, var(--highlight-hex) 14%, transparent);
-  --alpha-danger-border: color-mix(in srgb, var(--highlight-hex) 34%, transparent);
+  --alpha-danger-soft: color-mix(in srgb, var(--alpha-danger) 14%, transparent);
+  --alpha-danger-border: color-mix(in srgb, var(--alpha-danger) 34%, transparent);
   --alpha-danger-strong: color-mix(in srgb, var(--alpha-danger) 22%, transparent);
 
   /* Borders & rows */
-  --alpha-border: var(--tertiary-hex);
-  --alpha-border-strong: color-mix(in srgb, var(--main-hex) 52%, var(--tertiary-hex) 48%);
+  --alpha-border: rgba(255, 255, 255, 0.05);
+  --alpha-border-strong: rgba(255, 255, 255, 0.10);
+  --alpha-border-hover: rgba(217, 119, 6, 0.18);
 
-  --alpha-row-selected: color-mix(in srgb, var(--main-hex) 16%, var(--card-hex) 84%);
+  --alpha-row-selected: rgba(255, 255, 255, 0.06);
   --alpha-row-selected-text: var(--headline-hex);
   --alpha-row-odd: var(--card-hex);
-  --alpha-row-even: color-mix(in srgb, var(--card-hex) 92%, var(--secondary-hex) 8%);
+  --alpha-row-even: #0B0B0B;
 
   /* Non-palette (shadows/overlays) */
-  --alpha-hover-soft: color-mix(in srgb, var(--main-hex) 12%, var(--card-hex) 88%);
-  --alpha-overlay: color-mix(in srgb, var(--background-hex) 74%, transparent);
+  --alpha-hover-soft: rgba(255, 255, 255, 0.03);
+  --alpha-overlay: rgba(0, 0, 0, 0.75);
 
-  --alpha-shadow: 0 8px 18px rgba(9, 13, 26, 0.18);
-  --alpha-shadow-strong: 0 14px 28px rgba(9, 13, 26, 0.22);
-  --alpha-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  --alpha-shell-border: var(--tertiary-hex);
-  --alpha-topbar-chip-border: var(--tertiary-hex);
+  --alpha-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  --alpha-shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --alpha-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --alpha-shell-border: rgba(255, 255, 255, 0.08);
+  --alpha-topbar-chip-border: rgba(255, 255, 255, 0.08);
   --alpha-shell-gradient: var(--card-hex);
   --alpha-topbar-gradient: var(--secondary-hex);
-  --alpha-topbar-chip-gradient: color-mix(in srgb, var(--card-hex) 76%, var(--secondary-hex) 24%);
+  --alpha-topbar-chip-gradient: var(--background-hex);
 
   /* HUD aliases (keep structure, remove legacy hex) */
   --hud-cyan-hex: var(--main-hex);
@@ -193,33 +194,33 @@ html.light,
 .alpha-theme.light {
   color-scheme: light;
 
-  --background-hex: #F5F7FB;
+  --background-hex: #F8FAFC;
   --card-hex: #FFFFFF;
-  --headline-hex: #1E293B;
-  --paragraph-hex: #64748B;
-  --icon-stroke-hex: #1E293B;
-  --main-hex: #3DD9AE;
-  --highlight-hex: #3DD9AE;
-  --secondary-hex: #40486D;
-  --tertiary-hex: #E5EAF2;
+  --headline-hex: #0F172A;
+  --paragraph-hex: #475569;
+  --icon-stroke-hex: #0F172A;
+  --main-hex: #F97316;
+  --highlight-hex: #F97316;
+  --secondary-hex: #E9EEF7;
+  --tertiary-hex: rgba(15, 23, 42, 0.06);
 
-  --background: 245 247 251;
+  --background: 248 250 252;
   --card: 255 255 255;
-  --headline: 30 41 59;
-  --paragraph: 100 116 139;
-  --main: 61 217 174;
-  --highlight: 61 217 174;
-  --secondary: 64 72 109;
-  --tertiary: 229 234 242;
+  --headline: 15 23 42;
+  --paragraph: 71 85 105;
+  --main: 249 115 22;
+  --highlight: 249 115 22;
+  --secondary: 233 238 247;
+  --tertiary: 15 23 42;
 
-  --background-rgb: 245 247 251;
-  --headline-rgb: 30 41 59;
-  --paragraph-rgb: 100 116 139;
+  --background-rgb: 248 250 252;
+  --headline-rgb: 15 23 42;
+  --paragraph-rgb: 71 85 105;
   --card-rgb: 255 255 255;
-  --main-rgb: 61 217 174;
-  --highlight-rgb: 61 217 174;
-  --secondary-rgb: 64 72 109;
-  --tertiary-rgb: 229 234 242;
+  --main-rgb: 249 115 22;
+  --highlight-rgb: 249 115 22;
+  --secondary-rgb: 233 238 247;
+  --tertiary-rgb: 15 23 42;
 
   --bg: var(--background-hex);
   --sidebar: var(--secondary-hex);
@@ -231,13 +232,13 @@ html.light,
 
   --alpha-bg: var(--background-hex);
   --alpha-panel: var(--card-hex);
-  --alpha-card: var(--background-hex);
+  --alpha-card: var(--card-hex);
   --alpha-surface: var(--card-hex);
-  --alpha-surface-soft: #F8FAFC;
-  --alpha-surface-strong: var(--card-hex);
+  --alpha-surface-soft: #F5F7FA;
+  --alpha-surface-strong: #E7EDF6;
   --alpha-sidebar: var(--secondary-hex);
   --alpha-shell: var(--card-hex);
-  --alpha-shell-soft: #F8FAFC;
+  --alpha-shell-soft: #F3F6FA;
 
   --alpha-text: var(--headline-hex);
   --alpha-text-muted: var(--paragraph-hex);
@@ -246,7 +247,7 @@ html.light,
 
   --alpha-accent: var(--main-hex);
   --alpha-main: var(--main-hex);
-  --alpha-accent-hover: #2FC89E;
+  --alpha-accent-hover: #FF7A1A;
   --alpha-accent-from: var(--highlight-hex);
   --alpha-accent-to: var(--highlight-hex);
   --alpha-accent-contrast: var(--headline-hex);
@@ -265,8 +266,8 @@ html.light,
   --alpha-signal-soft: color-mix(in srgb, var(--highlight-hex) 18%, transparent);
   --alpha-signal-softest: color-mix(in srgb, var(--highlight-hex) 10%, transparent);
   --alpha-signal-border: color-mix(in srgb, var(--highlight-hex) 52%, var(--main-hex) 18%);
-  --alpha-info: #2563EB;
-  --alpha-violet: #6D5BD0;
+  --alpha-info: #FF8A3B;
+  --alpha-violet: #FFB36B;
   --alpha-info-soft: color-mix(in srgb, var(--alpha-info) 12%, transparent);
   --alpha-info-border: color-mix(in srgb, var(--alpha-info) 30%, transparent);
   --alpha-violet-soft: color-mix(in srgb, var(--alpha-violet) 12%, transparent);
@@ -278,14 +279,14 @@ html.light,
   --alpha-error: #c5283d;
   --alpha-danger-press: #a91f31;
   --alpha-confirmed: #12805c;
-  --alpha-funding: #0f766e;
-  --alpha-waitlist: #6d5bd0;
-  --alpha-potential: #9a6b00;
-  --alpha-email: #0f766e;
-  --alpha-wallet: #2563eb;
-  --alpha-link: #0f766e;
-  --alpha-type: #9a6b00;
-  --alpha-status: #6d5bd0;
+  --alpha-funding: var(--main-hex);
+  --alpha-waitlist: #A0A0A0;
+  --alpha-potential: var(--highlight-hex);
+  --alpha-email: var(--main-hex);
+  --alpha-wallet: var(--main-hex);
+  --alpha-link: var(--main-hex);
+  --alpha-type: var(--highlight-hex);
+  --alpha-status: #A0A0A0;
 
   --alpha-highlight-soft: color-mix(in srgb, var(--highlight-hex) 22%, transparent);
   --alpha-highlight-border: color-mix(in srgb, var(--highlight-hex) 52%, var(--main-hex) 16%);

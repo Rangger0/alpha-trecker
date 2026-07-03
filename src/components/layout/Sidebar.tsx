@@ -155,9 +155,6 @@ export function Sidebar({
       title: t("sidebar.section.ai"),
       links: [
         { to: "/ai-tools", icon: Bot, label: t("sidebar.link.aiTools") },
-        { to: "/research-project", icon: Search, label: t("sidebar.link.researchProject") },
-        { to: "/wallet-analyzer", icon: Wallet, label: t("sidebar.link.walletAnalyzer") },
-        { to: "/sybil-detector", icon: ShieldCheck, label: t("sidebar.link.sybilDetector") },
       ],
     },
     ...(showFeedbackInbox
@@ -196,23 +193,37 @@ export function Sidebar({
 
   const panelStyle = isDesktop
     ? {
-        top: "50%",
+        top: 0,
         left: `${leftOffset}px`,
         width: `${width}px`,
-        height: "min(720px, calc(100dvh - 92px))",
+        height: "100vh",
         borderColor: "var(--alpha-shell-border)",
-        transform: open ? "translate3d(0, -50%, 0) scale(1)" : "translate3d(calc(-100% - 28px), -50%, 0) scale(0.96)",
+        transform: open ? "translate3d(0, 0, 0) scale(1)" : "translate3d(calc(-100% - 28px), 0, 0) scale(0.96)",
         opacity: open ? 1 : 0,
       }
     : {
-        top: "50%",
+        top: 0,
         left: "12px",
         width: "min(340px, calc(100vw - 24px))",
-        height: "min(680px, calc(100dvh - 76px))",
+        height: "100vh",
         borderColor: "var(--alpha-shell-border)",
-        transform: open ? "translate3d(0, -50%, 0) scale(1)" : "translate3d(calc(-100% - 24px), -50%, 0) scale(0.96)",
+        transform: open ? "translate3d(0, 0, 0) scale(1)" : "translate3d(calc(-100% - 24px), 0, 0) scale(0.96)",
         opacity: open ? 1 : 0,
       };
+
+  useEffect(() => {
+    // prevent body from scrolling while the sidebar is open
+    const prev = document.body.style.overflow;
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = prev || '';
+    }
+
+    return () => {
+      document.body.style.overflow = prev || '';
+    };
+  }, [open]);
 
   return (
     <>
@@ -229,6 +240,8 @@ export function Sidebar({
         className={`alpha-sidebar-panel fixed flex flex-col macos-panel overflow-hidden rounded-[2rem] border will-change-transform transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] ${
           open ? "pointer-events-auto" : "pointer-events-none"
         }`}
+        onPointerMove={(e) => e.stopPropagation()}
+        onMouseMove={(e) => e.stopPropagation()}
         style={{
           ...panelStyle,
           background: "var(--alpha-shell-gradient)",
@@ -283,12 +296,12 @@ export function Sidebar({
                       onClick={onClose}
                       style={getEntryStyle(delay)}
                       className={`flex items-center gap-3 rounded-xl px-3 py-3 text-[15px] font-display font-semibold tracking-[-0.015em] transition-[background-color,color,transform,box-shadow,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] active:scale-[0.99] ${
-                        open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
-                      } ${
-                        isActive
-                          ? "translate-x-1 border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
-                          : "alpha-text hover:translate-x-1 hover:bg-[color:var(--alpha-hover-soft)]"
-                      }`}
+                          open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
+                        } ${
+                          isActive
+                            ? "border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
+                            : "alpha-text hover:bg-[color:var(--alpha-hover-soft)]"
+                        }`}
                     >
                       <link.icon
                         className={`h-[17px] w-[17px] ${
@@ -314,8 +327,8 @@ export function Sidebar({
                 open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
               } ${
                 isActive
-                  ? "translate-x-1 border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
-                  : "alpha-text hover:translate-x-1 hover:bg-[color:var(--alpha-hover-soft)]"
+                  ? "border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
+                  : "alpha-text hover:bg-[color:var(--alpha-hover-soft)]"
               }`
             }
           >
@@ -327,7 +340,7 @@ export function Sidebar({
             <button
               onClick={logout}
               style={getEntryStyle(sections.length * 55 + 40)}
-              className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-[15px] font-display font-semibold tracking-[-0.015em] text-[var(--alpha-danger)] transition-[background-color,color,transform,box-shadow,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] hover:translate-x-1 hover:bg-[color:var(--alpha-danger-soft)] active:scale-[0.99] ${
+              className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-[15px] font-display font-semibold tracking-[-0.015em] text-[var(--alpha-danger)] transition-[background-color,color,transform,box-shadow,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] hover:bg-[color:var(--alpha-danger-soft)] active:scale-[0.99] ${
                 open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
               }`}
               type="button"
@@ -345,8 +358,8 @@ export function Sidebar({
                   open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
                 } ${
                   isActive
-                    ? "translate-x-1 border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
-                    : "alpha-text hover:translate-x-1 hover:bg-[color:var(--alpha-hover-soft)]"
+                    ? "border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
+                    : "alpha-text hover:bg-[color:var(--alpha-hover-soft)]"
                 }`
               }
             >

@@ -986,7 +986,7 @@ function TableRow({
   const fundingLabel = airdrop.funding?.trim() || '-';
   const waitlistLabel = airdrop.waitlistCount != null ? String(airdrop.waitlistCount) : '-';
   const effectivePotential = airdrop.potential ?? '-';
-const potentialKind =
+  const potentialKind =
     effectivePotential === 'High'
       ? 'high'
       : effectivePotential === 'Medium'

@@ -10,29 +10,29 @@
 
 :root {
 
-/* Light fallback - Alpha Tracker enterprise palette */
+/* Alpha Tracker - Premium Dark Terminal Theme */
 
 /* RGB triples for Tailwind use (r g b) */
---background: 245 247 251; /* #F5F7FB */
---card: 255 255 255; /* #FFFFFF */
---headline: 30 41 59; /* #1E293B */
---paragraph: 100 116 139; /* #64748B */
---icon-stroke: 30 41 59; /* #1E293B */
---main: 61 217 174; /* #3DD9AE */
---highlight: 61 217 174; /* #3DD9AE */
---secondary: 64 72 109; /* #40486D */
---tertiary: 229 234 242; /* #E5EAF2 */
+--background: 7 7 7; /* #070707 */
+--card: 16 16 16; /* #101010 */
+--headline: 245 245 245; /* #F5F5F5 */
+--paragraph: 184 184 184; /* #B8B8B8 */
+--icon-stroke: 245 245 245; /* #F5F5F5 */
+--main: 217 119 6; /* #D97706 */
+--highlight: 234 88 12; /* #EA580C */
+--secondary: 11 11 11; /* #0B0B0B */
+--tertiary: 255 255 255; /* #FFFFFF */
 
 /* Hex fallbacks for places using hex vars */
---background-hex: #F5F7FB;
---card-hex: #FFFFFF;
---headline-hex: #1E293B;
---paragraph-hex: #64748B;
---icon-stroke-hex: #1E293B;
---main-hex: #3DD9AE;
---highlight-hex: #3DD9AE;
---secondary-hex: #40486D;
---tertiary-hex: #E5EAF2;
+--background-hex: #070707;
+--card-hex: #101010;
+--headline-hex: #F5F5F5;
+--paragraph-hex: #B8B8B8;
+--icon-stroke-hex: #F5F5F5;
+--main-hex: #D97706;
+--highlight-hex: #EA580C;
+--secondary-hex: #0B0B0B;
+--tertiary-hex: rgba(255, 255, 255, 0.08);
 
 --radius: 0.5rem;
 
@@ -42,8 +42,8 @@
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: #2FC89E;
---alpha-border: var(--tertiary-hex);
+--alpha-accent-hover: #EA580C;
+--alpha-border: rgba(255, 255, 255, 0.06);
 --alpha-surface: var(--card-hex);
 
 --bg: var(--background-hex);
@@ -56,32 +56,32 @@
 
 }
 
-/* Dark fallback */
+/* Dark fallback - same as root for consistency */
 
 .dark {
 
-/* Dark Mode - Alpha Tracker premium navy palette */
+/* Alpha Tracker - Premium Dark Terminal Theme */
 
---background: 26 31 54; /* #1A1F36 */
---card: 43 51 84; /* #2B3354 */
---headline: 255 255 255; /* #FFFFFF */
---paragraph: 170 178 213; /* #AAB2D5 */
---icon-stroke: 255 255 255; /* #FFFFFF */
---main: 61 217 174; /* #3DD9AE */
---highlight: 61 217 174; /* #3DD9AE */
---secondary: 35 42 70; /* #232A46 */
---tertiary: 58 69 107; /* #3A456B */
+--background: 7 7 7; /* #070707 */
+--card: 16 16 16; /* #101010 */
+--headline: 245 245 245; /* #F5F5F5 */
+--paragraph: 184 184 184; /* #B8B8B8 */
+--icon-stroke: 245 245 245; /* #F5F5F5 */
+--main: 217 119 6; /* #D97706 */
+--highlight: 234 88 12; /* #EA580C */
+--secondary: 11 11 11; /* #0B0B0B */
+--tertiary: 255 255 255; /* #FFFFFF */
 
 /* Hex fallbacks */
---background-hex: #1A1F36;
---card-hex: #2B3354;
---headline-hex: #FFFFFF;
---paragraph-hex: #AAB2D5;
---icon-stroke-hex: #FFFFFF;
---main-hex: #3DD9AE;
---highlight-hex: #3DD9AE;
---secondary-hex: #232A46;
---tertiary-hex: #3A456B;
+--background-hex: #070707;
+--card-hex: #101010;
+--headline-hex: #F5F5F5;
+--paragraph-hex: #B8B8B8;
+--icon-stroke-hex: #F5F5F5;
+--main-hex: #D97706;
+--highlight-hex: #EA580C;
+--secondary-hex: #0B0B0B;
+--tertiary-hex: rgba(255, 255, 255, 0.08);
 
 /* Compatibility map */
 --alpha-bg: var(--background-hex);
@@ -89,8 +89,8 @@
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: #2FC89E;
---alpha-border: var(--tertiary-hex);
+--alpha-accent-hover: #EA580C;
+--alpha-border: rgba(255, 255, 255, 0.06);
 --alpha-surface: var(--card-hex);
 
 --bg: var(--background-hex);
@@ -102,6 +102,56 @@
 --accent: var(--main-hex);
 
 }
+
+}
+
+/* ===============================
+   UI POLISH: global card, button, table styles
+   Applied for consistent premium look (visual only)
+================================ */
+
+@layer components {
+
+  .macos-card, .macos-panel, .terminal-card, .alpha-card, .macos-popover {
+    background: var(--alpha-panel) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25) !important;
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease !important;
+  }
+
+  .macos-card:hover, .macos-panel:hover, .terminal-card:hover, .alpha-card:hover {
+    border-color: var(--alpha-border-hover) !important;
+    transform: translateY(-2px) !important;
+  }
+
+  .macos-btn {
+    border-radius: 10px !important;
+  }
+
+  /* Tables */
+  table.macos-table th {
+    position: sticky;
+    top: 0;
+    background: var(--alpha-panel);
+    z-index: 10;
+    border-bottom: 1px solid var(--alpha-border);
+  }
+
+  table.macos-table td, table.macos-table th {
+    padding: 14px 20px !important;
+    vertical-align: middle;
+  }
+
+  table.macos-table tr:hover td {
+    background: color-mix(in srgb, var(--alpha-hover-soft) 60%, transparent);
+    border-color: var(--alpha-border-hover);
+  }
+
+  /* Logo marquee: subtle fade edges for premium feel */
+  .alpha-logo-marquee::before, .alpha-logo-marquee::after {
+    background: linear-gradient(90deg, var(--alpha-bg) 0%, transparent 100%);
+  }
 
 }
 

@@ -384,9 +384,9 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 12% 0%, rgba(45,212,191,0.15), transparent 28%),
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--alpha-highlight) 18%, transparent), transparent 28%),
     linear-gradient(180deg, rgba(255,255,255,0.08), transparent 44%),
-    linear-gradient(90deg, rgba(45,212,191,0.08) 1px, transparent 1px);
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 10%, transparent) 1px, transparent 1px);
   opacity: 0.75;
 }
 
@@ -396,7 +396,7 @@
   inset: auto 18px 0;
   height: 2px;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(45,212,191,0.48), transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--alpha-highlight) 48%, transparent), transparent);
   transform: translateX(-120%);
   animation: topbar-scan 5.5s ease-in-out infinite;
 }
@@ -544,8 +544,8 @@
   pointer-events: none;
   border-radius: inherit;
   background:
-    linear-gradient(180deg, rgba(45,212,191,0.18), transparent 42%),
-    linear-gradient(90deg, rgba(45,212,191,0.12), transparent 30%, rgba(45,212,191,0.08));
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-highlight) 18%, transparent), transparent 42%),
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), transparent 30%, color-mix(in srgb, var(--alpha-highlight) 8%, transparent));
   opacity: 0.65;
 }
 
@@ -556,8 +556,8 @@
   pointer-events: none;
   border-radius: inherit;
   background:
-    linear-gradient(90deg, rgba(0,255,200,0.14), rgba(0,255,200,0)) ,
-    linear-gradient(180deg, rgba(0,255,200,0.16), rgba(0,255,200,0));
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 14%, transparent), transparent),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-highlight) 16%, transparent), transparent);
   opacity: 0.0;
   transition: opacity 180ms ease;
 }
@@ -572,8 +572,8 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(0,255,200,0.07) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(0,255,200,0.06) 1px, transparent 1px);
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-highlight) 6%, transparent) 1px, transparent 1px);
   background-size: 22px 22px;
   opacity: 0.12;
   mix-blend-mode: screen;
@@ -608,7 +608,7 @@
   top: 0;
   height: 2px;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(0,255,200,0.55), transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--alpha-highlight) 55%, transparent), transparent);
   opacity: 0.35;
   transform: translateX(-120%);
   animation: hud-sweep 6.5s ease-in-out infinite;
@@ -3174,24 +3174,24 @@ html.dark .dashboard-clean .macos-page-header {
   --hud-pink: var(--hud-pink-hex);
   --hud-muted: var(--hud-muted-hex);
   --hud-panel: rgba(10,18,28,0.72);
-  --hud-border: rgba(120,220,255,0.18);
+  --hud-border: color-mix(in srgb, var(--alpha-highlight) 18%, transparent);
   --hud-shape: polygon(0 18px, 18px 0, calc(100% - 52px) 0, 100% 52px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 52px 100%, 0 calc(100% - 52px));
   --hud-shape-soft: polygon(0 12px, 12px 0, calc(100% - 28px) 0, 100% 28px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 28px 100%, 0 calc(100% - 28px));
 }
 
 body {
   background:
-    radial-gradient(circle at 50% 115%, rgba(45,212,191,0.16), transparent 30%),
-    radial-gradient(circle at 12% 4%, rgba(255,216,3,0.08), transparent 24%),
+    radial-gradient(circle at 50% 115%, color-mix(in srgb, var(--alpha-highlight) 16%, transparent), transparent 30%),
+    radial-gradient(circle at 12% 4%, color-mix(in srgb, var(--alpha-highlight) 8%, transparent), transparent 24%),
     linear-gradient(180deg, var(--dark-grad-top) 0%, var(--dark-grad-mid) 44%, var(--dark-grad-bottom) 100%) !important;
 }
 
 body::before {
   z-index: 0;
   background:
-    linear-gradient(rgba(45,212,191,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(45,212,191,0.035) 1px, transparent 1px),
-    radial-gradient(circle at 50% 100%, rgba(45,212,191,0.18), transparent 24%) !important;
+    linear-gradient(color-mix(in srgb, var(--alpha-highlight) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 4%, transparent) 1px, transparent 1px),
+    radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--alpha-highlight) 18%, transparent), transparent 24%) !important;
   background-size: 44px 44px, 44px 44px, 100% 100% !important;
   mask-image: linear-gradient(180deg, transparent 0%, black 12%, black 78%, transparent 100%);
 }
@@ -3201,7 +3201,7 @@ body::after {
   opacity: 0.16 !important;
   background:
     repeating-linear-gradient(180deg, rgba(255,255,254,0.035) 0 1px, transparent 1px 5px),
-    radial-gradient(circle at 50% 120%, rgba(45,212,191,0.2), transparent 22%) !important;
+    radial-gradient(circle at 50% 120%, color-mix(in srgb, var(--alpha-highlight) 20%, transparent), transparent 22%) !important;
   animation: hud-scanlines 9s linear infinite;
 }
 
@@ -3209,7 +3209,7 @@ body::after {
 .macos-app-shell,
 .macos-landing-shell {
   background:
-    radial-gradient(circle at 50% 110%, rgba(45,212,191,0.12), transparent 28%),
+    radial-gradient(circle at 50% 110%, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), transparent 28%),
     linear-gradient(180deg, var(--dark-grad-top) 0%, var(--dark-grad-mid) 48%, var(--dark-grad-bottom) 100%) !important;
 }
 
@@ -3220,10 +3220,10 @@ body::after {
 
 .macos-app-shell::before {
   background:
-    linear-gradient(rgba(45,212,191,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(45,212,191,0.035) 1px, transparent 1px),
-    radial-gradient(circle at 18% 18%, rgba(255,216,3,0.09), transparent 24%),
-    radial-gradient(circle at 82% 12%, rgba(45,212,191,0.12), transparent 22%) !important;
+    linear-gradient(color-mix(in srgb, var(--alpha-highlight) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 3.5%, transparent) 1px, transparent 1px),
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--alpha-highlight) 9%, transparent), transparent 24%),
+    radial-gradient(circle at 82% 12%, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), transparent 22%) !important;
   background-size: 64px 64px, 64px 64px, 100% 100%, 100% 100% !important;
   opacity: 0.78 !important;
   animation: hud-grid-drift 22s linear infinite;
@@ -3239,7 +3239,7 @@ body::after {
   height: 42vh;
   pointer-events: none;
   background:
-    conic-gradient(from 206deg at 50% 100%, transparent 0 20deg, rgba(45,212,191,0.2) 24deg 32deg, transparent 36deg 62deg, rgba(45,212,191,0.13) 66deg 76deg, transparent 82deg 360deg);
+    conic-gradient(from 206deg at 50% 100%, transparent 0 20deg, rgba(255,122,26,0.2) 24deg 32deg, transparent 36deg 62deg, rgba(255,122,26,0.13) 66deg 76deg, transparent 82deg 360deg);
   filter: blur(10px);
   opacity: 0.52;
   transform: translateX(-50%);
@@ -3259,13 +3259,13 @@ body::after {
   clip-path: var(--hud-shape);
   border: 1px solid var(--hud-border) !important;
   background:
-    linear-gradient(135deg, rgba(45,212,191,0.085), transparent 18%),
+    linear-gradient(135deg, color-mix(in srgb, var(--alpha-highlight) 8%, transparent), transparent 18%),
     linear-gradient(180deg, rgba(10,18,28,0.82), rgba(2,6,23,0.78)),
-    radial-gradient(circle at 78% 14%, rgba(255,216,3,0.09), transparent 28%) !important;
+    radial-gradient(circle at 78% 14%, color-mix(in srgb, var(--alpha-highlight) 9%, transparent), transparent 28%) !important;
   box-shadow:
-    0 0 25px rgba(45,212,191,0.08),
+    0 0 25px color-mix(in srgb, var(--alpha-highlight) 18%, transparent),
     inset 0 0 0 1px rgba(255,255,254,0.035),
-    inset 0 0 36px rgba(45,212,191,0.035) !important;
+    inset 0 0 36px color-mix(in srgb, var(--alpha-highlight) 6%, transparent) !important;
 }
 
 .macos-card,
@@ -3297,8 +3297,8 @@ body::after {
   pointer-events: none;
   background:
     linear-gradient(90deg, rgba(255,255,254,0.72) 0 36px, transparent 36px calc(100% - 36px), rgba(255,255,254,0.46) calc(100% - 36px) 100%) top / 100% 1px no-repeat,
-    linear-gradient(90deg, rgba(45,212,191,0.52), transparent 24%, transparent 76%, rgba(45,212,191,0.44)) bottom / 100% 1px no-repeat,
-    linear-gradient(180deg, rgba(45,212,191,0.4), transparent 34%, transparent 66%, rgba(45,212,191,0.28)) left / 1px 100% no-repeat,
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 52%, transparent), transparent 24%, transparent 76%, color-mix(in srgb, var(--alpha-highlight) 44%, transparent)) bottom / 100% 1px no-repeat,
+    linear-gradient(180deg, color-mix(in srgb, var(--alpha-highlight) 40%, transparent), transparent 34%, transparent 66%, color-mix(in srgb, var(--alpha-highlight) 28%, transparent)) left / 1px 100% no-repeat,
     linear-gradient(180deg, rgba(255,255,254,0.42), transparent 28%, transparent 72%, rgba(255,255,254,0.34)) right / 1px 100% no-repeat;
   opacity: 0.62;
 }
@@ -3313,9 +3313,9 @@ body::after {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent, rgba(45,212,191,0.24), transparent),
-    linear-gradient(rgba(45,212,191,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(45,212,191,0.028) 1px, transparent 1px);
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--alpha-highlight) 24%, transparent), transparent),
+    linear-gradient(color-mix(in srgb, var(--alpha-highlight) 3.5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 2.8%, transparent) 1px, transparent 1px);
   background-size: 180% 100%, 28px 28px, 28px 28px;
   opacity: 0.42;
   mix-blend-mode: screen;
@@ -3335,7 +3335,7 @@ body::after {
   inset: auto 18px 0;
   height: 2px;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(255,255,254,0.82), rgba(45,212,191,0.72), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,254,0.82), color-mix(in srgb, var(--alpha-highlight) 72%, transparent), transparent);
   transform: translateX(-120%);
   animation: topbar-scan 4.4s ease-in-out infinite;
   opacity: 0.86;
@@ -3347,16 +3347,16 @@ body::after {
 .hud-badge {
   border-radius: 0 !important;
   clip-path: polygon(0 7px, 7px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 7px), calc(100% - 7px) 100%, 9px 100%, 0 calc(100% - 9px));
-  border: 1px solid rgba(45,212,191,0.24) !important;
+  border: 1px solid color-mix(in srgb, var(--alpha-highlight) 24%, transparent) !important;
   background:
-    linear-gradient(90deg, rgba(45,212,191,0.1), rgba(10,18,28,0.72), rgba(255,216,3,0.08)) !important;
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), rgba(10,18,28,0.72), color-mix(in srgb, var(--alpha-highlight) 8%, transparent)) !important;
   color: var(--hud-white) !important;
   text-transform: uppercase;
 }
 
 .macos-page-header {
   clip-path: var(--hud-shape);
-  border-color: rgba(120,220,255,0.2) !important;
+  border-color: color-mix(in srgb, var(--alpha-highlight) 32%, transparent) !important;
 }
 
 .macos-page-title,
@@ -3373,13 +3373,13 @@ h2 {
   overflow: hidden;
   border-radius: 0 !important;
   clip-path: polygon(0 8px, 8px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 12px 100%, 0 calc(100% - 12px));
-  border: 1px solid rgba(45,212,191,0.28) !important;
+  border: 1px solid color-mix(in srgb, var(--alpha-highlight) 28%, transparent) !important;
   background:
-    linear-gradient(90deg, rgba(45,212,191,0.12), rgba(10,18,28,0.82), rgba(255,216,3,0.09)) !important;
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), rgba(10,18,28,0.82), color-mix(in srgb, var(--alpha-highlight) 9%, transparent)) !important;
   color: var(--hud-white) !important;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  box-shadow: inset 0 0 0 1px rgba(255,255,254,0.035), 0 0 18px rgba(45,212,191,0.08) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,254,0.035), 0 0 18px color-mix(in srgb, var(--alpha-highlight) 18%, transparent) !important;
 }
 
 .macos-btn::after,
@@ -3396,7 +3396,7 @@ h2 {
 .macos-btn:hover,
 [data-slot="button"]:hover {
   filter: brightness(1.16);
-  box-shadow: 0 0 28px rgba(45,212,191,0.18), inset 0 0 0 1px rgba(45,212,191,0.14) !important;
+  box-shadow: 0 0 28px color-mix(in srgb, var(--alpha-highlight) 18%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--alpha-highlight) 14%, transparent) !important;
 }
 
 .macos-btn:hover::after,
@@ -3410,7 +3410,7 @@ textarea,
 select {
   border-radius: 0 !important;
   clip-path: polygon(0 8px, 8px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 10px 100%, 0 calc(100% - 10px));
-  border-color: rgba(45,212,191,0.22) !important;
+  border-color: color-mix(in srgb, var(--alpha-highlight) 22%, transparent) !important;
   background:
     linear-gradient(180deg, rgba(3,10,22,0.92), rgba(8,18,30,0.76)) !important;
   color: var(--hud-white) !important;
@@ -3427,21 +3427,21 @@ select {
 
 .macos-table th {
   color: rgba(255,255,254,0.72) !important;
-  border-bottom: 1px solid rgba(45,212,191,0.22) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--alpha-highlight) 24%, transparent) !important;
   letter-spacing: 0.22em;
 }
 
 .macos-table tbody tr {
   position: relative;
   background:
-    linear-gradient(90deg, rgba(45,212,191,0.075), rgba(10,18,28,0.52), rgba(255,216,3,0.055)) !important;
-  outline: 1px solid rgba(45,212,191,0.13);
-  box-shadow: 0 0 18px rgba(45,212,191,0.035);
+    linear-gradient(90deg, color-mix(in srgb, var(--alpha-highlight) 8%, transparent), rgba(10,18,28,0.52), color-mix(in srgb, var(--alpha-highlight) 6%, transparent)) !important;
+  outline: 1px solid color-mix(in srgb, var(--alpha-highlight) 13%, transparent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--alpha-highlight) 4%, transparent);
 }
 
 .macos-table tbody tr:hover {
-  outline-color: rgba(45,212,191,0.34);
-  box-shadow: 0 0 26px rgba(45,212,191,0.12);
+  outline-color: color-mix(in srgb, var(--alpha-highlight) 34%, transparent);
+  box-shadow: 0 0 26px color-mix(in srgb, var(--alpha-highlight) 12%, transparent);
 }
 
 .macos-table td {
@@ -3661,7 +3661,7 @@ select {
   --alpha-border: var(--tertiary-hex);
   --alpha-border-strong: color-mix(in srgb, var(--secondary-hex) 34%, var(--tertiary-hex) 66%);
   --alpha-accent: var(--main-hex);
-  --alpha-accent-hover: #2FC89E;
+  --alpha-accent-hover: #FF7A1A;
   --alpha-accent-contrast: #10201C;
   --alpha-highlight: var(--highlight-hex);
   --alpha-highlight-soft: color-mix(in srgb, var(--highlight-hex) 13%, var(--card-hex) 87%);
@@ -3686,7 +3686,7 @@ select {
   --alpha-border: var(--tertiary-hex);
   --alpha-border-strong: color-mix(in srgb, var(--main-hex) 52%, var(--tertiary-hex) 48%);
   --alpha-accent: var(--main-hex);
-  --alpha-accent-hover: #2FC89E;
+  --alpha-accent-hover: #FF7A1A;
   --alpha-accent-contrast: #10201C;
   --alpha-highlight: var(--highlight-hex);
   --alpha-highlight-soft: color-mix(in srgb, var(--highlight-hex) 12%, var(--card-hex) 88%);
