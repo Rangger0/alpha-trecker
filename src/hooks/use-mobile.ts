@@ -17,3 +17,29 @@ export function useIsMobile() {
 
   return !!isMobile
 }
+
+export function useWindowSize() {
+  const [windowSize, setWindowSize] = React.useState<{
+    width: number | null
+    height: number | null
+  }>({
+    width: null,
+    height: null,
+  })
+
+  React.useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
+
+    window.addEventListener("resize", handleResize)
+    handleResize()
+
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  return windowSize
+}

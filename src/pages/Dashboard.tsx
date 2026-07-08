@@ -1,54 +1,27 @@
-// (file lengkap dengan perbaikan dropdown clipping)
-import { Suspense, lazy, useEffect, useMemo, useRef, useState, type ChangeEvent, type KeyboardEvent, type MouseEvent } from "react";
+import { Suspense, lazy, useEffect, useMemo, useRef, useState, type ChangeEvent, type KeyboardEvent } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { useI18n } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { supabase } from "@/lib/supabase";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Activity,
   ArrowDownRight,
   ArrowUpRight,
   CalendarDays,
   ChevronLeft,
   ChevronRight,
-  Plus,
-  Search,
-  Filter,
-  MoreVertical,
-  Edit2,
-  Trash2,
-  ExternalLink,
   Sparkles,
-  Wallet,
   TrendingUp as TrendingUpIcon,
-  Star,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePrices } from "@/hooks/use-prices";
 import { useCurrencyRate } from "@/hooks/use-currency-rate";
 import { useAirdropRewards } from "@/hooks/use-airdrop-rewards";
 import { CurrencyConverter } from "@/components/dashboard/CurrencyConverter";
+import { ProjectTableContainer } from "@/components/dashboard/ProjectTableContainer";
 import { AIRDROPS_SYNC_EVENT, emitAirdropsSync, setCachedAirdrops } from "@/lib/airdrops-store";
-import type { Airdrop, AirdropStatus, FarmingStrategy, ProjectCategory } from "@/types";
-import { FARMING_STRATEGIES, PROJECT_CATEGORIES } from "@/types";
+import type { Airdrop } from "@/types";
 import { createAirdrop, getAirdropsByUserId, updateAirdrop } from "@/services/database";
 
 const RewardPerformancePanel = lazy(async () => {
@@ -81,44 +54,6 @@ const EligibilityModal = lazy(async () => {
   return { default: module.EligibilityModal };
 });
 
-/* ---------- constants ---------- */
-const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
-
-const badgeTone = {
-  amber: 'bg-[color:var(--alpha-warning-soft)] text-[color:var(--alpha-warning)] border-[color:var(--alpha-warning-border)]',
-  cyan: 'bg-[color:var(--alpha-info-soft)] text-[color:var(--alpha-info)] border-[color:var(--alpha-info-border)]',
-  violet: 'bg-[color:var(--alpha-violet-soft)] text-[color:var(--alpha-violet)] border-[color:var(--alpha-violet-border)]',
-  green: 'bg-[color:var(--alpha-success-soft)] text-[color:var(--alpha-success)] border-[color:var(--alpha-success-border)]',
-  red: 'bg-[color:var(--alpha-danger-soft)] text-[color:var(--alpha-danger)] border-[color:var(--alpha-danger-border)]',
-  yellow: 'bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-type)] border-[color:var(--alpha-highlight-border)]',
-  neutral: 'bg-[color:var(--alpha-hover-soft)] text-[color:var(--alpha-text-muted)] border-[color:var(--alpha-border)]',
-};
-
-const STATUS_COLORS: Record<string, { dark: string; light: string }> = {
-  'Planning': { dark: badgeTone.violet, light: badgeTone.violet },
-  'Ongoing': { dark: badgeTone.cyan, light: badgeTone.cyan },
-  'Done': { dark: badgeTone.green, light: badgeTone.green },
-  'Dropped': { dark: badgeTone.red, light: badgeTone.red },
-};
-
-const getMetricBadgeTone = (kind: string) => {
-  const tones = {
-    email: 'alpha-metric-badge alpha-metric-badge--email',
-    wallet: 'alpha-metric-badge alpha-metric-badge--wallet',
-    link: 'alpha-metric-link alpha-metric-link--official',
-    confirmed: 'alpha-metric-badge alpha-metric-badge--confirmed',
-    unconfirmed: 'alpha-metric-badge alpha-metric-badge--unconfirmed',
-    funding: 'alpha-metric-badge alpha-metric-badge--funding',
-    empty: 'alpha-metric-badge alpha-metric-badge--empty',
-    waitlist: 'alpha-metric-badge alpha-metric-badge--waitlist',
-    low: 'alpha-metric-badge alpha-metric-badge--low',
-    medium: 'alpha-metric-badge alpha-metric-badge--medium',
-    high: 'alpha-metric-badge alpha-metric-badge--high',
-  };
-
-  return tones[kind as keyof typeof tones] ?? tones.empty;
-};
-
 /* ---------- animations ---------- */
 const ANIM_STYLE = `
 @keyframes dashboardSoftFade {
@@ -144,12 +79,6 @@ const ANIM_STYLE = `
 `;
 
 /* ---------- helpers ---------- */
-const formatWallet = (address: string) => {
-  if (!address) return '';
-  if (address.length <= 12) return address;
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-};
-
 function RewardPerformancePanelFallback() {
   return (
     <div className="overflow-hidden rounded-[1.15rem] border border-alpha-border bg-[color:var(--alpha-surface)] p-4">
@@ -181,9 +110,6 @@ function DashboardPanelFallback({ className = "" }: { className?: string }) {
     </div>
   );
 }
-
-const twitterAvatarUrl = (username: string) =>
-  `https://unavatar.io/twitter/${username.replace('@', '')}`;
 
 const formatUsdPrice = (value?: number) => {
   if (value == null) return '--';
@@ -239,23 +165,6 @@ const formatPriceChange = (value?: number) => {
   return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
 };
 
-const formatProjectDate = (value?: string) => {
-  if (!value) return '--';
-
-  const normalized = /^\d{4}-\d{2}-\d{2}$/.test(value) ? `${value}T00:00:00` : value;
-  const parsed = new Date(normalized);
-
-  if (Number.isNaN(parsed.getTime())) {
-    return value;
-  }
-
-  return parsed.toLocaleDateString('id-ID', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
-};
-
 const formatCalendarDate = (date?: Date) => {
   if (!date) return '--';
 
@@ -264,35 +173,6 @@ const formatCalendarDate = (date?: Date) => {
     month: 'short',
     year: 'numeric',
   });
-};
-
-/* Table column configuration - single source of truth for header and rows */
-const TABLE_COLUMNS = [
-  { key: 'project', label: 'Project' },
-  { key: 'category', label: 'Category' },
-  { key: 'strategy', label: 'Strategy' },
-  { key: 'status', label: 'Status' },
-  { key: 'funding', label: 'Funding' },
-  { key: 'waitlist', label: 'Waitlist' },
-  { key: 'potential', label: 'Potential' },
-  { key: 'email', label: 'Email' },
-  { key: 'wallet', label: 'Wallet Address' },
-  { key: 'officialLink', label: 'Official Link' },
-  { key: 'actions', label: 'Actions' },
-];
-
-const TABLE_COLUMN_VISIBILITY: Record<string, string> = {
-  project: 'min-w-[12rem]',
-  category: 'hidden md:table-cell',
-  strategy: 'hidden lg:table-cell',
-  status: 'table-cell',
-  funding: 'hidden xl:table-cell',
-  waitlist: 'table-cell',
-  potential: 'hidden xl:table-cell',
-  email: 'hidden xl:table-cell',
-  wallet: 'hidden xl:table-cell',
-  officialLink: 'hidden xl:table-cell',
-  actions: 'min-w-[8rem]',
 };
 
 const parseProjectDate = (value?: string) => {
@@ -938,282 +818,14 @@ function DashboardWorkspacePanel({
   );
 }
 
-/* ---------- ProjectAvatar & Tactical List Row ---------- */
-
-function ProjectAvatar({
-  airdrop, size = 'md', logoError, setLogoError,
-}: {
-  airdrop: Airdrop; size?: 'sm' | 'md';
-  logoError: Record<string, boolean>;
-  setLogoError: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
-}) {
-  const dim = size === 'sm' ? 'w-10 h-10' : 'w-12 h-12';
-  const textSize = size === 'sm' ? 'text-base' : 'text-xl';
-
-  const [twitterError, setTwitterError] = useState(false);
-  const hasLogoError = (logoError && logoError[airdrop.id]) || !airdrop.projectLogo;
-  const twitterUser = airdrop.twitterUsername?.replace('@', '');
-  const showTwitter = hasLogoError && twitterUser && !twitterError;
-
-  return (
-    <div className={`${dim} rounded-[0.95rem] flex-shrink-0 overflow-hidden border flex items-center justify-center transition-transform duration-200 group-hover:scale-[1.02]`}
-      style={{ background: 'var(--alpha-surface)', borderColor: 'var(--alpha-border)' }}>
-      {!hasLogoError ? (
-        <img
-          src={airdrop.projectLogo!}
-          alt={airdrop.projectName}
-          className="w-full h-full object-cover"
-          onError={() => setLogoError(prev => ({ ...prev, [airdrop.id]: true }))}
-        />
-      ) : showTwitter ? (
-        <img
-          src={twitterAvatarUrl(twitterUser!)}
-          alt={airdrop.projectName}
-          className="w-full h-full object-cover"
-          onError={() => setTwitterError(true)}
-        />
-      ) : (
-        <span className={`${textSize} font-bold alpha-text`}>
-          {airdrop.projectName[0].toUpperCase()}
-        </span>
-      )}
-    </div>
-  );
-}
-
-/* TableRow (list-only tactical monitoring board) */
-function TableRow({
-  airdrop, index, isDark, onEdit, onDelete, onAddPriority, logoError, setLogoError
-}: {
-  airdrop: Airdrop; index: number; isDark: boolean;
-  onEdit: () => void; onDelete: () => void; onAddPriority: () => void;
-  logoError: Record<string, boolean>;
-  setLogoError: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
-}) {
-  const [actionsOpen, setActionsOpen] = useState(false);
-  const getStatusColor = (s: string) => isDark ? STATUS_COLORS[s]?.dark || STATUS_COLORS['Planning'].dark : STATUS_COLORS[s]?.light || STATUS_COLORS['Planning'].light;
-  const runDropdownAction = (action: () => void) => {
-    setActionsOpen(false);
-    window.setTimeout(action, 0);
-  };
-
-  const fundingLabel = airdrop.funding?.trim() || '-';
-  const waitlistLabel = airdrop.waitlistCount != null ? String(airdrop.waitlistCount) : '-';
-  const effectivePotential = airdrop.potential ?? '-';
-  const potentialKind =
-    effectivePotential === 'High'
-      ? 'high'
-      : effectivePotential === 'Medium'
-        ? 'medium'
-        : effectivePotential === 'Low'
-          ? 'low'
-          : 'empty';
-  const fundingKind = airdrop.funding ? 'funding' : 'empty';
-  const waitlistKind = airdrop.waitlistCount != null ? 'waitlist' : 'empty';
-
-  const renderCell = (colKey: string, key: string) => {
-    const cellPadding = 'px-2 py-1.5 sm:px-2 sm:py-2';
-    const getCellClasses = (col: string) => `${TABLE_COLUMN_VISIBILITY[col] ?? ''} ${cellPadding}`.trim();
-
-    switch (colKey) {
-      case 'project':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            <div className="flex items-center gap-1.5">
-              <ProjectAvatar airdrop={airdrop} size="sm" logoError={logoError} setLogoError={setLogoError} />
-              <div>
-                <p className="text-[14px] font-semibold alpha-text">{airdrop.projectName}</p>
-                {airdrop.twitterUsername && (
-                  <p className="text-xs font-mono alpha-text-muted">@{airdrop.twitterUsername.replace('@', '')}</p>
-                )}
-                <p className="mt-1 flex items-center gap-1 text-[11px] font-mono alpha-text-muted">
-                  <CalendarDays className="h-3 w-3" />
-                  {formatProjectDate(airdrop.deadline ?? airdrop.createdAt)}
-                </p>
-              </div>
-            </div>
-          </td>
-        );
-
-      case 'category':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.projectCategory ?? 'Other'}</Badge>
-          </td>
-        );
-
-      case 'strategy':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            <Badge variant="outline" className={`font-mono text-xs ${badgeTone.neutral}`}>{airdrop.farmingStrategy ?? 'Unknown'}</Badge>
-          </td>
-        );
-
-      case 'status':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            <Badge variant="outline" className={`font-mono text-xs ${getStatusColor(airdrop.status)}`}>{airdrop.status}</Badge>
-          </td>
-        );
-
-      case 'funding':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            <div className={getMetricBadgeTone(fundingKind)}>
-              <span className="alpha-metric-dot" />
-              <span className="font-semibold">{fundingLabel}</span>
-            </div>
-          </td>
-        );
-
-      case 'waitlist':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            <div className={getMetricBadgeTone(waitlistKind)}>
-              <span className="alpha-metric-dot" />
-              <span className="font-semibold">{waitlistLabel}</span>
-            </div>
-          </td>
-        );
-
-      case 'potential':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            <div className={getMetricBadgeTone(potentialKind)}>
-              <span className="alpha-metric-dot" />
-              <span className="font-semibold">{effectivePotential}</span>
-            </div>
-          </td>
-        );
-
-      case 'email':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            {airdrop.email ? (
-              <span className={`block max-w-[220px] truncate ${getMetricBadgeTone('email')}`}>
-                {airdrop.email}
-              </span>
-            ) : (
-              <span className="font-mono text-xs alpha-text-muted">-</span>
-            )}
-          </td>
-        );
-
-      case 'wallet':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            {airdrop.walletAddress ? (
-              <div className={`flex w-fit items-center gap-1.5 ${getMetricBadgeTone('wallet')}`}>
-                <Wallet className="w-3.5 h-3.5" />
-                <span className="font-mono text-xs">{formatWallet(airdrop.walletAddress)}</span>
-              </div>
-            ) : (
-              <span className={getMetricBadgeTone('empty')}>No address</span>
-            )}
-          </td>
-        );
-
-      case 'officialLink':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            {airdrop.platformLink ? (
-              <a href={airdrop.platformLink} target="_blank" rel="noopener noreferrer"
-                className={`flex items-center gap-1 transition-colors duration-150 hover:underline ${getMetricBadgeTone('link')}`}>
-                <ExternalLink className="w-3.5 h-3.5" />
-                {airdrop.platformLink.slice(0, 25)}...
-              </a>
-            ) : <span className="font-mono text-xs alpha-text-muted">-</span>}
-          </td>
-        );
-
-      case 'actions':
-        return (
-          <td key={key} className={getCellClasses(key)}>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onAddPriority()}
-                className="h-8 rounded-[0.9rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-3 font-mono text-xs alpha-text-muted transition-[border-color,background-color,color] duration-150 hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
-              >
-                <Star className="w-3 h-3 mr-1" />
-                Priority
-              </Button>
-
-              <DropdownMenu open={actionsOpen} onOpenChange={setActionsOpen}>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={(e: MouseEvent) => e.stopPropagation()}
-                    className="h-8 w-8 rounded-[0.9rem] border border-transparent bg-[color:var(--alpha-surface)] alpha-text-muted transition-[background-color,color,border-color] duration-150 hover:border-[color:var(--alpha-border-strong)] hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
-                  >
-                    <MoreVertical className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  sideOffset={6}
-                  className="macos-popover min-w-[9rem] font-mono"
-                  style={{
-                    borderColor: 'var(--alpha-border)',
-                    background: 'var(--alpha-panel)',
-                    color: 'var(--alpha-text)',
-                    zIndex: 9999,
-                  }}
-                >
-                  <DropdownMenuItem
-                    onSelect={(event) => {
-                      event.preventDefault();
-                      runDropdownAction(onEdit);
-                    }}
-                    className="gap-2 alpha-text focus:bg-[color:var(--alpha-hover-soft)] focus:text-[color:var(--alpha-text)]"
-                  >
-                    <Edit2 className="h-4 w-4" />
-                    EDIT
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onSelect={(event) => {
-                      event.preventDefault();
-                      runDropdownAction(onDelete);
-                    }}
-                    className="gap-2 text-[color:var(--alpha-danger)] focus:bg-[color:var(--alpha-danger-soft)] focus:text-[color:var(--alpha-danger)]"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    DELETE
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </td>
-        );
-
-      default:
-        return <td className={getCellClasses(key)}> - </td>;
-    }
-  };
-
-  return (
-    <tr className={`border-b transition-colors duration-150 group anim-card ${isDark ? 'border-alpha-border hover:bg-[color:var(--alpha-hover-soft)]' : 'border-alpha-border hover:bg-[color:var(--alpha-hover-soft)]'}`} style={{ animationDelay: `${index * 40}ms` }}>
-      {TABLE_COLUMNS.map((c) => renderCell(c.key, c.key))}
-    </tr>
-  );
-}
-
 /* ---------- MAIN DASHBOARD CONTENT ---------- */
 function DashboardContent() {
   const { session } = useAuth();
   const user = session?.user;
   const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<ProjectCategory | 'all'>('all');
-  const [strategyFilter, setStrategyFilter] = useState<FarmingStrategy | 'all'>('all');
-  const [statusFilter, setStatusFilter] = useState<AirdropStatus | 'all'>('all');
-  const [sortBy] = useState<'newest' | 'progress'>('newest');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingAirdrop, setEditingAirdrop] = useState<Airdrop | null>(null);
   const [deletingAirdrop, setDeletingAirdrop] = useState<Airdrop | null>(null);
-  const [priorityAirdrop, setPriorityAirdrop] = useState<Airdrop | null>(null);
   const { theme } = useTheme();
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
@@ -1225,30 +837,6 @@ function DashboardContent() {
   // UI tokens - Updated to gold theme
   const bg      = 'alpha-bg';
   const text    = 'alpha-text';
-
-  const filteredAirdrops = useMemo(() => {
-    let result = [...airdrops];
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(a =>
-        a.projectName.toLowerCase().includes(q) ||
-        (a.twitterUsername || '').toLowerCase().includes(q) ||
-        (a.walletAddress || '').toLowerCase().includes(q) ||
-        (a.email || '').toLowerCase().includes(q) ||
-        (a.funding || '').toLowerCase().includes(q) ||
-        (a.potential || '').toLowerCase().includes(q) ||
-        (a.projectCategory || '').toLowerCase().includes(q) ||
-        (a.farmingStrategy || '').toLowerCase().includes(q) ||
-        (a.waitlistCount != null && 'waitlist'.includes(q)) ||
-        (a.airdropConfirmed && 'confirmed'.includes(q))
-      );
-    }
-    if (categoryFilter !== 'all') result = result.filter(a => (a.projectCategory ?? 'Other') === categoryFilter);
-    if (strategyFilter !== 'all') result = result.filter(a => (a.farmingStrategy ?? 'Unknown') === strategyFilter);
-    if (statusFilter !== 'all') result = result.filter(a => a.status === statusFilter);
-    if (sortBy === 'newest') result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    return result;
-  }, [airdrops, searchQuery, categoryFilter, strategyFilter, statusFilter, sortBy]);
 
   useEffect(() => {
     if (!user) return;
@@ -1330,7 +918,7 @@ function DashboardContent() {
     <div className={`dashboard-clean min-h-screen flex flex-col transition-colors duration-300 macos-root ${bg} ${text}`}>
       <style>{ANIM_STYLE}</style>
 
-      <main className="flex-1 w-full px-5 py-5 sm:px-6 sm:py-6 lg:px-7">
+      <main className="flex-1 w-full px-4 py-5 sm:px-6 sm:py-6 lg:px-6">
         <DashboardHero airdrops={airdrops} rewards={rewards} isDark={isDark} />
 
         <div className="mb-7 mt-6">
@@ -1341,139 +929,17 @@ function DashboardContent() {
           />
         </div>
 
-        {/* Filters - use macos-card */}
-        <div className="mb-3 flex items-center justify-between px-1">
-          <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] alpha-text-muted">
-            <Filter className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
-            Project radar
-          </div>
-          <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.16em] alpha-text-muted">
-            {filteredAirdrops.length} visible
-          </span>
-        </div>
-
-        <div className="mb-6 anim-fade" style={{ animationDelay: '200ms' }}>
-          <div className="macos-card p-4 shadow-none">
-            <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
-              <label
-                className={`flex h-11 flex-1 items-center gap-3 rounded-[1rem] border border-alpha-border px-4 ${
-                  isDark ? 'bg-[color:var(--alpha-surface-soft)]' : 'bg-[color:var(--alpha-surface)]'
-                }`}
-              >
-                <Search className="h-4 w-4 shrink-0 alpha-text-muted" />
-                <Input
-                  placeholder={isDark ? 'search projects...' : 'Search projects...'}
-                  value={searchQuery}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-                  className={`h-auto border-0 bg-transparent p-0 font-mono shadow-none focus-visible:ring-0 ${
-                    isDark
-                      ? 'alpha-text placeholder:text-[color:var(--alpha-text-muted)]'
-                      : 'alpha-text placeholder:text-[color:var(--alpha-text-muted)]'
-                  }`}
-                />
-              </label>
-
-              <div className="flex flex-wrap gap-2.5 items-center xl:justify-end">
-                <Select value={categoryFilter} onValueChange={(v) => setCategoryFilter(v as ProjectCategory | 'all')}>
-                    <SelectTrigger className={`h-11 min-w-[160px] rounded-[1rem] border-alpha-border ${
-                      isDark ? 'bg-[color:var(--alpha-surface-soft)] alpha-text' : 'bg-[color:var(--alpha-surface)] alpha-text'
-                    }`}>
-                    <span className="flex min-w-0 items-center gap-2.5">
-                      <Filter className="h-4 w-4 alpha-text-muted" />
-                      <SelectValue placeholder="All categories" />
-                    </span>
-                  </SelectTrigger>
-                  <SelectContent className={`macos-popover border-alpha-border ${isDark ? 'bg-dark-secondary' : 'bg-[color:var(--alpha-panel)]'}`}>
-                    <SelectItem value="all">All categories</SelectItem>
-                    {PROJECT_CATEGORIES.map((category) => (
-                      <SelectItem key={category} value={category}>{category}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <Select value={strategyFilter} onValueChange={(v) => setStrategyFilter(v as FarmingStrategy | 'all')}>
-                    <SelectTrigger className={`h-11 min-w-[170px] rounded-[1rem] border-alpha-border ${
-                      isDark ? 'bg-[color:var(--alpha-surface-soft)] alpha-text' : 'bg-[color:var(--alpha-surface)] alpha-text'
-                    }`}>
-                    <span className="flex min-w-0 items-center gap-2.5">
-                      <Filter className="h-4 w-4 alpha-text-muted" />
-                      <SelectValue placeholder="All strategies" />
-                    </span>
-                  </SelectTrigger>
-                  <SelectContent className={`macos-popover border-alpha-border ${isDark ? 'bg-dark-secondary' : 'bg-[color:var(--alpha-panel)]'}`}>
-                    <SelectItem value="all">All strategies</SelectItem>
-                    {FARMING_STRATEGIES.map((strategy) => (
-                      <SelectItem key={strategy} value={strategy}>{strategy}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as AirdropStatus | 'all')}>
-                  <SelectTrigger className={`h-11 min-w-[160px] rounded-[1rem] border-alpha-border ${
-                    isDark ? 'bg-[color:var(--alpha-surface-soft)] alpha-text' : 'bg-[color:var(--alpha-surface)] alpha-text'
-                  }`}>
-                    <span className="flex min-w-0 items-center gap-2.5">
-                      <Activity className="h-4 w-4 alpha-text-muted" />
-                      <SelectValue placeholder="All statuses" />
-                    </span>
-                  </SelectTrigger>
-                  <SelectContent className={`macos-popover border-alpha-border ${isDark ? 'bg-dark-secondary' : 'bg-[color:var(--alpha-panel)]'}`}>
-                    <SelectItem value="all">All statuses</SelectItem>
-                    {AIRDROP_STATUSES.map(s => <SelectItem key={s} value={s}>{s.toUpperCase()}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Content */}
-        {filteredAirdrops.length === 0 ? (
-          <div className="relative p-12 macos-card rounded-[1.1rem] text-center anim-fade shadow-none">
-            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 border border-alpha-border opacity-50">
-              <Search className="h-10 w-10 alpha-text-muted" />
-            </div>
-            <h3 className={`text-xl font-mono font-bold mb-2 alpha-text`}>{isDark ? '> NO_DATA_FOUND' : 'No airdrops found'}</h3>
-            <p className={`font-mono text-sm mb-4 alpha-text-muted`}>{isDark ? 'Initialize new project tracking...' : 'Start tracking your first airdrop'}</p>
-            <Button onClick={() => setIsAddModalOpen(true)}
-              className="font-mono macos-btn macos-btn--primary text-[color:var(--alpha-accent-contrast)]">
-              <Plus className="h-4 w-4 mr-2" />{isDark ? 'INIT_PROJECT()' : 'Add Your First Airdrop'}
-            </Button>
-          </div>
-        ) : (
-          // <<< CHANGE: make card overflow-visible so row popovers can escape the card
-          <div className="macos-card overflow-visible rounded-[1.1rem] anim-fade shadow-none">
-            <div className="overflow-x-auto">
-              <table className="w-full macos-table">
-                <thead>
-                  <tr className="border-b border-alpha-border bg-[color:var(--alpha-hover-soft)]">
-                    {TABLE_COLUMNS.map((c) => (
-                      <th key={c.key} className={`${TABLE_COLUMN_VISIBILITY[c.key] ?? ''} px-1.5 py-1.5 sm:px-2 sm:py-2 text-left text-xs font-display font-semibold alpha-text-muted`}>
-                        {c.label}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredAirdrops.map((airdrop, index) => (
-                    <TableRow
-                      key={airdrop.id}
-                      airdrop={airdrop}
-                      index={index}
-                      isDark={isDark}
-                      logoError={logoError}
-                      setLogoError={setLogoError}
-                    onEdit={() => setEditingAirdrop(airdrop)}
-                    onDelete={() => setDeletingAirdrop(airdrop)}
-                    onAddPriority={() => handleAddPriority(airdrop)}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
+        {/* New Refactored Project Table with Filter */}
+        <ProjectTableContainer
+          airdrops={airdrops}
+          isDark={isDark}
+          logoError={logoError}
+          setLogoError={setLogoError}
+          onEdit={(airdrop) => setEditingAirdrop(airdrop)}
+          onDelete={(airdrop) => setDeletingAirdrop(airdrop)}
+          onPriority={handleAddPriority}
+          onAddNew={() => setIsAddModalOpen(true)}
+        />
       </main>
 
       {/* MODALS */}
@@ -1511,19 +977,6 @@ function DashboardContent() {
           />
         </Suspense>
       ) : null}
-
-      {priorityAirdrop && (
-        <Suspense fallback={null}>
-          <AirdropModal
-            isOpen={Boolean(priorityAirdrop)}
-            onClose={() => setPriorityAirdrop(null)}
-            onSubmit={handleEditAirdrop}
-            mode="edit"
-            airdrop={priorityAirdrop}
-            isDark={isDark}
-          />
-        </Suspense>
-      )}
 
       {isWalletModalOpen ? (
         <Suspense fallback={null}>
