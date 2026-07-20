@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { HeroVisual } from './HeroVisual';
 
@@ -8,101 +8,65 @@ interface HeroSectionProps {
 
 export function HeroSection({ onOpenAuth }: HeroSectionProps) {
   return (
-    <section className="alpha-landing-hero-section alpha-premium-hero alpha-saas-hero relative isolate px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-32">
+    <section className="alpha-v2-hero relative isolate overflow-hidden px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8 lg:pb-24 lg:pt-36">
+      <div className="alpha-v2-city-bg" aria-hidden="true" />
+      <div className="alpha-v2-grid-bg" aria-hidden="true" />
       <div className="macos-landing-width relative z-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left content */}
-          <div className="space-y-8 animate-fade-in-up">
-            {/* Badge */}
-            <div>
-              <span className="inline-block px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider" style={{ 
-                backgroundColor: 'color-mix(in srgb, var(--alpha-accent) 12%, transparent)',
-                color: 'var(--alpha-accent)',
-              }}>
-                WEB3 RESEARCH OS
-              </span>
+        <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 xl:gap-16">
+          <div className="alpha-v2-hero-copy space-y-8">
+            <span className="alpha-v2-kicker">AI-powered Web3 research platform</span>
+
+            <div className="space-y-5">
+              <h1 className="alpha-v2-headline">
+                <span>Discover.</span>
+                <span>Analyze.</span>
+                <span>Track.</span>
+              </h1>
+              <h2 className="alpha-v2-subheadline">
+                Web3 Opportunities
+                <br />
+                Powered by AI.
+              </h2>
             </div>
 
-            {/* Sub-headline */}
-            <div className="space-y-2">
-              <p className="text-lg sm:text-xl font-semibold" style={{ color: 'var(--alpha-accent)' }}>
-                Research.
-              </p>
-              <p className="text-lg sm:text-xl font-semibold" style={{ color: 'var(--alpha-accent)' }}>
-                Execute.
-              </p>
-              <p className="text-lg sm:text-xl font-semibold" style={{ color: 'var(--alpha-accent)' }}>
-                Track.
-              </p>
-              <p className="text-lg sm:text-xl font-semibold" style={{ color: 'var(--alpha-accent)' }}>
-                Claim.
-              </p>
-            </div>
-
-            {/* Main headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight" style={{ color: 'var(--alpha-text)' }}>
-              One workspace for serious airdrop hunters.
-            </h1>
-
-            {/* Description */}
-            <p className="text-lg sm:text-xl leading-relaxed" style={{ color: 'var(--alpha-text-muted)' }}>
-              Research projects, monitor rewards, analyze wallets and detect sybil risk from a single workspace.
+            <p className="alpha-v2-lead">
+              Alpha Tracker helps researchers discover high-potential Web3 projects using AI, on-chain analytics,
+              funding intelligence, and wallet analysis.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-6">
+            <div className="flex flex-col gap-4 pt-2 sm:flex-row">
               <Button 
                 type="button" 
                 onClick={() => onOpenAuth('register')} 
-                className="h-12 rounded-lg px-8 text-base font-semibold transition-all duration-200 hover:scale-105 active:scale-95" 
-                style={{ 
-                  backgroundColor: 'var(--alpha-accent)',
-                  color: 'white',
-                }}
+                className="alpha-v2-primary-btn h-13 rounded-lg px-8 py-6 text-base font-semibold"
               >
-                Start Tracking
+                Start Research
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
 
-              <a href="#showcase" className="flex">
+              <a href="/dashboard" className="flex">
                 <Button 
                   variant="outline" 
-                  className="h-12 rounded-lg px-8 text-base font-semibold transition-all duration-200 hover:scale-105 active:scale-95" 
-                  style={{
-                    borderColor: 'var(--alpha-border)',
-                    color: 'var(--alpha-text)',
-                    backgroundColor: 'transparent',
-                  }}
+                  className="alpha-v2-secondary-btn h-13 rounded-lg px-8 py-6 text-base font-semibold"
                 >
-                  View Demo
+                  Open Dashboard
+                  <LayoutDashboard className="ml-2 h-4 w-4" />
                 </Button>
               </a>
             </div>
+
+            <div className="alpha-v2-hero-strip">
+              {['Funding Analysis', 'Wallet Scanner', 'AI Research', 'Opportunity Score'].map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
           </div>
 
-          {/* Right visual */}
-          <div className="hidden lg:block">
+          <div className="min-w-0">
             <HeroVisual />
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in-up {
-          animation: fadeInUp 0.6s ease-out forwards;
-        }
-      `}</style>
     </section>
   );
 }

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useI18n } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { Plus, Menu, Clock3 } from 'lucide-react';
+import { Plus, Menu, Clock3, MoonStar, SunMedium } from 'lucide-react';
 import { AirdropModal } from '@/components/modals/AirdropModal';
 import { createAirdrop } from '@/services/database';
 import { emitAirdropsSync, invalidateAirdropsCache } from '@/lib/airdrops-store';
@@ -14,11 +14,12 @@ interface TopBarProps {
 }
 
 export function TopBar({ onToggleSidebar }: TopBarProps) {
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const { t } = useI18n();
   const { session } = useAuth();
   const location = useLocation();
   const isDark = theme === 'dark';
+  const ThemeIcon = isDark ? SunMedium : MoonStar;
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [now, setNow] = useState(() => new Date());
@@ -117,6 +118,16 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
           </div>
 
           <div className="flex min-w-0 items-center justify-end gap-2.5 justify-self-end">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="alpha-topbar-theme-toggle macos-icon macos-focus flex h-9 w-9 items-center justify-center rounded-[1rem] border border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface)] transition-transform duration-150 ease-out active:scale-95"
+              aria-label={isDark ? 'Switch to day mode' : 'Switch to night mode'}
+              title={isDark ? 'Day mode' : 'Night mode'}
+            >
+              <ThemeIcon className="h-4 w-4" />
+            </button>
+
             {session?.user ? (
               <button
                 onClick={() => setIsAddModalOpen(true)}

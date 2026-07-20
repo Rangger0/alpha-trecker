@@ -54,6 +54,10 @@ export function AuthLayout({ children, title, subtitle, features }: AuthLayoutPr
 
       <main className="alpha-auth-main">
         <section className="alpha-auth-panel alpha-auth-product-panel">
+          <div className="alpha-auth-mascot" aria-hidden="true">
+            <img src="/alpha-mascot-cta-transparent.png" alt="" />
+          </div>
+
           <div className="alpha-auth-product-copy">
             <p className="alpha-auth-kicker">Alpha Tracker</p>
             <h1>{title}</h1>

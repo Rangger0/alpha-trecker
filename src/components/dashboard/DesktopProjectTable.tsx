@@ -6,7 +6,6 @@ import {
   Wallet,
   Star,
   Eye,
-  Link2,
   Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -206,7 +205,6 @@ export function DesktopProjectTable({
             <col className="w-[150px] min-[1600px]:w-[178px] min-[1920px]:w-[210px]" />
             <col className="hidden w-[150px] min-[1600px]:table-column min-[1920px]:w-[180px]" />
             <col className="hidden w-[190px] min-[1600px]:table-column min-[1920px]:w-[240px]" />
-            <col className="hidden w-[190px] min-[1600px]:table-column min-[1920px]:w-[270px]" />
             <col className="hidden w-[108px] min-[1600px]:table-column" />
             <col className="w-[228px]" />
           </colgroup>
@@ -221,7 +219,6 @@ export function DesktopProjectTable({
                 "Wallet",
                 "Strategy",
                 "Email",
-                "Official Link",
                 "Waitlist",
                 "Actions",
               ].map((heading, index) => (
@@ -230,8 +227,8 @@ export function DesktopProjectTable({
                   className={cn(
                     "border-b border-alpha-border px-4 text-left text-[13px] font-semibold leading-none alpha-text-muted",
                     index === 0 && "sticky left-0 z-40 border-r border-alpha-border bg-[color:var(--alpha-surface-strong)]",
-                    index >= 6 && index <= 9 && "hidden min-[1600px]:table-cell",
-                    index === 10 && "text-center"
+                    index >= 6 && index <= 8 && "hidden min-[1600px]:table-cell",
+                    index === 9 && "text-center"
                   )}
                 >
                   {heading}
@@ -373,23 +370,6 @@ const DesktopTableRow = memo(function DesktopTableRow({
             <Mail className="h-3.5 w-3.5 flex-shrink-0 alpha-text-muted" />
             <span className="truncate">{email}</span>
           </span>
-        ) : (
-          <span className="text-[12px] alpha-text-muted">--</span>
-        )}
-      </td>
-
-      <td className="hidden border-b border-alpha-border px-4 py-2 min-[1600px]:table-cell">
-        {officialLink ? (
-          <a
-            href={officialLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex min-w-0 items-center gap-1.5 text-[12px] font-medium text-[color:var(--alpha-highlight)] transition-colors duration-150 hover:text-[color:var(--alpha-accent)]"
-            title={officialLink}
-          >
-            <Link2 className="h-3.5 w-3.5 flex-shrink-0" />
-            <span className="truncate">{officialLink.replace(/^https?:\/\//, "")}</span>
-          </a>
         ) : (
           <span className="text-[12px] alpha-text-muted">--</span>
         )}

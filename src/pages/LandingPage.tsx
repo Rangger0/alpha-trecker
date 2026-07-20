@@ -5,9 +5,6 @@ import { HeroSection } from '@/components/landing/HeroSection';
 import { AuthModal, type AuthMode } from '@/components/landing/AuthSection';
 import { Footer } from '@/components/landing/Footer';
 import { StatsSection } from '@/components/landing/StatsSection';
-import { SocialProofSection } from '@/components/landing/SocialProofSection';
-import { ProductShowcaseSection } from '@/components/landing/ProductShowcaseSection';
-import { WorkflowTimelineSection } from '@/components/landing/WorkflowTimelineSection';
 import { ArrowUp } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -90,13 +87,10 @@ export function LandingPage() {
       <Navbar onOpenAuth={openAuthModal} />
       <main>
         <HeroSection onOpenAuth={openAuthModal} />
-        <SocialProofSection />
-        <StatsSection />
         <Suspense fallback={null}>
           <FeaturesSection />
         </Suspense>
-        <ProductShowcaseSection />
-        <WorkflowTimelineSection />
+        <StatsSection />
         <Suspense fallback={null}>
           <CTASection />
         </Suspense>

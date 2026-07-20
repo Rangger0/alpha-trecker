@@ -7,7 +7,6 @@ import {
   Mail,
   Star,
   ChevronDown,
-  Link2,
   Eye,
   Layers3,
 } from "lucide-react";
@@ -272,27 +271,6 @@ const ProjectMobileCard = memo(function ProjectMobileCard({
             title={wallet || undefined}
             icon={<Wallet className="h-3 w-3" />}
           />
-        </div>
-
-        <div className="rounded-lg border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-2">
-          <div className="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] alpha-text-muted">
-            <Link2 className="h-3 w-3" />
-            Official Link
-          </div>
-          {officialLink ? (
-            <a
-              href={officialLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={officialLink}
-              className="flex min-w-0 items-center gap-1.5 text-[13px] font-semibold text-[color:var(--alpha-highlight)]"
-            >
-              <span className="truncate">{officialLink.replace(/^https?:\/\//, "")}</span>
-              <ExternalLink className="h-3.5 w-3.5 flex-shrink-0" />
-            </a>
-          ) : (
-            <span className="text-[13px] font-semibold alpha-text">--</span>
-          )}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2">

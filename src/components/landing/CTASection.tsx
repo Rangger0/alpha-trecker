@@ -1,84 +1,51 @@
-import type { CSSProperties } from 'react';
-import { ArrowRight, Layers3, ShieldCheck } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, BrainCircuit, ScanLine } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
-const promises = [
-  {
-    icon: Layers3,
-    label: 'One operating layer',
-    value: 'Research, tracking, and execution stay connected.',
-  },
-  {
-    icon: ShieldCheck,
-    label: 'Built for follow-through',
-    value: 'The workflow ends in review, not in a lost note.',
-  },
-];
+const mascotSources = ['/alpha-mascot-cta-transparent.png', '/alpha-mascot-cta.webp', '/alpha-default.webp', '/alpha-thinking.webp', '/alpha-mascot.webp', '/mascot.webp', '/mascot.png'];
 
 export function CTASection() {
+  const [mascotIndex, setMascotIndex] = useState(0);
+  const mascotSrc = mascotSources[mascotIndex];
+
   return (
-    <section className="px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-      <div className="macos-landing-width alpha-premium-cta-shell" data-stagger>
-        <div className="alpha-premium-cta-grid">
-          <div className="space-y-4">
-            <p className="macos-section-label">Start</p>
-            <h2 className="alpha-landing-section-title">
-              One Workspace. One Workflow. One Source of Truth.
-            </h2>
-            <p className="alpha-landing-section-copy">
-              Alpha Tracker gives disciplined operators a single place to research, track, execute, and review.
+    <section id="docs" className="alpha-v2-cta-section px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <div className="macos-landing-width">
+        <div className="alpha-v2-cta">
+          <div className="alpha-v2-cta-copy">
+            <p className="alpha-v2-kicker">Command Center Online</p>
+            <h2>Ready to Find Your Next Alpha?</h2>
+            <p>
+              Join the research layer built for AI-assisted discovery, wallet analysis, and funding intelligence.
             </p>
+            <Link to="/register">
+              <Button className="alpha-v2-primary-btn h-13 rounded-lg px-8 py-6 text-base font-semibold">
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
 
-          <div className="alpha-premium-cta-side">
-            <div className="alpha-premium-cta-actions">
-              <Link to="/register">
-                <Button
-                  className="macos-btn h-11 rounded-full px-7 text-sm font-semibold"
-                  style={{
-                    background: 'var(--alpha-accent-to)',
-                    color: 'var(--alpha-accent-contrast)',
-                    border: '1px solid color-mix(in srgb, var(--alpha-accent-to) 72%, transparent)',
-                  }}
-                >
-                  Start Free
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-
-              <Link to="/login">
-                <Button
-                  variant="outline"
-                  className="macos-btn h-11 rounded-full px-7 text-sm font-semibold"
-                  style={{
-                    borderColor: 'color-mix(in srgb, var(--alpha-border) 88%, transparent)',
-                    background: 'color-mix(in srgb, var(--alpha-surface) 88%, transparent)',
-                    color: 'var(--alpha-text)',
-                  }}
-                >
-                  Sign In
-                </Button>
-              </Link>
+          <div className="alpha-v2-cta-visual">
+            {mascotSrc ? (
+              <img
+                src={mascotSrc}
+                alt="Alpha Tracker official mascot"
+                onError={() => setMascotIndex((current) => current + 1)}
+              />
+            ) : (
+              <div className="alpha-v2-cta-placeholder">
+                <img src="/logo/logo.png" alt="" className="h-14 w-14 object-contain" />
+              </div>
+            )}
+            <div className="alpha-v2-cta-chip alpha-v2-cta-chip--one">
+              <BrainCircuit className="h-4 w-4" />
+              AI Research
             </div>
-
-            <div className="alpha-premium-cta-promises">
-              {promises.map((item, index) => (
-                <article
-                  key={item.label}
-                  className="alpha-premium-cta-promise"
-                  data-stagger
-                  style={{ '--stagger-delay': `${index * 80}ms` } as CSSProperties}
-                >
-                  <div className="alpha-premium-mini-metric-icon">
-                    <item.icon className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="alpha-premium-note-label">{item.label}</p>
-                    <p className="alpha-premium-note-value">{item.value}</p>
-                  </div>
-                </article>
-              ))}
+            <div className="alpha-v2-cta-chip alpha-v2-cta-chip--two">
+              <ScanLine className="h-4 w-4" />
+              Wallet Scanner
             </div>
           </div>
         </div>

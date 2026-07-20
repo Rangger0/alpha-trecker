@@ -43,6 +43,9 @@ export function DashboardLayout({ children, disableMonochrome = true }: Dashboar
 
   return (
     <div className={`alpha-theme ${isDark ? 'dark' : 'light'} alpha-bg macos-app-shell min-h-screen`}>
+      <div className="alpha-app-ambient" aria-hidden="true" />
+      <div className="alpha-app-grid" aria-hidden="true" />
+
       <Sidebar
         open={sidebarOpen}
         onClose={closeSidebar}
@@ -60,9 +63,9 @@ export function DashboardLayout({ children, disableMonochrome = true }: Dashboar
       <main
         className="alpha-dashboard-main w-full pt-14 sm:pt-[60px] lg:pt-16"
       >
-        <div className="w-full px-2 pb-2 pt-2 sm:px-3 sm:pb-3 sm:pt-3 lg:px-4 lg:pb-4 lg:pt-4">
+        <div className="relative z-[1] w-full px-2 pb-2 pt-2 sm:px-3 sm:pb-3 sm:pt-3 lg:px-4 lg:pb-4 lg:pt-4">
           <div
-            className={`macos-panel ${disableMonochrome ? '' : 'macos-theme-monochrome'} overflow-hidden rounded-[1.65rem] border shadow-[var(--alpha-shadow)]`}
+            className={`alpha-app-content-shell macos-panel ${disableMonochrome ? '' : 'macos-theme-monochrome'} overflow-hidden rounded-[1.65rem] border shadow-[var(--alpha-shadow)]`}
             style={{
               borderColor: 'var(--alpha-shell-border)',
               background: 'var(--alpha-shell-gradient)',

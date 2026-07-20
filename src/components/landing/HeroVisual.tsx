@@ -1,143 +1,117 @@
+import { useState } from 'react';
+import { BrainCircuit, CircleDollarSign, Crosshair, ScanLine, ShieldCheck, Sparkles } from 'lucide-react';
+import { useLandingWorkspaceStats } from '@/hooks/use-landing-workspace-stats';
+
+const panelItems = ['Ethereum', 'Solana', 'Base', 'Arbitrum'];
+const mascotSources = ['/alpha-mascot-transparent.png', '/alpha-mascot.webp', '/alpha-working.webp', '/alpha-default.webp', '/alpha-character-pack.webp', '/alpha-character-pack.png', '/mascot.webp', '/mascot.png'];
+
 export function HeroVisual() {
+  const [mascotIndex, setMascotIndex] = useState(0);
+  const mascotSrc = mascotSources[mascotIndex];
+  const workspace = useLandingWorkspaceStats();
+  const guestValue = workspace.loading ? '--' : 'Connect';
+  const displayScore = workspace.isAuthenticated && workspace.opportunityScore != null
+    ? workspace.opportunityScore
+    : null;
+  const researchCards = [
+    {
+      label: 'Funding Tracked',
+      value: workspace.isAuthenticated ? workspace.fundingLabel : guestValue,
+      icon: CircleDollarSign,
+    },
+    {
+      label: 'Wallet Scanner',
+      value: workspace.isAuthenticated ? workspace.trackedWallets.toLocaleString('en-US') : guestValue,
+      icon: ScanLine,
+    },
+    {
+      label: 'Projects Synced',
+      value: workspace.isAuthenticated ? workspace.projects.toLocaleString('en-US') : guestValue,
+      icon: BrainCircuit,
+    },
+    {
+      label: 'Opportunity Score',
+      value: displayScore == null ? guestValue : displayScore.toString(),
+      icon: Sparkles,
+    },
+  ];
+
   return (
-    <div className="relative h-full min-h-[500px] flex items-center justify-center animate-fade-in-left">
-      {/* Background gradient orbs */}
-      <div
-        className="absolute inset-0 rounded-3xl opacity-30 blur-3xl"
-        style={{
-          background: 'radial-gradient(circle at 30% 50%, var(--alpha-accent), transparent)',
-        }}
-      />
+    <div className="alpha-v2-visual" aria-label="Alpha Tracker AI command center mascot">
+      <div className="alpha-v2-holo-orbit" aria-hidden="true" />
+      <div className="alpha-v2-holo-core" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
 
-      {/* Main visual container */}
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div
-          className="relative w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border animate-float-medium"
-          style={{
-            borderColor: 'var(--alpha-border)',
-            backgroundColor: 'var(--alpha-panel)',
-          }}
-        >
-          {/* Window chrome */}
-          <div
-            className="flex items-center gap-2 px-4 py-3 border-b"
-            style={{ borderColor: 'var(--alpha-border)' }}
-          >
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500/60" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-              <div className="w-3 h-3 rounded-full bg-green-500/60" />
+      <div className="alpha-v2-floating-panel alpha-v2-floating-panel--chains">
+        <p className="alpha-v2-panel-title">Multi-chain Support</p>
+        <div className="space-y-3">
+          {panelItems.map((item) => (
+            <div key={item} className="alpha-v2-chain-row">
+              <img src={`/logos/${item.toLowerCase()}.png`} alt="" className="h-6 w-6 rounded-full object-contain" />
+              <span>{item}</span>
             </div>
-            <span className="text-xs font-medium flex-1 ml-4" style={{ color: 'var(--alpha-text-muted)' }}>
-              Alpha Tracker
-            </span>
-          </div>
-
-          {/* Dashboard content */}
-          <div className="p-4 space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 rounded-lg" style={{ backgroundColor: 'color-mix(in srgb, var(--alpha-accent) 10%, transparent)' }}>
-                <p className="text-xs" style={{ color: 'var(--alpha-text-muted)' }}>Tracking</p>
-                <p className="text-lg font-bold" style={{ color: 'var(--alpha-accent)' }}>127</p>
-              </div>
-              <div className="p-3 rounded-lg" style={{ backgroundColor: 'color-mix(in srgb, var(--alpha-accent) 10%, transparent)' }}>
-                <p className="text-xs" style={{ color: 'var(--alpha-text-muted)' }}>Wallets</p>
-                <p className="text-lg font-bold" style={{ color: 'var(--alpha-accent)' }}>8</p>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <p className="text-xs font-medium" style={{ color: 'var(--alpha-text-muted)' }}>Active Projects</p>
-              <div className="space-y-1.5">
-                {[
-                  { name: 'LayerZero', progress: 85 },
-                  { name: 'Monad', progress: 72 },
-                  { name: 'Movement', progress: 60 },
-                ].map((project) => (
-                  <div key={project.name}>
-                    <div className="flex items-center justify-between mb-1">
-                      <p className="text-xs" style={{ color: 'var(--alpha-text)' }}>{project.name}</p>
-                      <p className="text-xs" style={{ color: 'var(--alpha-text-muted)' }}>{project.progress}%</p>
-                    </div>
-                    <div className="h-1.5 rounded-full" style={{ backgroundColor: 'var(--alpha-border)' }}>
-                      <div
-                        className="h-full rounded-full transition-all duration-500"
-                        style={{
-                          backgroundColor: 'var(--alpha-accent)',
-                          width: `${project.progress}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="p-3 rounded-lg" style={{ backgroundColor: 'color-mix(in srgb, rgb(239, 68, 68) 8%, transparent)' }}>
-              <p className="text-xs font-medium mb-1" style={{ color: 'var(--alpha-text-muted)' }}>Sybil Risk</p>
-              <p className="text-sm font-bold" style={{ color: 'rgb(239, 68, 68)' }}>2 Wallets</p>
-            </div>
-
-            <div className="p-3 rounded-lg" style={{ backgroundColor: 'color-mix(in srgb, var(--alpha-accent) 10%, transparent)' }}>
-              <p className="text-xs font-medium mb-1" style={{ color: 'var(--alpha-text-muted)' }}>Rewards</p>
-              <p className="text-sm font-bold" style={{ color: 'var(--alpha-accent)' }}>$12,450</p>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="absolute top-12 -left-8 p-3 rounded-lg shadow-lg border animate-float"
-          style={{
-            borderColor: 'var(--alpha-border)',
-            backgroundColor: 'var(--alpha-panel)',
-            width: '140px',
-            animation: 'float 3s ease-in-out infinite',
-          }}
-        >
-          <p className="text-xs font-bold" style={{ color: 'var(--alpha-text-muted)' }}>Funding</p>
-          <p className="text-base font-bold" style={{ color: 'var(--alpha-accent)' }}>$1.2B+</p>
-        </div>
-
-        <div
-          className="absolute bottom-20 -right-8 p-3 rounded-lg shadow-lg border animate-float"
-          style={{
-            borderColor: 'var(--alpha-border)',
-            backgroundColor: 'var(--alpha-panel)',
-            width: '140px',
-            animation: 'float 4s ease-in-out infinite 0.5s',
-          }}
-        >
-          <p className="text-xs font-bold" style={{ color: 'var(--alpha-text-muted)' }}>Ecosystems</p>
-          <p className="text-base font-bold" style={{ color: 'var(--alpha-accent)' }}>120+</p>
+          ))}
         </div>
       </div>
 
-      <style>{`
-        @keyframes fadeInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
+      <div className="alpha-v2-floating-panel alpha-v2-floating-panel--score">
+        <p className="alpha-v2-panel-title">Workspace Opportunity Score</p>
+        <div className="alpha-v2-score-ring">
+          <span>{displayScore ?? '--'}</span>
+          <small>{workspace.isAuthenticated ? '/100' : 'sync'}</small>
+        </div>
+        <strong>{workspace.isAuthenticated ? 'Synced from dashboard' : 'Connect dashboard'}</strong>
+      </div>
 
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
+      <div className="alpha-v2-floating-panel alpha-v2-floating-panel--market">
+        <p className="alpha-v2-panel-title">Dashboard Sync</p>
+        <div className="alpha-v2-market-lines">
+          <span style={{ width: workspace.isAuthenticated ? `${Math.min(95, 24 + workspace.projects * 8)}%` : '34%' }} />
+          <span style={{ width: workspace.isAuthenticated ? `${Math.min(95, 24 + workspace.priorityProjects * 12)}%` : '34%' }} />
+          <span style={{ width: workspace.isAuthenticated ? `${Math.min(95, 24 + workspace.activeAirdrops * 10)}%` : '34%' }} />
+          <span style={{ width: workspace.isAuthenticated ? `${Math.min(95, 24 + workspace.weeklyDeadlines * 14)}%` : '34%' }} />
+        </div>
+      </div>
 
-        .animate-fade-in-left {
-          animation: fadeInLeft 0.8s ease-out forwards;
-          animation-delay: 0.3s;
-        }
-      `}</style>
+      <div className="alpha-v2-mascot-frame">
+        {mascotSrc ? (
+          <img
+            src={mascotSrc}
+            alt="Alpha Tracker official mascot"
+            className="alpha-v2-mascot"
+            onError={() => setMascotIndex((current) => current + 1)}
+          />
+        ) : (
+          <div className="alpha-v2-mascot-placeholder">
+            <img src="/logo/logo.png" alt="" className="h-16 w-16 object-contain" />
+            <p>Official mascot file missing</p>
+            <span>Upload the provided character as alpha-mascot.webp or alpha-character-pack.png in public.</span>
+          </div>
+        )}
+      </div>
+
+      <div className="alpha-v2-hero-card-grid">
+        {researchCards.map((card) => (
+          <article key={card.label} className="alpha-v2-mini-card">
+            <div className="alpha-v2-mini-icon">
+              <card.icon className="h-4 w-4" />
+            </div>
+            <span>{card.label}</span>
+            <strong>{card.value}</strong>
+          </article>
+        ))}
+      </div>
+
+      <div className="alpha-v2-security-pill">
+        <ShieldCheck className="h-4 w-4" />
+        Sybil Detection Live
+      </div>
+      <div className="alpha-v2-target-reticle" aria-hidden="true">
+        <Crosshair className="h-5 w-5" />
+      </div>
     </div>
   );
 }
