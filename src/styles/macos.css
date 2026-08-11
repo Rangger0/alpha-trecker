@@ -5007,56 +5007,64 @@ html.theme-switching *::after {
 /* Auth + app-wide V2 day/night modes */
 .alpha-theme.dark.alpha-auth-redesign,
 .alpha-theme.dark.macos-app-shell {
-  --main-hex: #4DA6FF !important;
-  --highlight-hex: #27F2FF !important;
-  --alpha-bg: #070B17 !important;
-  --alpha-panel: #101828 !important;
-  --alpha-surface: rgba(16, 24, 40, 0.82) !important;
-  --alpha-hover-soft: rgba(77, 166, 255, 0.1) !important;
-  --alpha-text: #FFFFFF !important;
-  --alpha-text-muted: #B8C0D4 !important;
-  --alpha-accent: #4DA6FF !important;
-  --alpha-accent-hover: #27F2FF !important;
-  --alpha-accent-from: #7A5CFF !important;
-  --alpha-accent-to: #4DA6FF !important;
-  --alpha-accent-contrast: #FFFFFF !important;
-  --alpha-border: rgba(77, 166, 255, 0.24) !important;
-  --alpha-border-strong: rgba(39, 242, 255, 0.5) !important;
-  --alpha-highlight: rgba(77, 166, 255, 0.18) !important;
-  --alpha-highlight-soft: rgba(39, 242, 255, 0.1) !important;
-  --alpha-highlight-border: rgba(39, 242, 255, 0.46) !important;
-  --alpha-shell-border: rgba(77, 166, 255, 0.2) !important;
-  --alpha-shell-gradient: linear-gradient(180deg, rgba(16, 24, 40, 0.82), rgba(7, 11, 23, 0.84)) !important;
-  --alpha-topbar-gradient: linear-gradient(180deg, rgba(7, 11, 23, 0.82), rgba(7, 11, 23, 0.58)) !important;
-  --alpha-shadow: 0 18px 48px rgba(0, 0, 0, 0.32) !important;
-  --alpha-shadow-strong: 0 28px 74px rgba(0, 0, 0, 0.42) !important;
+  --main-hex: #00E5FF !important;
+  --highlight-hex: #00E5FF !important;
+  --alpha-bg: #050B14 !important;
+  --alpha-panel: #0A1422 !important;
+  --alpha-card: #0A1422 !important;
+  --alpha-surface: rgba(8, 17, 31, 0.92) !important;
+  --alpha-surface-2: #0C1828 !important;
+  --alpha-hover-soft: rgba(0, 229, 255, 0.1) !important;
+  --alpha-text: #E8F3FF !important;
+  --alpha-text-muted: #8B9BBA !important;
+  --alpha-accent: #00E5FF !important;
+  --alpha-accent-hover: #66F3FF !important;
+  --alpha-accent-from: #00E5FF !important;
+  --alpha-accent-to: #8B5CF6 !important;
+  --alpha-accent-contrast: #03101A !important;
+  --alpha-info: #0E8CFF !important;
+  --alpha-violet: #8B5CF6 !important;
+  --alpha-success: #22C55E !important;
+  --alpha-warning: #F5B01B !important;
+  --alpha-danger: #EF4444 !important;
+  --alpha-border: rgba(0, 229, 255, 0.16) !important;
+  --alpha-border-strong: rgba(0, 229, 255, 0.34) !important;
+  --alpha-border-hover: rgba(0, 229, 255, 0.46) !important;
+  --alpha-highlight: #00E5FF !important;
+  --alpha-highlight-soft: rgba(0, 229, 255, 0.13) !important;
+  --alpha-highlight-border: rgba(0, 229, 255, 0.42) !important;
+  --alpha-shell-border: rgba(0, 229, 255, 0.18) !important;
+  --alpha-shell-gradient: linear-gradient(180deg, rgba(10, 20, 34, 0.96), rgba(5, 11, 20, 0.94)) !important;
+  --alpha-topbar-gradient: linear-gradient(180deg, rgba(10, 20, 34, 0.92), rgba(7, 16, 27, 0.86)) !important;
+  --alpha-shadow: 0 18px 48px rgba(0, 0, 0, 0.36), 0 0 26px rgba(0, 229, 255, 0.06) !important;
+  --alpha-shadow-strong: 0 28px 74px rgba(0, 0, 0, 0.48), 0 0 40px rgba(0, 229, 255, 0.08) !important;
 }
 
 .alpha-theme.light.alpha-auth-redesign,
 .alpha-theme.light.macos-app-shell {
-  --main-hex: #1677D8 !important;
-  --highlight-hex: #0AAFE8 !important;
-  --alpha-bg: #F4F8FF !important;
+  --main-hex: #0891B2 !important;
+  --highlight-hex: #06B6D4 !important;
+  --alpha-bg: #F4F9FF !important;
   --alpha-panel: #FFFFFF !important;
   --alpha-surface: rgba(255, 255, 255, 0.86) !important;
-  --alpha-hover-soft: rgba(77, 166, 255, 0.09) !important;
-  --alpha-text: #08111F !important;
-  --alpha-text-muted: #526179 !important;
-  --alpha-accent: #1677D8 !important;
-  --alpha-accent-hover: #0AAFE8 !important;
-  --alpha-accent-from: #6A5CFF !important;
-  --alpha-accent-to: #1677D8 !important;
+  --alpha-hover-soft: rgba(6, 182, 212, 0.1) !important;
+  --alpha-text: #171410 !important;
+  --alpha-text-muted: #53657E !important;
+  --alpha-accent: #0891B2 !important;
+  --alpha-accent-hover: #0E7490 !important;
+  --alpha-accent-from: #06B6D4 !important;
+  --alpha-accent-to: #8B5CF6 !important;
   --alpha-accent-contrast: #FFFFFF !important;
-  --alpha-border: rgba(22, 119, 216, 0.18) !important;
-  --alpha-border-strong: rgba(10, 175, 232, 0.36) !important;
-  --alpha-highlight: rgba(22, 119, 216, 0.12) !important;
-  --alpha-highlight-soft: rgba(10, 175, 232, 0.1) !important;
-  --alpha-highlight-border: rgba(22, 119, 216, 0.3) !important;
-  --alpha-shell-border: rgba(22, 119, 216, 0.18) !important;
-  --alpha-shell-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(235, 244, 255, 0.88)) !important;
-  --alpha-topbar-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(235, 244, 255, 0.72)) !important;
-  --alpha-shadow: 0 18px 44px rgba(31, 86, 150, 0.12) !important;
-  --alpha-shadow-strong: 0 28px 72px rgba(31, 86, 150, 0.18) !important;
+  --alpha-border: rgba(8, 145, 178, 0.16) !important;
+  --alpha-border-strong: rgba(8, 145, 178, 0.32) !important;
+  --alpha-highlight: #0891B2 !important;
+  --alpha-highlight-soft: rgba(6, 182, 212, 0.1) !important;
+  --alpha-highlight-border: rgba(8, 145, 178, 0.32) !important;
+  --alpha-shell-border: rgba(8, 145, 178, 0.16) !important;
+  --alpha-shell-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(244, 249, 255, 0.9)) !important;
+  --alpha-topbar-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(244, 249, 255, 0.78)) !important;
+  --alpha-shadow: 0 18px 44px rgba(8, 32, 54, 0.1) !important;
+  --alpha-shadow-strong: 0 28px 72px rgba(8, 32, 54, 0.16) !important;
 }
 
 .alpha-auth-redesign {

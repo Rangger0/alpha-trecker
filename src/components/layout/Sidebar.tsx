@@ -8,6 +8,7 @@ import {
   ArrowLeftRight,
   Bot,
   Calculator,
+  ClipboardList,
   Droplets,
   Flame,
   House,
@@ -27,6 +28,7 @@ import {
   Trophy,
   Users,
   Wallet,
+  WalletCards,
   Wrench,
   X,
   type LucideIcon,
@@ -121,24 +123,40 @@ export function Sidebar({
       id: "workspace",
       title: t("sidebar.section.workspace"),
       links: [
-        { to: "/overview", icon: House, label: t("sidebar.link.overview") },
         { to: "/dashboard", icon: LayoutDashboard, label: t("sidebar.link.dashboard") },
+        { to: "/overview", icon: House, label: t("sidebar.link.overview") },
         { to: "/priority-projects", icon: Star, label: t("sidebar.link.priority") },
         { to: "/ecosystem", icon: Wallet, label: t("sidebar.link.ecosystem") },
       ],
     },
     {
-      id: "tracking",
-      title: t("sidebar.section.tracking"),
+      id: "research",
+      title: t("sidebar.section.research"),
       links: [
         { to: "/screening", icon: Search, label: t("sidebar.link.screening") },
         { to: "/check-eligibility", icon: ShieldCheck, label: t("sidebar.link.eligibility") },
+        { to: "/wallet-analyzer", icon: WalletCards, label: t("sidebar.link.walletAnalyzer") },
         { to: "/live-airdrop", icon: Radio, label: t("sidebar.link.liveAirdrop") },
+      ],
+    },
+    {
+      id: "execution",
+      title: t("sidebar.section.execution"),
+      links: [
         { to: "/faucet", icon: Droplets, label: t("sidebar.link.faucet") },
         { to: "/multiple-account", icon: Users, label: t("sidebar.link.multiAccount") },
         { to: "/reward-vault", icon: Trophy, label: t("sidebar.link.rewardVault") },
-        { to: "/calculator", icon: Calculator, label: t("sidebar.link.calculator") },
         { to: "/live-gas-fee", icon: Flame, label: t("sidebar.link.liveGasFee") },
+      ],
+    },
+    {
+      id: "finance",
+      title: t("sidebar.section.finance"),
+      links: [
+        { to: "/portfolio-manager", icon: WalletCards, label: t("sidebar.link.portfolioManager") },
+        { to: "/trading-plan", icon: ClipboardList, label: t("sidebar.link.tradingPlan") },
+        { to: "/calculator", icon: Calculator, label: t("sidebar.link.calculator") },
+        { to: "/swap-bridge", icon: ArrowLeftRight, label: t("sidebar.link.swapBridge") },
       ],
     },
     {
@@ -147,13 +165,6 @@ export function Sidebar({
       links: [
         { to: "/tools", icon: Wrench, label: t("sidebar.link.tools") },
         { to: "/deploy", icon: Rocket, label: t("sidebar.link.deploy") },
-        { to: "/swap-bridge", icon: ArrowLeftRight, label: t("sidebar.link.swapBridge") },
-      ],
-    },
-    {
-      id: "ai",
-      title: t("sidebar.section.ai"),
-      links: [
         { to: "/ai-tools", icon: Bot, label: t("sidebar.link.aiTools") },
       ],
     },
@@ -237,7 +248,7 @@ export function Sidebar({
       />
 
       <aside
-        className={`alpha-sidebar-panel fixed flex flex-col macos-panel overflow-hidden rounded-[2rem] border will-change-transform transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] ${
+        className={`alpha-sidebar-panel fixed flex flex-col macos-panel overflow-hidden rounded-[1.4rem] border will-change-transform transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] ${
           open ? "pointer-events-auto" : "pointer-events-none"
         }`}
         onPointerMove={(e) => e.stopPropagation()}
@@ -268,16 +279,16 @@ export function Sidebar({
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-4 py-3">
+        <nav className="flex-1 overflow-y-auto px-3 py-3">
           <div className="space-y-1">
             {sections.map((section, sectionIndex) => (
-              <div key={section.id} className="space-y-1">
+              <div key={section.id} className="space-y-0.5">
                 {sectionIndex > 0 ? (
-                  <div className="my-4 border-t" style={{ borderColor: "var(--alpha-border)" }} />
+                  <div className="my-3 border-t" style={{ borderColor: "var(--alpha-border)" }} />
                 ) : null}
 
                 <p
-                  className={`px-3 pb-1 text-[11px] font-display font-bold uppercase tracking-[0.24em] alpha-text-muted transition-[opacity,transform] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] ${
+                  className={`px-3 pb-1 text-[10px] font-display font-bold uppercase tracking-[0.22em] text-[color:var(--alpha-accent)] transition-[opacity,transform] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] ${
                     open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
                   }`}
                   style={getEntryStyle(sectionIndex * 45)}
@@ -295,17 +306,17 @@ export function Sidebar({
                       to={link.to}
                       onClick={onClose}
                       style={getEntryStyle(delay)}
-                      className={`flex items-center gap-3 rounded-xl px-3 py-3 text-[15px] font-display font-semibold tracking-[-0.015em] transition-[background-color,color,transform,box-shadow,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] active:scale-[0.99] ${
+                      className={`flex min-h-10 items-center gap-3 rounded-[0.85rem] px-3 py-2.5 text-[14px] font-display font-semibold tracking-[-0.005em] transition-[background-color,color,transform,box-shadow,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] active:scale-[0.99] ${
                           open ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"
                         } ${
                           isActive
-                            ? "border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight)] text-[color:var(--alpha-accent-contrast)] font-bold shadow-[var(--alpha-shadow)]"
-                            : "alpha-text hover:bg-[color:var(--alpha-hover-soft)]"
+                            ? "border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)] font-bold shadow-[0_0_24px_color-mix(in_srgb,var(--alpha-highlight)_18%,transparent)]"
+                            : "alpha-text-muted hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)]"
                         }`}
                     >
                       <link.icon
                         className={`h-[17px] w-[17px] ${
-                          isActive ? "text-[color:var(--alpha-accent-contrast)]" : "alpha-text-muted"
+                          isActive ? "text-[color:var(--alpha-highlight)]" : "alpha-text-muted"
                         }`}
                       />
                       <span>{link.label}</span>

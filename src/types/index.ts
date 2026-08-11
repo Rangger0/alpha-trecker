@@ -106,6 +106,46 @@ export const FARMING_STRATEGIES: FarmingStrategy[] = [
 export type AirdropStatus = 'Planning' | 'Ongoing' | 'Done' | 'Dropped';
 export type PriorityLevel = 'Low' | 'Medium' | 'High';
 export type RewardClaimStatus = 'Pending TGE' | 'Claimed' | 'Missed';
+export type PortfolioCurrency = 'IDR' | 'USD' | 'USDT' | 'USDC';
+export type PortfolioTransactionType = 'income' | 'expense';
+export type PortfolioAssetType = 'cash' | 'bank' | 'idr' | 'usd' | 'usdt' | 'usdc' | 'btc' | 'eth' | 'sol';
+
+export interface PortfolioTransaction {
+  id: string;
+  ownerId: string;
+  type: PortfolioTransactionType;
+  transactionDate: string;
+  category: string;
+  currency: PortfolioCurrency;
+  amount: number;
+  wallet: string;
+  source?: string | null;
+  note?: string | null;
+  attachmentUrl?: string | null;
+  deletedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type PortfolioTransactionInput = Omit<
+  PortfolioTransaction,
+  'id' | 'ownerId' | 'deletedAt' | 'createdAt' | 'updatedAt'
+>;
+
+export interface PortfolioAsset {
+  id: string;
+  ownerId: string;
+  assetType: PortfolioAssetType;
+  label: string;
+  currency: PortfolioCurrency;
+  balance: number;
+  note?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type PortfolioAssetInput = Omit<PortfolioAsset, 'id' | 'ownerId' | 'createdAt' | 'updatedAt'>;
+
 export interface Task {
   id: string;
   airdropId: string;
@@ -173,6 +213,71 @@ export interface AirdropRewardInput {
   claimedAt?: string | null;
   notes?: string | null;
 }
+
+export type TradingDirection = 'Long' | 'Short';
+export type TradingPlanStatus = 'Pending' | 'Running' | 'Closed';
+export type TradingPlanResult = 'Win' | 'Loss' | 'Break Even' | 'Pending';
+
+export interface TradingPlan {
+  id: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+  tradeDate: string;
+  tradeTime: string;
+  coin: string;
+  customCoin?: string | null;
+  exchange: string;
+  tradingType: string;
+  direction: TradingDirection;
+  timeframe: string;
+  reason: string;
+  additionalNotes?: string | null;
+  marketTrend: string;
+  marketStructure: string;
+  volume: string;
+  liquidity: string;
+  bias: string;
+  confluences: string[];
+  entryPrice: number;
+  stopLoss: number;
+  takeProfit1: number;
+  takeProfit2: number;
+  takeProfit3: number;
+  invalidation: number;
+  expectedWinRate: number;
+  confidence: number;
+  riskReward: number;
+  capital: number;
+  riskPercent: number;
+  riskAmount: number;
+  positionSize: number;
+  leverage: number;
+  marginUsed: number;
+  potentialProfit: number;
+  potentialLoss: number;
+  breakEvenPrice: number;
+  liquidationPrice: number;
+  emotion: string;
+  psychologyChecklist: string[];
+  news?: string | null;
+  newsImpact: string;
+  tradeChecklist: string[];
+  aiSummary: string;
+  tradeStatus: TradingPlanStatus;
+  tradeResult: TradingPlanResult;
+  pnl: number;
+  profitPercent: number;
+  lossPercent: number;
+  lessonsLearned?: string | null;
+  mistakes?: string | null;
+  beforeScreenshot?: string | null;
+  afterScreenshot?: string | null;
+  tags: string[];
+  notes?: string | null;
+}
+
+export type TradingPlanInput = Omit<TradingPlan, 'id' | 'userId' | 'createdAt' | 'updatedAt'>;
 
 export interface User {
   id: string;

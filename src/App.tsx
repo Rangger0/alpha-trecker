@@ -62,6 +62,8 @@ const SybilDetectorPage = lazyNamed(() => import('@/pages/SybilDetectorPage'), '
 const SwapPage = lazyNamed(() => import('@/pages/SwapPage'), 'SwapPage');
 const RewardVaultPage = lazyNamed(() => import('@/pages/RewardVaultPage'), 'RewardVaultPage');
 const CalculatorPage = lazyNamed(() => import('@/pages/CalculatorPage'), 'CalculatorPage');
+const TradingPlanPage = lazyNamed(() => import('@/pages/TradingPlanPage'), 'TradingPlanPage');
+const PortfolioManagerPage = lazyNamed(() => import('@/pages/PortfolioManagerPage'), 'PortfolioManagerPage');
 const GasFeesPage = lazyNamed(() => import('@/pages/GasFeesPage'), 'GasFeesPage');
 const FeedbackInboxPage = lazyNamed(() => import('@/pages/FeedbackInboxPage'), 'FeedbackInboxPage');
 const FloatingFeedback = lazyNamed(() => import('@/components/feedback/FloatingFeedback'), 'FloatingFeedback');
@@ -295,6 +297,14 @@ function AppRoutes() {
               <Route
                 path="/calculator"
                 element={<PageTransition><CalculatorPage /></PageTransition>}
+              />
+              <Route
+                path="/trading-plan"
+                element={<PageTransition><TradingPlanPage /></PageTransition>}
+              />
+              <Route
+                path="/portfolio-manager"
+                element={<PageTransition><PortfolioManagerPage /></PageTransition>}
               />
               <Route
                 path="/feedback-inbox"

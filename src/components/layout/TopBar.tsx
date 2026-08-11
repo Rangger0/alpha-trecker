@@ -64,6 +64,8 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
     if (path.startsWith('/multiple-account')) return t('topbar.section.multiAccount');
     if (path.startsWith('/reward-vault')) return t('topbar.section.rewardVault');
     if (path.startsWith('/calculator')) return t('topbar.section.calculator');
+    if (path.startsWith('/trading-plan')) return t('topbar.section.tradingPlan');
+    if (path.startsWith('/portfolio-manager')) return t('topbar.section.portfolioManager');
     if (path.startsWith('/live-gas-fee')) return t('topbar.section.liveGasFee');
     if (path.startsWith('/tools')) return t('topbar.section.tools');
     if (path.startsWith('/deploy')) return t('topbar.section.deploy');

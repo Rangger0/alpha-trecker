@@ -30,7 +30,7 @@ export function AboutPage() {
   const isDark = theme === 'dark';
 
   const mediaLinks = [
-    { name: 'X', handle: '@rinzx_', url: 'https://x.com/rinzx_', Icon: XIcon },
+    { name: 'X', handle: '@rinz_xyz', url: 'https://x.com/rinz_xyz', Icon: XIcon },
     { name: 'Telegram', handle: 'Alpha', url: 'https://t.me/+MGzRobr9cp4yMTk1', Icon: TelegramIcon },
     { name: 'GitHub', handle: 'Rangger0', url: 'https://github.com/Rangger0', Icon: GitHubIcon },
     { name: 'TikTok', handle: '@rinzzx0', url: 'https://www.tiktok.com/@rinzzx0', Icon: TikTokIcon },
@@ -110,7 +110,7 @@ export function AboutPage() {
               </div>
               <div>
                 <p className={`font-mono text-sm font-bold ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
-                  Rose Alpha
+                  r_xyz
                 </p>
                 <p className={`font-mono text-xs ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
                   Developer & Creator
