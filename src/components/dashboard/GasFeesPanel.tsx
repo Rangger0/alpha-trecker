@@ -62,9 +62,12 @@ interface GasFeesPanelProps {
 }
 
 export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFeesPanelProps) {
-  const { items, lastUpdated, totalChains, loading, error } = useGasFees();
+  const { items, lastUpdated, totalChains, loading, error, source } = useGasFees();
   const isPage = variant === "page";
-  const visibleChainsLabel = totalChains > 0 ? `${items.length} chains live` : "Live";
+  const isReference = source === "reference";
+  const visibleChainsLabel = totalChains > 0
+    ? `${items.length} chains ${isReference ? "reference" : "live"}`
+    : isReference ? "Reference" : "Live";
   const nativeCoinIds = useMemo(
     () => Array.from(new Set(items.map((item) => NATIVE_PRICE_IDS[item.chainId]).filter(Boolean))),
     [items]
@@ -93,11 +96,11 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
               <Signal className="h-3.5 w-3.5 alpha-text-muted" />
-              Watchoor
+              Gas monitor
             </div>
             <h4 className="mt-3 text-[16px] font-semibold alpha-text">Live gas fee</h4>
             <p className="mt-1.5 max-w-xl text-[12px] leading-5 alpha-text-muted">
-              Snapshot biaya estimasi untuk basic transaction 21k gas. Layout ini dibikin lebih ringkas biar gampang scan chain yang lagi murah, normal, atau mahal.
+              Snapshot biaya estimasi untuk basic transaction 21k gas. Jika feed live belum siap, panel otomatis pakai baseline reference dan menandainya dengan jelas.
             </p>
           </div>
 
@@ -109,7 +112,7 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
             <Signal className="h-3.5 w-3.5 alpha-text-muted" />
-            Watchoor board
+            Gas board
           </div>
 
           <div className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
@@ -117,6 +120,12 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
           </div>
         </div>
       )}
+
+      {error && !loading ? (
+        <div className="mb-4 rounded-[1rem] border border-[color:var(--alpha-warning-border)] bg-[color:var(--alpha-warning-soft)] px-4 py-3 text-[12px] leading-5 text-[color:var(--alpha-warning)]">
+          Feed live belum siap, sedang menampilkan baseline reference. {error}
+        </div>
+      ) : null}
 
       {loading ? (
         <div className={cn(listClassName, !showHeader && "mt-0")}>
@@ -141,7 +150,7 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
             </div>
           ))}
         </div>
-      ) : error ? (
+      ) : error && items.length === 0 ? (
         <div className="mt-4 rounded-[1rem] border border-[color:var(--alpha-danger-border)] bg-[color:var(--alpha-danger-soft)] px-4 py-4 text-sm text-[color:var(--alpha-danger)]">
           <div className="flex items-start gap-3">
             <WifiOff className="mt-0.5 h-4 w-4 shrink-0" />
@@ -235,7 +244,9 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
               </div>
 
               <div className="mt-3 flex items-center justify-between gap-2 text-[10px] alpha-text-muted">
-                <span className="font-mono tabular-nums">{item.confidence ?? 90}% confidence</span>
+                <span className="font-mono tabular-nums">
+                  {isReference ? "reference baseline" : `${item.confidence ?? 90}% confidence`}
+                </span>
                 <span>{item.network}</span>
               </div>
                   </>
@@ -249,11 +260,11 @@ export function GasFeesPanel({ variant = "dashboard", showHeader = true }: GasFe
       <div className="mt-2.5 flex items-center justify-between gap-3 text-[10px] alpha-text-muted">
         <span className="inline-flex items-center gap-2">
           <RefreshCw className="h-3.5 w-3.5" />
-          Refresh sekitar tiap 75 detik
+          {isReference ? "Menunggu feed live" : "Refresh sekitar tiap 75 detik"}
         </span>
         <span className="inline-flex items-center gap-2">
           <Flame className="h-3.5 w-3.5 alpha-text-muted" />
-          Update {formatUpdatedAt(lastUpdated)}
+          {isReference ? "Reference" : "Update"} {formatUpdatedAt(lastUpdated)}
         </span>
       </div>
     </section>

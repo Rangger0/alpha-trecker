@@ -309,6 +309,16 @@ function DashboardHero({
       const fundingRaised = airdrops.reduce((sum, airdrop) => sum + parseFundingAmount(airdrop.funding), 0);
       const fundingFilledCount = airdrops.filter((airdrop) => Boolean(airdrop.funding?.trim())).length;
       const fundingProgress = totalProjects === 0 ? 0 : Math.round((fundingFilledCount / totalProjects) * 100);
+      const syncedFieldsCount = airdrops.reduce((sum, airdrop) => {
+        const filled = [
+          airdrop.funding?.trim(),
+          airdrop.potential,
+          airdrop.waitlistCount != null ? String(airdrop.waitlistCount) : '',
+        ].filter(Boolean).length;
+        return sum + filled;
+      }, 0);
+      const maxSyncFields = Math.max(1, totalProjects * 3);
+      const syncProgress = totalProjects === 0 ? 0 : Math.round((syncedFieldsCount / maxSyncFields) * 100);
 
       const waitlistTotalUsers = airdrops.reduce((sum, airdrop) => sum + (airdrop.waitlistCount ?? 0), 0);
       const waitlistFilledCount = airdrops.filter((airdrop) => airdrop.waitlistCount != null).length;
@@ -341,25 +351,25 @@ function DashboardHero({
           meta: weeklyWatchCount > 0 ? 'Deadline within 7 days' : 'No urgent deadline',
         },
         {
-          label: 'Funding',
+          label: 'Funding Found',
           value: fundingRaised > 0 ? formatWholeUsd(fundingRaised) : '--',
-          badge: fundingFilledCount > 0 ? `${fundingFilledCount} filled` : '-',
+          badge: fundingFilledCount > 0 ? `${fundingFilledCount} synced` : 'empty',
           badgeClass: 'text-[color:var(--alpha-highlight)] border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)]',
           progress: fundingProgress,
           progressColor: 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)',
-          meta: fundingFilledCount > 0 ? `${fundingFilledCount}/${totalProjects} projects filled` : 'Belum ada funding',
+          meta: fundingFilledCount > 0 ? `${fundingFilledCount}/${totalProjects} project punya funding` : 'Belum ada funding tersimpan',
         },
         {
-          label: 'Waitlist',
+          label: 'Waitlist Found',
           value: waitlistFilledCount > 0 ? waitlistTotalUsers : '--',
-          badge: waitlistFilledCount > 0 ? `${waitlistFilledCount} filled` : '-',
+          badge: waitlistFilledCount > 0 ? `${waitlistFilledCount} synced` : 'empty',
           badgeClass: waitlistFilledCount > 0 ? 'border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)]' : 'border-[color:var(--alpha-secondary-border)] bg-[color:var(--alpha-secondary-soft)] text-[color:var(--alpha-text-muted)]',
           progress: waitlistProgress,
           progressColor: 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)',
-          meta: waitlistFilledCount > 0 ? `${waitlistFilledCount}/${totalProjects} projects filled` : 'Belum ada waitlist',
+          meta: waitlistFilledCount > 0 ? `${waitlistFilledCount}/${totalProjects} project punya waitlist` : 'Belum ada waitlist tersimpan',
         },
         {
-          label: 'Potential',
+          label: 'Potential Found',
           value: potentialProjects.length > 0 ? potentialProjects.length : '--',
           badge: potentialTier,
           badgeClass:
@@ -375,7 +385,16 @@ function DashboardHero({
               : potentialTier === 'Tracked'
                 ? 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)'
                 : 'color-mix(in srgb, var(--paragraph-hex) 55%, transparent)',
-          meta: potentialProjects.length > 0 ? `${highPotentialCount} high potential` : 'Belum ada potential',
+          meta: potentialProjects.length > 0 ? `${highPotentialCount} high potential` : 'Belum ada potential tersimpan',
+        },
+        {
+          label: 'Data Sync',
+          value: `${syncProgress}%`,
+          badge: syncedFieldsCount > 0 ? `${syncedFieldsCount} fields` : 'empty',
+          badgeClass: syncedFieldsCount > 0 ? 'border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)]' : 'border-[color:var(--alpha-secondary-border)] bg-[color:var(--alpha-secondary-soft)] text-[color:var(--alpha-text-muted)]',
+          progress: syncProgress,
+          progressColor: 'color-mix(in srgb, var(--highlight-hex) 62%, transparent)',
+          meta: totalProjects > 0 ? 'Funding, waitlist, potential tersinkron' : 'Belum ada project',
         },
       ];
     },
@@ -387,22 +406,24 @@ function DashboardHero({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.22, ease: "easeOut" }}
-      className="macos-card hud-panel anim-fade p-5 shadow-none sm:p-6"
+      className="macos-card hud-panel anim-fade p-4 shadow-none sm:p-5"
     >
-      <div className="grid gap-4 auto-rows-fr xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)_minmax(0,420px)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)_minmax(0,420px)] xl:items-stretch">
-        <div className="flex h-full flex-col justify-between">
-          <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-            <Sparkles className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
-            Alpha control
+      <div className="grid gap-3 xl:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.72fr)_minmax(0,1fr)] xl:items-stretch">
+        <div className="flex h-full min-h-[176px] flex-col justify-between rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-alpha-border bg-[color:var(--alpha-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
+              <Sparkles className="h-3.5 w-3.5 text-[color:var(--alpha-highlight)]" />
+              Synced Alpha Tracker
+            </div>
+            <h1 className="mt-3 text-[2.25rem] font-semibold leading-none tracking-[-0.04em] alpha-text sm:text-[2.8rem]">
+              Dashboard
+            </h1>
+            <p className="mt-2 max-w-2xl text-[13px] leading-6 alpha-text-muted">
+              Project, funding findings, waitlist, potential, deadline, dan reward flow tersinkron dari workspace.
+            </p>
           </div>
-          <h1 className="mt-3 text-[2.6rem] font-semibold tracking-[-0.04em] alpha-text sm:text-[3.15rem]">
-            Dashboard
-          </h1>
-          <p className="mt-2 max-w-2xl text-[14px] leading-7 alpha-text-muted">
-            Track active projects, deadline, gas fee, dan reward flow dalam satu workspace yang lebih bersih.
-          </p>
 
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap gap-2">
             <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.16em] alpha-text-muted">
               {nextUpcoming?.airdrop.projectName ?? "No active lane"}
             </span>
@@ -416,11 +437,11 @@ function DashboardHero({
         <PriceTracker isDark={isDark} />
       </div>
 
-      <div className="mt-4 grid gap-2.5 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-3 grid gap-2.5 md:grid-cols-3">
         {heroStats.map((card, index) => (
           <div
             key={card.label}
-            className="hud-panel rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-4 py-3"
+            className="hud-panel min-h-[116px] rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3.5 py-3"
             style={{ animationDelay: `${index * 40}ms` }}
           >
             <p className="text-[10px] uppercase tracking-[0.18em] alpha-text-muted">{card.label}</p>
@@ -455,7 +476,7 @@ function DashboardHero({
           tabIndex={0}
           onClick={focusUsdInput}
           onKeyDown={handleUsdCardKeyDown}
-          className="hud-panel dashboard-usd-card cursor-text rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-4 py-3"
+          className="hud-panel dashboard-usd-card min-h-[116px] cursor-text rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3.5 py-3"
           style={{ animationDelay: `${heroStats.length * 40}ms` }}
         >
           <div className="flex items-center justify-between gap-3">

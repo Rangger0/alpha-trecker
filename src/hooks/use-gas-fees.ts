@@ -20,6 +20,7 @@ interface GasFeesSnapshot {
   items: GasFeeItem[];
   lastUpdated: number;
   totalChains: number;
+  source: "live" | "reference";
 }
 
 interface BlocknativeChain {
@@ -101,6 +102,15 @@ const CHAIN_LABEL_OVERRIDES: Record<number, string> = {
   57073: "Ink",
   167000: "Taiko",
 };
+
+const REFERENCE_GAS_FEES: GasFeeItem[] = [
+  { chainId: 1, label: "Ethereum", system: "ethereum", network: "mainnet", baseFee: 4.8, maxFee: 5.2, priorityFee: 0.35, confidence: 80, lowFee: 4.9, fastFee: 5.2, highFee: 5.8 },
+  { chainId: 42161, label: "Arbitrum", system: "arbitrum", network: "mainnet", baseFee: 0.02, maxFee: 0.04, priorityFee: 0.01, confidence: 80, lowFee: 0.03, fastFee: 0.04, highFee: 0.06 },
+  { chainId: 10, label: "Optimism", system: "optimism", network: "mainnet", baseFee: 0.01, maxFee: 0.03, priorityFee: 0.01, confidence: 80, lowFee: 0.02, fastFee: 0.03, highFee: 0.05 },
+  { chainId: 8453, label: "Base", system: "base", network: "mainnet", baseFee: 0.01, maxFee: 0.03, priorityFee: 0.01, confidence: 80, lowFee: 0.02, fastFee: 0.03, highFee: 0.05 },
+  { chainId: 137, label: "Polygon", system: "polygon", network: "mainnet", baseFee: 34, maxFee: 38, priorityFee: 30, confidence: 80, lowFee: 34, fastFee: 38, highFee: 44 },
+  { chainId: 56, label: "BSC", system: "bsc", network: "mainnet", baseFee: 1.1, maxFee: 1.3, priorityFee: 0.1, confidence: 80, lowFee: 1.1, fastFee: 1.3, highFee: 1.6 },
+];
 
 let cachedSnapshot: GasFeesSnapshot | null = null;
 let cachedError: string | null = null;
@@ -267,6 +277,7 @@ const loadGasFees = async (signal: AbortSignal): Promise<GasFeesSnapshot> => {
     items: gasItems.sort(sortChainOrder),
     lastUpdated: Date.now(),
     totalChains: supportedChains.length,
+    source: "live",
   };
 };
 
@@ -300,7 +311,16 @@ export function useGasFees() {
         if (!isMounted || (caughtError instanceof DOMException && caughtError.name === "AbortError")) return;
 
         const message = caughtError instanceof Error ? caughtError.message : "Gas fee live gagal dimuat.";
+        const fallbackSnapshot: GasFeesSnapshot = {
+          items: cachedSnapshot?.items?.length ? cachedSnapshot.items : REFERENCE_GAS_FEES,
+          lastUpdated: cachedSnapshot?.lastUpdated ?? Date.now(),
+          totalChains: cachedSnapshot?.totalChains ?? REFERENCE_GAS_FEES.length,
+          source: cachedSnapshot?.source ?? "reference",
+        };
+        cachedSnapshot = fallbackSnapshot;
+        cachedAt = Date.now();
         cachedError = message;
+        setSnapshot(fallbackSnapshot);
         setError(message);
       } finally {
         if (isMounted) {
@@ -334,6 +354,7 @@ export function useGasFees() {
     items: snapshot?.items ?? [],
     lastUpdated: snapshot?.lastUpdated ?? null,
     totalChains: snapshot?.totalChains ?? 0,
+    source: snapshot?.source ?? "reference",
     loading,
     error,
   };

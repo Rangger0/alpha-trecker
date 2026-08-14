@@ -1,6 +1,7 @@
 // PriorityProjectsPage.tsx
 import { useState, useMemo, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,7 +13,10 @@ import {
   Clock, 
   Wallet,
   X,
-  ArrowUpRight
+  ArrowUpRight,
+  Activity,
+  CheckCircle2,
+  DatabaseZap,
 } from 'lucide-react';
 import { useAirdrops } from '@/hooks/use-airdrops';
 import { useWallets } from '@/hooks/use-wallets';
@@ -20,6 +24,7 @@ import type { Airdrop, PriorityLevel } from '@/types';
 import { AirdropModal } from '@/components/modals/AirdropModal';
 import { DeleteConfirmModal } from '@/components/modals/DeleteConfirmModal';
 import { supabase } from '@/lib/supabase';
+import { emitAirdropsSync, invalidateAirdropsCache } from '@/lib/airdrops-store';
 
 interface PriorityProject {
   id: string;
@@ -45,8 +50,21 @@ const getAccentColor = (priority: PriorityLevel) => {
   }
 };
 
+const formatDeadline = (value?: string) => {
+  if (!value) return 'No deadline';
+  const parsed = new Date(/^\d{4}-\d{2}-\d{2}$/.test(value) ? `${value}T00:00:00` : value);
+  if (Number.isNaN(parsed.getTime())) return value;
+
+  return parsed.toLocaleDateString('id-ID', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+};
+
 export function PriorityProjectsPage() {
   const { theme } = useTheme();
+  const { session } = useAuth();
   const isDark = theme === 'dark';
   const { airdrops, refetch } = useAirdrops();
   const { wallets } = useWallets();
@@ -147,6 +165,10 @@ export function PriorityProjectsPage() {
         .update({ is_priority: false, priority: 'Low' })
         .eq('id', removingId);
       if (error) throw error;
+      if (session?.user?.id) {
+        invalidateAirdropsCache(session.user.id);
+        emitAirdropsSync({ userId: session.user.id });
+      }
       await refetch();
       setIsRemoveModalOpen(false);
       setRemovingId(null);
@@ -158,59 +180,102 @@ export function PriorityProjectsPage() {
   const handleModalClose = () => {
     setIsEditModalOpen(false);
     setSelectedAirdrop(null);
+    if (session?.user?.id) {
+      invalidateAirdropsCache(session.user.id);
+      emitAirdropsSync({ userId: session.user.id });
+    }
     refetch();
   };
 
   const removingProject = priorityProjects.find(p => p.id === removingId);
+  const completedCount = priorityProjects.filter((project) => project.completed).length;
+  const activeCount = priorityProjects.length - completedCount;
+  const averageScore = priorityProjects.length > 0
+    ? Math.round(priorityProjects.reduce((sum, project) => sum + project.priorityScore, 0) / priorityProjects.length)
+    : 0;
+  const walletCoverage = priorityProjects.length > 0
+    ? Math.round((priorityProjects.filter((project) => project.walletCount > 0).length / priorityProjects.length) * 100)
+    : 0;
 
   return (
     <DashboardLayout disableMonochrome>
       <div className="macos-root macos-page-shell">
-        {/* Header */}
         <div className="macos-page-header macos-animate-up">
-          <div className="macos-page-kicker">
-            <Star className="h-3.5 w-3.5" />
-            Priority Queue
-          </div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className={`p-2 rounded-2xl ${isDark ? 'bg-[var(--alpha-signal-soft)]' : 'bg-[var(--alpha-signal-soft)]'}`}>
-              <Star className={`w-6 h-6 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
-            </div>
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-end">
             <div>
-              <h1 className={`text-2xl font-bold font-mono ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>
-                Priority Projects
-              </h1>
-              <p className={`font-mono text-sm ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
-                Sorted by priority level, deadline urgency, and wallet count.
+              <div className="macos-page-kicker">
+                <Star className="h-3.5 w-3.5" />
+                Alpha Tracker priority desk
+              </div>
+              <h1 className="macos-page-title">Priority Projects</h1>
+              <p className="macos-page-subtitle">
+                Fokus ke project yang paling perlu dieksekusi: score diurutkan dari priority, deadline, status aktif, dan jumlah wallet yang tersambung.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
+                  {activeCount} active lanes
+                </span>
+                <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
+                  {walletCoverage}% wallet coverage
+                </span>
+              </div>
+            </div>
+
+            <div className="rounded-[1.2rem] border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-[10px] uppercase tracking-[0.22em] alpha-text-muted">Alpha focus score</p>
+                <Activity className="h-4 w-4 text-[color:var(--alpha-highlight)]" />
+              </div>
+              <p className="mt-2 text-3xl font-semibold alpha-text">{averageScore}</p>
+              <div className="mt-3 h-2 overflow-hidden rounded-full border border-alpha-border bg-[color:var(--alpha-surface)]">
+                <div
+                  className="h-full rounded-full bg-[color:var(--alpha-highlight)]"
+                  style={{ width: `${Math.min(100, averageScore)}%` }}
+                />
+              </div>
+              <p className="mt-2 text-[11px] alpha-text-muted">
+                Real-time dari {priorityProjects.length} project prioritas, bukan angka demo.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="mb-6 flex flex-wrap gap-4">
-          <div className={`macos-premium-card px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-[var(--alpha-panel)] border-[var(--alpha-border)]'}`}>
-            <Star className={`w-5 h-5 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
+        <div className="mb-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="macos-premium-card rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-4 py-3 flex items-center gap-3">
+            <Star className="w-5 h-5 text-[color:var(--alpha-highlight)]" />
             <div>
-              <p className={`text-xs font-mono ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>Priority Projects</p>
-              <p className={`text-xl font-bold font-mono ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>{priorityProjects.length}</p>
+              <p className="text-xs font-mono alpha-text-muted">Priority Projects</p>
+              <p className="text-xl font-bold font-mono alpha-text">{priorityProjects.length}</p>
             </div>
           </div>
-          <div className={`macos-premium-card px-4 py-3 rounded-xl border flex items-center gap-3 ${isDark ? 'bg-[var(--alpha-surface)] border-[var(--alpha-border)]' : 'bg-[var(--alpha-panel)] border-[var(--alpha-border)]'}`}>
-            <Wallet className={`w-5 h-5 ${isDark ? 'text-[var(--alpha-signal)]' : 'text-[var(--alpha-signal)]'}`} />
+          <div className="macos-premium-card rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-4 py-3 flex items-center gap-3">
+            <Wallet className="w-5 h-5 text-[color:var(--alpha-info)]" />
             <div>
-              <p className={`text-xs font-mono ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>Total Wallets</p>
-              <p className={`text-xl font-bold font-mono ${isDark ? 'text-[var(--alpha-text)]' : 'text-[var(--alpha-text)]'}`}>{totalWallets}</p>
+              <p className="text-xs font-mono alpha-text-muted">Total Wallets</p>
+              <p className="text-xl font-bold font-mono alpha-text">{totalWallets}</p>
+            </div>
+          </div>
+          <div className="macos-premium-card rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-4 py-3 flex items-center gap-3">
+            <DatabaseZap className="w-5 h-5 text-[color:var(--alpha-warning)]" />
+            <div>
+              <p className="text-xs font-mono alpha-text-muted">Avg Score</p>
+              <p className="text-xl font-bold font-mono alpha-text">{averageScore}</p>
+            </div>
+          </div>
+          <div className="macos-premium-card rounded-[1rem] border border-alpha-border bg-[color:var(--alpha-surface)] px-4 py-3 flex items-center gap-3">
+            <CheckCircle2 className="w-5 h-5 text-[color:var(--alpha-success)]" />
+            <div>
+              <p className="text-xs font-mono alpha-text-muted">Completed</p>
+              <p className="text-xl font-bold font-mono alpha-text">{completedCount}</p>
             </div>
           </div>
         </div>
 
-        {/* Search */}
         <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="relative max-w-md group flex-1">
             <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${isDark ? 'text-[var(--alpha-text-muted)] group-focus-within:text-[var(--alpha-signal)]' : 'text-[var(--alpha-text-muted)] group-focus-within:text-[var(--alpha-signal)]'}`} />
             <Input
-              placeholder="Search priority projects..."
+              placeholder="Search Alpha priority..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={`pl-10 font-mono border-2 transition-all duration-200 ${isDark 
@@ -228,7 +293,7 @@ export function PriorityProjectsPage() {
             }`}
             onClick={() => window.location.href = '/dashboard'}
           >
-            Go to Dashboard
+            Sync Dashboard
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
         </div>
@@ -255,7 +320,7 @@ export function PriorityProjectsPage() {
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {filteredProjects.map((project, index) => {
               const accent = getAccentColor(project.priority);
               
@@ -292,7 +357,7 @@ export function PriorityProjectsPage() {
                     <X className="w-3.5 h-3.5" />
                   </button>
 
-                  <div className="relative">
+                  <div className="relative flex h-full flex-col">
                     <div className="flex items-start gap-3 mb-3">
                       <div 
                         className="w-12 h-12 rounded-xl overflow-hidden border flex-shrink-0 transition-transform duration-300 group-hover:scale-110 flex items-center justify-center"
@@ -340,17 +405,30 @@ export function PriorityProjectsPage() {
                       </div>
                     </div>
                     
-                    <div className={`mb-3 flex items-center gap-2 rounded-lg border p-2 ${isDark ? 'bg-[var(--alpha-surface-strong)] border-[var(--alpha-border)]' : 'bg-[var(--alpha-surface-soft)] border-[var(--alpha-border)]'}`}>
-                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: project.completed ? 'var(--alpha-signal)' : 'var(--alpha-warning)' }} />
-                      <span className={`text-[10px] font-mono flex-1 ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
-                        {project.completed ? 'Completed' : 'In Progress'}
+                    <div className="mb-3 grid grid-cols-3 gap-2">
+                      <div className="rounded-lg border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-2">
+                        <p className="text-[9px] uppercase tracking-[0.16em] alpha-text-muted">Score</p>
+                        <p className="mt-1 text-sm font-semibold alpha-text">{project.priorityScore}</p>
+                      </div>
+                      <div className="rounded-lg border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-2">
+                        <p className="text-[9px] uppercase tracking-[0.16em] alpha-text-muted">Status</p>
+                        <p className="mt-1 truncate text-sm font-semibold alpha-text">{project.completed ? 'Done' : 'Active'}</p>
+                      </div>
+                      <div className="rounded-lg border border-alpha-border bg-[color:var(--alpha-hover-soft)] p-2">
+                        <p className="text-[9px] uppercase tracking-[0.16em] alpha-text-muted">Wallet</p>
+                        <p className="mt-1 text-sm font-semibold alpha-text">{project.walletCount}</p>
+                      </div>
+                    </div>
+
+                    <div className="mb-3 flex items-center gap-2 rounded-lg border border-alpha-border bg-[color:var(--alpha-surface)] p-2">
+                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: project.completed ? 'var(--alpha-success)' : 'var(--alpha-warning)' }} />
+                      <span className="text-[10px] font-mono flex-1 alpha-text-muted">
+                        {project.completed ? 'Completed lane' : 'Execution lane'}
                       </span>
-                      {project.deadline && (
-                        <span className={`text-[10px] font-mono flex items-center gap-1 ${isDark ? 'text-[var(--alpha-text-muted)]' : 'text-[var(--alpha-text-muted)]'}`}>
-                          <Clock className="w-2.5 h-2.5" />
-                          {new Date(project.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                        </span>
-                      )}
+                      <span className="text-[10px] font-mono flex items-center gap-1 alpha-text-muted">
+                        <Clock className="w-2.5 h-2.5" />
+                        {formatDeadline(project.deadline)}
+                      </span>
                     </div>
 
                     <Button

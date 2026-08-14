@@ -1,5 +1,5 @@
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { ArrowLeftRight, ArrowUpRight, Layers, Sparkles, Zap } from "lucide-react";
+import { ArrowLeftRight, ArrowUpRight, Layers, Route, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import type { CSSProperties } from "react";
 
 type SwapTool = {
@@ -185,7 +185,7 @@ const bridgeTools: SwapTool[] = [
   },
   {
     name: "deBridge",
-    description: "Bridge stack for moving assets and messages across multiple chains.lagi eror ",
+    description: "Bridge stack for moving assets and messages across multiple chains.",
     url: "https://app.debridge.finance",
     accent: "#ffd803",
     tags: ["bridge", "messaging"],
@@ -318,6 +318,12 @@ const swapSections = [
 export function SwapPage() {
   const totalTools = swapSections.reduce((sum, section) => sum + section.tools.length, 0);
   const curatedDesk = [dexTools[1], bridgeTools[1], aggregatorTools[3]].filter(Boolean);
+  const executionStats = [
+    { label: "Venues", value: totalTools, icon: Sparkles },
+    { label: "DEX", value: dexTools.length, icon: ArrowLeftRight },
+    { label: "Bridge", value: bridgeTools.length, icon: Layers },
+    { label: "Routers", value: aggregatorTools.length, icon: Route },
+  ];
 
   const renderToolCard = (tool: SwapTool, index: number) => (
     <a
@@ -333,7 +339,7 @@ export function SwapPage() {
           "--mac-delay": `${index * 22}ms`,
         } as CSSProperties
       }
-      className="macos-premium-card macos-card-entry group relative block min-h-[148px] overflow-hidden rounded-[1.45rem] border p-4 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-[var(--alpha-border-strong)] hover:shadow-lg"
+      className="macos-premium-card macos-card-entry group relative block min-h-[156px] overflow-hidden rounded-[1rem] border p-4 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-[var(--alpha-border-strong)] hover:shadow-lg"
     >
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-24 opacity-70"
@@ -343,7 +349,7 @@ export function SwapPage() {
       <div className="relative z-10 flex h-full flex-col">
         <div className="flex items-start gap-3">
           <div
-            className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border text-sm font-semibold uppercase tracking-[0.18em] ${
+            className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-[0.85rem] border text-sm font-semibold uppercase tracking-[0.18em] ${
               "border-[var(--alpha-border)] bg-[color:var(--alpha-hover-soft)]"
             }`}
             style={{ color: "var(--alpha-text)" }}
@@ -381,7 +387,8 @@ export function SwapPage() {
           </div>
         </div>
 
-        <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-4">
+          <div className="flex flex-wrap gap-1.5">
           {(tool.tags ?? []).slice(0, 2).map((tag) => (
             <span
               key={tag}
@@ -392,6 +399,11 @@ export function SwapPage() {
               {tag}
             </span>
           ))}
+          </div>
+          <span className="inline-flex items-center gap-1 rounded-full border border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] px-2 py-1 text-[9px] uppercase tracking-[0.14em] text-[color:var(--alpha-highlight)]">
+            <ShieldCheck className="h-3 w-3" />
+            Open
+          </span>
         </div>
 
         <div
@@ -406,41 +418,46 @@ export function SwapPage() {
     <DashboardLayout disableMonochrome>
       <div className="macos-root macos-page-shell">
         <section className="macos-page-header macos-animate-up">
-          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-end">
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_460px] xl:items-end">
             <div>
               <div className="macos-page-kicker">
                 <ArrowLeftRight className="h-3.5 w-3.5" />
-                DeFi Hub
+                Alpha execution routes
               </div>
               <h1 className="macos-page-title">Swap &amp; Bridge</h1>
               <p className="macos-page-subtitle">
-                Daftar DEX, bridge, dan aggregator
+                Desk cepat untuk memilih venue swap, bridge, dan route aggregator sebelum eksekusi farming atau perpindahan aset.
               </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
+                  Route-first directory
+                </span>
+                <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
+                  Swap, bridge, aggregator
+                </span>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="macos-card rounded-[1.2rem] px-4 py-3">
-                <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">Total venues</p>
-                <p className="mt-2 text-[1.55rem] font-semibold alpha-text">{totalTools}</p>
-              </div>
-              <div className="macos-card rounded-[1.2rem] px-4 py-3">
-                <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">DEX stack</p>
-                <p className="mt-2 text-[1.55rem] font-semibold alpha-text">{dexTools.length}</p>
-              </div>
-              <div className="macos-card rounded-[1.2rem] px-4 py-3">
-                <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">Bridge routes</p>
-                <p className="mt-2 text-[1.55rem] font-semibold alpha-text">{bridgeTools.length}</p>
-              </div>
-              <div className="macos-card rounded-[1.2rem] px-4 py-3">
-                <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">Aggregators</p>
-                <p className="mt-2 text-[1.55rem] font-semibold alpha-text">{aggregatorTools.length}</p>
-              </div>
+              {executionStats.map((stat) => {
+                const Icon = stat.icon;
+
+                return (
+                  <div key={stat.label} className="macos-card rounded-[1rem] px-4 py-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[10px] uppercase tracking-[0.2em] alpha-text-muted">{stat.label}</p>
+                      <Icon className="h-4 w-4 text-[color:var(--alpha-highlight)]" />
+                    </div>
+                    <p className="mt-2 text-[1.55rem] font-semibold alpha-text">{stat.value}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
 
         <section
-          className="mb-7 overflow-hidden rounded-[1.6rem] border p-5"
+          className="mb-7 overflow-hidden rounded-[1.25rem] border p-5"
           style={{
             borderColor: "var(--alpha-border)",
             background: "linear-gradient(135deg, color-mix(in srgb, var(--alpha-surface) 98%, transparent), color-mix(in srgb, var(--alpha-panel) 92%, transparent))",
@@ -455,7 +472,7 @@ export function SwapPage() {
               </div>
               <h2 className="mt-3 text-2xl font-semibold alpha-text">Venue yang paling kepakai buat route cepat</h2>
               <p className="mt-2 max-w-3xl text-sm leading-6 alpha-text-muted">
-               
+                Shortcut untuk route harian: Solana swap, bridge EVM cepat, dan router cross-chain buat cek jalur sebelum transaksi.
               </p>
             </div>
 

@@ -135,7 +135,6 @@ export function Sidebar({
       links: [
         { to: "/screening", icon: Search, label: t("sidebar.link.screening") },
         { to: "/check-eligibility", icon: ShieldCheck, label: t("sidebar.link.eligibility") },
-        { to: "/wallet-analyzer", icon: WalletCards, label: t("sidebar.link.walletAnalyzer") },
         { to: "/live-airdrop", icon: Radio, label: t("sidebar.link.liveAirdrop") },
       ],
     },

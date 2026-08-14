@@ -2,6 +2,7 @@ import { Activity, Flame, RefreshCw, Signal } from "lucide-react";
 import type { CSSProperties } from "react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { GasFeesPanel } from "@/components/dashboard/GasFeesPanel";
+import { useGasFees } from "@/hooks/use-gas-fees";
 
 const gasPageStats = [
   {
@@ -28,6 +29,9 @@ const gasPageStats = [
 ] as const;
 
 export function GasFeesPage() {
+  const { source, items } = useGasFees();
+  const modeLabel = source === "live" ? "Live" : "Reference";
+
   return (
     <DashboardLayout disableMonochrome>
       <div className="macos-root macos-page-shell">
@@ -45,13 +49,13 @@ export function GasFeesPage() {
 
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-                  Multi-chain gas monitor
+                  {items.length} chain monitor
                 </span>
                 <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
                   Basic transaction baseline
                 </span>
                 <span className="rounded-full border border-alpha-border bg-[color:var(--alpha-hover-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] alpha-text-muted">
-                  Auto refresh tiap 75 detik
+                  {modeLabel} mode
                 </span>
               </div>
             </div>
@@ -70,7 +74,9 @@ export function GasFeesPage() {
                       <p className="text-[10px] uppercase tracking-[0.22em] alpha-text-muted">{stat.label}</p>
                       <Icon className="h-4 w-4" style={{ color: stat.accent }} />
                     </div>
-                    <p className="mt-2 text-2xl font-semibold alpha-text">{stat.value}</p>
+                    <p className="mt-2 text-2xl font-semibold alpha-text">
+                      {stat.label === "Mode" ? modeLabel : stat.value}
+                    </p>
                     <p className="mt-1 text-[11px] alpha-text-muted">{stat.meta}</p>
                   </div>
                 );
