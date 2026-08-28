@@ -1833,18 +1833,18 @@
 
 /* Alpha Tracker V2 landing redesign */
 .alpha-theme.macos-landing-shell {
-  --alpha-v2-bg: #070B17;
-  --alpha-v2-card: rgba(16, 24, 40, 0.64);
-  --alpha-v2-card-strong: rgba(16, 24, 40, 0.86);
-  --alpha-v2-primary: #4DA6FF;
-  --alpha-v2-secondary: #7A5CFF;
-  --alpha-v2-accent: #27F2FF;
+  --alpha-v2-bg: #000000;
+  --alpha-v2-card: rgba(11, 11, 11, 0.84);
+  --alpha-v2-card-strong: rgba(16, 16, 16, 0.94);
+  --alpha-v2-primary: #FF3B30;
+  --alpha-v2-secondary: #FF7A00;
+  --alpha-v2-accent: #FFE600;
   --alpha-v2-success: #1EE98B;
-  --alpha-v2-warning: #FFC857;
-  --alpha-v2-danger: #FF5577;
+  --alpha-v2-warning: #FFE600;
+  --alpha-v2-danger: #FF3B30;
   --alpha-v2-text: #FFFFFF;
-  --alpha-v2-muted: #B8C0D4;
-  --alpha-v2-border: rgba(77, 166, 255, 0.28);
+  --alpha-v2-muted: #F2F2F2;
+  --alpha-v2-border: rgba(255, 122, 0, 0.34);
   background: var(--alpha-v2-bg);
   color: var(--alpha-v2-text);
   font-family: Inter, var(--alpha-font-stack, system-ui, sans-serif);
@@ -1855,7 +1855,7 @@
 }
 
 .alpha-v2-nav-shell {
-  border: 1px solid rgba(77, 166, 255, 0.2);
+  border: 1px solid rgba(255, 170, 0, 0.2);
   border-radius: 8px;
   background: linear-gradient(180deg, rgba(7, 11, 23, 0.74), rgba(7, 11, 23, 0.48));
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -1874,22 +1874,22 @@
 }
 
 .alpha-v2-nav-login {
-  border: 1px solid rgba(77, 166, 255, 0.2);
+  border: 1px solid rgba(255, 170, 0, 0.2);
   background: rgba(16, 24, 40, 0.34);
 }
 
 .alpha-v2-primary-btn {
-  border: 1px solid rgba(39, 242, 255, 0.45) !important;
+  border: 1px solid rgba(255, 212, 0, 0.45) !important;
   background: linear-gradient(135deg, var(--alpha-v2-secondary), var(--alpha-v2-primary)) !important;
   color: #fff !important;
-  box-shadow: 0 0 0 1px rgba(77, 166, 255, 0.12), 0 18px 38px rgba(77, 166, 255, 0.28);
+  box-shadow: 0 0 0 1px rgba(255, 170, 0, 0.12), 0 18px 38px rgba(255, 170, 0, 0.28);
   transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
 }
 
 .alpha-v2-primary-btn:hover {
   filter: brightness(1.08);
   transform: translateY(-2px);
-  box-shadow: 0 0 0 1px rgba(39, 242, 255, 0.22), 0 24px 52px rgba(77, 166, 255, 0.36);
+  box-shadow: 0 0 0 1px rgba(255, 212, 0, 0.22), 0 24px 52px rgba(255, 170, 0, 0.36);
 }
 
 .alpha-v2-secondary-btn {
@@ -1902,7 +1902,7 @@
 }
 
 .alpha-v2-secondary-btn:hover {
-  border-color: rgba(39, 242, 255, 0.55) !important;
+  border-color: rgba(255, 212, 0, 0.55) !important;
   color: var(--alpha-v2-accent) !important;
   transform: translateY(-2px);
 }
@@ -1910,9 +1910,9 @@
 .alpha-v2-hero {
   min-height: 100svh;
   background:
-    radial-gradient(circle at 72% 30%, rgba(122, 92, 255, 0.24), transparent 28%),
-    radial-gradient(circle at 44% 42%, rgba(39, 242, 255, 0.16), transparent 24%),
-    linear-gradient(180deg, #050814 0%, var(--alpha-v2-bg) 72%, #050814 100%);
+    radial-gradient(circle at 72% 30%, rgba(255, 138, 0, 0.24), transparent 28%),
+    radial-gradient(circle at 44% 42%, rgba(255, 212, 0, 0.16), transparent 24%),
+    linear-gradient(180deg, #000000 0%, var(--alpha-v2-bg) 72%, #000000 100%);
 }
 
 .alpha-v2-city-bg,
@@ -1926,16 +1926,16 @@
   opacity: 0.5;
   background:
     linear-gradient(180deg, transparent 0 36%, rgba(7, 11, 23, 0.92) 82%),
-    repeating-linear-gradient(90deg, transparent 0 50px, rgba(77, 166, 255, 0.12) 51px 52px, transparent 53px 112px),
-    linear-gradient(90deg, rgba(77, 166, 255, 0.12), transparent 30%, rgba(122, 92, 255, 0.14) 78%, transparent);
+    repeating-linear-gradient(90deg, transparent 0 50px, rgba(255, 170, 0, 0.12) 51px 52px, transparent 53px 112px),
+    linear-gradient(90deg, rgba(255, 170, 0, 0.12), transparent 30%, rgba(255, 138, 0, 0.14) 78%, transparent);
   mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 88%, transparent 100%);
 }
 
 .alpha-v2-grid-bg {
   opacity: 0.38;
   background-image:
-    linear-gradient(rgba(77, 166, 255, 0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(77, 166, 255, 0.12) 1px, transparent 1px);
+    linear-gradient(rgba(255, 170, 0, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 170, 0, 0.12) 1px, transparent 1px);
   background-size: 72px 72px;
   transform: perspective(900px) rotateX(62deg) translateY(18%);
   transform-origin: bottom;
@@ -1945,10 +1945,10 @@
   display: inline-flex;
   width: fit-content;
   align-items: center;
-  border: 1px solid rgba(39, 242, 255, 0.34);
+  border: 1px solid rgba(255, 212, 0, 0.34);
   border-radius: 999px;
   padding: 0.45rem 0.8rem;
-  background: rgba(39, 242, 255, 0.07);
+  background: rgba(255, 212, 0, 0.07);
   color: var(--alpha-v2-accent);
   font-size: 0.74rem;
   font-weight: 800;
@@ -1976,7 +1976,7 @@
   font-weight: 900;
   line-height: 0.86;
   text-transform: uppercase;
-  text-shadow: 0 0 26px rgba(77, 166, 255, 0.36);
+  text-shadow: 0 0 26px rgba(255, 170, 0, 0.36);
 }
 
 .alpha-v2-headline span:nth-child(3) {
@@ -2008,7 +2008,7 @@
 }
 
 .alpha-v2-hero-strip span {
-  border: 1px solid rgba(77, 166, 255, 0.22);
+  border: 1px solid rgba(255, 170, 0, 0.22);
   border-radius: 999px;
   padding: 0.48rem 0.72rem;
   background: rgba(16, 24, 40, 0.48);
@@ -2022,11 +2022,11 @@
   position: relative;
   min-height: 680px;
   overflow: hidden;
-  border: 1px solid rgba(77, 166, 255, 0.18);
+  border: 1px solid rgba(255, 170, 0, 0.18);
   border-radius: 8px;
   background:
     linear-gradient(180deg, rgba(16, 24, 40, 0.2), rgba(7, 11, 23, 0.16)),
-    radial-gradient(circle at 50% 46%, rgba(39, 242, 255, 0.16), transparent 34%);
+    radial-gradient(circle at 50% 46%, rgba(255, 212, 0, 0.16), transparent 34%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 38px 80px rgba(0, 0, 0, 0.32);
   animation: alpha-v2-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
   transform-style: preserve-3d;
@@ -2045,27 +2045,27 @@
 }
 
 .alpha-v2-holo-orbit {
-  border: 1px solid rgba(39, 242, 255, 0.42);
-  box-shadow: 0 0 46px rgba(39, 242, 255, 0.18), inset 0 0 42px rgba(77, 166, 255, 0.12);
+  border: 1px solid rgba(255, 212, 0, 0.42);
+  box-shadow: 0 0 46px rgba(255, 212, 0, 0.18), inset 0 0 42px rgba(255, 170, 0, 0.12);
   animation: alpha-v2-spin 22s linear infinite;
 }
 
 .alpha-v2-holo-core span {
   position: absolute;
   inset: 18%;
-  border: 1px solid rgba(77, 166, 255, 0.26);
+  border: 1px solid rgba(255, 170, 0, 0.26);
   border-radius: 50%;
 }
 
 .alpha-v2-holo-core span:nth-child(2) {
   inset: 32%;
-  border-color: rgba(39, 242, 255, 0.4);
+  border-color: rgba(255, 212, 0, 0.4);
 }
 
 .alpha-v2-holo-core span:nth-child(3) {
   inset: 46%;
-  background: rgba(39, 242, 255, 0.72);
-  box-shadow: 0 0 34px rgba(39, 242, 255, 0.8);
+  background: rgba(255, 212, 0, 0.72);
+  box-shadow: 0 0 34px rgba(255, 212, 0, 0.8);
 }
 
 .alpha-v2-mascot-frame {
@@ -2082,7 +2082,7 @@
   max-height: 100%;
   object-fit: contain;
   object-position: center bottom;
-  filter: drop-shadow(0 28px 42px rgba(0, 0, 0, 0.58)) drop-shadow(0 0 26px rgba(77, 166, 255, 0.3));
+  filter: drop-shadow(0 28px 42px rgba(0, 0, 0, 0.58)) drop-shadow(0 0 26px rgba(255, 170, 0, 0.3));
 }
 
 .alpha-v2-mascot-placeholder,
@@ -2092,7 +2092,7 @@
   gap: 0.65rem;
   min-height: 320px;
   width: min(100%, 360px);
-  border: 1px dashed rgba(39, 242, 255, 0.34);
+  border: 1px dashed rgba(255, 212, 0, 0.34);
   border-radius: 8px;
   background: rgba(16, 24, 40, 0.34);
   color: var(--alpha-v2-muted);
@@ -2181,7 +2181,7 @@
   border-radius: 50%;
   background:
     radial-gradient(circle, rgba(16, 24, 40, 0.96) 56%, transparent 57%),
-    conic-gradient(var(--alpha-v2-accent), var(--alpha-v2-secondary), rgba(77, 166, 255, 0.12) 76%);
+    conic-gradient(var(--alpha-v2-accent), var(--alpha-v2-secondary), rgba(255, 170, 0, 0.12) 76%);
   font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
@@ -2214,7 +2214,7 @@
   height: 4px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--alpha-v2-primary), var(--alpha-v2-accent));
-  box-shadow: 0 0 16px rgba(39, 242, 255, 0.32);
+  box-shadow: 0 0 16px rgba(255, 212, 0, 0.32);
 }
 
 .alpha-v2-hero-card-grid {
@@ -2239,8 +2239,8 @@
 .alpha-v2-mini-card:hover,
 .alpha-v2-feature-card:hover,
 .alpha-v2-stat-card:hover {
-  border-color: rgba(39, 242, 255, 0.58);
-  box-shadow: 0 24px 58px rgba(39, 242, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 212, 0, 0.58);
+  box-shadow: 0 24px 58px rgba(255, 212, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transform: translateY(-4px);
 }
 
@@ -2251,9 +2251,9 @@
   place-items: center;
   width: 38px;
   aspect-ratio: 1;
-  border: 1px solid rgba(39, 242, 255, 0.32);
+  border: 1px solid rgba(255, 212, 0, 0.32);
   border-radius: 8px;
-  background: rgba(39, 242, 255, 0.08);
+  background: rgba(255, 212, 0, 0.08);
   color: var(--alpha-v2-accent);
 }
 
@@ -2278,7 +2278,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  border: 1px solid rgba(39, 242, 255, 0.28);
+  border: 1px solid rgba(255, 212, 0, 0.28);
   border-radius: 999px;
   background: rgba(16, 24, 40, 0.54);
   color: var(--alpha-v2-accent);
@@ -2301,7 +2301,7 @@
 
 .alpha-v2-section {
   position: relative;
-  background: linear-gradient(180deg, #050814 0%, var(--alpha-v2-bg) 50%, #050814 100%);
+  background: linear-gradient(180deg, #000000 0%, var(--alpha-v2-bg) 50%, #000000 100%);
 }
 
 .alpha-v2-section-header {
@@ -2395,7 +2395,7 @@
   width: 28px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff5577, #7a5cff);
+  background: linear-gradient(135deg, #ff4b2b, #ff8a00);
   color: #fff;
   font-size: 0.64rem;
   font-style: normal;
@@ -2422,11 +2422,11 @@
   color: var(--alpha-v2-accent);
   font-size: clamp(2rem, 4vw, 3.15rem);
   line-height: 1;
-  text-shadow: 0 0 24px rgba(39, 242, 255, 0.26);
+  text-shadow: 0 0 24px rgba(255, 212, 0, 0.26);
 }
 
 .alpha-v2-cta-section {
-  background: linear-gradient(180deg, #050814, #070b17);
+  background: linear-gradient(180deg, #000000, #000000);
 }
 
 .alpha-v2-cta {
@@ -2443,8 +2443,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(120deg, rgba(39, 242, 255, 0.08), transparent 42%),
-    linear-gradient(90deg, transparent, rgba(122, 92, 255, 0.12));
+    linear-gradient(120deg, rgba(255, 212, 0, 0.08), transparent 42%),
+    linear-gradient(90deg, transparent, rgba(255, 138, 0, 0.12));
   pointer-events: none;
 }
 
@@ -2477,7 +2477,7 @@
   width: min(100%, 360px);
   object-fit: contain;
   object-position: center bottom;
-  filter: drop-shadow(0 26px 42px rgba(0, 0, 0, 0.56)) drop-shadow(0 0 24px rgba(77, 166, 255, 0.26));
+  filter: drop-shadow(0 26px 42px rgba(0, 0, 0, 0.56)) drop-shadow(0 0 24px rgba(255, 170, 0, 0.26));
 }
 
 .alpha-v2-cta-chip {
@@ -2485,7 +2485,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  border: 1px solid rgba(39, 242, 255, 0.32);
+  border: 1px solid rgba(255, 212, 0, 0.32);
   border-radius: 8px;
   padding: 0.55rem 0.75rem;
   background: rgba(16, 24, 40, 0.58);

@@ -10,29 +10,29 @@
 
 :root {
 
-/* Alpha Tracker - Premium Dark Terminal Theme */
+/* Alpha Tracker - High Contrast Night Theme */
 
 /* RGB triples for Tailwind use (r g b) */
---background: 5 11 20; /* #050B14 */
---card: 10 20 34; /* #0A1422 */
---headline: 232 243 255; /* #E8F3FF */
---paragraph: 139 155 186; /* #8B9BBA */
+--background: 0 0 0; /* #000000 */
+--card: 9 9 9; /* #090909 */
+--headline: 255 255 255; /* #FFFFFF */
+--paragraph: 216 216 216; /* #D8D8D8 */
 --icon-stroke: 245 245 245; /* #F5F5F5 */
---main: 0 229 255; /* #00E5FF */
---highlight: 0 229 255; /* #00E5FF */
---secondary: 7 16 27; /* #07101B */
---tertiary: 28 59 85; /* #1C3B55 */
+--main: 255 75 43; /* #FF4B2B */
+--highlight: 255 212 0; /* #FFD400 */
+--secondary: 18 13 5; /* #120D05 */
+--tertiary: 255 138 0; /* #FF8A00 */
 
 /* Hex fallbacks for places using hex vars */
---background-hex: #050B14;
---card-hex: #0A1422;
---headline-hex: #E8F3FF;
---paragraph-hex: #8B9BBA;
+--background-hex: #000000;
+--card-hex: #090909;
+--headline-hex: #FFFFFF;
+--paragraph-hex: #D8D8D8;
 --icon-stroke-hex: #F5F5F5;
---main-hex: #00E5FF;
---highlight-hex: #00E5FF;
---secondary-hex: #07101B;
---tertiary-hex: #1C3B55;
+--main-hex: #FF4B2B;
+--highlight-hex: #FFD400;
+--secondary-hex: #120D05;
+--tertiary-hex: rgba(255, 170, 0, 0.28);
 
 --radius: 0.5rem;
 
@@ -42,8 +42,8 @@
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: #66F3FF;
---alpha-border: #1C3B55;
+--alpha-accent-hover: #FF8A00;
+--alpha-border: rgba(255, 170, 0, 0.28);
 --alpha-surface: var(--card-hex);
 
 --bg: var(--background-hex);
@@ -60,28 +60,28 @@
 
 .dark {
 
-/* Alpha Tracker - Premium Dark Terminal Theme */
+/* Alpha Tracker - High Contrast Night Theme */
 
---background: 5 11 20; /* #050B14 */
---card: 10 20 34; /* #0A1422 */
---headline: 232 243 255; /* #E8F3FF */
---paragraph: 139 155 186; /* #8B9BBA */
+--background: 0 0 0; /* #000000 */
+--card: 9 9 9; /* #090909 */
+--headline: 255 255 255; /* #FFFFFF */
+--paragraph: 216 216 216; /* #D8D8D8 */
 --icon-stroke: 245 245 245; /* #F5F5F5 */
---main: 0 229 255; /* #00E5FF */
---highlight: 0 229 255; /* #00E5FF */
---secondary: 7 16 27; /* #07101B */
---tertiary: 28 59 85; /* #1C3B55 */
+--main: 255 75 43; /* #FF4B2B */
+--highlight: 255 212 0; /* #FFD400 */
+--secondary: 18 13 5; /* #120D05 */
+--tertiary: 255 138 0; /* #FF8A00 */
 
 /* Hex fallbacks */
---background-hex: #050B14;
---card-hex: #0A1422;
---headline-hex: #E8F3FF;
---paragraph-hex: #8B9BBA;
+--background-hex: #000000;
+--card-hex: #090909;
+--headline-hex: #FFFFFF;
+--paragraph-hex: #D8D8D8;
 --icon-stroke-hex: #F5F5F5;
---main-hex: #00E5FF;
---highlight-hex: #00E5FF;
---secondary-hex: #07101B;
---tertiary-hex: #1C3B55;
+--main-hex: #FF4B2B;
+--highlight-hex: #FFD400;
+--secondary-hex: #120D05;
+--tertiary-hex: rgba(255, 170, 0, 0.28);
 
 /* Compatibility map */
 --alpha-bg: var(--background-hex);
@@ -89,8 +89,8 @@
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: #66F3FF;
---alpha-border: #1C3B55;
+--alpha-accent-hover: #FF8A00;
+--alpha-border: rgba(255, 170, 0, 0.28);
 --alpha-surface: var(--card-hex);
 
 --bg: var(--background-hex);
@@ -179,7 +179,7 @@ body {
   font-family:
   var(--alpha-font-stack, 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
   font-weight: 400;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 
   overflow-x: hidden;
 
@@ -187,7 +187,7 @@ body {
   min-height: 100vh;
 
   line-height: 1.5;
-  text-rendering: optimizeLegibility;
+  text-rendering: geometricPrecision;
   overscroll-behavior-y: contain;
 
   background: var(--alpha-bg);
@@ -207,7 +207,7 @@ h1, h2, h3, h4, h5, h6, button, label, th, .font-display {
   font-family:
   var(--alpha-display-stack, 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif);
   font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: 0;
 }
 
 b, strong {

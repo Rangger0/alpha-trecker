@@ -4918,19 +4918,19 @@ html.theme-switching *::after {
 
 /* Final scoped overrides for the V2 landing command-center design. */
 .alpha-theme.macos-landing-shell {
-  --alpha-bg: #070B17 !important;
-  --alpha-panel: #101828 !important;
-  --alpha-surface: #101828 !important;
+  --alpha-bg: #000000 !important;
+  --alpha-panel: #090909 !important;
+  --alpha-surface: #0E0A03 !important;
   --alpha-text: #FFFFFF !important;
-  --alpha-text-muted: #B8C0D4 !important;
-  --alpha-accent: #4DA6FF !important;
-  --alpha-accent-hover: #27F2FF !important;
-  --alpha-accent-from: #7A5CFF !important;
-  --alpha-accent-to: #4DA6FF !important;
-  --alpha-accent-contrast: #FFFFFF !important;
-  --alpha-border: rgba(77, 166, 255, 0.28) !important;
-  --alpha-border-strong: rgba(39, 242, 255, 0.52) !important;
-  background: #070B17 !important;
+  --alpha-text-muted: #D8D8D8 !important;
+  --alpha-accent: #FF4B2B !important;
+  --alpha-accent-hover: #FF8A00 !important;
+  --alpha-accent-from: #FF4B2B !important;
+  --alpha-accent-to: #FFD400 !important;
+  --alpha-accent-contrast: #000000 !important;
+  --alpha-border: rgba(255, 170, 0, 0.3) !important;
+  --alpha-border-strong: rgba(255, 212, 0, 0.48) !important;
+  background: #000000 !important;
 }
 
 .alpha-theme.macos-landing-shell::before,
@@ -4940,47 +4940,47 @@ html.theme-switching *::after {
 
 .alpha-theme.macos-landing-shell .alpha-v2-nav-shell {
   min-height: 68px !important;
-  border: 1px solid rgba(77, 166, 255, 0.2) !important;
+  border: 1px solid rgba(255, 170, 0, 0.3) !important;
   border-radius: 8px !important;
-  background: linear-gradient(180deg, rgba(7, 11, 23, 0.74), rgba(7, 11, 23, 0.48)) !important;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  background: linear-gradient(180deg, rgba(14, 10, 3, 0.92), rgba(0, 0, 0, 0.9)) !important;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 212, 0, 0.06) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-nav-login,
 .alpha-theme.macos-landing-shell [data-slot="button"].alpha-v2-nav-login {
-  border: 1px solid rgba(77, 166, 255, 0.22) !important;
-  background: rgba(16, 24, 40, 0.38) !important;
+  border: 1px solid rgba(255, 122, 0, 0.32) !important;
+  background: rgba(255, 122, 0, 0.1) !important;
   color: rgba(255, 255, 255, 0.86) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-nav-login:hover,
 .alpha-theme.macos-landing-shell [data-slot="button"].alpha-v2-nav-login:hover {
-  border-color: rgba(39, 242, 255, 0.48) !important;
-  background: rgba(16, 24, 40, 0.58) !important;
-  color: #27F2FF !important;
+  border-color: rgba(255, 212, 0, 0.48) !important;
+  background: rgba(255, 122, 0, 0.16) !important;
+  color: #FFD400 !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-primary-btn,
 .alpha-theme.macos-landing-shell [data-slot="button"].alpha-v2-primary-btn,
 .alpha-theme.macos-landing-shell button.alpha-v2-primary-btn,
 .alpha-theme.macos-landing-shell a.alpha-v2-primary-btn {
-  border: 1px solid rgba(39, 242, 255, 0.45) !important;
-  background: linear-gradient(135deg, #7A5CFF, #4DA6FF) !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 0 0 1px rgba(77, 166, 255, 0.12), 0 18px 38px rgba(77, 166, 255, 0.28) !important;
+  border: 1px solid rgba(255, 212, 0, 0.46) !important;
+  background: linear-gradient(135deg, #FF4B2B, #FF8A00 58%, #FFD400) !important;
+  color: #000000 !important;
+  box-shadow: 0 0 0 1px rgba(255, 212, 0, 0.12), 0 18px 38px rgba(255, 122, 0, 0.22) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-primary-btn:hover,
 .alpha-theme.macos-landing-shell [data-slot="button"].alpha-v2-primary-btn:hover {
-  background: linear-gradient(135deg, #886DFF, #27F2FF) !important;
-  color: #FFFFFF !important;
+  background: linear-gradient(135deg, #FF8A00, #FFD400) !important;
+  color: #000000 !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-secondary-btn,
 .alpha-theme.macos-landing-shell [data-slot="button"].alpha-v2-secondary-btn {
-  border: 1px solid rgba(77, 166, 255, 0.28) !important;
-  background: rgba(16, 24, 40, 0.46) !important;
+  border: 1px solid rgba(255, 170, 0, 0.3) !important;
+  background: rgba(14, 10, 3, 0.72) !important;
   color: #FFFFFF !important;
 }
 
@@ -4992,7 +4992,7 @@ html.theme-switching *::after {
 .alpha-theme.macos-landing-shell .alpha-v2-stat-icon,
 .alpha-theme.macos-landing-shell .alpha-v2-security-pill,
 .alpha-theme.macos-landing-shell .alpha-v2-target-reticle {
-  color: #27F2FF !important;
+  color: var(--alpha-highlight) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-stat-card strong,
@@ -5001,70 +5001,70 @@ html.theme-switching *::after {
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-stat-card strong {
-  color: #27F2FF !important;
+  color: var(--alpha-highlight) !important;
 }
 
 /* Auth + app-wide V2 day/night modes */
 .alpha-theme.dark.alpha-auth-redesign,
 .alpha-theme.dark.macos-app-shell {
-  --main-hex: #00E5FF !important;
-  --highlight-hex: #00E5FF !important;
-  --alpha-bg: #050B14 !important;
-  --alpha-panel: #0A1422 !important;
-  --alpha-card: #0A1422 !important;
-  --alpha-surface: rgba(8, 17, 31, 0.92) !important;
-  --alpha-surface-2: #0C1828 !important;
-  --alpha-hover-soft: rgba(0, 229, 255, 0.1) !important;
-  --alpha-text: #E8F3FF !important;
-  --alpha-text-muted: #8B9BBA !important;
-  --alpha-accent: #00E5FF !important;
-  --alpha-accent-hover: #66F3FF !important;
-  --alpha-accent-from: #00E5FF !important;
-  --alpha-accent-to: #8B5CF6 !important;
-  --alpha-accent-contrast: #03101A !important;
-  --alpha-info: #0E8CFF !important;
-  --alpha-violet: #8B5CF6 !important;
+  --main-hex: #FF4B2B !important;
+  --highlight-hex: #FFD400 !important;
+  --alpha-bg: #000000 !important;
+  --alpha-panel: #090909 !important;
+  --alpha-card: #090909 !important;
+  --alpha-surface: #060606 !important;
+  --alpha-surface-2: #0E0A03 !important;
+  --alpha-hover-soft: rgba(255, 122, 0, 0.14) !important;
+  --alpha-text: #FFFFFF !important;
+  --alpha-text-muted: #D8D8D8 !important;
+  --alpha-accent: #FF4B2B !important;
+  --alpha-accent-hover: #FF8A00 !important;
+  --alpha-accent-from: #FF4B2B !important;
+  --alpha-accent-to: #FFD400 !important;
+  --alpha-accent-contrast: #000000 !important;
+  --alpha-info: #FF8A00 !important;
+  --alpha-violet: #FFD400 !important;
   --alpha-success: #22C55E !important;
-  --alpha-warning: #F5B01B !important;
-  --alpha-danger: #EF4444 !important;
-  --alpha-border: rgba(0, 229, 255, 0.16) !important;
-  --alpha-border-strong: rgba(0, 229, 255, 0.34) !important;
-  --alpha-border-hover: rgba(0, 229, 255, 0.46) !important;
-  --alpha-highlight: #00E5FF !important;
-  --alpha-highlight-soft: rgba(0, 229, 255, 0.13) !important;
-  --alpha-highlight-border: rgba(0, 229, 255, 0.42) !important;
-  --alpha-shell-border: rgba(0, 229, 255, 0.18) !important;
-  --alpha-shell-gradient: linear-gradient(180deg, rgba(10, 20, 34, 0.96), rgba(5, 11, 20, 0.94)) !important;
-  --alpha-topbar-gradient: linear-gradient(180deg, rgba(10, 20, 34, 0.92), rgba(7, 16, 27, 0.86)) !important;
-  --alpha-shadow: 0 18px 48px rgba(0, 0, 0, 0.36), 0 0 26px rgba(0, 229, 255, 0.06) !important;
-  --alpha-shadow-strong: 0 28px 74px rgba(0, 0, 0, 0.48), 0 0 40px rgba(0, 229, 255, 0.08) !important;
+  --alpha-warning: #FFD400 !important;
+  --alpha-danger: #FF4B2B !important;
+  --alpha-border: rgba(255, 170, 0, 0.3) !important;
+  --alpha-border-strong: rgba(255, 212, 0, 0.48) !important;
+  --alpha-border-hover: rgba(255, 212, 0, 0.62) !important;
+  --alpha-highlight: #FFD400 !important;
+  --alpha-highlight-soft: rgba(255, 212, 0, 0.12) !important;
+  --alpha-highlight-border: rgba(255, 212, 0, 0.42) !important;
+  --alpha-shell-border: rgba(255, 170, 0, 0.28) !important;
+  --alpha-shell-gradient: linear-gradient(180deg, rgba(14, 10, 3, 0.98), rgba(0, 0, 0, 0.98)) !important;
+  --alpha-topbar-gradient: linear-gradient(180deg, rgba(14, 10, 3, 0.98), rgba(0, 0, 0, 0.96)) !important;
+  --alpha-shadow: 0 18px 48px rgba(0, 0, 0, 0.76), 0 0 0 1px rgba(255, 170, 0, 0.06) !important;
+  --alpha-shadow-strong: 0 28px 74px rgba(0, 0, 0, 0.84), 0 0 28px rgba(255, 170, 0, 0.12) !important;
 }
 
 .alpha-theme.light.alpha-auth-redesign,
 .alpha-theme.light.macos-app-shell {
-  --main-hex: #0891B2 !important;
-  --highlight-hex: #06B6D4 !important;
-  --alpha-bg: #F4F9FF !important;
+  --main-hex: #D92D20 !important;
+  --highlight-hex: #FACC15 !important;
+  --alpha-bg: #FFFDF7 !important;
   --alpha-panel: #FFFFFF !important;
-  --alpha-surface: rgba(255, 255, 255, 0.86) !important;
-  --alpha-hover-soft: rgba(6, 182, 212, 0.1) !important;
-  --alpha-text: #171410 !important;
-  --alpha-text-muted: #53657E !important;
-  --alpha-accent: #0891B2 !important;
-  --alpha-accent-hover: #0E7490 !important;
-  --alpha-accent-from: #06B6D4 !important;
-  --alpha-accent-to: #8B5CF6 !important;
+  --alpha-surface: #FFF8E7 !important;
+  --alpha-hover-soft: rgba(250, 204, 21, 0.18) !important;
+  --alpha-text: #111111 !important;
+  --alpha-text-muted: #333333 !important;
+  --alpha-accent: #D92D20 !important;
+  --alpha-accent-hover: #B42318 !important;
+  --alpha-accent-from: #FACC15 !important;
+  --alpha-accent-to: #FF7A00 !important;
   --alpha-accent-contrast: #FFFFFF !important;
-  --alpha-border: rgba(8, 145, 178, 0.16) !important;
-  --alpha-border-strong: rgba(8, 145, 178, 0.32) !important;
-  --alpha-highlight: #0891B2 !important;
-  --alpha-highlight-soft: rgba(6, 182, 212, 0.1) !important;
-  --alpha-highlight-border: rgba(8, 145, 178, 0.32) !important;
-  --alpha-shell-border: rgba(8, 145, 178, 0.16) !important;
-  --alpha-shell-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(244, 249, 255, 0.9)) !important;
-  --alpha-topbar-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(244, 249, 255, 0.78)) !important;
-  --alpha-shadow: 0 18px 44px rgba(8, 32, 54, 0.1) !important;
-  --alpha-shadow-strong: 0 28px 72px rgba(8, 32, 54, 0.16) !important;
+  --alpha-border: rgba(255, 122, 0, 0.28) !important;
+  --alpha-border-strong: rgba(217, 45, 32, 0.38) !important;
+  --alpha-highlight: #FACC15 !important;
+  --alpha-highlight-soft: rgba(250, 204, 21, 0.18) !important;
+  --alpha-highlight-border: rgba(255, 122, 0, 0.34) !important;
+  --alpha-shell-border: rgba(255, 122, 0, 0.24) !important;
+  --alpha-shell-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 253, 247, 0.92)) !important;
+  --alpha-topbar-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 248, 231, 0.84)) !important;
+  --alpha-shadow: 0 18px 44px rgba(76, 29, 0, 0.1) !important;
+  --alpha-shadow-strong: 0 28px 72px rgba(76, 29, 0, 0.16) !important;
 }
 
 .alpha-auth-redesign {
@@ -5072,7 +5072,7 @@ html.theme-switching *::after {
   overflow: hidden;
   background:
     radial-gradient(circle at 76% 16%, color-mix(in srgb, var(--alpha-accent-to) 22%, transparent), transparent 28%),
-    radial-gradient(circle at 16% 78%, color-mix(in srgb, #27F2FF 16%, transparent), transparent 28%),
+    radial-gradient(circle at 16% 78%, color-mix(in srgb, var(--alpha-highlight) 16%, transparent), transparent 28%),
     var(--alpha-bg) !important;
   color: var(--alpha-text) !important;
 }
@@ -5161,7 +5161,7 @@ html.theme-switching *::after {
   overflow-x: hidden;
   background:
     radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--alpha-accent-to) 18%, transparent), transparent 30%),
-    radial-gradient(circle at 14% 90%, color-mix(in srgb, #27F2FF 12%, transparent), transparent 28%),
+    radial-gradient(circle at 14% 90%, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), transparent 28%),
     var(--alpha-bg) !important;
 }
 
@@ -5177,7 +5177,7 @@ html.theme-switching *::after {
   opacity: 0.78;
   background:
     radial-gradient(circle at 82% 12%, color-mix(in srgb, var(--alpha-accent-to) 20%, transparent), transparent 30%),
-    radial-gradient(circle at 8% 86%, color-mix(in srgb, #27F2FF 14%, transparent), transparent 32%);
+    radial-gradient(circle at 8% 86%, color-mix(in srgb, var(--alpha-highlight) 14%, transparent), transparent 32%);
 }
 
 .alpha-app-grid {
@@ -5196,7 +5196,8 @@ html.theme-switching *::after {
   border-color: var(--alpha-shell-border) !important;
   background: var(--alpha-shell-gradient) !important;
   box-shadow: var(--alpha-shadow) !important;
-  backdrop-filter: blur(18px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .alpha-theme.macos-app-shell .alpha-app-content-shell {
@@ -5277,7 +5278,8 @@ html.theme-switching *::after {
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 92%, transparent), color-mix(in srgb, var(--alpha-surface) 76%, transparent)) !important;
   box-shadow: 0 14px 32px color-mix(in srgb, #000 18%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.055) !important;
-  backdrop-filter: blur(14px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .alpha-theme.light.macos-app-shell .macos-card,
