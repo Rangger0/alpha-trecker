@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AlertCircle, CheckCircle2, Eye, EyeOff, Loader2, Lock, Mail, User } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Eye, EyeOff, Loader2, Lock, Mail } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 export function RegisterPage() {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -26,11 +25,6 @@ export function RegisterPage() {
     e.preventDefault();
     setError('');
     setSuccess('');
-
-    if (!name.trim()) {
-      setError('Name is required.');
-      return;
-    }
 
     if (!email.trim()) {
       setError('Email is required.');
@@ -63,11 +57,6 @@ export function RegisterPage() {
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
-        options: {
-          data: {
-            name: name.trim(),
-          },
-        },
       });
 
       if (error) throw error;
@@ -113,22 +102,6 @@ export function RegisterPage() {
       )}
 
       <form onSubmit={handleSubmit} className="alpha-auth-form">
-        <div className="alpha-auth-field-group">
-          <Label htmlFor="name">Name</Label>
-          <div className="alpha-auth-input-wrap">
-            <User className="h-4 w-4" />
-            <Input
-              id="name"
-              type="text"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              disabled={isBusy}
-              required
-            />
-          </div>
-        </div>
-
         <div className="alpha-auth-field-group">
           <Label htmlFor="email">Email</Label>
           <div className="alpha-auth-input-wrap">
