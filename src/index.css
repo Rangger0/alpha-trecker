@@ -10,29 +10,29 @@
 
 :root {
 
-/* Alpha Tracker - High Contrast Night Theme */
+/* Alpha Tracker - monochrome chrome fallback */
 
 /* RGB triples for Tailwind use (r g b) */
 --background: 0 0 0; /* #000000 */
---card: 9 9 9; /* #090909 */
+--card: 8 8 8; /* #080808 */
 --headline: 255 255 255; /* #FFFFFF */
---paragraph: 216 216 216; /* #D8D8D8 */
---icon-stroke: 245 245 245; /* #F5F5F5 */
---main: 255 75 43; /* #FF4B2B */
---highlight: 255 212 0; /* #FFD400 */
---secondary: 18 13 5; /* #120D05 */
---tertiary: 255 138 0; /* #FF8A00 */
+--paragraph: 214 214 214; /* #D6D6D6 */
+--icon-stroke: 244 244 244; /* #F4F4F4 */
+--main: 245 247 250; /* #F5F7FA */
+--highlight: 174 180 188; /* #AEB4BC */
+--secondary: 13 13 13; /* #0D0D0D */
+--tertiary: 215 221 229; /* #D7DDE5 */
 
 /* Hex fallbacks for places using hex vars */
 --background-hex: #000000;
---card-hex: #090909;
+--card-hex: #080808;
 --headline-hex: #FFFFFF;
---paragraph-hex: #D8D8D8;
---icon-stroke-hex: #F5F5F5;
---main-hex: #FF4B2B;
---highlight-hex: #FFD400;
---secondary-hex: #120D05;
---tertiary-hex: rgba(255, 170, 0, 0.28);
+--paragraph-hex: #D6D6D6;
+--icon-stroke-hex: #F4F4F4;
+--main-hex: #F5F7FA;
+--highlight-hex: #AEB4BC;
+--secondary-hex: #0D0D0D;
+--tertiary-hex: rgba(255, 255, 255, 0.16);
 
 --radius: 0.5rem;
 
@@ -42,8 +42,8 @@
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: #FF8A00;
---alpha-border: rgba(255, 170, 0, 0.28);
+--alpha-accent-hover: #FFFFFF;
+--alpha-border: rgba(255, 255, 255, 0.16);
 --alpha-surface: var(--card-hex);
 
 --bg: var(--background-hex);
@@ -60,28 +60,28 @@
 
 .dark {
 
-/* Alpha Tracker - High Contrast Night Theme */
+/* Alpha Tracker - monochrome chrome fallback */
 
 --background: 0 0 0; /* #000000 */
---card: 9 9 9; /* #090909 */
+--card: 8 8 8; /* #080808 */
 --headline: 255 255 255; /* #FFFFFF */
---paragraph: 216 216 216; /* #D8D8D8 */
---icon-stroke: 245 245 245; /* #F5F5F5 */
---main: 255 75 43; /* #FF4B2B */
---highlight: 255 212 0; /* #FFD400 */
---secondary: 18 13 5; /* #120D05 */
---tertiary: 255 138 0; /* #FF8A00 */
+--paragraph: 214 214 214; /* #D6D6D6 */
+--icon-stroke: 244 244 244; /* #F4F4F4 */
+--main: 245 247 250; /* #F5F7FA */
+--highlight: 174 180 188; /* #AEB4BC */
+--secondary: 13 13 13; /* #0D0D0D */
+--tertiary: 215 221 229; /* #D7DDE5 */
 
 /* Hex fallbacks */
 --background-hex: #000000;
---card-hex: #090909;
+--card-hex: #080808;
 --headline-hex: #FFFFFF;
---paragraph-hex: #D8D8D8;
---icon-stroke-hex: #F5F5F5;
---main-hex: #FF4B2B;
---highlight-hex: #FFD400;
---secondary-hex: #120D05;
---tertiary-hex: rgba(255, 170, 0, 0.28);
+--paragraph-hex: #D6D6D6;
+--icon-stroke-hex: #F4F4F4;
+--main-hex: #F5F7FA;
+--highlight-hex: #AEB4BC;
+--secondary-hex: #0D0D0D;
+--tertiary-hex: rgba(255, 255, 255, 0.16);
 
 /* Compatibility map */
 --alpha-bg: var(--background-hex);
@@ -89,8 +89,8 @@
 --alpha-text: var(--headline-hex);
 --alpha-text-muted: var(--paragraph-hex);
 --alpha-accent: var(--main-hex);
---alpha-accent-hover: #FF8A00;
---alpha-border: rgba(255, 170, 0, 0.28);
+--alpha-accent-hover: #FFFFFF;
+--alpha-border: rgba(255, 255, 255, 0.16);
 --alpha-surface: var(--card-hex);
 
 --bg: var(--background-hex);
@@ -115,14 +115,14 @@
   .macos-card, .macos-panel, .terminal-card, .alpha-card, .macos-popover {
     background: var(--alpha-panel) !important;
     border: 1px solid rgba(255,255,255,0.05) !important;
-    border-radius: 14px !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.25) !important;
+    border-radius: 10px !important;
+    box-shadow: var(--alpha-shadow) !important;
     transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease !important;
   }
 
   .macos-card:hover, .macos-panel:hover, .terminal-card:hover, .alpha-card:hover {
     border-color: var(--alpha-border-hover) !important;
-    transform: translateY(-2px) !important;
+    transform: translateY(-1px) !important;
   }
 
   .macos-btn {

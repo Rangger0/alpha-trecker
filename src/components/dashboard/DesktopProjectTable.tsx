@@ -174,7 +174,7 @@ function ActionButton({
       title={label}
       onClick={onClick}
       className={cn(
-        "h-8 w-8 rounded-lg border border-alpha-border bg-transparent alpha-text-muted transition-[background,border-color,color,transform] duration-150 hover:-translate-y-px hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)] disabled:cursor-not-allowed disabled:opacity-40",
+        "alpha-action-button h-8 w-8 rounded-lg border border-alpha-border bg-[color:var(--alpha-surface)] text-[color:var(--alpha-text)] shadow-none transition-[background,border-color,color,transform] duration-150 hover:-translate-y-px hover:bg-[color:var(--alpha-hover-soft)] hover:text-[color:var(--alpha-text)] disabled:cursor-not-allowed disabled:opacity-40",
         danger && "hover:border-[color:var(--alpha-danger-border)] hover:bg-[color:var(--alpha-danger-soft)] hover:text-[color:var(--alpha-danger)]",
         active && "border-[color:var(--alpha-highlight-border)] bg-[color:var(--alpha-highlight-soft)] text-[color:var(--alpha-highlight)]"
       )}

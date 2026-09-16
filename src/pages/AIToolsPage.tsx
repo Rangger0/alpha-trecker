@@ -18,7 +18,7 @@ const codingAI: AITool[] = [
     description: "General-purpose copilot for coding, debugging, planning, and quick product thinking.",
     url: "https://chatgpt.com",
     logo: "/logos/chatgpt.png",
-    accent: "#fffffe",
+    accent: "var(--alpha-text)",
     tags: ["coding", "reasoning"],
   },
   {
@@ -26,7 +26,7 @@ const codingAI: AITool[] = [
     description: "Strong long-context assistant for refactors, writing specs, and code review.",
     url: "https://claude.ai",
     logo: "/logos/claude.png",
-    accent: "#ffd803",
+    accent: "var(--alpha-chrome)",
     tags: ["context", "review"],
   },
   {
@@ -34,7 +34,7 @@ const codingAI: AITool[] = [
     description: "Fast analysis assistant with strong document digestion for research-heavy work.",
     url: "https://kimi.moonshot.cn",
     logo: "/logos/kimi.png",
-    accent: "#fffffe",
+    accent: "var(--alpha-text)",
     tags: ["docs", "analysis"],
   },
   {
@@ -42,7 +42,7 @@ const codingAI: AITool[] = [
     description: "AI-first editor for codebase chat, edits, and workflow inside the IDE.",
     url: "https://cursor.com",
     logo: "/logos/cursor.png",
-    accent: "#fffffe",
+    accent: "var(--alpha-text)",
     tags: ["editor", "ide"],
   },
   {
@@ -50,7 +50,7 @@ const codingAI: AITool[] = [
     description: "Pair programmer for inline completion, chat, and everyday coding assist.",
     url: "https://github.com/features/copilot",
     logo: "/logos/github.png",
-    accent: "#fffffe",
+    accent: "var(--alpha-text)",
     tags: ["autocomplete", "pairing"],
   },
   {
@@ -58,7 +58,7 @@ const codingAI: AITool[] = [
     description: "Code editor with agent-style flows for planning, edits, and execution loops.",
     url: "https://windsurf.com/editor",
     logo: "/logos/windsurf.png",
-    accent: "#fffffe",
+    accent: "var(--alpha-text)",
     tags: ["editor", "agentic"],
   },
   {
@@ -66,7 +66,7 @@ const codingAI: AITool[] = [
     description: "Fast free autocomplete and chat assistant for multi-language dev work.",
     url: "https://codeium.com",
     logo: "/logos/code.png",
-    accent: "#fffffe",
+    accent: "var(--alpha-text)",
     tags: ["free", "autocomplete"],
   },
   {
@@ -74,7 +74,7 @@ const codingAI: AITool[] = [
     description: "Browser-first coding assistant for prototypes, apps, and quick product shipping.",
     url: "https://replit.com/ai",
     logo: "/logos/replit.png",
-    accent: "#ffd803",
+    accent: "var(--alpha-chrome)",
     tags: ["browser", "prototype"],
   },
 ];
@@ -85,7 +85,7 @@ const researchAI: AITool[] = [
     description: "Useful for dense reasoning, market reading, and rough technical synthesis.",
     url: "https://www.deepseek.com",
     logo: "/logos/deepseek.png",
-    accent: "#2dd4bf",
+    accent: "var(--alpha-chrome-soft)",
     tags: ["reasoning", "market"],
   },
   {
@@ -93,7 +93,7 @@ const researchAI: AITool[] = [
     description: "Research engine with web grounding for fast fact-finding and exploration.",
     url: "https://www.perplexity.ai",
     logo: "/logos/perplexity.png",
-    accent: "#272343",
+    accent: "var(--alpha-text-muted)",
     tags: ["web", "research"],
   },
   {
@@ -101,7 +101,7 @@ const researchAI: AITool[] = [
     description: "Source-grounded workspace for studying docs, notes, transcripts, and summaries.",
     url: "https://notebooklm.google.com",
     logo: "/logos/note.png",
-    accent: "#fffffe",
+    accent: "var(--alpha-text)",
     tags: ["notes", "source-grounded"],
   },
   {
@@ -109,7 +109,7 @@ const researchAI: AITool[] = [
     description: "Fast real-time assistant that is useful for broad search and current-event context.",
     url: "https://grok.com",
     logo: "/logos/grok.png",
-    accent: "#fffffe",
+    accent: "var(--alpha-text)",
     tags: ["realtime", "search"],
   },
   {
@@ -125,7 +125,7 @@ const researchAI: AITool[] = [
     description: "Search-centric assistant with privacy angle and multiple answer modes.",
     url: "https://you.com",
     logo: "/logos/you.png",
-    accent: "#ffd803",
+    accent: "var(--alpha-chrome)",
     tags: ["privacy", "search"],
   },
   {
@@ -133,7 +133,7 @@ const researchAI: AITool[] = [
     description: "Search API and research workflow focused on high-signal web retrieval.",
     url: "https://exa.ai",
     logo: "/logos/exa.png",
-    accent: "#2dd4bf",
+    accent: "var(--alpha-chrome-soft)",
     tags: ["retrieval", "api"],
   },
   {
@@ -141,7 +141,7 @@ const researchAI: AITool[] = [
     description: "Research assistant for reading papers, comparing evidence, and synthesis.",
     url: "https://elicit.com",
     logo: "/logos/elicit.png",
-    accent: "#2dd4bf",
+    accent: "var(--alpha-chrome-soft)",
     tags: ["papers", "evidence"],
   },
 ];
@@ -152,7 +152,7 @@ const agentAI: AITool[] = [
     description: "Agent platform for code tasks that can inspect, edit, and iterate on repos.",
     url: "https://openhands.dev",
     logo: "/logos/openhands.png",
-    accent: "#2dd4bf",
+    accent: "var(--alpha-chrome-soft)",
     tags: ["coding agent", "automation"],
   },
   {
@@ -160,7 +160,7 @@ const agentAI: AITool[] = [
     description: "Autonomous workflow runner for long-horizon tasks and chained actions.",
     url: "https://agpt.co",
     logo: "/logos/auto.png",
-    accent: "#272343",
+    accent: "var(--alpha-text-muted)",
     tags: ["autonomous", "task loop"],
   },
   {
@@ -176,7 +176,7 @@ const agentAI: AITool[] = [
     description: "Framework for building LLM applications, tools, memory, and chains.",
     url: "https://www.langchain.com",
     logo: "/logos/langchain.png",
-    accent: "#2dd4bf",
+    accent: "var(--alpha-chrome-soft)",
     tags: ["framework", "llm apps"],
   },
   {
@@ -184,7 +184,7 @@ const agentAI: AITool[] = [
     description: "Graph-based runtime for stateful multi-step and multi-agent execution.",
     url: "https://www.langchain.com/langgraph",
     logo: "/logos/lang.png",
-    accent: "#2dd4bf",
+    accent: "var(--alpha-chrome-soft)",
     tags: ["stateful", "graph"],
   },
   {
@@ -192,7 +192,7 @@ const agentAI: AITool[] = [
     description: "Microsoft framework for agent conversations, tooling, and structured execution.",
     url: "https://microsoft.github.io/autogen/stable/",
     logo: "/logos/ag.png",
-    accent: "#2dd4bf",
+    accent: "var(--alpha-chrome-soft)",
     tags: ["framework", "microsoft"],
   },
   {
@@ -200,7 +200,7 @@ const agentAI: AITool[] = [
     description: "Visual builder for chatflows, agent graphs, and internal AI automation.",
     url: "https://flowiseai.com",
     logo: "/logos/flowise.png",
-    accent: "#2dd4bf",
+    accent: "var(--alpha-chrome-soft)",
     tags: ["visual", "builder"],
   },
   {
@@ -208,7 +208,7 @@ const agentAI: AITool[] = [
     description: "Platform to ship AI apps, workflows, agents, and internal copilots faster.",
     url: "https://dify.ai",
     logo: "/logos/dify.png",
-    accent: "#2dd4bf",
+    accent: "var(--alpha-chrome-soft)",
     tags: ["workflow", "app platform"],
   },
 ];
