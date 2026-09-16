@@ -61,26 +61,6 @@ export function LoginPage() {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    setError('');
-    setIsLoading(true);
-
-    try {
-      const { error: authError } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/overview`,
-        },
-      });
-
-      if (authError) throw authError;
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Google sign in failed';
-      setError(message);
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="alpha-auth-card">
       <div className="alpha-auth-card-header">
@@ -174,17 +154,6 @@ export function LoginPage() {
           )}
         </Button>
       </form>
-
-      <div className="alpha-auth-divider">
-        <span>OR</span>
-      </div>
-
-      <div className="alpha-auth-social-grid">
-        <button type="button" onClick={handleGoogleSignIn} disabled={isBusy}>
-          <span>G</span>
-          Continue with Google
-        </button>
-      </div>
 
       <p className="alpha-auth-footer-copy">
         New researcher?{' '}
