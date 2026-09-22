@@ -33,13 +33,13 @@ export function PipesBackground() {
     const rootStyles = getComputedStyle(document.documentElement);
     const readColor = (cssVar: string, fallback: string) => rootStyles.getPropertyValue(cssVar).trim() || fallback;
     const colors = [
-      readColor('--alpha-highlight', '#FF7A1A'),
-      readColor('--alpha-signal', '#FF7A1A'),
-      readColor('--alpha-warning', '#ffd803'),
-      readColor('--alpha-violet', '#FFB36B'),
-      readColor('--alpha-info', '#FF8A3B'),
+      readColor('--alpha-highlight', '#D6A85C'),
+      readColor('--alpha-signal', '#D6A85C'),
+      readColor('--alpha-warning', '#D6A85C'),
+      readColor('--alpha-violet', '#74808D'),
+      readColor('--alpha-info', '#91A6B8'),
     ];
-    const packetColor = readColor('--alpha-text', '#fffffe');
+    const packetColor = readColor('--alpha-text', '#F2F0EA');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const maxPipes = prefersReducedMotion ? 0 : 10;
     const spawnInterval = prefersReducedMotion ? Number.MAX_SAFE_INTEGER : 30;

@@ -35,7 +35,7 @@ export const faucetManualChainOptions: FaucetManualChainOption[] = [
     name: 'Custom Chain',
     shortName: 'NEW',
     logo: '/logo.png',
-    accent: '#ffd803',
+    accent: 'var(--alpha-highlight)',
   },
 ];
 

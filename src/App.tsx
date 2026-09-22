@@ -43,10 +43,11 @@ const LandingPage = lazyNamed(() => import('@/pages/LandingPage'), 'LandingPage'
 const AuthPage = lazyNamed(() => import('@/pages/AuthPage'), 'AuthPage');
 const LoginPage = lazyNamed(() => import('@/pages/LoginPage'), 'LoginPage');
 const RegisterPage = lazyNamed(() => import('@/pages/RegisterPage'), 'RegisterPage');
-const OverviewPage = lazyNamed(() => import('@/pages/OverviewPage'), 'OverviewPage');
 const EcosystemPage = lazyNamed(() => import('@/pages/EcosystemPage'), 'EcosystemPage');
 const EcosystemDetailPage = lazyNamed(() => import('@/pages/EcosystemDetailPage'), 'EcosystemDetailPage');
 const PriorityProjectsPage = lazyNamed(() => import('@/pages/PriorityProjectsPage'), 'PriorityProjectsPage');
+const ProjectListPage = lazyNamed(() => import('@/pages/ProjectListPage'), 'ProjectListPage');
+const NFTWaitlistPage = lazyNamed(() => import('@/pages/NFTWaitlistPage'), 'NFTWaitlistPage');
 const FaucetPage = lazyNamed(() => import('@/pages/FaucetPage'), 'FaucetPage');
 const MultipleAccountPage = lazyNamed(() => import('@/pages/MultipleAccountPage'), 'MultipleAccountPage');
 const AboutPage = lazyNamed(() => import('@/pages/AboutPage'), 'AboutPage');
@@ -271,11 +272,19 @@ function AppRoutes() {
             <Route element={<RequireAuth />}>
               <Route
                 path="/overview"
-                element={<PageTransition><OverviewPage /></PageTransition>}
+                element={<Navigate to="/dashboard" replace />}
               />
               <Route
                 path="/dashboard"
                 element={<PageTransition><LazyDashboard /></PageTransition>}
+              />
+              <Route
+                path="/project-list"
+                element={<PageTransition><ProjectListPage /></PageTransition>}
+              />
+              <Route
+                path="/nft-waitlist"
+                element={<PageTransition><NFTWaitlistPage /></PageTransition>}
               />
               <Route
                 path="/ecosystem"

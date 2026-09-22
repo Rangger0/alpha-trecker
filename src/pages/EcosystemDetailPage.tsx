@@ -40,7 +40,7 @@ export function EcosystemDetailPage() {
   // apply per-ecosystem CSS vars + theme class
   useEffect(() => {
     if (!containerRef.current || !ecosystem) return;
-    setEcosystemCssVars(containerRef.current, ecosystem.color || '#2dd4bf', isDark);
+    setEcosystemCssVars(containerRef.current, ecosystem.color || '#91A6B8', isDark);
 
     // ensure only relevant theme classes exist
     containerRef.current.classList.remove('alpha-theme', 'light', 'dark');
@@ -115,7 +115,7 @@ export function EcosystemDetailPage() {
     }, 0) / assignedProjects.length)
     : 0;
 
-  const accentBase = ecosystem.color || '#2dd4bf';
+  const accentBase = ecosystem.color || 'var(--alpha-info)';
 
   return (
     <DashboardLayout disableMonochrome>

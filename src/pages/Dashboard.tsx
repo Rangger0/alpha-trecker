@@ -4,7 +4,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useI18n } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { supabase } from "@/lib/supabase";
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -19,10 +18,9 @@ import { usePrices } from "@/hooks/use-prices";
 import { useCurrencyRate } from "@/hooks/use-currency-rate";
 import { useAirdropRewards } from "@/hooks/use-airdrop-rewards";
 import { CurrencyConverter } from "@/components/dashboard/CurrencyConverter";
-import { ProjectTableContainer } from "@/components/dashboard/ProjectTableContainer";
-import { AIRDROPS_SYNC_EVENT, emitAirdropsSync, setCachedAirdrops } from "@/lib/airdrops-store";
+import { AIRDROPS_SYNC_EVENT, setCachedAirdrops } from "@/lib/airdrops-store";
 import type { Airdrop } from "@/types";
-import { createAirdrop, getAirdropsByUserId, updateAirdrop } from "@/services/database";
+import { getAirdropsByUserId } from "@/services/database";
 
 const RewardPerformancePanel = lazy(async () => {
   const module = await import("@/components/rewards/RewardPerformancePanel");
@@ -32,26 +30,6 @@ const RewardPerformancePanel = lazy(async () => {
 const AirdropNewsPanel = lazy(async () => {
   const module = await import("@/components/dashboard/AirdropNewsPanel");
   return { default: module.AirdropNewsPanel };
-});
-
-const AirdropModal = lazy(async () => {
-  const module = await import("@/components/modals/AirdropModal");
-  return { default: module.AirdropModal };
-});
-
-const DeleteConfirmModal = lazy(async () => {
-  const module = await import("@/components/modals/DeleteConfirmModal");
-  return { default: module.DeleteConfirmModal };
-});
-
-const WalletConnectModal = lazy(async () => {
-  const module = await import("@/components/modals/WalletConnectModal");
-  return { default: module.WalletConnectModal };
-});
-
-const EligibilityModal = lazy(async () => {
-  const module = await import("@/components/modals/EligibilityModal");
-  return { default: module.EligibilityModal };
 });
 
 /* ---------- animations ---------- */
@@ -419,7 +397,7 @@ function DashboardHero({
               Dashboard
             </h1>
             <p className="mt-2 max-w-2xl text-[13px] leading-6 alpha-text-muted">
-              Project, funding findings, waitlist, potential, deadline, dan reward flow tersinkron dari workspace.
+              Overview workspace dan daftar project dalam satu dashboard: pantau status, prioritas, deadline, funding, dan reward flow.
             </p>
           </div>
 
@@ -517,11 +495,11 @@ function DashboardHero({
 function PriceTracker({ isDark }: { isDark: boolean }) {
   const { prices, loading, error, lastUpdatedAt } = usePrices(['bitcoin', 'ethereum', 'solana', 'cardano', 'polkadot']);
   const coins = [
-    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', accent: '#ffd803' },
-    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', accent: '#2dd4bf' },
-    { id: 'solana', symbol: 'SOL', name: 'Solana', accent: '#2dd4bf' },
-    { id: 'cardano', symbol: 'ADA', name: 'Cardano', accent: '#2dd4bf' },
-    { id: 'polkadot', symbol: 'DOT', name: 'Polkadot', accent: '#ffd803' },
+    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', accent: 'var(--alpha-highlight)' },
+    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', accent: 'var(--alpha-info)' },
+    { id: 'solana', symbol: 'SOL', name: 'Solana', accent: 'var(--alpha-info)' },
+    { id: 'cardano', symbol: 'ADA', name: 'Cardano', accent: 'var(--alpha-info)' },
+    { id: 'polkadot', symbol: 'DOT', name: 'Polkadot', accent: 'var(--alpha-highlight)' },
   ];
   const lastUpdatedLabel = lastUpdatedAt
     ? lastUpdatedAt.toLocaleTimeString('en-US', {
@@ -844,13 +822,7 @@ function DashboardContent() {
   const { session } = useAuth();
   const user = session?.user;
   const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [editingAirdrop, setEditingAirdrop] = useState<Airdrop | null>(null);
-  const [deletingAirdrop, setDeletingAirdrop] = useState<Airdrop | null>(null);
   const { theme } = useTheme();
-  const [logoError, setLogoError] = useState<Record<string, boolean>>({});
-  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
-  const [isEligibilityModalOpen, setIsEligibilityModalOpen] = useState(false);
   const { rewards } = useAirdropRewards();
 
   const isDark = theme === 'dark';
@@ -886,55 +858,6 @@ function DashboardContent() {
     return () => window.removeEventListener(AIRDROPS_SYNC_EVENT, handleSync);
   }, [user]);
 
-  const syncDashboardAirdrops = (nextAirdrops: Airdrop[]) => {
-    setAirdrops(nextAirdrops);
-
-    if (user) {
-      setCachedAirdrops(user.id, nextAirdrops);
-      emitAirdropsSync({ userId: user.id });
-    }
-  };
-
-  async function handleAddAirdrop(data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) {
-    if (!user) return;
-    await createAirdrop(data, user.id);
-    const rows = await getAirdropsByUserId(user.id);
-    syncDashboardAirdrops(rows.map((airdrop) => ({ ...airdrop, isPriority: Boolean(airdrop.isPriority || airdrop.is_priority) })));
-    setIsAddModalOpen(false);
-  }
-
-  const handleEditAirdrop = async (data: Omit<Airdrop, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
-    if (!editingAirdrop || !user) return;
-    await updateAirdrop(editingAirdrop.id, data);
-    const rows = await getAirdropsByUserId(user.id);
-    syncDashboardAirdrops(rows.map((airdrop) => ({ ...airdrop, isPriority: Boolean(airdrop.isPriority || airdrop.is_priority) })));
-    setEditingAirdrop(null);
-  };
-
-  const handleDeleteAirdrop = async () => {
-    if (!deletingAirdrop) return;
-    const { error } = await supabase.from('airdrops').delete().eq('id', deletingAirdrop.id);
-    if (error) return console.error(error);
-    syncDashboardAirdrops(airdrops.filter(a => a.id !== deletingAirdrop.id));
-    setDeletingAirdrop(null);
-  };
-
-  // Toggle priority: update DB then refetch canonical list
-  const handleAddPriority = async (airdrop: Airdrop) => {
-    if (!user) return;
-    const current = Boolean(airdrop.isPriority || airdrop.is_priority);
-    const newVal = !current;
-    const { error } = await supabase.from('airdrops')
-      .update({ is_priority: newVal, updated_at: new Date().toISOString() })
-      .eq('id', airdrop.id);
-    if (error) {
-      console.error(error);
-      return;
-    }
-    const rows = await getAirdropsByUserId(user.id);
-    syncDashboardAirdrops(rows.map((airdropRow) => ({ ...airdropRow, isPriority: Boolean(airdropRow.isPriority || airdropRow.is_priority) })));
-  };
-
   return (
     <div className={`dashboard-clean min-h-screen flex flex-col transition-colors duration-300 macos-root ${bg} ${text}`}>
       <style>{ANIM_STYLE}</style>
@@ -950,65 +873,8 @@ function DashboardContent() {
           />
         </div>
 
-        {/* New Refactored Project Table with Filter */}
-        <ProjectTableContainer
-          airdrops={airdrops}
-          isDark={isDark}
-          logoError={logoError}
-          setLogoError={setLogoError}
-          onEdit={(airdrop) => setEditingAirdrop(airdrop)}
-          onDelete={(airdrop) => setDeletingAirdrop(airdrop)}
-          onPriority={handleAddPriority}
-          onAddNew={() => setIsAddModalOpen(true)}
-        />
       </main>
 
-      {/* MODALS */}
-      {isAddModalOpen ? (
-        <Suspense fallback={null}>
-          <AirdropModal
-            isOpen={isAddModalOpen}
-            onClose={() => setIsAddModalOpen(false)}
-            onSubmit={handleAddAirdrop}
-            mode="add"
-            isDark={isDark}
-          />
-        </Suspense>
-      ) : null}
-      {editingAirdrop ? (
-        <Suspense fallback={null}>
-          <AirdropModal
-            isOpen={Boolean(editingAirdrop)}
-            onClose={() => setEditingAirdrop(null)}
-            onSubmit={handleEditAirdrop}
-            mode="edit"
-            airdrop={editingAirdrop}
-            isDark={isDark}
-          />
-        </Suspense>
-      ) : null}
-      {deletingAirdrop ? (
-        <Suspense fallback={null}>
-          <DeleteConfirmModal
-            isOpen={Boolean(deletingAirdrop)}
-            onClose={() => setDeletingAirdrop(null)}
-            onConfirm={handleDeleteAirdrop}
-            projectName={deletingAirdrop?.projectName}
-            isDark={isDark}
-          />
-        </Suspense>
-      ) : null}
-
-      {isWalletModalOpen ? (
-        <Suspense fallback={null}>
-          <WalletConnectModal isOpen={isWalletModalOpen} onClose={() => setIsWalletModalOpen(false)} />
-        </Suspense>
-      ) : null}
-      {isEligibilityModalOpen ? (
-        <Suspense fallback={null}>
-          <EligibilityModal isOpen={isEligibilityModalOpen} onClose={() => setIsEligibilityModalOpen(false)} />
-        </Suspense>
-      ) : null}
     </div>
   );
 }

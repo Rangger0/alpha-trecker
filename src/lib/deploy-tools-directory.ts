@@ -24,7 +24,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'thirdweb-dashboard',
     name: 'thirdweb Dashboard',
-    accent: '#2dd4bf',
+    accent: 'var(--alpha-info)',
     badge: 'TW',
     description: 'Deploy ERC-20, ERC-721, ERC-1155, edition contract, dan app contract dari dashboard web.',
     mode: 'No-code',
@@ -39,7 +39,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'openzeppelin-wizard',
     name: 'OpenZeppelin Wizard',
-    accent: '#2dd4bf',
+    accent: 'var(--alpha-info)',
     badge: 'OZ',
     description: 'Generator kontrak ERC-20 / ERC-721 / ERC-1155 yang aman untuk dibawa ke Remix atau Foundry.',
     mode: 'Low-code',
@@ -54,7 +54,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'remix-ide',
     name: 'Remix IDE',
-    accent: '#ffd803',
+    accent: 'var(--alpha-highlight)',
     badge: 'RX',
     description: 'IDE browser untuk compile, deploy, dan verify contract langsung dari wallet.',
     mode: 'Low-code',
@@ -84,7 +84,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'base-token-guide',
     name: 'Base Token Guide',
-    accent: '#2dd4bf',
+    accent: 'var(--alpha-info)',
     badge: 'BS',
     description: 'Guide resmi Base untuk deploy ERC-20, contract, dan app ke Base mainnet atau Base Sepolia.',
     mode: 'Builder docs',
@@ -99,7 +99,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'solana-token-docs',
     name: 'Solana Token Guide',
-    accent: '#2dd4bf',
+    accent: 'var(--alpha-info)',
     badge: 'SL',
     description: 'Dokumentasi resmi Solana untuk token, metadata, dan flow deploy/testing pada cluster Solana.',
     mode: 'Builder docs',
@@ -114,7 +114,7 @@ export const deployToolsDirectory: DeployToolEntry[] = [
   {
     id: 'sui-package-guide',
     name: 'Sui Publish Guide',
-    accent: '#2dd4bf',
+    accent: 'var(--alpha-info)',
     badge: 'SU',
     description: 'Panduan resmi publish package Move, asset, dan NFT di jaringan Sui.',
     mode: 'Builder docs',

@@ -34,6 +34,19 @@ const persistTheme = (theme: Theme) => {
   localStorage.removeItem(LEGACY_THEME_KEY);
 };
 
+const runThemeUpdate = (update: () => void) => {
+  const startViewTransition = (document as Document & {
+    startViewTransition?: (callback: () => void) => unknown;
+  }).startViewTransition;
+
+  if (startViewTransition) {
+    startViewTransition.call(document, update);
+    return;
+  }
+
+  update();
+};
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(readStoredTheme);
   const switchTimeoutRef = useRef<number | null>(null);
@@ -51,7 +64,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     switchTimeoutRef.current = window.setTimeout(() => {
       root.classList.remove('theme-switching');
       switchTimeoutRef.current = null;
-    }, 90);
+    }, 360);
   }, []);
 
   useLayoutEffect(() => {
@@ -69,12 +82,20 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const setTheme = useCallback((nextTheme: Theme) => {
     beginThemeSwitch();
-    setThemeState((current) => (current === nextTheme ? current : nextTheme));
+    const update = () => {
+      setThemeState((current) => (current === nextTheme ? current : nextTheme));
+    };
+
+    runThemeUpdate(update);
   }, [beginThemeSwitch]);
 
   const toggleTheme = useCallback(() => {
     beginThemeSwitch();
-    setThemeState((current) => (current === 'dark' ? 'light' : 'dark'));
+    const update = () => {
+      setThemeState((current) => (current === 'dark' ? 'light' : 'dark'));
+    };
+
+    runThemeUpdate(update);
   }, [beginThemeSwitch]);
 
   const value = useMemo(() => ({

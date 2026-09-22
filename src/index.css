@@ -10,29 +10,29 @@
 
 :root {
 
-/* Alpha Tracker - monochrome chrome fallback */
+/* Alpha Tracker - neutral theme fallback */
 
 /* RGB triples for Tailwind use (r g b) */
---background: 0 0 0; /* #000000 */
---card: 8 8 8; /* #080808 */
---headline: 255 255 255; /* #FFFFFF */
---paragraph: 214 214 214; /* #D6D6D6 */
---icon-stroke: 244 244 244; /* #F4F4F4 */
---main: 245 247 250; /* #F5F7FA */
---highlight: 174 180 188; /* #AEB4BC */
---secondary: 13 13 13; /* #0D0D0D */
---tertiary: 215 221 229; /* #D7DDE5 */
+--background: 17 19 24;
+--card: 25 28 34;
+--headline: 242 240 234;
+--paragraph: 184 187 194;
+--icon-stroke: 230 225 214;
+--main: 216 211 199;
+--highlight: 214 168 92;
+--secondary: 20 23 28;
+--tertiary: 130 138 149;
 
 /* Hex fallbacks for places using hex vars */
---background-hex: #000000;
---card-hex: #080808;
---headline-hex: #FFFFFF;
---paragraph-hex: #D6D6D6;
---icon-stroke-hex: #F4F4F4;
---main-hex: #F5F7FA;
---highlight-hex: #AEB4BC;
---secondary-hex: #0D0D0D;
---tertiary-hex: rgba(255, 255, 255, 0.16);
+--background-hex: #111318;
+--card-hex: #191C22;
+--headline-hex: #F2F0EA;
+--paragraph-hex: #B8BBC2;
+--icon-stroke-hex: #E6E1D6;
+--main-hex: #D8D3C7;
+--highlight-hex: #D6A85C;
+--secondary-hex: #14171C;
+--tertiary-hex: rgba(231, 229, 220, 0.14);
 
 --radius: 0.5rem;
 
@@ -62,26 +62,26 @@
 
 /* Alpha Tracker - monochrome chrome fallback */
 
---background: 0 0 0; /* #000000 */
---card: 8 8 8; /* #080808 */
---headline: 255 255 255; /* #FFFFFF */
---paragraph: 214 214 214; /* #D6D6D6 */
---icon-stroke: 244 244 244; /* #F4F4F4 */
---main: 245 247 250; /* #F5F7FA */
---highlight: 174 180 188; /* #AEB4BC */
---secondary: 13 13 13; /* #0D0D0D */
---tertiary: 215 221 229; /* #D7DDE5 */
+--background: 17 19 24;
+--card: 25 28 34;
+--headline: 242 240 234;
+--paragraph: 184 187 194;
+--icon-stroke: 230 225 214;
+--main: 216 211 199;
+--highlight: 214 168 92;
+--secondary: 20 23 28;
+--tertiary: 130 138 149;
 
 /* Hex fallbacks */
---background-hex: #000000;
---card-hex: #080808;
---headline-hex: #FFFFFF;
---paragraph-hex: #D6D6D6;
---icon-stroke-hex: #F4F4F4;
---main-hex: #F5F7FA;
---highlight-hex: #AEB4BC;
---secondary-hex: #0D0D0D;
---tertiary-hex: rgba(255, 255, 255, 0.16);
+--background-hex: #111318;
+--card-hex: #191C22;
+--headline-hex: #F2F0EA;
+--paragraph-hex: #B8BBC2;
+--icon-stroke-hex: #E6E1D6;
+--main-hex: #D8D3C7;
+--highlight-hex: #D6A85C;
+--secondary-hex: #14171C;
+--tertiary-hex: rgba(231, 229, 220, 0.14);
 
 /* Compatibility map */
 --alpha-bg: var(--background-hex);

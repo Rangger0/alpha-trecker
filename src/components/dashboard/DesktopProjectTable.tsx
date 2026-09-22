@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { Airdrop } from "@/types";
 import { cn } from "@/lib/utils";
+import { getXProfileUrl } from "@/lib/project-classification";
 
 interface DesktopProjectTableProps {
   airdrops: Airdrop[];
@@ -22,38 +23,50 @@ interface DesktopProjectTableProps {
   onPriority: (airdrop: Airdrop) => void;
 }
 
-type Tone = { bg: string; text: string; border: string };
+type Tone = { name: string; bg: string; text: string; border: string; color: string; background: string; borderColor: string };
 
 const TONES = {
   green: {
+    name: "green",
     bg: "bg-[color:var(--alpha-success-soft)]",
     text: "text-[color:var(--alpha-success)]",
     border: "border-[color:var(--alpha-success-border)]",
+    color: "var(--alpha-success)", background: "var(--alpha-success-soft)", borderColor: "var(--alpha-success-border)",
   },
   yellow: {
+    name: "yellow",
     bg: "bg-[color:var(--alpha-warning-soft)]",
     text: "text-[color:var(--alpha-warning)]",
     border: "border-[color:var(--alpha-warning-border)]",
+    color: "var(--alpha-warning)", background: "var(--alpha-warning-soft)", borderColor: "var(--alpha-warning-border)",
   },
   red: {
+    name: "red",
     bg: "bg-[color:var(--alpha-danger-soft)]",
     text: "text-[color:var(--alpha-danger)]",
     border: "border-[color:var(--alpha-danger-border)]",
+    color: "var(--alpha-danger)", background: "var(--alpha-danger-soft)", borderColor: "var(--alpha-danger-border)",
   },
   gray: {
+    name: "gray",
     bg: "bg-[color:var(--alpha-hover-soft)]",
     text: "text-[color:var(--alpha-text-muted)]",
     border: "border-[color:var(--alpha-border-strong)]",
+    color: "var(--alpha-text-muted)", background: "var(--alpha-hover-soft)", borderColor: "var(--alpha-border-strong)",
   },
   orange: {
+    name: "orange",
     bg: "bg-[color:var(--alpha-highlight-soft)]",
     text: "text-[color:var(--alpha-highlight)]",
     border: "border-[color:var(--alpha-highlight-border)]",
+    color: "var(--alpha-highlight)", background: "var(--alpha-highlight-soft)", borderColor: "var(--alpha-highlight-border)",
   },
   teal: {
+    name: "teal",
     bg: "bg-[color:var(--alpha-info-soft)]",
     text: "text-[color:var(--alpha-info)]",
     border: "border-[color:var(--alpha-info-border)]",
+    color: "var(--alpha-info)", background: "var(--alpha-info-soft)", borderColor: "var(--alpha-info-border)",
   },
 } satisfies Record<string, Tone>;
 
@@ -97,13 +110,26 @@ const potentialMeta = (potential?: string) => {
   return { label: "C Tier", tone: TONES.gray };
 };
 
+const priorityMeta = (priority?: string) => {
+  if (priority === "High") return { label: "High", tone: TONES.red };
+  if (priority === "Medium") return { label: "Medium", tone: TONES.yellow };
+  if (priority === "Low") return { label: "Low", tone: TONES.teal };
+  return { label: "Unset", tone: TONES.gray };
+};
+
 const badgeClass = (tone: Tone) =>
   cn(
-    "inline-flex h-6 max-w-full items-center rounded-full border px-2.5 text-[11px] font-semibold leading-none",
+    `project-badge project-badge-${tone.name} inline-flex h-6 max-w-full items-center rounded-full border px-2.5 text-[11px] font-semibold leading-none`,
     tone.bg,
     tone.text,
     tone.border
   );
+
+const badgeStyle = (tone: Tone) => ({
+  color: tone.color,
+  backgroundColor: tone.background,
+  borderColor: tone.borderColor,
+});
 
 function ProjectAvatar({
   airdrop,
@@ -201,6 +227,7 @@ export function DesktopProjectTable({
             <col className="w-[136px] min-[1600px]:w-[156px]" />
             <col className="w-[116px] min-[1600px]:w-[124px]" />
             <col className="w-[116px] min-[1600px]:w-[128px]" />
+            <col className="w-[116px] min-[1600px]:w-[128px]" />
             <col className="w-[128px] min-[1600px]:w-[146px]" />
             <col className="w-[150px] min-[1600px]:w-[178px] min-[1920px]:w-[210px]" />
             <col className="hidden w-[150px] min-[1600px]:table-column min-[1920px]:w-[180px]" />
@@ -215,6 +242,7 @@ export function DesktopProjectTable({
                 "Category",
                 "Status",
                 "Potential",
+                "Priority",
                 "Funding",
                 "Wallet",
                 "Strategy",
@@ -278,7 +306,9 @@ const DesktopTableRow = memo(function DesktopTableRow({
   const isPriority = Boolean(airdrop.isPriority || airdrop.is_priority);
   const status = statusMeta(airdrop.status);
   const potential = potentialMeta(airdrop.potential);
+  const priority = priorityMeta(airdrop.priority);
   const officialLink = airdrop.platformLink?.trim();
+  const xLink = getXProfileUrl(airdrop.twitterUsername);
   const wallet = airdrop.walletAddress?.trim();
   const funding = airdrop.funding?.trim();
   const category = airdrop.projectCategory ?? "Other";
@@ -304,9 +334,7 @@ const DesktopTableRow = memo(function DesktopTableRow({
               <p className="truncate text-[13px] font-semibold leading-5 alpha-text" title={airdrop.projectName}>
                 {airdrop.projectName}
               </p>
-              {isPriority && (
-                <Star className="h-3.5 w-3.5 flex-shrink-0 fill-[color:var(--alpha-highlight)] text-[color:var(--alpha-highlight)]" />
-              )}
+              {isPriority && <Star className="h-3.5 w-3.5 flex-shrink-0" style={{ color: 'var(--alpha-highlight)', fill: 'var(--alpha-highlight)' }} />}
             </div>
             <p className="truncate text-[11px] leading-4 alpha-text-muted" title={airdrop.twitterUsername || undefined}>
               {airdrop.twitterUsername ? `@${airdrop.twitterUsername.replace("@", "")}` : formatProjectDate(airdrop.deadline ?? airdrop.createdAt)}
@@ -326,14 +354,20 @@ const DesktopTableRow = memo(function DesktopTableRow({
       </td>
 
       <td className="border-b border-alpha-border px-4 py-2">
-        <span className={badgeClass(status.tone)} title={airdrop.status}>
+        <span className={badgeClass(status.tone)} style={badgeStyle(status.tone)} title={airdrop.status}>
           {status.label}
         </span>
       </td>
 
       <td className="border-b border-alpha-border px-4 py-2">
-        <span className={badgeClass(potential.tone)} title={airdrop.potential ?? "No potential set"}>
+        <span className={badgeClass(potential.tone)} style={badgeStyle(potential.tone)} title={airdrop.potential ?? "No potential set"}>
           {potential.label}
+        </span>
+      </td>
+
+      <td className="border-b border-alpha-border px-4 py-2">
+        <span className={badgeClass(priority.tone)} style={badgeStyle(priority.tone)} title={airdrop.priority ?? "No priority set"}>
+          {priority.label}
         </span>
       </td>
 
@@ -397,13 +431,22 @@ const DesktopTableRow = memo(function DesktopTableRow({
               onPriority(airdrop);
             }}
           >
-            <Star className={cn("h-3.5 w-3.5", isPriority && "fill-current")} />
+            <Star className="h-3.5 w-3.5" style={isPriority ? { color: 'var(--alpha-highlight)', fill: 'var(--alpha-highlight)' } : undefined} />
           </ActionButton>
           <ActionButton label="Edit" onClick={() => onEdit(airdrop)}>
             <Edit2 className="h-3.5 w-3.5" />
           </ActionButton>
           <ActionButton label="Delete" danger onClick={() => onDelete(airdrop)}>
             <Trash2 className="h-3.5 w-3.5" />
+          </ActionButton>
+          <ActionButton
+            label="Open X profile"
+            disabled={!xLink}
+            onClick={() => {
+              if (xLink) window.open(xLink, "_blank", "noopener,noreferrer");
+            }}
+          >
+            <span className="text-[13px] font-semibold leading-none" aria-hidden="true">𝕏</span>
           </ActionButton>
           <ActionButton
             label="Open Link"

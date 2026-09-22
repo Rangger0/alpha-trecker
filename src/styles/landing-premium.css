@@ -2395,7 +2395,7 @@
   width: 28px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff4b2b, #D7DDE5);
+  background: linear-gradient(135deg, var(--alpha-danger), var(--alpha-main));
   color: #fff;
   font-size: 0.64rem;
   font-style: normal;

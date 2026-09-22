@@ -75,6 +75,8 @@ interface AirdropModalProps {
   mode: 'add' | 'edit';
   airdrop?: Airdrop | null;
   isDark?: boolean;
+  scope?: 'project' | 'nft';
+  isDuplicate?: (data: Pick<Airdrop, 'projectName' | 'platformLink' | 'twitterUsername'>) => boolean;
 }
 
 const getTodayDateInputValue = () => {
@@ -98,7 +100,7 @@ const normalizeDateInputValue = (value?: string) => {
   return `${year}-${month}-${day}`;
 };
 
-export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: AirdropModalProps) {
+export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, scope = 'project', isDuplicate }: AirdropModalProps) {
   const { t, translateOption } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
   const [projectName, setProjectName] = useState('');
@@ -121,6 +123,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
   const [potential, setPotential] = useState<PriorityLevel>('Medium');
   const [airdropConfirmed, setAirdropConfirmed] = useState(false);
   const [isPriority, setIsPriority] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
     if (!isOpen) return;
@@ -146,6 +149,10 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
       setIsPriority(airdrop.isPriority ?? airdrop.is_priority ?? false);
     } else {
       resetForm();
+      if (scope === 'nft') {
+        setProjectCategory('NFT');
+        setFarmingStrategy('Waitlist');
+      }
     }
   }, [isOpen, mode, airdrop]);
 
@@ -169,22 +176,34 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
     setPotential('Medium');
     setAirdropConfirmed(false);
     setIsPriority(false);
+    setSubmitError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!projectName?.trim()) return;
 
-    const submitData = {
+    const identity = {
       projectName: projectName.trim(),
-      projectLogo: projectLogo.trim(),
       platformLink: platformLink.trim(),
       twitterUsername: twitterUsername.trim(),
+    };
+    if (isDuplicate?.(identity)) {
+      setSubmitError('Project dengan nama atau link yang sama sudah ada.');
+      return;
+    }
+
+    const selectedCategory = scope === 'nft' ? 'NFT' : projectCategory;
+    const selectedStrategy = scope === 'nft' ? 'Waitlist' : farmingStrategy;
+
+    const submitData = {
+      ...identity,
+      projectLogo: projectLogo.trim(),
       walletAddress: walletAddress.trim(),
       email: email.trim(),
-      type: getLegacyType(projectCategory, farmingStrategy),
-      projectCategory,
-      farmingStrategy,
+      type: getLegacyType(selectedCategory, selectedStrategy),
+      projectCategory: selectedCategory,
+      farmingStrategy: selectedStrategy,
       status,
       notes: notes.trim(),
       tasks,
@@ -319,12 +338,12 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
                 <Label htmlFor="projectCategory" className="macos-modal-label">
                   Project Category *
                 </Label>
-                <Select value={projectCategory} onValueChange={(v) => setProjectCategory(v as ProjectCategory)}>
+                <Select value={projectCategory} onValueChange={(v) => setProjectCategory(v as ProjectCategory)} disabled={scope === 'nft'}>
                   <SelectTrigger className="macos-input macos-modal-input">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="macos-popover">
-                    {PROJECT_CATEGORIES.map((category) => (
+                    {(scope === 'nft' ? ['NFT'] : PROJECT_CATEGORIES.filter((category) => category !== 'NFT')).map((category) => (
                       <SelectItem 
                         key={category}
                         value={category}
@@ -340,12 +359,12 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
                 <Label htmlFor="farmingStrategy" className="macos-modal-label">
                   Farming Strategy *
                 </Label>
-                <Select value={farmingStrategy} onValueChange={(v) => setFarmingStrategy(v as FarmingStrategy)}>
+                <Select value={farmingStrategy} onValueChange={(v) => setFarmingStrategy(v as FarmingStrategy)} disabled={scope === 'nft'}>
                   <SelectTrigger className="macos-input macos-modal-input">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="macos-popover">
-                    {FARMING_STRATEGIES.map((strategy) => (
+                    {(scope === 'nft' ? ['Waitlist'] : FARMING_STRATEGIES.filter((strategy) => strategy !== 'Waitlist')).map((strategy) => (
                       <SelectItem
                         key={strategy}
                         value={strategy}
@@ -511,16 +530,22 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop }: Airdr
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="twitterUsername" className="macos-modal-label">
-                  {t('airdropModal.twitterUsername')}
+                    X Link
                 </Label>
                 <Input
                   id="twitterUsername"
-                  placeholder={t('airdropModal.twitterPlaceholder')}
+                  placeholder="https://x.com/project"
                   value={twitterUsername}
                   onChange={(e) => setTwitterUsername(e.target.value)}
                   className="macos-input macos-modal-input"
                 />
               </div>
+
+              {submitError ? (
+                <p className="text-sm font-medium text-[color:var(--alpha-danger)]" role="alert">
+                  {submitError}
+                </p>
+              ) : null}
               
               <div className="space-y-2">
                 <Label htmlFor="walletAddress" className="macos-modal-label">

@@ -55,6 +55,8 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
 
     if (path.startsWith('/overview')) return t('topbar.section.overview');
     if (path.startsWith('/dashboard')) return t('topbar.section.dashboard');
+    if (path.startsWith('/project-list')) return t('topbar.section.projectList');
+    if (path.startsWith('/nft-waitlist')) return t('topbar.section.nftWaitlist');
     if (path.startsWith('/priority-projects')) return t('topbar.section.priority');
     if (path.startsWith('/ecosystem')) return t('topbar.section.ecosystem');
     if (path.startsWith('/screening')) return t('topbar.section.screening');
