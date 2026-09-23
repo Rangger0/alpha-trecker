@@ -96,6 +96,20 @@ const formatProjectDate = (value?: string) => {
   });
 };
 
+const formatProjectDateTime = (value?: string) => {
+  if (!value) return "--";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+
+  return parsed.toLocaleString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
 const statusMeta = (status?: string) => {
   if (status === "Ongoing") return { label: "Active", tone: TONES.green };
   if (status === "Planning") return { label: "Planning", tone: TONES.yellow };
@@ -338,6 +352,9 @@ const DesktopTableRow = memo(function DesktopTableRow({
             </div>
             <p className="truncate text-[11px] leading-4 alpha-text-muted" title={airdrop.twitterUsername || undefined}>
               {airdrop.twitterUsername ? `@${airdrop.twitterUsername.replace("@", "")}` : formatProjectDate(airdrop.deadline ?? airdrop.createdAt)}
+            </p>
+            <p className="truncate text-[10px] leading-4 alpha-text-muted" title="Tanggal dan waktu dibuat">
+              {formatProjectDateTime(airdrop.createdAt)}
             </p>
           </div>
         </div>

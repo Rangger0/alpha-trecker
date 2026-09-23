@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type PointerEvent } from "react";
 import { useLocation } from "react-router-dom";
 import { Bot, Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
@@ -25,12 +25,56 @@ export function FloatingFeedback() {
   const [message, setMessage] = useState("");
   const [contact, setContact] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
+  const dragState = useRef({ active: false, moved: false, offsetX: 0, offsetY: 0 });
 
   const currentRoute = `${location.pathname}${location.search}${location.hash}`;
   const currentPageUrl = typeof window !== "undefined" ? window.location.href : currentRoute;
   const userId = session?.user?.id ?? null;
   const userEmail = session?.user?.email ?? "";
   const trimmedMessageLength = message.trim().length;
+
+  useEffect(() => {
+    const handlePointerMove = (event: globalThis.PointerEvent) => {
+      if (!dragState.current.active) return;
+
+      dragState.current.moved = true;
+      const buttonSize = 64;
+      setPosition({
+        x: Math.min(Math.max(8, event.clientX - dragState.current.offsetX), window.innerWidth - buttonSize - 8),
+        y: Math.min(Math.max(8, event.clientY - dragState.current.offsetY), window.innerHeight - buttonSize - 8),
+      });
+    };
+    const handlePointerUp = () => {
+      dragState.current.active = false;
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+    };
+  }, []);
+
+  const handlePointerDown = (event: PointerEvent<HTMLButtonElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    dragState.current = {
+      active: true,
+      moved: false,
+      offsetX: event.clientX - bounds.left,
+      offsetY: event.clientY - bounds.top,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleClick = () => {
+    if (dragState.current.moved) {
+      dragState.current.moved = false;
+      return;
+    }
+    setOpen(true);
+  };
 
   const resetForm = () => {
     setOpen(false);
@@ -89,13 +133,17 @@ export function FloatingFeedback() {
 
   return (
     <>
-      <div className="pointer-events-none fixed bottom-4 right-4 z-[120] flex items-end justify-end sm:bottom-6 sm:right-6">
+      <div
+        className={`pointer-events-none fixed z-[120] flex items-end justify-end ${position ? "" : "bottom-4 right-4 sm:bottom-6 sm:right-6"}`}
+        style={position ? { left: position.x, top: position.y } : undefined}
+      >
         <button
           type="button"
-          onClick={() => setOpen(true)}
-          className="pointer-events-auto group relative flex h-16 w-16 items-center justify-center rounded-[1.45rem] border border-[color:var(--alpha-border-strong)] bg-[color:color-mix(in_srgb,var(--alpha-panel)_90%,transparent)] shadow-[var(--alpha-shadow)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[color:var(--alpha-highlight-border)]"
+          onPointerDown={handlePointerDown}
+          onClick={handleClick}
+          className="pointer-events-auto group relative flex h-16 w-16 touch-none items-center justify-center rounded-[1.45rem] border border-[color:var(--alpha-border-strong)] bg-[color:color-mix(in_srgb,var(--alpha-panel)_90%,transparent)] shadow-[var(--alpha-shadow)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[color:var(--alpha-highlight-border)]"
           aria-label="Open Robot Live feedback"
-          title="Robot Live"
+          title="Robot Live - drag to move"
         >
           <span className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(circle_at_top_right,color-mix(in_srgb,var(--alpha-highlight)_18%,transparent),transparent_56%)] opacity-80" />
           <span className="relative flex h-12 w-12 items-center justify-center rounded-[1rem] border border-[color:var(--alpha-border)] bg-[color:var(--alpha-surface-soft)]">

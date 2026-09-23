@@ -82,6 +82,20 @@ const formatWallet = (address: string) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
+const formatProjectDateTime = (value?: string) => {
+  if (!value) return "--";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+
+  return parsed.toLocaleString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
 const statusMeta = (status?: string) => {
   if (status === "Ongoing") return { label: "Active", tone: TONES.green };
   if (status === "Planning") return { label: "Planning", tone: TONES.yellow };
@@ -272,6 +286,9 @@ const ProjectMobileCard = memo(function ProjectMobileCard({
             </div>
             <p className="mt-0.5 truncate text-[12px] alpha-text-muted" title={airdrop.twitterUsername || undefined}>
               {airdrop.twitterUsername ? `@${airdrop.twitterUsername.replace("@", "")}` : airdrop.projectCategory ?? "Other"}
+            </p>
+            <p className="mt-1 truncate text-[10px] alpha-text-muted" title="Tanggal dan waktu dibuat">
+              {formatProjectDateTime(airdrop.createdAt)}
             </p>
           </div>
         </div>
