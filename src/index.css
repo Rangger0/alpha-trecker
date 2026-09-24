@@ -219,6 +219,42 @@ b, strong {
   min-height: 100vh;
 }
 
+/* Keep every routed surface inside one responsive floating application window. */
+#root {
+  box-sizing: border-box;
+  padding: 16px;
+  overflow-x: hidden;
+  background: var(--alpha-bg);
+}
+
+#root > * {
+  width: 100%;
+  min-height: calc(100dvh - 32px);
+  overflow: hidden;
+  border-radius: 30px;
+}
+
+@media (max-width: 1023px) {
+  #root {
+    padding: 12px;
+  }
+
+  #root > * {
+    min-height: calc(100dvh - 24px);
+  }
+}
+
+@media (max-width: 640px) {
+  #root {
+    padding: 10px;
+  }
+
+  #root > * {
+    min-height: calc(100dvh - 20px);
+    border-radius: 28px;
+  }
+}
+
 body .text-\[10px\] {
   font-size: 0.72rem;
   line-height: 1.12rem;
