@@ -125,12 +125,12 @@ export function NFTWaitlistPage() {
 
       {isAddModalOpen ? (
         <Suspense fallback={null}>
-          <AirdropModal isOpen onClose={() => setIsAddModalOpen(false)} onSubmit={handleAdd} mode="add" isDark={isDark} scope="nft" isDuplicate={(identity) => hasSameProjectIdentity(identity, airdrops)} />
+          <AirdropModal isOpen onClose={() => setIsAddModalOpen(false)} onSubmit={handleAdd} mode="add" isDark={isDark} scope="nft" isDuplicate={(identity) => hasSameProjectIdentity(identity, nftProjects)} />
         </Suspense>
       ) : null}
       {editingAirdrop ? (
         <Suspense fallback={null}>
-          <AirdropModal isOpen onClose={() => setEditingAirdrop(null)} onSubmit={handleEdit} mode="edit" airdrop={editingAirdrop} isDark={isDark} scope="nft" isDuplicate={(identity) => hasSameProjectIdentity(identity, airdrops, editingAirdrop.id)} />
+          <AirdropModal isOpen onClose={() => setEditingAirdrop(null)} onSubmit={handleEdit} mode="edit" airdrop={editingAirdrop} isDark={isDark} scope="nft" isDuplicate={(identity) => hasSameProjectIdentity(identity, nftProjects, editingAirdrop.id)} />
         </Suspense>
       ) : null}
       {deletingAirdrop ? (

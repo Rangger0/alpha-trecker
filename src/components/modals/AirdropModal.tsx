@@ -220,6 +220,9 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, scope =
     try {
       await Promise.resolve(onSubmit(submitData));
       resetForm();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Gagal menyimpan project. Silakan coba lagi.';
+      setSubmitError(message);
     } finally {
       setIsLoading(false);
     }
