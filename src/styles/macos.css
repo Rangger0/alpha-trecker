@@ -5931,3 +5931,114 @@ html.theme-switching::before {
 .alpha-theme.macos-app-shell .alpha-app-grid {
   will-change: auto;
 }
+
+/* Keep the selected palette active across every app surface, including legacy dark selectors. */
+html.ocean,
+.alpha-theme.ocean,
+.alpha-theme.ocean.dark.macos-app-shell {
+  --alpha-bg: #0B1720 !important;
+  --alpha-panel: #122532 !important;
+  --alpha-card: #122532 !important;
+  --alpha-surface: #183445 !important;
+  --alpha-surface-2: #204458 !important;
+  --alpha-surface-soft: #204458 !important;
+  --alpha-surface-strong: #0F202A !important;
+  --alpha-sidebar: #10212B !important;
+  --alpha-text: #E8F6F7 !important;
+  --alpha-text-muted: #9CC7D0 !important;
+  --alpha-accent: #8AD9E3 !important;
+  --alpha-main: #8AD9E3 !important;
+  --alpha-highlight: #43C6AC !important;
+  --alpha-info: #76BBD0 !important;
+  --alpha-violet: #528A9A !important;
+  --alpha-border: rgba(138, 217, 227, 0.22) !important;
+  --alpha-border-strong: rgba(138, 217, 227, 0.42) !important;
+  --alpha-border-hover: rgba(67, 198, 172, 0.56) !important;
+  --alpha-hover-soft: rgba(138, 217, 227, 0.10) !important;
+  --alpha-highlight-soft: rgba(67, 198, 172, 0.16) !important;
+  --alpha-highlight-border: rgba(67, 198, 172, 0.48) !important;
+  --alpha-shell-border: rgba(138, 217, 227, 0.22) !important;
+  --alpha-shell-gradient: linear-gradient(180deg, #173242, #0B1720) !important;
+  --alpha-topbar-gradient: linear-gradient(180deg, #24495A, #122532) !important;
+  background: var(--alpha-bg) !important;
+  color: var(--alpha-text) !important;
+}
+
+html.sunset,
+.alpha-theme.sunset,
+.alpha-theme.sunset.dark.macos-app-shell {
+  --alpha-bg: #211619 !important;
+  --alpha-panel: #302024 !important;
+  --alpha-card: #302024 !important;
+  --alpha-surface: #41282A !important;
+  --alpha-surface-2: #53302E !important;
+  --alpha-surface-soft: #53302E !important;
+  --alpha-surface-strong: #382326 !important;
+  --alpha-sidebar: #2A1B1F !important;
+  --alpha-text: #FFF1DF !important;
+  --alpha-text-muted: #D7AFA0 !important;
+  --alpha-accent: #FFC486 !important;
+  --alpha-main: #FFC486 !important;
+  --alpha-highlight: #F27D5B !important;
+  --alpha-info: #F0A56D !important;
+  --alpha-violet: #B76D65 !important;
+  --alpha-border: rgba(255, 196, 134, 0.24) !important;
+  --alpha-border-strong: rgba(255, 196, 134, 0.44) !important;
+  --alpha-border-hover: rgba(242, 125, 91, 0.62) !important;
+  --alpha-hover-soft: rgba(255, 196, 134, 0.10) !important;
+  --alpha-highlight-soft: rgba(242, 125, 91, 0.17) !important;
+  --alpha-highlight-border: rgba(242, 125, 91, 0.52) !important;
+  --alpha-shell-border: rgba(255, 196, 134, 0.24) !important;
+  --alpha-shell-gradient: linear-gradient(180deg, #452B2B, #211619) !important;
+  --alpha-topbar-gradient: linear-gradient(180deg, #5A3731, #302024) !important;
+  background: var(--alpha-bg) !important;
+  color: var(--alpha-text) !important;
+}
+
+/* One bounded scroll surface per authenticated page; the outer floating window stays fixed. */
+#root > .macos-app-shell {
+  height: calc(100dvh - 32px) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.macos-app-shell .alpha-dashboard-main {
+  box-sizing: border-box;
+  display: flex;
+  height: 100% !important;
+  min-height: 0 !important;
+  flex-direction: column;
+  overflow: hidden !important;
+}
+
+.macos-app-shell .alpha-dashboard-main > div {
+  box-sizing: border-box;
+  display: flex;
+  min-height: 0 !important;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.macos-app-shell .alpha-dashboard-main .alpha-app-content-shell {
+  box-sizing: border-box;
+  min-height: 0 !important;
+  flex: 1 1 auto;
+}
+
+.macos-app-shell .alpha-dashboard-main .alpha-app-content-shell > div {
+  box-sizing: border-box;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+@media (max-width: 1023px) {
+  #root > .macos-app-shell {
+    height: calc(100dvh - 24px) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #root > .macos-app-shell {
+    height: calc(100dvh - 20px) !important;
+  }
+}
