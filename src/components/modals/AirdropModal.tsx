@@ -24,6 +24,7 @@ import { Plus, X, Loader2, Calendar, Flag } from 'lucide-react';
 import { useI18n } from '@/contexts/LanguageContext';
 import type { Airdrop, AirdropType, AirdropStatus, Task, PriorityLevel, ProjectCategory, FarmingStrategy } from '@/types';
 import { FARMING_STRATEGIES, PROJECT_CATEGORIES } from '@/types';
+import { PREDEFINED_ECOSYSTEMS } from '@/lib/ecosystems';
 import { generateId } from '@/services/crypto';
 
 const AIRDROP_STATUSES: AirdropStatus[] = ['Planning', 'Ongoing', 'Done', 'Dropped'];
@@ -109,6 +110,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, scope =
   const [twitterUsername, setTwitterUsername] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [email, setEmail] = useState('');
+  const [ecosystemId, setEcosystemId] = useState('');
   const [projectCategory, setProjectCategory] = useState<ProjectCategory>('Other');
   const [farmingStrategy, setFarmingStrategy] = useState<FarmingStrategy>('Unknown');
   const [status, setStatus] = useState<AirdropStatus>('Planning');
@@ -135,6 +137,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, scope =
       setTwitterUsername(airdrop.twitterUsername ?? '');
       setWalletAddress(airdrop.walletAddress ?? '');
       setEmail(airdrop.email ?? '');
+      setEcosystemId(airdrop.ecosystemId ?? '');
       setProjectCategory(airdrop.projectCategory ?? getCategoryFromLegacyType(airdrop.type));
       setFarmingStrategy(airdrop.farmingStrategy ?? getStrategyFromLegacyType(airdrop.type));
       setStatus(airdrop.status ?? 'Planning');
@@ -163,6 +166,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, scope =
     setTwitterUsername('');
     setWalletAddress('');
     setEmail('');
+    setEcosystemId('');
     setProjectCategory('Other');
     setFarmingStrategy('Unknown');
     setStatus('Planning');
@@ -201,6 +205,7 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, scope =
       projectLogo: projectLogo.trim(),
       walletAddress: walletAddress.trim(),
       email: email.trim(),
+      ecosystemId: ecosystemId || undefined,
       type: getLegacyType(selectedCategory, selectedStrategy),
       projectCategory: selectedCategory,
       farmingStrategy: selectedStrategy,
@@ -379,6 +384,25 @@ export function AirdropModal({ isOpen, onClose, onSubmit, mode, airdrop, scope =
                 </Select>
               </div>
               
+              <div className="space-y-2">
+                <Label htmlFor="ecosystem" className="macos-modal-label">
+                  Ecosystem
+                </Label>
+                <Select value={ecosystemId || 'none'} onValueChange={(value) => setEcosystemId(value === 'none' ? '' : value)}>
+                  <SelectTrigger id="ecosystem" className="macos-input macos-modal-input">
+                    <SelectValue placeholder="Pilih ecosystem" />
+                  </SelectTrigger>
+                  <SelectContent className="macos-popover">
+                    <SelectItem value="none">No ecosystem</SelectItem>
+                    {PREDEFINED_ECOSYSTEMS.map((ecosystem) => (
+                      <SelectItem key={ecosystem.id} value={ecosystem.id}>
+                        {ecosystem.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="status" className="macos-modal-label">
                   {t('airdropModal.status')} *

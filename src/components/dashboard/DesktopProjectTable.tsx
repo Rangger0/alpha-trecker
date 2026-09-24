@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import type { Airdrop } from "@/types";
 import { cn } from "@/lib/utils";
 import { getXProfileUrl } from "@/lib/project-classification";
+import { getEcosystemById } from "@/lib/ecosystems";
 
 interface DesktopProjectTableProps {
   airdrops: Airdrop[];
@@ -239,6 +240,7 @@ export function DesktopProjectTable({
           <colgroup>
             <col className="w-[260px] min-[1600px]:w-[300px] min-[1920px]:w-[340px]" />
             <col className="w-[136px] min-[1600px]:w-[156px]" />
+            <col className="w-[136px] min-[1600px]:w-[156px]" />
             <col className="w-[116px] min-[1600px]:w-[124px]" />
             <col className="w-[116px] min-[1600px]:w-[128px]" />
             <col className="w-[116px] min-[1600px]:w-[128px]" />
@@ -253,6 +255,7 @@ export function DesktopProjectTable({
             <tr className="sticky top-0 z-30 h-11 bg-[color:var(--alpha-surface-strong)]">
               {[
                 "Project",
+                "Ecosystem",
                 "Category",
                 "Status",
                 "Potential",
@@ -269,8 +272,8 @@ export function DesktopProjectTable({
                   className={cn(
                     "border-b border-alpha-border px-4 text-left text-[13px] font-semibold leading-none alpha-text-muted",
                     index === 0 && "sticky left-0 z-40 border-r border-alpha-border bg-[color:var(--alpha-surface-strong)]",
-                    index >= 6 && index <= 8 && "hidden min-[1600px]:table-cell",
-                    index === 9 && "text-center"
+                    index >= 7 && index <= 9 && "hidden min-[1600px]:table-cell",
+                    index === 10 && "text-center"
                   )}
                 >
                   {heading}
@@ -325,6 +328,7 @@ const DesktopTableRow = memo(function DesktopTableRow({
   const xLink = getXProfileUrl(airdrop.twitterUsername);
   const wallet = airdrop.walletAddress?.trim();
   const funding = airdrop.funding?.trim();
+  const ecosystem = airdrop.ecosystemId ? getEcosystemById(airdrop.ecosystemId)?.name : undefined;
   const category = airdrop.projectCategory ?? "Other";
   const strategy = airdrop.farmingStrategy ?? "Unknown";
   const email = airdrop.email?.trim();
@@ -358,6 +362,12 @@ const DesktopTableRow = memo(function DesktopTableRow({
             </p>
           </div>
         </div>
+      </td>
+
+      <td className="border-b border-alpha-border px-4 py-2">
+        <span className="block truncate text-[12px] font-semibold alpha-text" title={ecosystem}>
+          {ecosystem || "--"}
+        </span>
       </td>
 
       <td className="border-b border-alpha-border px-4 py-2">

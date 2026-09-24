@@ -25,7 +25,7 @@ export function NFTWaitlistPage() {
   const { theme } = useTheme();
   const { session } = useAuth();
   const { airdrops, deleteAirdrop, refetch } = useAirdrops();
-  const isDark = theme === 'dark';
+  const isDark = theme !== 'light';
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingAirdrop, setEditingAirdrop] = useState<Airdrop | null>(null);

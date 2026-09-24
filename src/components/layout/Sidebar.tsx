@@ -20,6 +20,7 @@ import {
   LogIn,
   LogOut,
   Moon,
+  Palette,
   Radio,
   Rocket,
   Search,
@@ -101,7 +102,7 @@ function PreferenceGroup({ icon: Icon, label, value, children }: PreferenceGroup
           <p className="text-[11px] alpha-text-muted">{value}</p>
         </div>
       </div>
-      <div className="flex gap-2">{children}</div>
+      <div className="grid grid-cols-2 gap-2">{children}</div>
     </div>
   );
 }
@@ -187,7 +188,12 @@ export function Sidebar({
     transitionDelay: open ? `${delay}ms` : "0ms",
   });
 
-  const currentThemeLabel = theme === "dark" ? t("common.dark") : t("common.light");
+  const currentThemeLabel = {
+    dark: "Midnight",
+    light: "Ivory",
+    ocean: "Ocean",
+    sunset: "Sunset",
+  }[theme];
   const currentLanguageLabel = language.toUpperCase();
 
   useEffect(() => {
@@ -421,12 +427,14 @@ export function Sidebar({
               </PreferenceGroup>
 
               <PreferenceGroup
-                icon={Moon}
+                icon={Palette}
                 label={t("sidebar.preference.themeLabel")}
                 value={currentThemeLabel}
               >
-                <PreferenceButton active={theme === "dark"} label={t("common.dark")} onClick={() => setTheme("dark")} />
-                <PreferenceButton active={theme === "light"} label={t("common.light")} onClick={() => setTheme("light")} />
+                <PreferenceButton active={theme === "dark"} icon={Moon} label="Midnight" onClick={() => setTheme("dark")} />
+                <PreferenceButton active={theme === "light"} label="Ivory" onClick={() => setTheme("light")} />
+                <PreferenceButton active={theme === "ocean"} label="Ocean" onClick={() => setTheme("ocean")} />
+                <PreferenceButton active={theme === "sunset"} label="Sunset" onClick={() => setTheme("sunset")} />
               </PreferenceGroup>
             </div>
           </div>

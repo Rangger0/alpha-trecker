@@ -65,7 +65,7 @@ const formatDeadline = (value?: string) => {
 export function PriorityProjectsPage() {
   const { theme } = useTheme();
   const { session } = useAuth();
-  const isDark = theme === 'dark';
+  const isDark = theme !== 'light';
   const { airdrops, refetch } = useAirdrops();
   const { wallets } = useWallets();
   const [searchQuery, setSearchQuery] = useState('');

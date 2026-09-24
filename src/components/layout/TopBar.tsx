@@ -18,7 +18,7 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
   const { t } = useI18n();
   const { session } = useAuth();
   const location = useLocation();
-  const isDark = theme === 'dark';
+  const isDark = theme !== 'light';
   const ThemeIcon = isDark ? SunMedium : MoonStar;
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);

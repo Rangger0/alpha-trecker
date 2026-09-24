@@ -413,3 +413,97 @@ body,
 .app-container {
   color: var(--alpha-text);
 }
+
+html.ocean,
+.alpha-theme.ocean {
+  color-scheme: dark;
+  --background-hex: #0B1720;
+  --card-hex: #122532;
+  --surface-hex: #183445;
+  --surface-2-hex: #204458;
+  --headline-hex: #E8F6F7;
+  --paragraph-hex: #9CC7D0;
+  --main-hex: #8AD9E3;
+  --highlight-hex: #43C6AC;
+  --secondary-hex: #10212B;
+  --tertiary-hex: #4D7782;
+  --chrome-hex: #76BBD0;
+  --chrome-soft-hex: #528A9A;
+  --chrome-edge-hex: #D7FFFF;
+  --alpha-bg: var(--background-hex);
+  --alpha-panel: var(--card-hex);
+  --alpha-card: var(--card-hex);
+  --alpha-surface: var(--surface-hex);
+  --alpha-surface-2: var(--surface-2-hex);
+  --alpha-surface-soft: var(--surface-2-hex);
+  --alpha-surface-strong: #0F202A;
+  --alpha-sidebar: var(--secondary-hex);
+  --alpha-shell: var(--secondary-hex);
+  --alpha-shell-soft: var(--surface-hex);
+  --alpha-text: var(--headline-hex);
+  --alpha-text-muted: var(--paragraph-hex);
+  --alpha-accent: var(--main-hex);
+  --alpha-main: var(--main-hex);
+  --alpha-accent-hover: var(--chrome-edge-hex);
+  --alpha-accent-from: var(--highlight-hex);
+  --alpha-accent-to: var(--main-hex);
+  --alpha-accent-contrast: #08202A;
+  --alpha-highlight: var(--highlight-hex);
+  --alpha-info: var(--chrome-hex);
+  --alpha-violet: var(--chrome-soft-hex);
+  --alpha-border: rgba(138, 217, 227, 0.22);
+  --alpha-border-strong: rgba(138, 217, 227, 0.42);
+  --alpha-hover-soft: rgba(138, 217, 227, 0.10);
+  --alpha-highlight-soft: rgba(67, 198, 172, 0.16);
+  --alpha-highlight-border: rgba(67, 198, 172, 0.48);
+  --alpha-shell-border: var(--alpha-border);
+  --alpha-shell-gradient: linear-gradient(180deg, #173242, #0B1720);
+  --alpha-topbar-gradient: linear-gradient(180deg, #24495A, #122532);
+}
+
+html.sunset,
+.alpha-theme.sunset {
+  color-scheme: dark;
+  --background-hex: #211619;
+  --card-hex: #302024;
+  --surface-hex: #41282A;
+  --surface-2-hex: #53302E;
+  --headline-hex: #FFF1DF;
+  --paragraph-hex: #D7AFA0;
+  --main-hex: #FFC486;
+  --highlight-hex: #F27D5B;
+  --secondary-hex: #2A1B1F;
+  --tertiary-hex: #8D5D58;
+  --chrome-hex: #F0A56D;
+  --chrome-soft-hex: #B76D65;
+  --chrome-edge-hex: #FFF5E8;
+  --alpha-bg: var(--background-hex);
+  --alpha-panel: var(--card-hex);
+  --alpha-card: var(--card-hex);
+  --alpha-surface: var(--surface-hex);
+  --alpha-surface-2: var(--surface-2-hex);
+  --alpha-surface-soft: var(--surface-2-hex);
+  --alpha-surface-strong: #382326;
+  --alpha-sidebar: var(--secondary-hex);
+  --alpha-shell: var(--secondary-hex);
+  --alpha-shell-soft: var(--surface-hex);
+  --alpha-text: var(--headline-hex);
+  --alpha-text-muted: var(--paragraph-hex);
+  --alpha-accent: var(--main-hex);
+  --alpha-main: var(--main-hex);
+  --alpha-accent-hover: var(--chrome-edge-hex);
+  --alpha-accent-from: var(--highlight-hex);
+  --alpha-accent-to: var(--main-hex);
+  --alpha-accent-contrast: #321B19;
+  --alpha-highlight: var(--highlight-hex);
+  --alpha-info: var(--chrome-hex);
+  --alpha-violet: var(--chrome-soft-hex);
+  --alpha-border: rgba(255, 196, 134, 0.24);
+  --alpha-border-strong: rgba(255, 196, 134, 0.44);
+  --alpha-hover-soft: rgba(255, 196, 134, 0.10);
+  --alpha-highlight-soft: rgba(242, 125, 91, 0.17);
+  --alpha-highlight-border: rgba(242, 125, 91, 0.52);
+  --alpha-shell-border: var(--alpha-border);
+  --alpha-shell-gradient: linear-gradient(180deg, #452B2B, #211619);
+  --alpha-topbar-gradient: linear-gradient(180deg, #5A3731, #302024);
+}

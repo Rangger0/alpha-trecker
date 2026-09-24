@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
-type Theme = 'dark' | 'light';
+export type Theme = 'dark' | 'light' | 'ocean' | 'sunset';
 
 interface ThemeContextType {
   theme: Theme;
@@ -19,14 +19,16 @@ const DEFAULT_THEME: Theme = 'dark';
 const readStoredTheme = (): Theme => {
   if (typeof window === 'undefined') return DEFAULT_THEME;
   const stored = localStorage.getItem(THEME_KEY) || localStorage.getItem(LEGACY_THEME_KEY);
-  return stored === 'light' || stored === 'dark' ? stored : DEFAULT_THEME;
+  return stored === 'light' || stored === 'dark' || stored === 'ocean' || stored === 'sunset'
+    ? stored
+    : DEFAULT_THEME;
 };
 
 const applyThemeToDocument = (theme: Theme) => {
   const root = document.documentElement;
-  root.classList.remove('dark', 'light');
+  root.classList.remove('dark', 'light', 'ocean', 'sunset');
   root.classList.add(theme);
-  root.style.colorScheme = theme;
+  root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
 };
 
 const persistTheme = (theme: Theme) => {
@@ -92,7 +94,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const toggleTheme = useCallback(() => {
     beginThemeSwitch();
     const update = () => {
-      setThemeState((current) => (current === 'dark' ? 'light' : 'dark'));
+      setThemeState((current) => {
+        const themes: Theme[] = ['dark', 'light', 'ocean', 'sunset'];
+        return themes[(themes.indexOf(current) + 1) % themes.length];
+      });
     };
 
     runThemeUpdate(update);

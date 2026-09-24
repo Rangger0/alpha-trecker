@@ -10,7 +10,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children, disableMonochrome = true }: DashboardLayoutProps) {
   const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  const isDark = theme !== 'light';
 
   const [isDesktop, setIsDesktop] = useState<boolean>(() => {
     if (typeof window === 'undefined') return true;
@@ -42,7 +42,7 @@ export function DashboardLayout({ children, disableMonochrome = true }: Dashboar
   };
 
   return (
-    <div className={`alpha-theme ${isDark ? 'dark' : 'light'} alpha-bg macos-app-shell min-h-screen`}>
+    <div className={`alpha-theme ${theme} ${isDark ? 'dark' : 'light'} alpha-bg macos-app-shell min-h-screen`}>
       <div className="alpha-app-ambient" aria-hidden="true" />
       <div className="alpha-app-grid" aria-hidden="true" />
 

@@ -30,7 +30,7 @@ export function ProjectListPage() {
   const { session } = useAuth();
   const { theme } = useTheme();
   const user = session?.user;
-  const isDark = theme === 'dark';
+  const isDark = theme !== 'light';
   const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);

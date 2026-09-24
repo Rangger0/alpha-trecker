@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import type { Airdrop } from "@/types";
 import { cn } from "@/lib/utils";
 import { getXProfileUrl } from "@/lib/project-classification";
+import { getEcosystemById } from "@/lib/ecosystems";
 
 interface MobileProjectCardProps {
   airdrops: Airdrop[];
@@ -262,6 +263,7 @@ const ProjectMobileCard = memo(function ProjectMobileCard({
   const xLink = getXProfileUrl(airdrop.twitterUsername);
   const wallet = airdrop.walletAddress?.trim();
   const email = airdrop.email?.trim();
+  const ecosystem = airdrop.ecosystemId ? getEcosystemById(airdrop.ecosystemId)?.name : undefined;
 
   return (
     <article
@@ -312,6 +314,7 @@ const ProjectMobileCard = memo(function ProjectMobileCard({
         </div>
 
         <div className="grid grid-cols-2 gap-2">
+          <MetaRow label="Ecosystem" value={ecosystem || "--"} />
           <MetaRow label="Funding" value={airdrop.funding?.trim() || "--"} title={airdrop.funding || undefined} />
           <MetaRow
             label="Wallet"

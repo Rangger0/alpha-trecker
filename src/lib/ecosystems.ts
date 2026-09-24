@@ -39,7 +39,7 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
   },
   {
     id: 'bnb',
-    name: 'BNB Chain',
+    name: 'BNB Chain / BSC',
     icon: 'B',
     logo: ECOSYSTEM_LOGOS.bnb,
     color: 'var(--alpha-highlight)',
@@ -84,6 +84,13 @@ export const PREDEFINED_ECOSYSTEMS: PredefinedEcosystem[] = [
     logo: ECOSYSTEM_LOGOS.sui,
     color: 'var(--alpha-info)',
     twitterHandle: 'SuiNetwork',
+  },
+  {
+    id: 'robinhood',
+    name: 'Robinhood',
+    icon: 'R',
+    color: 'var(--alpha-success)',
+    twitterHandle: 'RobinhoodApp',
   },
 ];
 
