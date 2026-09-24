@@ -422,7 +422,7 @@ export function MobileProjectCards({
   onPriority,
 }: MobileProjectCardProps) {
   return (
-    <div className="space-y-3 md:hidden">
+    <div className="project-list-scroll space-y-3 overflow-y-auto md:hidden">
       {airdrops.map((airdrop, index) => (
         <ProjectMobileCard
           key={airdrop.id}

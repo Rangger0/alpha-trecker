@@ -234,7 +234,7 @@ export function DesktopProjectTable({
 }: DesktopProjectTableProps) {
   return (
     <div className="overflow-hidden rounded-xl border border-alpha-border bg-[color:var(--alpha-panel)] shadow-[0_8px_28px_rgba(0,0,0,0.16)]">
-      <div className="overflow-x-auto">
+        <div className="overflow-x-auto project-list-scroll">
         <table className="w-full min-w-[1040px] table-fixed border-separate border-spacing-0 min-[1600px]:min-w-[1540px] min-[1920px]:min-w-[1760px]">
           <colgroup>
             <col className="w-[260px] min-[1600px]:w-[300px] min-[1920px]:w-[340px]" />

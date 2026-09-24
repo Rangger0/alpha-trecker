@@ -205,19 +205,19 @@ export function Sidebar({
 
   const panelStyle = isDesktop
     ? {
-        top: 0,
+        top: "16px",
         left: `${leftOffset}px`,
         width: `${width}px`,
-        height: "100vh",
+        height: "calc(100vh - 32px)",
         borderColor: "var(--alpha-shell-border)",
         transform: open ? "translate3d(0, 0, 0) scale(1)" : "translate3d(calc(-100% - 28px), 0, 0) scale(0.96)",
         opacity: open ? 1 : 0,
       }
     : {
-        top: 0,
+        top: "10px",
         left: "12px",
         width: "min(340px, calc(100vw - 24px))",
-        height: "100vh",
+        height: "calc(100vh - 20px)",
         borderColor: "var(--alpha-shell-border)",
         transform: open ? "translate3d(0, 0, 0) scale(1)" : "translate3d(calc(-100% - 24px), 0, 0) scale(0.96)",
         opacity: open ? 1 : 0,

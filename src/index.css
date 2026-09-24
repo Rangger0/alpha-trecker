@@ -255,6 +255,50 @@ b, strong {
   }
 }
 
+.alpha-sidebar-panel {
+  border-radius: 22px !important;
+  background: color-mix(in srgb, var(--alpha-panel) 94%, transparent) !important;
+  box-shadow: 18px 24px 54px color-mix(in srgb, #000 32%, transparent), 0 0 0 1px color-mix(in srgb, var(--alpha-border) 75%, transparent) !important;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  transition-property: transform, opacity, box-shadow !important;
+  transition-duration: 380ms !important;
+  transition-timing-function: cubic-bezier(.22, 1, .36, 1) !important;
+}
+
+.alpha-sidebar-panel nav {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--alpha-highlight) 55%, transparent) transparent;
+}
+
+.project-list-scroll {
+  max-height: calc(100dvh - 300px);
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--alpha-highlight) 55%, transparent) transparent;
+}
+
+.project-list-scroll::-webkit-scrollbar,
+.alpha-sidebar-panel nav::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.project-list-scroll::-webkit-scrollbar-thumb,
+.alpha-sidebar-panel nav::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--alpha-highlight) 55%, transparent);
+  background-clip: padding-box;
+}
+
+@media (max-width: 640px) {
+  .project-list-scroll {
+    max-height: calc(100dvh - 360px);
+  }
+}
+
 body .text-\[10px\] {
   font-size: 0.72rem;
   line-height: 1.12rem;
