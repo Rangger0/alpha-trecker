@@ -299,6 +299,44 @@ b, strong {
   }
 }
 
+.alpha-dashboard-main {
+  height: calc(100dvh - 56px);
+  min-height: 0 !important;
+  overflow: hidden;
+}
+
+.alpha-dashboard-main > div {
+  height: 100%;
+  min-height: 0;
+}
+
+.alpha-dashboard-main .alpha-app-content-shell {
+  height: 100%;
+  min-height: 0 !important;
+}
+
+.alpha-dashboard-main .alpha-app-content-shell > div {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--alpha-highlight) 55%, transparent) transparent;
+}
+
+.alpha-dashboard-main .macos-page-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+@media (max-width: 640px) {
+  .alpha-dashboard-main {
+    height: calc(100dvh - 52px);
+  }
+}
+
 body .text-\[10px\] {
   font-size: 0.72rem;
   line-height: 1.12rem;
