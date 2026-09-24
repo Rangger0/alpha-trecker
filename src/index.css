@@ -329,6 +329,48 @@ b, strong {
   position: sticky;
   top: 0;
   z-index: 20;
+  isolation: isolate;
+  background: var(--alpha-surface-strong) !important;
+  color: var(--alpha-text) !important;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--alpha-bg) 42%, transparent) !important;
+}
+
+.alpha-dashboard-main .macos-page-header::after {
+  z-index: -1;
+}
+
+.alpha-dashboard-main .macos-page-header h1,
+.alpha-dashboard-main .macos-page-header h2,
+.alpha-dashboard-main .macos-page-header h3,
+.alpha-dashboard-main .macos-page-header p,
+.alpha-dashboard-main .macos-page-header span,
+.alpha-dashboard-main .macos-page-header label,
+.alpha-dashboard-main .macos-page-header svg {
+  color: inherit;
+}
+
+.alpha-theme.macos-app-shell .alpha-app-content-shell,
+.alpha-theme.macos-app-shell .alpha-app-content-shell > div,
+.alpha-theme.macos-app-shell .macos-page-shell {
+  color: var(--alpha-text);
+}
+
+.alpha-theme.macos-app-shell .macos-card,
+.alpha-theme.macos-app-shell .macos-panel,
+.alpha-theme.macos-app-shell .terminal-card,
+.alpha-theme.macos-app-shell .alpha-card,
+.alpha-theme.macos-app-shell [data-slot="card"] {
+  color: var(--alpha-text);
+}
+
+.alpha-theme.macos-app-shell .alpha-text,
+.alpha-theme.macos-app-shell .text-foreground {
+  color: var(--alpha-text) !important;
+}
+
+.alpha-theme.macos-app-shell .alpha-text-muted,
+.alpha-theme.macos-app-shell .text-muted-foreground {
+  color: var(--alpha-text-muted) !important;
 }
 
 @media (max-width: 640px) {
