@@ -1374,13 +1374,16 @@
 .alpha-auth-nav-link {
   padding: 0 1rem;
   font-size: 0.86rem;
-  font-weight: 700;
+  font-weight: 800;
+  color: var(--alpha-text) !important;
+  background: color-mix(in srgb, var(--alpha-surface) 90%, transparent);
 }
 
 .alpha-auth-icon-btn:hover,
 .alpha-auth-nav-link:hover {
   border-color: var(--alpha-border-strong);
-  opacity: 0.9;
+  color: var(--alpha-accent) !important;
+  opacity: 0.96;
 }
 
 .alpha-auth-main {
@@ -1700,8 +1703,13 @@
 
 .alpha-auth-text-link,
 .alpha-auth-footer-copy a {
-  color: var(--alpha-accent);
+  color: var(--alpha-accent) !important;
   font-weight: 800;
+}
+
+.alpha-auth-text-link:hover,
+.alpha-auth-footer-copy a:hover {
+  color: var(--alpha-accent-hover) !important;
 }
 
 .alpha-auth-submit {

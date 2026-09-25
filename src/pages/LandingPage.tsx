@@ -22,16 +22,30 @@ function LandingScrollChrome() {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
+    let frameId: number | null = null;
+
     const syncScrollState = () => {
       const top = window.scrollY;
       setShowScrollTop(top > 360);
+      frameId = null;
+    };
+
+    const handleScroll = () => {
+      if (frameId !== null) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(syncScrollState);
     };
 
     syncScrollState();
-    window.addEventListener('scroll', syncScrollState, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', syncScrollState);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 

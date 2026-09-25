@@ -116,6 +116,13 @@ export function Sidebar({
 }: SidebarProps) {
   const { logout, isAuthenticated, session } = useAuth();
   const { theme, setTheme } = useTheme();
+  const normalizeTheme = (value: string) => {
+    if (value === 'obsidian' || value === 'dark') return 'obsidian';
+    if (value === 'slate' || value === 'light' || value === 'ocean') return 'slate';
+    if (value === 'graphite') return 'graphite';
+    if (value === 'deep-navy' || value === 'sunset') return 'deep-navy';
+    return 'obsidian';
+  };
   const { language, setLanguage, t } = useI18n();
   const location = useLocation();
   const showFeedbackInbox = isFeedbackInboxOwner(session?.user?.email);
@@ -189,11 +196,15 @@ export function Sidebar({
   });
 
   const currentThemeLabel = {
-    dark: "Midnight",
-    light: "Ivory",
-    ocean: "Ocean",
-    sunset: "Sunset",
-  }[theme];
+    obsidian: "Obsidian",
+    slate: "Slate",
+    graphite: "Graphite",
+    'deep-navy': "Deep Navy",
+    dark: "Obsidian",
+    light: "Slate",
+    ocean: "Slate",
+    sunset: "Deep Navy",
+  }[normalizeTheme(theme)];
   const currentLanguageLabel = language.toUpperCase();
 
   useEffect(() => {
@@ -262,7 +273,11 @@ export function Sidebar({
         onMouseMove={(e) => e.stopPropagation()}
         style={{
           ...panelStyle,
-          background: "var(--alpha-shell-gradient)",
+          background: "linear-gradient(180deg, rgba(20, 23, 28, 0.9), rgba(10, 13, 18, 0.92))",
+          borderColor: "rgba(255, 255, 255, 0.12)",
+          backdropFilter: "blur(14px) saturate(1.2)",
+          WebkitBackdropFilter: "blur(14px) saturate(1.2)",
+          boxShadow: "0 24px 60px rgba(0, 0, 0, 0.42)",
         }}
       >
         <div
@@ -431,10 +446,10 @@ export function Sidebar({
                 label={t("sidebar.preference.themeLabel")}
                 value={currentThemeLabel}
               >
-                <PreferenceButton active={theme === "dark"} icon={Moon} label="Midnight" onClick={() => setTheme("dark")} />
-                <PreferenceButton active={theme === "light"} label="Ivory" onClick={() => setTheme("light")} />
-                <PreferenceButton active={theme === "ocean"} label="Ocean" onClick={() => setTheme("ocean")} />
-                <PreferenceButton active={theme === "sunset"} label="Sunset" onClick={() => setTheme("sunset")} />
+                <PreferenceButton active={normalizeTheme(theme) === "obsidian"} icon={Moon} label="Obsidian" onClick={() => setTheme("obsidian")} />
+                <PreferenceButton active={normalizeTheme(theme) === "slate"} label="Slate" onClick={() => setTheme("slate")} />
+                <PreferenceButton active={normalizeTheme(theme) === "graphite"} label="Graphite" onClick={() => setTheme("graphite")} />
+                <PreferenceButton active={normalizeTheme(theme) === "deep-navy"} label="Deep Navy" onClick={() => setTheme("deep-navy")} />
               </PreferenceGroup>
             </div>
           </div>

@@ -22,8 +22,17 @@ body,
 button,
 input,
 textarea,
-select {
+select,
+a,
+span,
+p,
+li,
+label,
+small,
+td,
+th {
   letter-spacing: 0;
+  color: var(--alpha-text);
 }
 
 h1,
@@ -47,6 +56,19 @@ li,
 label,
 small {
   text-shadow: none;
+  color: inherit;
+}
+
+.alpha-text {
+  color: var(--alpha-text) !important;
+}
+
+.alpha-text-muted {
+  color: var(--alpha-text-muted) !important;
+}
+
+.alpha-text-subtle {
+  color: color-mix(in srgb, var(--alpha-text-muted) 76%, var(--alpha-text) 24%) !important;
 }
 
 img,
@@ -70,12 +92,17 @@ svg {
   -webkit-backdrop-filter: none !important;
 }
 
-.alpha-theme *,
-.macos-landing-shell *,
-.macos-app-shell *,
-.alpha-auth-redesign * {
+.alpha-theme *:not(.alpha-sidebar-panel):not(.alpha-sidebar-backdrop),
+.macos-landing-shell *:not(.alpha-sidebar-panel):not(.alpha-sidebar-backdrop),
+.macos-app-shell *:not(.alpha-sidebar-panel):not(.alpha-sidebar-backdrop),
+.alpha-auth-redesign *:not(.alpha-sidebar-panel):not(.alpha-sidebar-backdrop) {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+}
+
+.alpha-sidebar-panel {
+  backdrop-filter: blur(14px) saturate(1.2) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.2) !important;
 }
 
 .blur,
@@ -205,28 +232,28 @@ html.light .min-h-screen {
 
 /* Landing page final theme override: Bloomberg-terminal inspired. */
 .alpha-theme.macos-landing-shell {
-  --alpha-v2-bg: #000000;
-  --alpha-v2-card: rgba(9, 9, 9, 0.92);
-  --alpha-v2-card-strong: rgba(14, 10, 3, 0.96);
-  --alpha-v2-primary: var(--alpha-danger);
+  --alpha-v2-bg: var(--alpha-bg);
+  --alpha-v2-card: color-mix(in srgb, var(--alpha-panel) 94%, var(--alpha-surface) 6%);
+  --alpha-v2-card-strong: var(--alpha-surface);
+  --alpha-v2-primary: var(--alpha-accent);
   --alpha-v2-secondary: var(--alpha-main);
   --alpha-v2-accent: var(--alpha-highlight);
-  --alpha-v2-success: #22c55e;
-  --alpha-v2-warning: var(--alpha-highlight);
+  --alpha-v2-success: var(--alpha-success);
+  --alpha-v2-warning: var(--alpha-warning);
   --alpha-v2-danger: var(--alpha-danger);
-  --alpha-v2-text: #ffffff;
-  --alpha-v2-muted: #d8d8d8;
-  --alpha-v2-border: rgba(255, 255, 255, 0.3);
-  background: #000000 !important;
-  color: #ffffff !important;
+  --alpha-v2-text: var(--alpha-text);
+  --alpha-v2-muted: var(--alpha-text-muted);
+  --alpha-v2-border: var(--alpha-border);
+  background: var(--alpha-bg) !important;
+  color: var(--alpha-text) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-hero,
 .alpha-theme.macos-landing-shell .alpha-v2-section,
 .alpha-theme.macos-landing-shell .alpha-v2-cta-section {
   background:
-    radial-gradient(circle at 50% 34%, rgba(215, 221, 229, 0.1), transparent 28%),
-    linear-gradient(180deg, #000000 0%, #030200 52%, #000000 100%) !important;
+    radial-gradient(circle at 50% 34%, color-mix(in srgb, var(--alpha-highlight) 10%, transparent), transparent 30%),
+    linear-gradient(180deg, var(--alpha-bg) 0%, var(--alpha-surface) 52%, var(--alpha-bg) 100%) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-city-bg {
@@ -282,7 +309,7 @@ html.light .min-h-screen {
 .alpha-theme.macos-landing-shell .alpha-v2-subheadline,
 .alpha-theme.macos-landing-shell .alpha-v2-section-header h2,
 .alpha-theme.macos-landing-shell .alpha-v2-cta h2 {
-  color: #ffffff !important;
+  color: var(--alpha-text) !important;
   text-shadow: none !important;
 }
 
@@ -299,24 +326,24 @@ html.light .min-h-screen {
 .alpha-theme.macos-landing-shell .alpha-v2-mini-card span,
 .alpha-theme.macos-landing-shell .alpha-v2-stat-card span,
 .alpha-theme.macos-landing-shell .alpha-v2-cta p {
-  color: #d8d8d8 !important;
+  color: var(--alpha-text-muted) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-primary-btn,
 .alpha-theme.macos-landing-shell [data-slot="button"].alpha-v2-primary-btn {
-  border-color: rgba(255, 255, 255, 0.46) !important;
-  background: linear-gradient(135deg, var(--alpha-danger), var(--alpha-main) 58%, var(--alpha-highlight)) !important;
-  color: #000000 !important;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 18px 38px rgba(215, 221, 229, 0.22) !important;
+  border-color: var(--alpha-border-strong) !important;
+  background: var(--alpha-chrome) !important;
+  color: var(--alpha-accent-contrast) !important;
+  box-shadow: var(--alpha-shadow) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-secondary-btn,
 .alpha-theme.macos-landing-shell [data-slot="button"].alpha-v2-secondary-btn,
 .alpha-theme.macos-landing-shell .alpha-v2-nav-login,
 .alpha-theme.macos-landing-shell [data-slot="button"].alpha-v2-nav-login {
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  background: rgba(14, 10, 3, 0.72) !important;
-  color: #ffffff !important;
+  border-color: var(--alpha-border) !important;
+  background: var(--alpha-surface) !important;
+  color: var(--alpha-text) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-secondary-btn:hover,

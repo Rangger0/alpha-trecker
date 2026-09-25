@@ -234,13 +234,13 @@ export function DesktopProjectTable({
   onPriority,
 }: DesktopProjectTableProps) {
   return (
-    <div className="overflow-hidden rounded-xl border border-alpha-border bg-[color:var(--alpha-panel)] shadow-[0_8px_28px_rgba(0,0,0,0.16)]">
-        <div className="overflow-x-auto project-list-scroll">
+    <div className="project-list-frame rounded-xl border border-alpha-border bg-[color:var(--alpha-panel)] shadow-[0_8px_28px_rgba(0,0,0,0.16)]">
+      <div className="project-list-scroll">
         <table className="w-full min-w-[1040px] table-fixed border-separate border-spacing-0 min-[1600px]:min-w-[1540px] min-[1920px]:min-w-[1760px]">
           <colgroup>
-            <col className="w-[260px] min-[1600px]:w-[300px] min-[1920px]:w-[340px]" />
-            <col className="w-[136px] min-[1600px]:w-[156px]" />
-            <col className="w-[136px] min-[1600px]:w-[156px]" />
+            <col className="w-[220px] min-[1600px]:w-[250px] min-[1920px]:w-[280px]" />
+            <col className="w-[120px] min-[1600px]:w-[140px]" />
+            <col className="w-[120px] min-[1600px]:w-[140px]" />
             <col className="w-[116px] min-[1600px]:w-[124px]" />
             <col className="w-[116px] min-[1600px]:w-[128px]" />
             <col className="w-[116px] min-[1600px]:w-[128px]" />
@@ -340,8 +340,8 @@ const DesktopTableRow = memo(function DesktopTableRow({
         index % 2 === 1 && "bg-white/[0.015]"
       )}
     >
-      <td className="sticky left-0 z-20 border-b border-r border-alpha-border bg-[color:var(--alpha-panel)] px-4 py-2 transition-colors duration-150 group-hover:bg-[color:var(--alpha-surface-soft)]">
-        <div className="flex min-w-0 items-center gap-3">
+      <td className="sticky left-0 z-20 border-b border-r border-alpha-border bg-[color:var(--alpha-panel)] px-3 py-1.5 transition-colors duration-150 group-hover:bg-[color:var(--alpha-surface-soft)]">
+        <div className="flex min-w-0 items-center gap-2">
           <ProjectAvatar
             airdrop={airdrop}
             logoError={logoError}

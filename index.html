@@ -1,39 +1,34 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alpha_Tracker</title>
     <meta name="description" content="Crypto Airdrop Hunter Dashboard - Track and manage your airdrop campaigns" />
-    
-    <!-- Favicon -->
+
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    
-    <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json" />
-    
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Theme Script -->
+
     <script>
       (function() {
-        const theme =
+        const saved = localStorage.getItem('alpha-tracker-theme') ||
           localStorage.getItem('alpha_tracker_theme') ||
           localStorage.getItem('alpha_trecker_theme') ||
-          'dark';
-        document.documentElement.classList.add(theme);
-        document.documentElement.classList.remove(theme === 'dark' ? 'light' : 'dark');
-        document.documentElement.style.colorScheme = theme;
+          'obsidian';
+        const parsed = { dark: 'obsidian', light: 'slate', ocean: 'slate', sunset: 'deep-navy', obsidian: 'obsidian', slate: 'slate', graphite: 'graphite', 'deep-navy': 'deep-navy' }[saved] || 'obsidian';
+        document.documentElement.dataset.theme = parsed;
+        document.documentElement.classList.remove('dark', 'light', 'ocean', 'sunset', 'obsidian', 'slate', 'graphite', 'deep-navy');
+        document.documentElement.classList.add(parsed);
+        document.documentElement.style.colorScheme = 'dark';
       })();
     </script>
-    
+
     <style>
-      html { background-color: var(--background-hex); }
-      html.dark { background-color: var(--background-hex); }
-      html.light { background-color: var(--background-hex); }
+      html { background: #0d0f12; }
       body { margin: 0; min-height: 100vh; }
       #root { min-height: 100vh; }
     </style>

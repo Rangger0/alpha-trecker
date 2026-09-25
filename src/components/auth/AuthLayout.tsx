@@ -19,7 +19,7 @@ const proofItems = [
 export function AuthLayout({ children, title, subtitle, features }: AuthLayoutProps) {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
-  const isDark = theme === 'dark';
+  const isDark = theme !== 'light';
   const isLoginRoute = location.pathname === '/login';
   const ThemeIcon = isDark ? MoonStar : SunMedium;
 

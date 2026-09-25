@@ -92,10 +92,18 @@ function RouteViewportManager() {
   const routeKeyRef = useRef('');
 
   const scrollToPageTop = () => {
+    const currentTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+    if (Math.abs(currentTop) < 2) {
+      return;
+    }
+
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
   };
+
+  const isDashboardRoute = !['/', '/login', '/register'].includes(location.pathname);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !('scrollRestoration' in window.history)) {
@@ -104,12 +112,14 @@ function RouteViewportManager() {
 
     const previousValue = window.history.scrollRestoration;
     window.history.scrollRestoration = 'manual';
-    scrollToPageTop();
+    if (!isDashboardRoute) {
+      scrollToPageTop();
+    }
 
     return () => {
       window.history.scrollRestoration = previousValue;
     };
-  }, []);
+  }, [isDashboardRoute]);
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined') {
@@ -122,6 +132,14 @@ function RouteViewportManager() {
     }
 
     routeKeyRef.current = routeKey;
+
+    if (isDashboardRoute) {
+      const scrollContainer = document.querySelector('[data-dashboard-scroll="true"]');
+      if (scrollContainer instanceof HTMLElement) {
+        scrollContainer.scrollTop = 0;
+      }
+      return;
+    }
 
     let frameId = 0;
     let nextFrameId = 0;
@@ -149,7 +167,7 @@ function RouteViewportManager() {
       window.cancelAnimationFrame(nextFrameId);
       window.cancelAnimationFrame(finalFrameId);
     };
-  }, [location.hash, location.pathname, location.search]);
+  }, [isDashboardRoute, location.hash, location.pathname, location.search]);
 
   return null;
 }

@@ -1,8 +1,8 @@
-// ALPHA TRECKER - Theme Context
+// ALPHA TRACKER - Theme Context
 
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
-export type Theme = 'dark' | 'light' | 'ocean' | 'sunset';
+export type Theme = 'obsidian' | 'slate' | 'graphite' | 'deep-navy' | 'dark' | 'light' | 'ocean' | 'sunset';
 
 interface ThemeContextType {
   theme: Theme;
@@ -12,28 +12,52 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const THEME_KEY = 'alpha_tracker_theme';
-const LEGACY_THEME_KEY = 'alpha_trecker_theme';
-const DEFAULT_THEME: Theme = 'dark';
+const THEME_KEY = 'alpha-tracker-theme';
+const LEGACY_THEME_KEY = 'alpha_tracker_theme';
+const LEGACY_THEME_KEY_2 = 'alpha_trecker_theme';
+const DEFAULT_THEME: Theme = 'obsidian';
+
+const themeAliases: Record<string, Theme> = {
+  dark: 'obsidian',
+  light: 'slate',
+  ocean: 'slate',
+  sunset: 'deep-navy',
+  obsidian: 'obsidian',
+  slate: 'slate',
+  graphite: 'graphite',
+  'deep-navy': 'deep-navy',
+  deepNavy: 'deep-navy',
+  deep_navy: 'deep-navy',
+};
+
+const normalizeTheme = (value: string | null | undefined): Theme => {
+  if (!value) return DEFAULT_THEME;
+  return themeAliases[value] ?? DEFAULT_THEME;
+};
 
 const readStoredTheme = (): Theme => {
   if (typeof window === 'undefined') return DEFAULT_THEME;
-  const stored = localStorage.getItem(THEME_KEY) || localStorage.getItem(LEGACY_THEME_KEY);
-  return stored === 'light' || stored === 'dark' || stored === 'ocean' || stored === 'sunset'
-    ? stored
-    : DEFAULT_THEME;
+  const stored = localStorage.getItem(THEME_KEY) || localStorage.getItem(LEGACY_THEME_KEY) || localStorage.getItem(LEGACY_THEME_KEY_2);
+  return normalizeTheme(stored);
 };
 
 const applyThemeToDocument = (theme: Theme) => {
   const root = document.documentElement;
-  root.classList.remove('dark', 'light', 'ocean', 'sunset');
-  root.classList.add(theme);
-  root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+  const canonical = normalizeTheme(theme);
+
+  root.classList.remove('dark', 'light', 'ocean', 'sunset', 'obsidian', 'slate', 'graphite', 'deep-navy', 'deepNavy');
+  root.classList.add(canonical);
+  root.classList.toggle('dark', canonical !== 'slate');
+  root.classList.toggle('light', canonical === 'slate');
+  root.dataset.theme = canonical;
+  root.style.colorScheme = canonical === 'slate' ? 'light' : 'dark';
 };
 
 const persistTheme = (theme: Theme) => {
-  localStorage.setItem(THEME_KEY, theme);
-  localStorage.removeItem(LEGACY_THEME_KEY);
+  const canonical = normalizeTheme(theme);
+  localStorage.setItem(THEME_KEY, canonical);
+  localStorage.setItem(LEGACY_THEME_KEY, canonical);
+  localStorage.removeItem(LEGACY_THEME_KEY_2);
 };
 
 const runThemeUpdate = (update: () => void) => {
@@ -66,7 +90,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     switchTimeoutRef.current = window.setTimeout(() => {
       root.classList.remove('theme-switching');
       switchTimeoutRef.current = null;
-    }, 360);
+    }, 220);
   }, []);
 
   useLayoutEffect(() => {
@@ -85,7 +109,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const setTheme = useCallback((nextTheme: Theme) => {
     beginThemeSwitch();
     const update = () => {
-      setThemeState((current) => (current === nextTheme ? current : nextTheme));
+      const canonical = normalizeTheme(nextTheme);
+      setThemeState((current) => (normalizeTheme(current) === canonical ? current : canonical));
     };
 
     runThemeUpdate(update);
@@ -95,8 +120,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     beginThemeSwitch();
     const update = () => {
       setThemeState((current) => {
-        const themes: Theme[] = ['dark', 'light', 'ocean', 'sunset'];
-        return themes[(themes.indexOf(current) + 1) % themes.length];
+        const themes: Theme[] = ['obsidian', 'slate', 'graphite', 'deep-navy'];
+        const canonical = normalizeTheme(current);
+        const nextIndex = (themes.indexOf(canonical) + 1) % themes.length;
+        return themes[nextIndex];
       });
     };
 

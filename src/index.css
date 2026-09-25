@@ -170,6 +170,7 @@ html {
   scroll-behavior: smooth;
   font-size: 15px;
   scrollbar-gutter: stable;
+  height: 100%;
 }
 
 body {
@@ -181,18 +182,54 @@ body {
   font-weight: 400;
   letter-spacing: 0;
 
-  overflow-x: hidden;
+  overflow: hidden;
 
   width: 100%;
   min-height: 100vh;
+  height: auto;
 
   line-height: 1.5;
   text-rendering: geometricPrecision;
   overscroll-behavior-y: contain;
 
-  background: var(--alpha-bg);
-  color: var(--alpha-text);
+  background: var(--color-bg, var(--alpha-bg));
+  color: var(--color-text, var(--alpha-text));
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
 
+}
+
+html, body, #root {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--alpha-border) 72%, transparent) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--alpha-border) 72%, transparent);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--alpha-border-strong) 76%, transparent);
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 body::before {
@@ -232,6 +269,20 @@ b, strong {
   min-height: calc(100dvh - 32px);
   overflow: hidden;
   border-radius: 30px;
+  contain: layout paint;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @media (max-width: 1023px) {
@@ -267,60 +318,6 @@ b, strong {
 }
 
 .alpha-sidebar-panel nav {
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--alpha-highlight) 55%, transparent) transparent;
-}
-
-.project-list-scroll {
-  max-height: calc(100dvh - 300px);
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable;
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--alpha-highlight) 55%, transparent) transparent;
-}
-
-.project-list-scroll::-webkit-scrollbar,
-.alpha-sidebar-panel nav::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.project-list-scroll::-webkit-scrollbar-thumb,
-.alpha-sidebar-panel nav::-webkit-scrollbar-thumb {
-  border: 2px solid transparent;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--alpha-highlight) 55%, transparent);
-  background-clip: padding-box;
-}
-
-@media (max-width: 640px) {
-  .project-list-scroll {
-    max-height: calc(100dvh - 360px);
-  }
-}
-
-.alpha-dashboard-main {
-  height: calc(100dvh - 56px);
-  min-height: 0 !important;
-  overflow: hidden;
-}
-
-.alpha-dashboard-main > div {
-  height: 100%;
-  min-height: 0;
-}
-
-.alpha-dashboard-main .alpha-app-content-shell {
-  height: 100%;
-  min-height: 0 !important;
-}
-
-.alpha-dashboard-main .alpha-app-content-shell > div {
-  height: 100%;
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--alpha-highlight) 55%, transparent) transparent;
 }
@@ -371,12 +368,6 @@ b, strong {
 .alpha-theme.macos-app-shell .alpha-text-muted,
 .alpha-theme.macos-app-shell .text-muted-foreground {
   color: var(--alpha-text-muted) !important;
-}
-
-@media (max-width: 640px) {
-  .alpha-dashboard-main {
-    height: calc(100dvh - 52px);
-  }
 }
 
 body .text-\[10px\] {

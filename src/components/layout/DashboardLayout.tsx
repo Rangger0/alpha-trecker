@@ -10,7 +10,6 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children, disableMonochrome = true }: DashboardLayoutProps) {
   const { theme } = useTheme();
-  const isDark = theme !== 'light';
 
   const [isDesktop, setIsDesktop] = useState<boolean>(() => {
     if (typeof window === 'undefined') return true;
@@ -42,7 +41,7 @@ export function DashboardLayout({ children, disableMonochrome = true }: Dashboar
   };
 
   return (
-    <div className={`alpha-theme ${theme} ${isDark ? 'dark' : 'light'} alpha-bg macos-app-shell min-h-screen`}>
+    <div className={`alpha-theme ${theme} alpha-bg macos-app-shell min-h-screen`}>
       <div className="alpha-app-ambient" aria-hidden="true" />
       <div className="alpha-app-grid" aria-hidden="true" />
 
@@ -61,18 +60,20 @@ export function DashboardLayout({ children, disableMonochrome = true }: Dashboar
       />
 
       <main
-        className="alpha-dashboard-main w-full pt-14 sm:pt-[60px] lg:pt-16"
+        className="alpha-dashboard-main w-full overflow-hidden pt-14 sm:pt-[60px] lg:pt-16"
       >
-        <div className="relative z-[1] w-full px-2 pb-2 pt-2 sm:px-3 sm:pb-3 sm:pt-3 lg:px-4 lg:pb-4 lg:pt-4">
+        <div className="relative z-[1] h-[calc(100dvh-76px)] w-full px-2 pb-2 pt-2 sm:px-3 sm:pb-3 sm:pt-3 lg:px-4 lg:pb-4 lg:pt-4">
           <div
-            className={`alpha-app-content-shell macos-panel ${disableMonochrome ? '' : 'macos-theme-monochrome'} overflow-hidden rounded-[1.65rem] border shadow-[var(--alpha-shadow)]`}
+            className={`alpha-app-content-shell macos-panel ${disableMonochrome ? '' : 'macos-theme-monochrome'} h-full overflow-hidden rounded-[1.65rem] border shadow-[var(--alpha-shadow)]`}
             style={{
               borderColor: 'var(--alpha-shell-border)',
               background: 'var(--alpha-shell-gradient)',
-              minHeight: 'calc(100dvh - 76px)',
             }}
           >
-            <div className="p-3.5 sm:p-4 lg:p-5">
+            <div
+              data-dashboard-scroll="true"
+              className="h-full overflow-y-auto overflow-x-hidden overscroll-contain p-3.5 sm:p-4 lg:p-5"
+            >
               {children}
             </div>
           </div>

@@ -4955,19 +4955,19 @@ html.theme-switching *::after {
 
 /* Final scoped overrides for the V2 landing command-center design. */
 .alpha-theme.macos-landing-shell {
-  --alpha-bg: #000000 !important;
-  --alpha-panel: #090909 !important;
-  --alpha-surface: #0E0A03 !important;
-  --alpha-text: #FFFFFF !important;
-  --alpha-text-muted: #D8D8D8 !important;
-  --alpha-accent: #F5F7FA !important;
-  --alpha-accent-hover: var(--alpha-main) !important;
-  --alpha-accent-from: #F5F7FA !important;
-  --alpha-accent-to: var(--alpha-highlight) !important;
-  --alpha-accent-contrast: #000000 !important;
-  --alpha-border: rgba(255, 255, 255, 0.3) !important;
-  --alpha-border-strong: rgba(255, 255, 255, 0.48) !important;
-  background: #000000 !important;
+  --alpha-bg: var(--color-bg, #0d0f12) !important;
+  --alpha-panel: var(--color-surface, #14171b) !important;
+  --alpha-surface: var(--color-surface, #14171b) !important;
+  --alpha-text: var(--color-text, #f2f4f7) !important;
+  --alpha-text-muted: var(--color-text-secondary, #acb5bf) !important;
+  --alpha-accent: var(--color-accent, #8b7cff) !important;
+  --alpha-accent-hover: var(--color-accent-hover, #9c8eff) !important;
+  --alpha-accent-from: var(--color-accent, #8b7cff) !important;
+  --alpha-accent-to: var(--color-accent-hover, #9c8eff) !important;
+  --alpha-accent-contrast: var(--color-accent-contrast, #ffffff) !important;
+  --alpha-border: var(--color-border, rgba(255,255,255,0.22)) !important;
+  --alpha-border-strong: var(--color-border-hover, rgba(255,255,255,0.34)) !important;
+  background: var(--alpha-bg) !important;
 }
 
 .alpha-theme.macos-landing-shell::before,
@@ -5044,64 +5044,64 @@ html.theme-switching *::after {
 /* Auth + app-wide V2 day/night modes */
 .alpha-theme.dark.alpha-auth-redesign,
 .alpha-theme.dark.macos-app-shell {
-  --main-hex: #F5F7FA !important;
-  --highlight-hex: var(--alpha-highlight) !important;
-  --alpha-bg: #000000 !important;
-  --alpha-panel: #090909 !important;
-  --alpha-card: #090909 !important;
-  --alpha-surface: #060606 !important;
-  --alpha-surface-2: #0E0A03 !important;
-  --alpha-hover-soft: rgba(255, 255, 255, 0.14) !important;
-  --alpha-text: #FFFFFF !important;
-  --alpha-text-muted: #D8D8D8 !important;
-  --alpha-accent: #F5F7FA !important;
-  --alpha-accent-hover: var(--alpha-main) !important;
-  --alpha-accent-from: #F5F7FA !important;
-  --alpha-accent-to: var(--alpha-highlight) !important;
-  --alpha-accent-contrast: #000000 !important;
-  --alpha-info: var(--alpha-main) !important;
-  --alpha-violet: var(--alpha-highlight) !important;
-  --alpha-success: #22C55E !important;
-  --alpha-warning: var(--alpha-highlight) !important;
-  --alpha-danger: #F5F7FA !important;
-  --alpha-border: rgba(255, 255, 255, 0.3) !important;
-  --alpha-border-strong: rgba(255, 255, 255, 0.48) !important;
-  --alpha-border-hover: rgba(255, 255, 255, 0.62) !important;
-  --alpha-highlight: var(--alpha-highlight) !important;
-  --alpha-highlight-soft: rgba(255, 255, 255, 0.12) !important;
-  --alpha-highlight-border: rgba(255, 255, 255, 0.42) !important;
-  --alpha-shell-border: rgba(255, 255, 255, 0.28) !important;
-  --alpha-shell-gradient: linear-gradient(180deg, rgba(14, 10, 3, 0.98), rgba(0, 0, 0, 0.98)) !important;
-  --alpha-topbar-gradient: linear-gradient(180deg, rgba(14, 10, 3, 0.98), rgba(0, 0, 0, 0.96)) !important;
-  --alpha-shadow: 0 18px 48px rgba(0, 0, 0, 0.76), 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
-  --alpha-shadow-strong: 0 28px 74px rgba(0, 0, 0, 0.84), 0 0 28px rgba(255, 255, 255, 0.12) !important;
+  --main-hex: var(--color-accent, #8b7cff) !important;
+  --highlight-hex: var(--color-accent, #8b7cff) !important;
+  --alpha-bg: var(--color-bg, #0d0f12) !important;
+  --alpha-panel: var(--color-surface, #14171b) !important;
+  --alpha-card: var(--color-surface, #14171b) !important;
+  --alpha-surface: var(--color-surface, #14171b) !important;
+  --alpha-surface-2: var(--color-surface-2, #191d22) !important;
+  --alpha-hover-soft: rgba(255, 255, 255, 0.08) !important;
+  --alpha-text: var(--color-text, #f2f4f7) !important;
+  --alpha-text-muted: var(--color-text-secondary, #acb5bf) !important;
+  --alpha-accent: var(--color-accent, #8b7cff) !important;
+  --alpha-accent-hover: var(--color-accent-hover, #9c8eff) !important;
+  --alpha-accent-from: var(--color-accent, #8b7cff) !important;
+  --alpha-accent-to: var(--color-accent-hover, #9c8eff) !important;
+  --alpha-accent-contrast: var(--color-accent-contrast, #ffffff) !important;
+  --alpha-info: var(--color-info, #6ea8d7) !important;
+  --alpha-violet: var(--color-accent, #8b7cff) !important;
+  --alpha-success: var(--color-success, #45c486) !important;
+  --alpha-warning: var(--color-warning, #e3a84b) !important;
+  --alpha-danger: var(--color-danger, #e56565) !important;
+  --alpha-border: var(--color-border, rgba(255,255,255,0.22)) !important;
+  --alpha-border-strong: var(--color-border-hover, rgba(255,255,255,0.34)) !important;
+  --alpha-border-hover: var(--color-border-hover, rgba(255,255,255,0.42)) !important;
+  --alpha-highlight: var(--color-accent, #8b7cff) !important;
+  --alpha-highlight-soft: color-mix(in srgb, var(--alpha-highlight) 12%, transparent) !important;
+  --alpha-highlight-border: color-mix(in srgb, var(--alpha-highlight) 42%, var(--alpha-border) 58%) !important;
+  --alpha-shell-border: var(--color-border, rgba(255,255,255,0.22)) !important;
+  --alpha-shell-gradient: linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-bg) 97%, var(--alpha-surface) 3%)) !important;
+  --alpha-topbar-gradient: linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-bg) 92%, var(--alpha-surface) 8%)) !important;
+  --alpha-shadow: 0 8px 30px rgba(0, 0, 0, 0.22) !important;
+  --alpha-shadow-strong: 0 18px 44px rgba(0, 0, 0, 0.28) !important;
 }
 
 .alpha-theme.light.alpha-auth-redesign,
 .alpha-theme.light.macos-app-shell {
-  --main-hex: #050505 !important;
-  --highlight-hex: #747B84 !important;
-  --alpha-bg: #FFFDF7 !important;
-  --alpha-panel: #FFFFFF !important;
-  --alpha-surface: #FFF8E7 !important;
-  --alpha-hover-soft: rgba(0, 0, 0, 0.18) !important;
-  --alpha-text: #111111 !important;
-  --alpha-text-muted: #333333 !important;
-  --alpha-accent: #050505 !important;
-  --alpha-accent-hover: #B42318 !important;
-  --alpha-accent-from: #747B84 !important;
-  --alpha-accent-to: #9AA1AA !important;
-  --alpha-accent-contrast: #FFFFFF !important;
-  --alpha-border: rgba(255, 255, 255, 0.28) !important;
-  --alpha-border-strong: rgba(0, 0, 0, 0.38) !important;
-  --alpha-highlight: #747B84 !important;
-  --alpha-highlight-soft: rgba(0, 0, 0, 0.18) !important;
-  --alpha-highlight-border: rgba(255, 255, 255, 0.34) !important;
-  --alpha-shell-border: rgba(255, 255, 255, 0.24) !important;
-  --alpha-shell-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 253, 247, 0.92)) !important;
-  --alpha-topbar-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 248, 231, 0.84)) !important;
-  --alpha-shadow: 0 18px 44px rgba(0, 0, 0, 0.1) !important;
-  --alpha-shadow-strong: 0 28px 72px rgba(0, 0, 0, 0.16) !important;
+  --main-hex: var(--color-accent, #8b7cff) !important;
+  --highlight-hex: var(--color-accent, #8b7cff) !important;
+  --alpha-bg: var(--color-bg, #101317) !important;
+  --alpha-panel: var(--color-surface, #171b20) !important;
+  --alpha-surface: var(--color-surface, #171b20) !important;
+  --alpha-hover-soft: rgba(0, 0, 0, 0.06) !important;
+  --alpha-text: var(--color-text, #f1f3f5) !important;
+  --alpha-text-muted: var(--color-text-secondary, #a9b0ba) !important;
+  --alpha-accent: var(--color-accent, #7ea2c8) !important;
+  --alpha-accent-hover: var(--color-accent-hover, #8eb0d3) !important;
+  --alpha-accent-from: var(--color-accent, #7ea2c8) !important;
+  --alpha-accent-to: var(--color-accent-hover, #8eb0d3) !important;
+  --alpha-accent-contrast: var(--color-accent-contrast, #ffffff) !important;
+  --alpha-border: var(--color-border, rgba(255,255,255,0.22)) !important;
+  --alpha-border-strong: var(--color-border-hover, rgba(17,17,17,0.28)) !important;
+  --alpha-highlight: var(--color-accent, #7ea2c8) !important;
+  --alpha-highlight-soft: color-mix(in srgb, var(--alpha-highlight) 12%, transparent) !important;
+  --alpha-highlight-border: color-mix(in srgb, var(--alpha-highlight) 42%, var(--alpha-border) 58%) !important;
+  --alpha-shell-border: var(--color-border, rgba(17,17,17,0.24)) !important;
+  --alpha-shell-gradient: linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 96%, transparent), color-mix(in srgb, var(--alpha-bg) 94%, var(--alpha-surface) 6%)) !important;
+  --alpha-topbar-gradient: linear-gradient(180deg, color-mix(in srgb, var(--alpha-surface) 95%, transparent), color-mix(in srgb, var(--alpha-bg) 90%, var(--alpha-surface) 10%)) !important;
+  --alpha-shadow: 0 8px 30px rgba(0, 0, 0, 0.18) !important;
+  --alpha-shadow-strong: 0 14px 34px rgba(0, 0, 0, 0.2) !important;
 }
 
 .alpha-auth-redesign {
@@ -6029,6 +6029,70 @@ html.sunset,
   box-sizing: border-box;
   min-height: 0 !important;
   height: 100% !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--alpha-border-strong) transparent;
+}
+
+.macos-app-shell .project-list-frame {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--alpha-panel);
+}
+
+.macos-app-shell .project-list-scroll {
+  max-width: 100%;
+  max-height: calc(100dvh - 280px);
+  overflow-x: auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--alpha-border-strong) transparent;
+}
+
+.macos-app-shell .project-list-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.macos-app-shell .project-list-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--alpha-border-strong);
+  background-clip: padding-box;
+}
+
+.macos-app-shell .project-list-scroll table {
+  color: var(--alpha-text);
+  background: var(--alpha-panel);
+}
+
+.macos-app-shell .project-list-scroll thead tr {
+  position: static;
+  background: var(--alpha-surface-strong);
+}
+
+.macos-app-shell .project-list-scroll thead th {
+  background: var(--alpha-surface-strong);
+  color: var(--alpha-text-muted);
+}
+
+.macos-app-shell .project-list-scroll tbody tr {
+  background: var(--alpha-panel);
+  color: var(--alpha-text);
+}
+
+.macos-app-shell .project-list-scroll tbody tr:nth-child(even) {
+  background: var(--alpha-surface);
+}
+
+.macos-app-shell .project-list-scroll tbody td {
+  border-color: var(--alpha-border);
 }
 
 @media (max-width: 1023px) {
