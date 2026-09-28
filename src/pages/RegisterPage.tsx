@@ -11,7 +11,6 @@ export function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
@@ -46,11 +45,6 @@ export function RegisterPage() {
       return;
     }
 
-    if (!acceptedTerms) {
-      setError('You must accept the terms to create an account.');
-      return;
-    }
-
     setIsLoading(true);
 
     try {
@@ -82,9 +76,9 @@ export function RegisterPage() {
   return (
     <div className="alpha-auth-card">
       <div className="alpha-auth-card-header">
-        <p>Create Account</p>
-        <h2>Start your Alpha Tracker workspace</h2>
-        <span>Set up a focused place for research, tracking, execution, and review.</span>
+        <p>Create workspace</p>
+        <h2>Set up Alpha Tracker</h2>
+        <span>Build a cleaner research flow for projects, wallets, timing, and opportunity review.</span>
       </div>
 
       {error && (
@@ -168,17 +162,7 @@ export function RegisterPage() {
           </div>
         </div>
 
-        <label className="alpha-auth-checkbox alpha-auth-terms">
-          <input
-            type="checkbox"
-            checked={acceptedTerms}
-            onChange={(event) => setAcceptedTerms(event.target.checked)}
-            disabled={isBusy}
-          />
-          <span>I agree to the terms and workspace access policy.</span>
-        </label>
-
-        <Button type="submit" className="alpha-auth-submit" disabled={isBusy || !acceptedTerms}>
+        <Button type="submit" className="alpha-auth-submit" disabled={isBusy}>
           {isLoading ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />

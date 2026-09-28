@@ -64,11 +64,11 @@ small {
 }
 
 .alpha-text-muted {
-  color: var(--alpha-text-muted) !important;
+  color: color-mix(in srgb, var(--alpha-text) 78%, var(--alpha-text-muted) 22%) !important;
 }
 
 .alpha-text-subtle {
-  color: color-mix(in srgb, var(--alpha-text-muted) 76%, var(--alpha-text) 24%) !important;
+  color: color-mix(in srgb, var(--alpha-text) 88%, var(--alpha-text-muted) 12%) !important;
 }
 
 img,

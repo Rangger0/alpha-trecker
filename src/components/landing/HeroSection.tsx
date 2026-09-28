@@ -12,26 +12,25 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
       <div className="alpha-v2-city-bg" aria-hidden="true" />
       <div className="alpha-v2-grid-bg" aria-hidden="true" />
       <div className="macos-landing-width relative z-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 xl:gap-16">
+        <div className="grid items-center gap-12 lg:grid-cols-[0.96fr_1.04fr] lg:gap-10 xl:gap-16">
           <div className="alpha-v2-hero-copy space-y-8">
-            <span className="alpha-v2-kicker">AI-powered Web3 research platform</span>
+            <span className="alpha-v2-kicker">Alpha Tracker</span>
 
             <div className="space-y-5">
               <h1 className="alpha-v2-headline">
-                <span>Discover.</span>
-                <span>Analyze.</span>
-                <span>Track.</span>
+                <span>Track</span>
+                <span>research.</span>
+                <span>Prioritize</span>
               </h1>
               <h2 className="alpha-v2-subheadline">
-                Web3 Opportunities
+                Clean Web3 workflow
                 <br />
-                Powered by AI.
+                for better decisions.
               </h2>
             </div>
 
             <p className="alpha-v2-lead">
-              Alpha Tracker helps researchers discover high-potential Web3 projects using AI, on-chain analytics,
-              funding intelligence, and wallet analysis.
+              Follow project activity, wallet signals, and opportunity data in one calm, focused workspace built for Web3 research.
             </p>
 
             <div className="flex flex-col gap-4 pt-2 sm:flex-row">
@@ -40,7 +39,7 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
                 onClick={() => onOpenAuth('register')} 
                 className="alpha-v2-primary-btn h-13 rounded-lg px-8 py-6 text-base font-semibold"
               >
-                Start Research
+                Start now
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
 
@@ -49,7 +48,7 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
                   variant="outline" 
                   className="alpha-v2-secondary-btn h-13 rounded-lg px-8 py-6 text-base font-semibold"
                 >
-                  Open Dashboard
+                  Dashboard
                   <LayoutDashboard className="ml-2 h-4 w-4" />
                 </Button>
               </a>

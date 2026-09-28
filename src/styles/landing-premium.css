@@ -1863,10 +1863,10 @@
 }
 
 .alpha-v2-nav-shell {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  background: linear-gradient(180deg, rgba(7, 11, 23, 0.74), rgba(7, 11, 23, 0.48));
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--alpha-surface) 72%, transparent);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(18px);
 }
 
@@ -1886,11 +1886,28 @@
   background: rgba(16, 24, 40, 0.34);
 }
 
+.alpha-v2-nav-theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 80%, transparent);
+  color: var(--alpha-text);
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.alpha-v2-nav-theme:hover {
+  border-color: color-mix(in srgb, var(--alpha-border) 120%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 92%, transparent);
+  color: var(--alpha-highlight);
+  transform: translateY(-1px);
+}
+
 .alpha-v2-primary-btn {
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
-  background: linear-gradient(135deg, var(--alpha-v2-secondary), var(--alpha-v2-primary)) !important;
-  color: #fff !important;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 18px 38px rgba(255, 255, 255, 0.28);
+  border: 1px solid color-mix(in srgb, var(--alpha-highlight) 62%, transparent) !important;
+  background: linear-gradient(135deg, var(--alpha-highlight), var(--alpha-accent)) !important;
+  color: var(--alpha-accent-contrast) !important;
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--alpha-highlight) 22%, transparent);
   transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
 }
 
@@ -1901,10 +1918,10 @@
 }
 
 .alpha-v2-secondary-btn {
-  border: 1px solid var(--alpha-v2-border) !important;
-  background: rgba(16, 24, 40, 0.46) !important;
-  color: var(--alpha-v2-text) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent) !important;
+  background: color-mix(in srgb, var(--alpha-surface) 78%, transparent) !important;
+  color: var(--alpha-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(14px);
   transition: transform 180ms ease, border-color 180ms ease, color 180ms ease;
 }
@@ -1918,9 +1935,9 @@
 .alpha-v2-hero {
   min-height: 100svh;
   background:
-    radial-gradient(circle at 72% 30%, rgba(215, 221, 229, 0.24), transparent 28%),
-    radial-gradient(circle at 44% 42%, rgba(255, 255, 255, 0.16), transparent 24%),
-    linear-gradient(180deg, #000000 0%, var(--alpha-v2-bg) 72%, #000000 100%);
+    radial-gradient(circle at 72% 30%, color-mix(in srgb, var(--alpha-highlight) 12%, transparent), transparent 28%),
+    radial-gradient(circle at 28% 25%, color-mix(in srgb, var(--alpha-accent) 8%, transparent), transparent 24%),
+    linear-gradient(180deg, var(--alpha-bg) 0%, color-mix(in srgb, var(--alpha-surface) 82%, var(--alpha-bg)) 62%, var(--alpha-bg) 100%);
 }
 
 .alpha-v2-city-bg,
@@ -1953,14 +1970,14 @@
   display: inline-flex;
   width: fit-content;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 86%, transparent);
   border-radius: 999px;
   padding: 0.45rem 0.8rem;
-  background: rgba(255, 255, 255, 0.07);
-  color: var(--alpha-v2-accent);
-  font-size: 0.74rem;
+  background: color-mix(in srgb, var(--alpha-surface) 76%, transparent);
+  color: var(--alpha-highlight);
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -2344,6 +2361,8 @@
 .alpha-v2-feature-card {
   min-height: 218px;
   padding: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 75%, transparent);
   animation: alpha-v2-rise 640ms cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--stagger-delay, 0ms);
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
@@ -2370,7 +2389,9 @@
   justify-content: space-between;
   gap: 1rem;
   margin-top: 1rem;
-  padding: 1rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 84%, transparent);
+  background: color-mix(in srgb, var(--alpha-surface) 72%, transparent);
 }
 
 .alpha-v2-networks p {
@@ -2441,9 +2462,9 @@
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.65fr);
-  min-height: 390px;
+  min-height: 360px;
   overflow: hidden;
-  padding: clamp(1.25rem, 4vw, 3rem);
+  padding: clamp(1.2rem, 4vw, 2.5rem);
 }
 
 .alpha-v2-cta::before {

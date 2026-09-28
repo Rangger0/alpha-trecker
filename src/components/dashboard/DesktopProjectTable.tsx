@@ -337,7 +337,7 @@ const DesktopTableRow = memo(function DesktopTableRow({
     <tr
       className={cn(
         "group h-12 border-b border-alpha-border transition-colors duration-150 hover:bg-[color:var(--alpha-hover-soft)]",
-        index % 2 === 1 && "bg-white/[0.015]"
+        index % 2 === 1 && "bg-[color:var(--alpha-surface-soft)]"
       )}
     >
       <td className="sticky left-0 z-20 border-b border-r border-alpha-border bg-[color:var(--alpha-panel)] px-3 py-1.5 transition-colors duration-150 group-hover:bg-[color:var(--alpha-surface-soft)]">

@@ -3,7 +3,7 @@ import { Image, Users, WalletCards } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { ProjectTableContainer } from '@/components/dashboard/ProjectTableContainer';
 import { useAirdrops } from '@/hooks/use-airdrops';
-import { useTheme } from '@/contexts/ThemeContext';
+import { isLightTheme, useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { createAirdrop, updateAirdrop } from '@/services/database';
 import { supabase } from '@/lib/supabase';
@@ -25,7 +25,7 @@ export function NFTWaitlistPage() {
   const { theme } = useTheme();
   const { session } = useAuth();
   const { airdrops, deleteAirdrop, refetch } = useAirdrops();
-  const isDark = theme !== 'light';
+  const isDark = !isLightTheme(theme);
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingAirdrop, setEditingAirdrop] = useState<Airdrop | null>(null);

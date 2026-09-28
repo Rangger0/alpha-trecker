@@ -182,7 +182,8 @@ body {
   font-weight: 400;
   letter-spacing: 0;
 
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   width: 100%;
   min-height: 100vh;
@@ -202,7 +203,8 @@ html, body, #root {
   margin: 0;
   width: 100%;
   min-height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 * {

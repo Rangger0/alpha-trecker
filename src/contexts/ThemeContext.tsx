@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
-export type Theme = 'obsidian' | 'slate' | 'graphite' | 'deep-navy' | 'dark' | 'light' | 'ocean' | 'sunset';
+export type Theme = 'obsidian' | 'slate' | 'graphite' | 'deep-navy' | 'ivory' | 'sage' | 'dark' | 'light' | 'ocean' | 'sunset';
 
 interface ThemeContextType {
   theme: Theme;
@@ -28,11 +28,18 @@ const themeAliases: Record<string, Theme> = {
   'deep-navy': 'deep-navy',
   deepNavy: 'deep-navy',
   deep_navy: 'deep-navy',
+  ivory: 'ivory',
+  sage: 'sage',
 };
 
-const normalizeTheme = (value: string | null | undefined): Theme => {
+export const normalizeTheme = (value: string | null | undefined): Theme => {
   if (!value) return DEFAULT_THEME;
   return themeAliases[value] ?? DEFAULT_THEME;
+};
+
+export const isLightTheme = (value: Theme | string | null | undefined): boolean => {
+  const canonical = normalizeTheme(String(value ?? ''));
+  return canonical === 'slate' || canonical === 'ivory' || canonical === 'sage';
 };
 
 const readStoredTheme = (): Theme => {
@@ -44,13 +51,14 @@ const readStoredTheme = (): Theme => {
 const applyThemeToDocument = (theme: Theme) => {
   const root = document.documentElement;
   const canonical = normalizeTheme(theme);
+  const isLightTheme = canonical === 'slate' || canonical === 'ivory' || canonical === 'sage';
 
-  root.classList.remove('dark', 'light', 'ocean', 'sunset', 'obsidian', 'slate', 'graphite', 'deep-navy', 'deepNavy');
+  root.classList.remove('dark', 'light', 'ocean', 'sunset', 'obsidian', 'slate', 'graphite', 'deep-navy', 'deepNavy', 'ivory', 'sage');
   root.classList.add(canonical);
-  root.classList.toggle('dark', canonical !== 'slate');
-  root.classList.toggle('light', canonical === 'slate');
+  root.classList.toggle('dark', !isLightTheme);
+  root.classList.toggle('light', isLightTheme);
   root.dataset.theme = canonical;
-  root.style.colorScheme = canonical === 'slate' ? 'light' : 'dark';
+  root.style.colorScheme = isLightTheme ? 'light' : 'dark';
 };
 
 const persistTheme = (theme: Theme) => {
@@ -120,7 +128,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     beginThemeSwitch();
     const update = () => {
       setThemeState((current) => {
-        const themes: Theme[] = ['obsidian', 'slate', 'graphite', 'deep-navy'];
+        const themes: Theme[] = ['obsidian', 'ivory', 'slate', 'sage', 'graphite', 'deep-navy'];
         const canonical = normalizeTheme(current);
         const nextIndex = (themes.indexOf(canonical) + 1) % themes.length;
         return themes[nextIndex];

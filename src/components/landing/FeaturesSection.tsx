@@ -4,33 +4,33 @@ import { BarChart3, BrainCircuit, Fingerprint, Radar, ShieldCheck, WalletCards }
 const featureItems = [
   {
     icon: BrainCircuit,
-    title: 'AI Research',
-    description: 'Turn funding, protocol, and social signals into structured project briefs.',
-  },
-  {
-    icon: BarChart3,
-    title: 'Funding Intelligence',
-    description: 'Track backers, rounds, valuation signals, and capital flow before narratives peak.',
+    title: 'Research',
+    description: 'Turn market signals into structured insight without the noise.',
   },
   {
     icon: WalletCards,
-    title: 'Wallet Scanner',
-    description: 'Analyze wallet activity, chain coverage, balances, and historical interaction depth.',
+    title: 'Wallet tracking',
+    description: 'Monitor wallets, balances, and project activity on the same view.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Opportunity score',
+    description: 'Prioritize the projects that deserve attention and follow-up.',
   },
   {
     icon: ShieldCheck,
-    title: 'Sybil Detection',
-    description: 'Surface risky wallet patterns before they damage your eligibility strategy.',
+    title: 'Risk review',
+    description: 'Keep eligibility and project health checks easier to compare.',
   },
   {
     icon: Radar,
-    title: 'Opportunity Score',
-    description: 'Prioritize projects with a clean AI score built for research velocity.',
+    title: 'Project signals',
+    description: 'Combine funding, status, and momentum in one clean workflow.',
   },
   {
     icon: Fingerprint,
-    title: 'Portfolio Tracker',
-    description: 'Keep airdrops, research notes, claims, and active wallets in one command layer.',
+    title: 'Portfolio view',
+    description: 'Keep airdrops, claims, and project notes in one place.',
   },
 ];
 
@@ -48,10 +48,10 @@ export function FeaturesSection() {
     <section id="features" className="alpha-v2-section px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <div className="macos-landing-width">
         <div className="alpha-v2-section-header">
-          <p className="alpha-v2-kicker">Research Stack</p>
-          <h2>Premium intelligence for Web3 operators.</h2>
+          <p className="alpha-v2-kicker">Research stack</p>
+          <h2>Built for focused Web3 tracking.</h2>
           <span>
-            Minimal, fast, and built around the workflows that serious researchers repeat every day.
+            Keep project discovery, funding signals, wallet activity, and opportunity review in one clean workflow.
           </span>
         </div>
 

@@ -4019,6 +4019,13 @@ html.theme-switching *::after {
   box-shadow: var(--alpha-shadow) !important;
 }
 
+.alpha-theme.ivory .macos-btn--primary,
+.alpha-theme.sage .macos-btn--primary,
+.alpha-theme.ivory .alpha-topbar-shell .macos-btn--primary,
+.alpha-theme.sage .alpha-topbar-shell .macos-btn--primary {
+  color: var(--alpha-accent-contrast) !important;
+}
+
 .alpha-theme.light .macos-btn:hover,
 .alpha-theme.light [data-slot="button"]:hover,
 .alpha-theme.light button[class*="bg-"]:hover,
@@ -4977,10 +4984,10 @@ html.theme-switching *::after {
 
 .alpha-theme.macos-landing-shell .alpha-v2-nav-shell {
   min-height: 68px !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  border-radius: 8px !important;
-  background: linear-gradient(180deg, rgba(14, 10, 3, 0.92), rgba(0, 0, 0, 0.9)) !important;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid color-mix(in srgb, var(--alpha-border) 82%, transparent) !important;
+  border-radius: 18px !important;
+  background: color-mix(in srgb, var(--alpha-surface) 78%, transparent) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-nav-login,
@@ -5002,10 +5009,10 @@ html.theme-switching *::after {
 .alpha-theme.macos-landing-shell [data-slot="button"].alpha-v2-primary-btn,
 .alpha-theme.macos-landing-shell button.alpha-v2-primary-btn,
 .alpha-theme.macos-landing-shell a.alpha-v2-primary-btn {
-  border: 1px solid rgba(255, 255, 255, 0.46) !important;
-  background: linear-gradient(135deg, #F5F7FA, var(--alpha-main) 58%, var(--alpha-highlight)) !important;
-  color: #000000 !important;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 18px 38px rgba(255, 255, 255, 0.22) !important;
+  border: 1px solid color-mix(in srgb, var(--alpha-highlight) 60%, transparent) !important;
+  background: linear-gradient(135deg, var(--alpha-highlight), var(--alpha-accent)) !important;
+  color: var(--alpha-accent-contrast) !important;
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--alpha-highlight) 22%, transparent) !important;
 }
 
 .alpha-theme.macos-landing-shell .alpha-v2-primary-btn:hover,

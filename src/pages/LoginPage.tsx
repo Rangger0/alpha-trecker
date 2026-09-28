@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label';
 export function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -51,7 +50,7 @@ export function LoginPage() {
       if (authError) throw authError;
       if (!data.session) throw new Error('Login failed. Session not created.');
 
-      setSuccess(rememberMe ? 'Access verified. Opening command center...' : 'Session verified. Opening command center...');
+      setSuccess('Access verified. Opening command center...');
       window.setTimeout(() => navigate('/overview'), 350);
     } catch (err: unknown) {
       const message = err instanceof Error ? getAuthErrorMessage(err.message) : 'Authentication failed';
@@ -64,9 +63,9 @@ export function LoginPage() {
   return (
     <div className="alpha-auth-card">
       <div className="alpha-auth-card-header">
-        <p>Secure Login</p>
-        <h2>Open your Alpha command center</h2>
-        <span>Continue to research, wallet scans, funding signals, and project tracking.</span>
+        <p>Welcome back</p>
+        <h2>Access your Alpha workspace</h2>
+        <span>Review projects, wallets, and opportunity signals from one focused research desk.</span>
       </div>
 
       {error ? (
@@ -122,22 +121,6 @@ export function LoginPage() {
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
-        </div>
-
-        <div className="alpha-auth-form-row">
-          <label className="alpha-auth-checkbox">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(event) => setRememberMe(event.target.checked)}
-              disabled={isBusy}
-            />
-            <span>Remember me</span>
-          </label>
-
-          <a href="/forgot-password" className="alpha-auth-text-link">
-            Forgot password?
-          </a>
         </div>
 
         <Button type="submit" className="alpha-auth-submit" disabled={isBusy}>

@@ -3,7 +3,7 @@ import { List, Plus } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { ProjectTableContainer } from '@/components/dashboard/ProjectTableContainer';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTheme } from '@/contexts/ThemeContext';
+import { isLightTheme, useTheme } from '@/contexts/ThemeContext';
 import { getAirdropsByUserId, updateAirdrop, createAirdrop } from '@/services/database';
 import { supabase } from '@/lib/supabase';
 import { AIRDROPS_SYNC_EVENT, emitAirdropsSync, setCachedAirdrops } from '@/lib/airdrops-store';
@@ -30,7 +30,7 @@ export function ProjectListPage() {
   const { session } = useAuth();
   const { theme } = useTheme();
   const user = session?.user;
-  const isDark = theme !== 'light';
+  const isDark = !isLightTheme(theme);
   const [airdrops, setAirdrops] = useState<Airdrop[]>([]);
   const [logoError, setLogoError] = useState<Record<string, boolean>>({});
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);

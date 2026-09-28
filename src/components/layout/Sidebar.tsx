@@ -121,6 +121,8 @@ export function Sidebar({
     if (value === 'slate' || value === 'light' || value === 'ocean') return 'slate';
     if (value === 'graphite') return 'graphite';
     if (value === 'deep-navy' || value === 'sunset') return 'deep-navy';
+    if (value === 'ivory') return 'ivory';
+    if (value === 'sage') return 'sage';
     return 'obsidian';
   };
   const { language, setLanguage, t } = useI18n();
@@ -200,6 +202,8 @@ export function Sidebar({
     slate: "Slate",
     graphite: "Graphite",
     'deep-navy': "Deep Navy",
+    ivory: "Ivory",
+    sage: "Sage",
     dark: "Obsidian",
     light: "Slate",
     ocean: "Slate",
@@ -450,6 +454,8 @@ export function Sidebar({
                 <PreferenceButton active={normalizeTheme(theme) === "slate"} label="Slate" onClick={() => setTheme("slate")} />
                 <PreferenceButton active={normalizeTheme(theme) === "graphite"} label="Graphite" onClick={() => setTheme("graphite")} />
                 <PreferenceButton active={normalizeTheme(theme) === "deep-navy"} label="Deep Navy" onClick={() => setTheme("deep-navy")} />
+                <PreferenceButton active={normalizeTheme(theme) === "ivory"} label="Ivory" onClick={() => setTheme("ivory")} />
+                <PreferenceButton active={normalizeTheme(theme) === "sage"} label="Sage" onClick={() => setTheme("sage")} />
               </PreferenceGroup>
             </div>
           </div>

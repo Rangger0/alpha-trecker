@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Check, Database, LineChart, MoonStar, ShieldCheck, SunMedium } from 'lucide-react';
-import { useTheme } from '@/contexts/ThemeContext';
+import { isLightTheme, useTheme } from '@/contexts/ThemeContext';
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -19,7 +19,7 @@ const proofItems = [
 export function AuthLayout({ children, title, subtitle, features }: AuthLayoutProps) {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
-  const isDark = theme !== 'light';
+  const isDark = !isLightTheme(theme);
   const isLoginRoute = location.pathname === '/login';
   const ThemeIcon = isDark ? MoonStar : SunMedium;
 

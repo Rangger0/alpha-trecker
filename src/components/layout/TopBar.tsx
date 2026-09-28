@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useTheme } from '@/contexts/ThemeContext';
+import { isLightTheme, useTheme } from '@/contexts/ThemeContext';
 import { useI18n } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Plus, Menu, Clock3, MoonStar, SunMedium } from 'lucide-react';
@@ -18,7 +18,7 @@ export function TopBar({ onToggleSidebar }: TopBarProps) {
   const { t } = useI18n();
   const { session } = useAuth();
   const location = useLocation();
-  const isDark = theme !== 'light';
+  const isDark = !isLightTheme(theme);
   const ThemeIcon = isDark ? SunMedium : MoonStar;
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);

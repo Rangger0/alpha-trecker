@@ -1,13 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MoonStar, SunMedium } from 'lucide-react';
+import { isLightTheme, useTheme } from '@/contexts/ThemeContext';
 
 const navLinks = [
   { label: 'Features', href: '#features' },
-  { label: 'Research', href: '#research' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Docs', href: '#docs' },
-  { label: 'Leaderboard', href: '#leaderboard' },
+  { label: 'Research', href: '#features' },
+  { label: 'Dashboard', href: '/dashboard' },
 ];
 
 interface NavbarProps {
@@ -15,6 +14,10 @@ interface NavbarProps {
 }
 
 export function Navbar({ onOpenAuth: _onOpenAuth }: NavbarProps) {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = !isLightTheme(theme);
+  const ThemeIcon = isDark ? MoonStar : SunMedium;
+
   return (
     <nav className="alpha-v2-navbar pointer-events-none fixed inset-x-0 top-0 z-[80] px-4 pb-4 pt-4 sm:px-6 lg:px-8">
       <div className="macos-landing-width">
@@ -27,7 +30,7 @@ export function Navbar({ onOpenAuth: _onOpenAuth }: NavbarProps) {
                   Alpha Tracker
                 </p>
                 <p className="alpha-landing-nav-note hidden sm:block">
-                  Web3 research workspace
+                  Research workspace
                 </p>
               </div>
             </Link>
@@ -42,6 +45,16 @@ export function Navbar({ onOpenAuth: _onOpenAuth }: NavbarProps) {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="alpha-v2-nav-theme hidden h-11 w-11 items-center justify-center rounded-lg sm:flex"
+              aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+              aria-pressed={isDark}
+            >
+              <ThemeIcon className="h-4 w-4" />
+            </button>
+
             <Link to="/login" className="hidden sm:inline-flex">
               <Button
                 type="button"

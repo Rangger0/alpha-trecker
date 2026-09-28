@@ -1,6 +1,6 @@
 // PriorityProjectsPage.tsx
 import { useState, useMemo, useEffect } from 'react';
-import { useTheme } from '@/contexts/ThemeContext';
+import { isLightTheme, useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
@@ -65,7 +65,7 @@ const formatDeadline = (value?: string) => {
 export function PriorityProjectsPage() {
   const { theme } = useTheme();
   const { session } = useAuth();
-  const isDark = theme !== 'light';
+  const isDark = !isLightTheme(theme);
   const { airdrops, refetch } = useAirdrops();
   const { wallets } = useWallets();
   const [searchQuery, setSearchQuery] = useState('');
