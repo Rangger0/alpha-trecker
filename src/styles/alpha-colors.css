@@ -339,6 +339,124 @@ html.deep-navy,
   --alpha-signal-glow: rgba(120, 169, 214, 0.18);
 }
 
+html[data-theme='telegram'],
+html.telegram,
+.alpha-theme.telegram {
+  color-scheme: dark;
+
+  --color-bg: #232a31;
+  --color-surface: #303840;
+  --color-surface-2: #39424b;
+  --color-surface-hover: #414b55;
+  --color-surface-active: #4a555f;
+  --color-border: #48515b;
+  --color-border-hover: #5c6671;
+  --color-text: #f2f4f5;
+  --color-text-secondary: #bdc4ca;
+  --color-text-muted: #919ba4;
+  --color-text-disabled: #707b85;
+  --color-accent: #e46868;
+  --color-accent-hover: #f18c8c;
+  --color-accent-soft: rgba(228, 104, 104, 0.14);
+  --color-accent-contrast: #ffffff;
+  --color-success: #b7c0c8;
+  --alpha-chrome: linear-gradient(135deg, #f2f4f5 0%, #c7cdd2 45%, #e46868 100%);
+  --alpha-chrome-muted: linear-gradient(135deg, rgba(242, 244, 245, 0.16), rgba(199, 205, 210, 0.06) 42%, rgba(228, 104, 104, 0.12));
+  --color-success-soft: rgba(183, 192, 200, 0.12);
+  --color-success-text: #d3d8dd;
+  --color-warning: #aeb8c1;
+  --color-warning-soft: rgba(174, 184, 193, 0.12);
+  --color-warning-text: #d0d5da;
+  --color-danger: #e46868;
+  --color-danger-soft: rgba(228, 104, 104, 0.14);
+  --color-danger-text: #f18c8c;
+  --color-info: #aeb8c1;
+  --color-info-soft: rgba(174, 184, 193, 0.12);
+  --color-info-text: #d0d5da;
+
+  --background-hex: #232a31;
+  --surface-hex: #303840;
+  --surface-2-hex: #39424b;
+  --card-hex: #303840;
+  --border-hex: #48515b;
+  --headline-hex: #f2f4f5;
+  --paragraph-hex: #bdc4ca;
+  --main-hex: #e46868;
+  --highlight-hex: #e46868;
+  --secondary-hex: #293139;
+  --tertiary-hex: #919ba4;
+  --success-hex: #b7c0c8;
+  --warning-hex: #aeb8c1;
+  --danger-hex: #e46868;
+
+  --alpha-bg: var(--color-bg);
+  --alpha-panel: var(--color-surface);
+  --alpha-card: var(--color-surface);
+  --alpha-surface: var(--color-surface);
+  --alpha-surface-2: var(--color-surface-2);
+  --alpha-surface-soft: var(--color-surface-2);
+  --alpha-surface-strong: #1d2329;
+  --alpha-sidebar: #293139;
+  --alpha-shell: #293139;
+  --alpha-shell-soft: var(--color-surface);
+  --alpha-text: var(--color-text);
+  --alpha-text-muted: var(--color-text-secondary);
+  --alpha-accent: var(--color-accent);
+  --alpha-main: var(--color-danger);
+  --alpha-accent-hover: var(--color-accent-hover);
+  --alpha-accent-from: var(--color-accent);
+  --alpha-accent-to: var(--color-accent-hover);
+  --alpha-accent-contrast: var(--color-accent-contrast);
+  --alpha-highlight: var(--color-danger);
+  --alpha-card-heading: var(--color-text);
+  --alpha-card-text: var(--color-text-secondary);
+  --alpha-card-tag-bg: rgba(228, 104, 104, 0.12);
+  --alpha-card-tag-text: var(--color-text);
+  --alpha-success: var(--color-success);
+  --alpha-success-soft: var(--color-success-soft);
+  --alpha-warning: var(--color-warning);
+  --alpha-warning-soft: var(--color-warning-soft);
+  --alpha-danger: var(--color-danger);
+  --alpha-danger-soft: var(--color-danger-soft);
+  --alpha-success-border: color-mix(in srgb, var(--color-success) 38%, var(--color-border) 62%);
+  --alpha-warning-border: color-mix(in srgb, var(--color-warning) 38%, var(--color-border) 62%);
+  --alpha-danger-border: color-mix(in srgb, var(--color-danger) 48%, var(--color-border) 52%);
+  --alpha-danger-press: #c94f55;
+  --alpha-info: var(--color-info);
+  --alpha-info-soft: var(--color-info-soft);
+  --alpha-info-border: color-mix(in srgb, var(--color-info) 42%, var(--color-border) 58%);
+  --alpha-violet: var(--color-text-secondary);
+  --alpha-violet-soft: color-mix(in srgb, var(--alpha-violet) 12%, transparent);
+  --alpha-violet-border: color-mix(in srgb, var(--alpha-violet) 38%, var(--color-border) 62%);
+  --alpha-border: var(--color-border);
+  --alpha-border-strong: var(--color-border-hover);
+  --alpha-border-hover: var(--color-border-hover);
+  --alpha-highlight-soft: color-mix(in srgb, var(--color-danger) 14%, transparent);
+  --alpha-highlight-border: color-mix(in srgb, var(--color-danger) 48%, var(--alpha-border) 52%);
+  --alpha-signal: var(--color-text-secondary);
+  --alpha-signal-soft: color-mix(in srgb, var(--alpha-signal) 14%, transparent);
+  --alpha-signal-border: color-mix(in srgb, var(--alpha-signal) 42%, var(--alpha-border) 58%);
+  --alpha-signal-press: #9ba7b2;
+  --alpha-type: var(--color-text-secondary);
+  --alpha-email: var(--color-text-secondary);
+  --alpha-wallet: var(--color-text-secondary);
+  --alpha-link: var(--color-text);
+  --alpha-status: var(--color-text-secondary);
+  --alpha-confirmed: var(--color-text-secondary);
+  --alpha-funding: var(--color-text-secondary);
+  --alpha-waitlist: var(--color-danger);
+  --alpha-potential: var(--color-text-secondary);
+  --alpha-hover-soft: rgba(255, 255, 255, 0.05);
+  --alpha-overlay: rgba(0, 0, 0, 0.72);
+  --alpha-shadow: 0 8px 30px rgba(0, 0, 0, 0.24);
+  --alpha-shell-border: var(--color-border);
+  --alpha-topbar-chip-border: var(--color-border);
+  --alpha-shell-gradient: linear-gradient(180deg, #303840, #232a31);
+  --alpha-topbar-gradient: linear-gradient(180deg, #39424b, #303840);
+  --alpha-topbar-chip-gradient: var(--color-bg);
+  --alpha-signal-glow: rgba(228, 104, 104, 0.18);
+}
+
 html[data-theme='ivory'],
 html.ivory,
 .alpha-theme.ivory {

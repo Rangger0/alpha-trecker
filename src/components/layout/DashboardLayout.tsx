@@ -41,7 +41,7 @@ export function DashboardLayout({ children, disableMonochrome = true }: Dashboar
   };
 
   return (
-    <div className={`alpha-theme ${theme} alpha-bg macos-app-shell min-h-screen`}>
+    <div className={`alpha-theme ${theme} alpha-bg macos-app-shell h-full min-h-0 overflow-hidden`}>
       <div className="alpha-app-ambient" aria-hidden="true" />
       <div className="alpha-app-grid" aria-hidden="true" />
 

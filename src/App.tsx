@@ -92,15 +92,13 @@ function RouteViewportManager() {
   const routeKeyRef = useRef('');
 
   const scrollToPageTop = () => {
-    const currentTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
-    if (Math.abs(currentTop) < 2) {
+    const appScroll = document.querySelector<HTMLElement>('[data-app-scroll-container]');
+    if (appScroll) {
+      appScroll.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       return;
     }
 
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
   };
 
   const isDashboardRoute = !['/', '/login', '/register'].includes(location.pathname);
@@ -132,6 +130,9 @@ function RouteViewportManager() {
     }
 
     routeKeyRef.current = routeKey;
+
+    const appScroll = document.querySelector<HTMLElement>('[data-app-scroll-container]');
+    if (appScroll) appScroll.scrollTop = 0;
 
     if (isDashboardRoute) {
       const scrollContainer = document.querySelector('[data-dashboard-scroll="true"]');
@@ -218,8 +219,9 @@ function AppRoutes() {
     <>
       <RouteViewportManager />
 
-      <Suspense fallback={<AppLoader />}>
-        <Routes>
+      <div data-app-scroll-container className="h-full overflow-x-hidden overflow-y-auto overscroll-contain">
+        <Suspense fallback={<AppLoader />}>
+          <Routes>
           <Route element={<GuestRuntimeShell />}>
             <Route path="/" element={
               <PageTransition><LandingPage /></PageTransition>
@@ -346,8 +348,9 @@ function AppRoutes() {
               />
             </Route>
           </Route>
-        </Routes>
-      </Suspense>
+          </Routes>
+        </Suspense>
+      </div>
     </>
   );
 }

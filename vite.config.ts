@@ -1,7 +1,7 @@
 import path from "path"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
-import { inspectAttr } from 'kimi-plugin-inspect-react'
+
 
 const watchIgnored = [
   '**/.git/**',
@@ -13,11 +13,12 @@ const watchIgnored = [
 
 const usePolling = process.env.VITE_USE_POLLING !== 'false'
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(() => ({
   base: './',
-  plugins: [command === 'serve' ? inspectAttr() : null, react()].filter(Boolean),
+  plugins: [react()],
   resolve: {
     alias: {
+
       "@": path.resolve(__dirname, "./src"),
     },
   },

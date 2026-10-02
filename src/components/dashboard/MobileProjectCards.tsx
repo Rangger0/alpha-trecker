@@ -283,7 +283,7 @@ const ProjectMobileCard = memo(function ProjectMobileCard({
                 {airdrop.projectName}
               </h3>
               {isPriority && (
-                <Star className="h-3.5 w-3.5 flex-shrink-0" style={{ color: 'var(--alpha-highlight)', fill: 'var(--alpha-highlight)' }} />
+                <Star className="h-3.5 w-3.5 flex-shrink-0" style={{ color: 'var(--alpha-danger)', fill: 'var(--alpha-danger)' }} />
               )}
             </div>
             <p className="mt-0.5 truncate text-[12px] alpha-text-muted" title={airdrop.twitterUsername || undefined}>
@@ -337,7 +337,7 @@ const ProjectMobileCard = memo(function ProjectMobileCard({
                 onPriority(airdrop);
               }}
             >
-              <Star className="h-3.5 w-3.5" style={isPriority ? { color: 'var(--alpha-highlight)', fill: 'var(--alpha-highlight)' } : undefined} />
+              <Star className="h-3.5 w-3.5" style={isPriority ? { color: 'var(--alpha-danger)', fill: 'var(--alpha-danger)' } : undefined} />
             </IconAction>
             <IconAction label="Edit" onClick={() => onEdit(airdrop)}>
               <Edit2 className="h-3.5 w-3.5" />

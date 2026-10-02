@@ -352,7 +352,7 @@ const DesktopTableRow = memo(function DesktopTableRow({
               <p className="truncate text-[13px] font-semibold leading-5 alpha-text" title={airdrop.projectName}>
                 {airdrop.projectName}
               </p>
-              {isPriority && <Star className="h-3.5 w-3.5 flex-shrink-0" style={{ color: 'var(--alpha-highlight)', fill: 'var(--alpha-highlight)' }} />}
+              {isPriority && <Star className="h-3.5 w-3.5 flex-shrink-0" style={{ color: 'var(--alpha-danger)', fill: 'var(--alpha-danger)' }} />}
             </div>
             <p className="truncate text-[11px] leading-4 alpha-text-muted" title={airdrop.twitterUsername || undefined}>
               {airdrop.twitterUsername ? `@${airdrop.twitterUsername.replace("@", "")}` : formatProjectDate(airdrop.deadline ?? airdrop.createdAt)}
@@ -458,7 +458,7 @@ const DesktopTableRow = memo(function DesktopTableRow({
               onPriority(airdrop);
             }}
           >
-            <Star className="h-3.5 w-3.5" style={isPriority ? { color: 'var(--alpha-highlight)', fill: 'var(--alpha-highlight)' } : undefined} />
+            <Star className="h-3.5 w-3.5" style={isPriority ? { color: 'var(--alpha-danger)', fill: 'var(--alpha-danger)' } : undefined} />
           </ActionButton>
           <ActionButton label="Edit" onClick={() => onEdit(airdrop)}>
             <Edit2 className="h-3.5 w-3.5" />

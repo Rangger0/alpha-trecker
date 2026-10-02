@@ -121,6 +121,7 @@ export function Sidebar({
     if (value === 'slate' || value === 'light' || value === 'ocean') return 'slate';
     if (value === 'graphite') return 'graphite';
     if (value === 'deep-navy' || value === 'sunset') return 'deep-navy';
+    if (value === 'telegram') return 'telegram';
     if (value === 'ivory') return 'ivory';
     if (value === 'sage') return 'sage';
     return 'obsidian';
@@ -202,6 +203,7 @@ export function Sidebar({
     slate: "Slate",
     graphite: "Graphite",
     'deep-navy': "Deep Navy",
+    telegram: "Telegram",
     ivory: "Ivory",
     sage: "Sage",
     dark: "Obsidian",
@@ -226,19 +228,19 @@ export function Sidebar({
 
   const panelStyle = isDesktop
     ? {
-        top: "16px",
+        top: "max(24px, calc((100dvh - 780px) / 2))",
         left: `${leftOffset}px`,
         width: `${width}px`,
-        height: "calc(100vh - 32px)",
+        height: "min(780px, calc(100dvh - 48px))",
         borderColor: "var(--alpha-shell-border)",
         transform: open ? "translate3d(0, 0, 0) scale(1)" : "translate3d(calc(-100% - 28px), 0, 0) scale(0.96)",
         opacity: open ? 1 : 0,
       }
     : {
-        top: "10px",
+        top: "max(20px, calc((100dvh - 780px) / 2))",
         left: "12px",
         width: "min(340px, calc(100vw - 24px))",
-        height: "calc(100vh - 20px)",
+        height: "min(780px, calc(100dvh - 40px))",
         borderColor: "var(--alpha-shell-border)",
         transform: open ? "translate3d(0, 0, 0) scale(1)" : "translate3d(calc(-100% - 24px), 0, 0) scale(0.96)",
         opacity: open ? 1 : 0,
@@ -263,25 +265,26 @@ export function Sidebar({
       <div
         aria-hidden={!open}
         onClick={open ? onClose : undefined}
-        className={`alpha-sidebar-backdrop fixed inset-0 transition-opacity duration-200 ease-out ${
+        className={`alpha-sidebar-backdrop fixed inset-0 z-[40] backdrop-blur-[3px] transition-[opacity,backdrop-filter] duration-300 ease-out ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         style={{ background: "color-mix(in srgb, var(--alpha-overlay) 72%, transparent)" }}
       />
 
       <aside
-        className={`alpha-sidebar-panel fixed flex flex-col macos-panel overflow-hidden rounded-[1.4rem] border will-change-transform transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] ${
+        className={`alpha-sidebar-panel fixed z-[50] flex flex-col macos-panel overflow-hidden rounded-[1.65rem] border will-change-transform transition-[transform,opacity,box-shadow] duration-300 [transition-timing-function:cubic-bezier(.22,1,.36,1)] ${
           open ? "pointer-events-auto" : "pointer-events-none"
         }`}
         onPointerMove={(e) => e.stopPropagation()}
         onMouseMove={(e) => e.stopPropagation()}
         style={{
           ...panelStyle,
-          background: "linear-gradient(180deg, rgba(20, 23, 28, 0.9), rgba(10, 13, 18, 0.92))",
-          borderColor: "rgba(255, 255, 255, 0.12)",
-          backdropFilter: "blur(14px) saturate(1.2)",
-          WebkitBackdropFilter: "blur(14px) saturate(1.2)",
-          boxShadow: "0 24px 60px rgba(0, 0, 0, 0.42)",
+          transitionDuration: "420ms",
+          background: "color-mix(in srgb, var(--alpha-shell-gradient) 88%, var(--alpha-surface) 12%)",
+          borderColor: "var(--alpha-shell-border)",
+          backdropFilter: "blur(24px) saturate(1.35)",
+          WebkitBackdropFilter: "blur(24px) saturate(1.35)",
+          boxShadow: open ? "0 28px 80px rgba(0, 0, 0, 0.38), 0 4px 18px rgba(0, 0, 0, 0.16)" : "0 16px 40px rgba(0, 0, 0, 0.18)",
         }}
       >
         <div
@@ -454,6 +457,7 @@ export function Sidebar({
                 <PreferenceButton active={normalizeTheme(theme) === "slate"} label="Slate" onClick={() => setTheme("slate")} />
                 <PreferenceButton active={normalizeTheme(theme) === "graphite"} label="Graphite" onClick={() => setTheme("graphite")} />
                 <PreferenceButton active={normalizeTheme(theme) === "deep-navy"} label="Deep Navy" onClick={() => setTheme("deep-navy")} />
+                <PreferenceButton active={normalizeTheme(theme) === "telegram"} label="Telegram" onClick={() => setTheme("telegram")} />
                 <PreferenceButton active={normalizeTheme(theme) === "ivory"} label="Ivory" onClick={() => setTheme("ivory")} />
                 <PreferenceButton active={normalizeTheme(theme) === "sage"} label="Sage" onClick={() => setTheme("sage")} />
               </PreferenceGroup>

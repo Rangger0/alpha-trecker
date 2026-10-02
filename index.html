@@ -15,13 +15,14 @@
 
     <script>
       (function() {
+        globalThis.__DEFINES__ = globalThis.__DEFINES__ || {};
         const saved = localStorage.getItem('alpha-tracker-theme') ||
           localStorage.getItem('alpha_tracker_theme') ||
           localStorage.getItem('alpha_trecker_theme') ||
           'obsidian';
-        const parsed = { dark: 'obsidian', light: 'slate', ocean: 'slate', sunset: 'deep-navy', obsidian: 'obsidian', slate: 'slate', graphite: 'graphite', 'deep-navy': 'deep-navy' }[saved] || 'obsidian';
+        const parsed = { dark: 'obsidian', light: 'slate', ocean: 'slate', sunset: 'deep-navy', obsidian: 'obsidian', slate: 'slate', graphite: 'graphite', 'deep-navy': 'deep-navy', telegram: 'telegram' }[saved] || 'obsidian';
         document.documentElement.dataset.theme = parsed;
-        document.documentElement.classList.remove('dark', 'light', 'ocean', 'sunset', 'obsidian', 'slate', 'graphite', 'deep-navy');
+        document.documentElement.classList.remove('dark', 'light', 'ocean', 'sunset', 'obsidian', 'slate', 'graphite', 'deep-navy', 'telegram');
         document.documentElement.classList.add(parsed);
         document.documentElement.style.colorScheme = 'dark';
       })();

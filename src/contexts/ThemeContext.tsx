@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
-export type Theme = 'obsidian' | 'slate' | 'graphite' | 'deep-navy' | 'ivory' | 'sage' | 'dark' | 'light' | 'ocean' | 'sunset';
+export type Theme = 'obsidian' | 'slate' | 'graphite' | 'deep-navy' | 'telegram' | 'ivory' | 'sage' | 'dark' | 'light' | 'ocean' | 'sunset';
 
 interface ThemeContextType {
   theme: Theme;
@@ -26,6 +26,7 @@ const themeAliases: Record<string, Theme> = {
   slate: 'slate',
   graphite: 'graphite',
   'deep-navy': 'deep-navy',
+  telegram: 'telegram',
   deepNavy: 'deep-navy',
   deep_navy: 'deep-navy',
   ivory: 'ivory',
@@ -53,7 +54,7 @@ const applyThemeToDocument = (theme: Theme) => {
   const canonical = normalizeTheme(theme);
   const isLightTheme = canonical === 'slate' || canonical === 'ivory' || canonical === 'sage';
 
-  root.classList.remove('dark', 'light', 'ocean', 'sunset', 'obsidian', 'slate', 'graphite', 'deep-navy', 'deepNavy', 'ivory', 'sage');
+  root.classList.remove('dark', 'light', 'ocean', 'sunset', 'obsidian', 'slate', 'graphite', 'deep-navy', 'telegram', 'deepNavy', 'ivory', 'sage');
   root.classList.add(canonical);
   root.classList.toggle('dark', !isLightTheme);
   root.classList.toggle('light', isLightTheme);
@@ -128,7 +129,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     beginThemeSwitch();
     const update = () => {
       setThemeState((current) => {
-        const themes: Theme[] = ['obsidian', 'ivory', 'slate', 'sage', 'graphite', 'deep-navy'];
+        const themes: Theme[] = ['obsidian', 'ivory', 'slate', 'sage', 'graphite', 'deep-navy', 'telegram'];
         const canonical = normalizeTheme(current);
         const nextIndex = (themes.indexOf(canonical) + 1) % themes.length;
         return themes[nextIndex];

@@ -25,8 +25,8 @@ function LandingScrollChrome() {
     let frameId: number | null = null;
 
     const syncScrollState = () => {
-      const top = window.scrollY;
-      setShowScrollTop(top > 360);
+      const scrollContainer = document.querySelector<HTMLElement>('[data-app-scroll-container]');
+      setShowScrollTop((scrollContainer?.scrollTop ?? window.scrollY) > 360);
       frameId = null;
     };
 
@@ -39,13 +39,15 @@ function LandingScrollChrome() {
     };
 
     syncScrollState();
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    const scrollContainer = document.querySelector<HTMLElement>('[data-app-scroll-container]');
+    const scrollTarget: HTMLElement | Window = scrollContainer ?? window;
+    scrollTarget.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       if (frameId !== null) {
         window.cancelAnimationFrame(frameId);
       }
-      window.removeEventListener('scroll', handleScroll);
+      scrollTarget.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -53,7 +55,11 @@ function LandingScrollChrome() {
     <>
       <button
         type="button"
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onClick={() => {
+          const scrollContainer = document.querySelector<HTMLElement>('[data-app-scroll-container]');
+          if (scrollContainer) scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+          else window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
         className={`fixed bottom-6 left-6 z-[65] flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 ${
           showScrollTop ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'
         }`}
@@ -92,7 +98,9 @@ export function LandingPage() {
       return;
     }
 
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    const scrollContainer = document.querySelector<HTMLElement>('[data-app-scroll-container]');
+    if (scrollContainer) scrollContainer.scrollTop = 0;
+    else window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [location.hash, openAuthModal]);
 
   return (

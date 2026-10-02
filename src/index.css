@@ -1,3 +1,6 @@
+@import '@fontsource/rajdhani/400.css';
+@import '@fontsource/rajdhani/700.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -182,12 +185,11 @@ body {
   font-weight: 400;
   letter-spacing: 0;
 
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 
   width: 100%;
-  min-height: 100vh;
-  height: auto;
+  min-height: 0;
+  height: 100%;
 
   line-height: 1.5;
   text-rendering: geometricPrecision;
@@ -202,9 +204,9 @@ body {
 html, body, #root {
   margin: 0;
   width: 100%;
-  min-height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 * {
@@ -255,7 +257,8 @@ b, strong {
 
 #root {
   width: 100%;
-  min-height: 100vh;
+  height: 100dvh;
+  min-height: 0;
 }
 
 /* Keep every routed surface inside one responsive floating application window. */
@@ -268,10 +271,19 @@ b, strong {
 
 #root > * {
   width: 100%;
-  min-height: calc(100dvh - 32px);
+  height: calc(100dvh - 32px);
+  min-height: 0;
   overflow: hidden;
   border-radius: 30px;
   contain: layout paint;
+}
+
+#root > [data-app-scroll-container] {
+  height: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -293,7 +305,8 @@ b, strong {
   }
 
   #root > * {
-    min-height: calc(100dvh - 24px);
+    height: calc(100dvh - 24px);
+    min-height: 0;
   }
 }
 
@@ -303,7 +316,8 @@ b, strong {
   }
 
   #root > * {
-    min-height: calc(100dvh - 20px);
+    height: calc(100dvh - 20px);
+    min-height: 0;
     border-radius: 28px;
   }
 }

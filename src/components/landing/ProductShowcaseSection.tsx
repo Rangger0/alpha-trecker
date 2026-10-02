@@ -27,9 +27,9 @@ export function ProductShowcaseSection() {
             style={{ borderColor: 'var(--alpha-border)' }}
           >
             <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500/60" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-              <div className="w-3 h-3 rounded-full bg-green-500/60" />
+              <div className="w-3 h-3 rounded-full bg-[color:var(--alpha-danger)]" />
+              <div className="w-3 h-3 rounded-full bg-[color:var(--alpha-text-muted)]" />
+              <div className="w-3 h-3 rounded-full bg-[color:var(--alpha-text)]" />
             </div>
             <span className="text-sm font-medium flex-1 ml-4" style={{ color: 'var(--alpha-text-muted)' }}>
               alpha-tracker.com/dashboard — Your research workspace
