@@ -5951,6 +5951,28 @@ html.theme-switching::before {
   will-change: auto;
 }
 
+@media (orientation: landscape) and (min-width: 900px) {
+  .alpha-theme.macos-app-shell::before,
+  .alpha-theme.macos-app-shell::after {
+    animation: none !important;
+    filter: none !important;
+  }
+
+  .alpha-theme.macos-app-shell::after {
+    display: none !important;
+  }
+
+  .alpha-theme.macos-app-shell .alpha-topbar-shell::after {
+    animation: none !important;
+  }
+
+  .alpha-theme.macos-app-shell .macos-panel,
+  .alpha-theme.macos-app-shell .macos-card,
+  .alpha-theme.macos-app-shell [data-slot="card"] {
+    box-shadow: var(--alpha-shadow) !important;
+  }
+}
+
 /* Keep the selected palette active across every app surface, including legacy dark selectors. */
 html.ocean,
 .alpha-theme.ocean,
