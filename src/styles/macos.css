@@ -6136,6 +6136,31 @@ html.sunset,
   border-color: var(--alpha-border);
 }
 
+.macos-app-shell .project-list-scroll tbody td {
+  padding-block: 3px !important;
+}
+
+.macos-app-shell .project-list-scroll tbody td:not(:first-child) {
+  padding-inline: 10px !important;
+}
+
+.macos-app-shell .project-list-scroll .project-badge {
+  height: 20px !important;
+  padding-inline: 8px !important;
+  font-size: 10px !important;
+}
+
+.macos-app-shell .project-list-scroll .alpha-action-button {
+  width: 27px !important;
+  height: 27px !important;
+}
+
+@media (orientation: landscape) and (max-height: 760px) {
+  .macos-app-shell .project-list-scroll {
+    max-height: calc(100dvh - 250px);
+  }
+}
+
 @media (max-width: 1023px) {
   #root > .macos-app-shell {
     height: calc(100dvh - 24px) !important;

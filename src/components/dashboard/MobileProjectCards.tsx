@@ -155,7 +155,9 @@ function ProjectCardAvatar({
         <img
           src={airdrop.projectLogo}
           alt=""
-          className="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-contain p-0.5"
           onError={() =>
             setLogoError((prev) => ({ ...prev, [airdrop.id]: true }))
           }
@@ -164,7 +166,9 @@ function ProjectCardAvatar({
         <img
           src={twitterAvatarUrl(twitterUser)}
           alt=""
-          className="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-contain p-0.5"
           onError={() => setTwitterError(true)}
         />
       ) : (
@@ -270,7 +274,7 @@ const ProjectMobileCard = memo(function ProjectMobileCard({
       className="overflow-hidden rounded-xl border border-alpha-border bg-[color:var(--alpha-panel)] shadow-[0_8px_24px_rgba(0,0,0,0.14)] transition-[border-color,transform,background] duration-200 hover:-translate-y-0.5 hover:border-[color:var(--alpha-border-strong)]"
       style={{ animationDelay: `${Math.min(index, 6) * 24}ms` }}
     >
-      <div className="space-y-4 p-4">
+      <div className="space-y-3 p-3">
         <div className="flex items-start gap-3">
           <ProjectCardAvatar
             airdrop={airdrop}
@@ -425,7 +429,7 @@ export function MobileProjectCards({
   onPriority,
 }: MobileProjectCardProps) {
   return (
-    <div className="project-list-scroll space-y-3 md:hidden">
+    <div className="project-list-scroll space-y-2 lg:hidden">
       {airdrops.map((airdrop, index) => (
         <ProjectMobileCard
           key={airdrop.id}

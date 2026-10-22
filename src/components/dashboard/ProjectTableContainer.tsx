@@ -29,7 +29,7 @@ export function ProjectTableContainer({
   onAddNew,
 }: ProjectTableContainerProps) {
   const { width } = useWindowSize();
-  const isMobile = width !== null && width < 768;
+  const isMobile = width !== null && width < 1024;
 
   const [filters, setFilters] = useState<FilterState>({
     search: '',
@@ -120,7 +120,7 @@ export function ProjectTableContainer({
   }, [airdrops, filters]);
 
   return (
-    <div className="mx-auto w-full max-w-[calc(100vw-32px)] space-y-5 md:max-w-[calc(100vw-48px)] xl:max-w-[1500px] min-[1600px]:max-w-[1800px] min-[1920px]:max-w-[calc(100vw-48px)]">
+    <div className="mx-auto w-full max-w-[calc(100vw-32px)] space-y-3 md:max-w-[calc(100vw-48px)] xl:max-w-[1500px] min-[1600px]:max-w-[1800px] min-[1920px]:max-w-[calc(100vw-48px)]">
       <ProjectFilterBar
         filters={filters}
         onFiltersChange={setFilters}

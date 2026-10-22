@@ -169,7 +169,9 @@ function ProjectAvatar({
         <img
           src={airdrop.projectLogo}
           alt=""
-          className="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-contain p-0.5"
           onError={() =>
             setLogoError((prev) => ({ ...prev, [airdrop.id]: true }))
           }
@@ -178,7 +180,9 @@ function ProjectAvatar({
         <img
           src={twitterAvatarUrl(twitterUser)}
           alt=""
-          className="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-contain p-0.5"
           onError={() => setTwitterError(true)}
         />
       ) : (
@@ -336,11 +340,11 @@ const DesktopTableRow = memo(function DesktopTableRow({
   return (
     <tr
       className={cn(
-        "group h-12 border-b border-alpha-border transition-colors duration-150 hover:bg-[color:var(--alpha-hover-soft)]",
+        "group h-10 border-b border-alpha-border transition-colors duration-150 hover:bg-[color:var(--alpha-hover-soft)]",
         index % 2 === 1 && "bg-[color:var(--alpha-surface-soft)]"
       )}
     >
-      <td className="sticky left-0 z-20 border-b border-r border-alpha-border bg-[color:var(--alpha-panel)] px-3 py-1.5 transition-colors duration-150 group-hover:bg-[color:var(--alpha-surface-soft)]">
+      <td className="sticky left-0 z-20 border-b border-r border-alpha-border bg-[color:var(--alpha-panel)] px-2.5 py-1 transition-colors duration-150 group-hover:bg-[color:var(--alpha-surface-soft)]">
         <div className="flex min-w-0 items-center gap-2">
           <ProjectAvatar
             airdrop={airdrop}
